@@ -1,0 +1,111 @@
+# Curated list of repos for batch analysis
+# One owner/repo per line. Lines starting with # are comments.
+#
+# Covers: JS/TS, Python, Go, Rust, Government/Civic, IaC, Security,
+# small utilities, and large frameworks.
+
+# ── JavaScript / TypeScript ──────────────────────────────
+facebook/react
+vuejs/core
+vercel/next.js
+sveltejs/svelte
+angular/angular
+denoland/fresh
+remix-run/remix
+microsoft/TypeScript
+expressjs/express
+nodejs/node
+oven-sh/bun
+biomejs/biome
+prettier/prettier
+eslint/eslint
+vitejs/vite
+tailwindlabs/tailwindcss
+
+# ── Python ───────────────────────────────────────────────
+django/django
+pallets/flask
+fastapi/fastapi
+encode/httpx
+psf/requests
+python/cpython
+scikit-learn/scikit-learn
+huggingface/transformers
+langchain-ai/langchain
+pytest-dev/pytest
+python-poetry/poetry
+astral-sh/ruff
+astral-sh/uv
+
+# ── Go ───────────────────────────────────────────────────
+kubernetes/kubernetes
+hashicorp/terraform
+docker/cli
+golang/go
+prometheus/prometheus
+grafana/grafana
+traefik/traefik
+containerd/containerd
+etcd-io/etcd
+caddyserver/caddy
+
+# ── Rust ─────────────────────────────────────────────────
+BurntSushi/ripgrep
+alacritty/alacritty
+denoland/deno
+rust-lang/rust
+tokio-rs/tokio
+starship/starship
+sharkdp/bat
+sharkdp/fd
+lsd-rs/lsd
+meilisearch/meilisearch
+
+# ── Government / Civic ───────────────────────────────────
+cloud-gov/cg-site
+cloud-gov/pages-core
+18F/identity-idp
+18F/methods
+GSA/data.gov
+GSA/sam-design-system
+codeforamerica/court-reminder
+usds/website
+uswds/uswds
+department-of-veterans-affairs/vets-website
+
+# ── Infrastructure as Code ───────────────────────────────
+hashicorp/consul
+hashicorp/vault
+hashicorp/packer
+pulumi/pulumi
+ansible/ansible
+aws/aws-cdk
+crossplane/crossplane
+
+# ── Security Tools ───────────────────────────────────────
+OWASP/ZAP
+aquasecurity/trivy
+anchore/grype
+trufflesecurity/trufflehog
+gitleaks/gitleaks
+ossf/scorecard
+sigstore/cosign
+zaproxy/zaproxy
+
+# ── Small / Focused Utilities ────────────────────────────
+jqlang/jq
+junegunn/fzf
+ajeetdsouza/zoxide
+dandavison/delta
+jesseduffield/lazygit
+charmbracelet/glow
+antonmedv/fx
+
+# ── Large Frameworks / Platforms ─────────────────────────
+microsoft/vscode
+elastic/elasticsearch
+apache/kafka
+vercel/turbo
+NixOS/nixpkgs
+torvalds/linux
+llvm/llvm-project

@@ -57,7 +57,7 @@ export async function ghApi<T>(endpoint: string): Promise<T> {
     execFile(
       "gh",
       ["api", endpoint, "--paginate"],
-      { timeout: GH_TIMEOUT_MS, maxBuffer: 10 * 1024 * 1024 },
+      { timeout: GH_TIMEOUT_MS, maxBuffer: 50 * 1024 * 1024 },
       (error, stdout, stderr) => {
         if (error) {
           const msg = stderr.trim() || error.message;
