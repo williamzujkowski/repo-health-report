@@ -217,10 +217,21 @@ export async function analyzeArchitectureDimension(
 ): Promise<DimensionResult> {
   const start = performance.now();
 
-  const findings: Finding[] =
-    projectType === "iac"
-      ? analyzeIacArchitecture(tree)
-      : analyzeApplicationArchitecture(tree, meta);
+  let findings: Finding[];
+  if (projectType === "iac") {
+    findings = analyzeIacArchitecture(tree);
+  } else if (projectType === "hybrid") {
+    // Hybrid: application checks as base + IaC bonus checks (lower weight)
+    findings = analyzeApplicationArchitecture(tree, meta);
+    const iacFindings = analyzeIacArchitecture(tree).map((f) => ({
+      ...f,
+      name: `[IaC] ${f.name}`,
+      weight: Math.round(f.weight * 0.5),
+    }));
+    findings.push(...iacFindings);
+  } else {
+    findings = analyzeApplicationArchitecture(tree, meta);
+  }
 
   const totalWeight = findings.reduce((sum, f) => sum + f.weight, 0);
   const earnedWeight = findings

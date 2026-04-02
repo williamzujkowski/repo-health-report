@@ -222,10 +222,20 @@ export async function analyzeTestingDimension(
 ): Promise<DimensionResult> {
   const start = performance.now();
 
-  const findings: Finding[] =
-    projectType === "iac"
-      ? await analyzeIacTesting(tree, slug)
-      : await analyzeApplicationTesting(tree, meta, slug);
+  let findings: Finding[];
+  if (projectType === "iac") {
+    findings = await analyzeIacTesting(tree, slug);
+  } else if (projectType === "hybrid") {
+    findings = await analyzeApplicationTesting(tree, meta, slug);
+    const iacFindings = (await analyzeIacTesting(tree, slug)).map((f) => ({
+      ...f,
+      name: `[IaC] ${f.name}`,
+      weight: Math.round(f.weight * 0.5),
+    }));
+    findings.push(...iacFindings);
+  } else {
+    findings = await analyzeApplicationTesting(tree, meta, slug);
+  }
 
   const totalWeight = findings.reduce((sum, f) => sum + f.weight, 0);
   const earnedWeight = findings

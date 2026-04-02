@@ -154,15 +154,34 @@ export function treeCountPattern(tree: RepoTree, pattern: RegExp): number {
   return tree.tree.filter((entry) => pattern.test(entry.path)).length;
 }
 
-export type ProjectType = "application" | "iac" | "library";
+export type ProjectType = "application" | "iac" | "library" | "hybrid";
 
 /**
  * Detect the project type based on the file tree.
- * - 'iac': Terraform, Ansible, Pulumi, or CloudFormation files/directories present
- * - 'library': no src/ but has lib/ or an index.ts/index.js at the root
- * - 'application': everything else (default)
+ * Checks application entry points FIRST to avoid misclassifying
+ * Go/Node/Python apps that also contain Terraform configs.
+ *
+ * - 'hybrid': has both application code AND IaC configs (e.g., Go + Terraform)
+ * - 'application': Go, Node, Python, Rust, Java, etc.
+ * - 'iac': purely Terraform, Ansible, Pulumi, or CloudFormation
+ * - 'library': no src/ but has lib/ or root index file
  */
 export function detectProjectType(tree: RepoTree): ProjectType {
+  // Application entry points — check these FIRST
+  const appIndicators =
+    treeHasFile(tree, "go.mod") ||
+    treeHasFile(tree, "main.go") ||
+    treeHasFile(tree, "package.json") ||
+    treeHasFile(tree, "Cargo.toml") ||
+    treeHasFile(tree, "pyproject.toml") ||
+    treeHasFile(tree, "setup.py") ||
+    treeHasFile(tree, "pom.xml") ||
+    treeHasFile(tree, "build.gradle") ||
+    treeHasFile(tree, "build.gradle.kts") ||
+    treeHasFile(tree, "mix.exs") ||
+    treeHasFile(tree, "Gemfile") ||
+    treeHasPattern(tree, /^src\/.*\.(ts|js|py|rs|go|java|rb)$/);
+
   const iacIndicators =
     treeHasPattern(tree, /\.tf$/) ||
     treeHasPattern(tree, /^terraform\//) ||
@@ -172,10 +191,18 @@ export function detectProjectType(tree: RepoTree): ProjectType {
     treeHasFile(tree, "Pulumi.yaml") ||
     treeHasFile(tree, "Pulumi.yml") ||
     treeHasPattern(tree, /\.cfn\.ya?ml$/);
+
+  // Hybrid: both application code AND IaC
+  if (appIndicators && iacIndicators) {
+    return "hybrid";
+  }
+
+  // Pure IaC
   if (iacIndicators) {
     return "iac";
   }
 
+  // Library detection
   const hasSrcDir = treeHasPattern(tree, /^src\//);
   const hasLibDir = treeHasPattern(tree, /^lib\//);
   const hasRootIndex =

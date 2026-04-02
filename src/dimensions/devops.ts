@@ -224,10 +224,20 @@ export async function analyzeDevOpsDimension(
 ): Promise<DimensionResult> {
   const start = performance.now();
 
-  const findings: Finding[] =
-    projectType === "iac"
-      ? analyzeIacDevOps(tree)
-      : analyzeApplicationDevOps(tree);
+  let findings: Finding[];
+  if (projectType === "iac") {
+    findings = analyzeIacDevOps(tree);
+  } else if (projectType === "hybrid") {
+    findings = analyzeApplicationDevOps(tree);
+    const iacFindings = analyzeIacDevOps(tree).map((f) => ({
+      ...f,
+      name: `[IaC] ${f.name}`,
+      weight: Math.round(f.weight * 0.5),
+    }));
+    findings.push(...iacFindings);
+  } else {
+    findings = analyzeApplicationDevOps(tree);
+  }
 
   const totalWeight = findings.reduce((sum, f) => sum + f.weight, 0);
   const earnedWeight = findings
