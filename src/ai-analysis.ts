@@ -1,6 +1,17 @@
-import { execFile, execFileSync } from "node:child_process";
-
-const NEXUS_TIMEOUT_MS = 120_000;
+/**
+ * AI analysis integration for repo-health-report.
+ *
+ * Instead of calling nexus-agents CLI directly (which doesn't exist as a
+ * standalone binary), this module:
+ * 1. Exports structured data for consumption by Claude Code / MCP tools
+ * 2. Provides a buildAnalysisPrompt() function that generates a ready-to-use
+ *    prompt for nexus-agents MCP tools (orchestrate, consensus_vote, etc.)
+ *
+ * Usage from Claude Code:
+ *   1. Run `repo-health-report owner/repo --json` to get structured findings
+ *   2. Feed the JSON to nexus-agents MCP tools for AI expert analysis
+ *   3. Or use the `repo-health` Claude Code skill which does both automatically
+ */
 
 export interface ExpertResult {
   dimension: string;
@@ -22,236 +33,57 @@ export interface AiAnalysisResult {
   error?: string;
 }
 
-/**
- * Check if nexus-agents CLI is installed and available.
- */
-export function isNexusAvailable(): boolean {
-  try {
-    execFileSync("nexus-agents", ["--version"], {
-      timeout: 5000,
-      stdio: "pipe",
-    });
-    return true;
-  } catch {
-    return false;
-  }
-}
+// Re-use the canonical types from dimensions
+import type { DimensionResult } from "./dimensions/security.js";
 
 /**
- * Execute a nexus-agents CLI command and return its stdout.
+ * Build a structured prompt for nexus-agents consensus_vote MCP tool.
+ * This is used by the Claude Code skill to feed static analysis into AI voting.
  */
-async function runNexus(args: string[]): Promise<string> {
-  return new Promise((resolve, reject) => {
-    execFile(
-      "nexus-agents",
-      args,
-      { timeout: NEXUS_TIMEOUT_MS, maxBuffer: 5 * 1024 * 1024 },
-      (error, stdout, stderr) => {
-        if (error) {
-          const msg = stderr.trim() || error.message;
-          reject(new Error(`nexus-agents ${args[0] ?? ""} failed: ${msg}`));
-          return;
-        }
-        resolve(stdout.trim());
-      }
-    );
-  });
-}
-
-/**
- * Parse a JSON response from nexus-agents output.
- * Scans for the first '{' in case there is preamble text before the JSON.
- * Returns null if the output cannot be parsed.
- */
-function tryParseJson(output: string): Record<string, unknown> | null {
-  const start = output.indexOf("{");
-  if (start === -1) return null;
-  try {
-    return JSON.parse(output.slice(start)) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Run AI expert analysis on a repo using nexus-agents orchestrate.
- * Each dimension gets its own focused expert prompt.
- * Invalid or unavailable scores are returned as -1.
- */
-export async function analyzeWithExperts(
-  slug: string,
-  staticSummary: string
-): Promise<ExpertResult[]> {
-  const dimensions = [
-    "Security",
-    "Testing",
-    "Documentation",
-    "Architecture",
-    "DevOps",
-  ];
-
-  const results: ExpertResult[] = [];
-
-  for (const dim of dimensions) {
-    const prompt = [
-      `Analyze the ${dim.toLowerCase()} posture of GitHub repo: ${slug}.`,
-      `Static analysis findings: ${staticSummary}`,
-      `Focus only on ${dim} concerns.`,
-      `Respond with JSON: {"score": <0-100>, "confidence": <0-1>, "analysis": "<1-2 sentences>"}`,
-    ].join(" ");
-
-    try {
-      const raw = await runNexus(["orchestrate", prompt]);
-      const parsed = tryParseJson(raw);
-      const score =
-        typeof parsed?.["score"] === "number" ? parsed["score"] : 50;
-      const confidence =
-        typeof parsed?.["confidence"] === "number"
-          ? parsed["confidence"]
-          : 0.5;
-      const analysis =
-        typeof parsed?.["analysis"] === "string"
-          ? parsed["analysis"]
-          : raw.slice(0, 300);
-
-      results.push({
-        dimension: dim,
-        analysis,
-        score: Math.min(100, Math.max(0, Math.round(score))),
-        confidence: Math.min(1, Math.max(0, confidence)),
-      });
-    } catch (err) {
-      results.push({
-        dimension: dim,
-        analysis: `Analysis unavailable: ${(err as Error).message.slice(0, 100)}`,
-        score: -1,
-        confidence: 0,
-      });
-    }
-  }
-
-  return results;
-}
-
-/**
- * Run a consensus vote on the overall health grade via nexus-agents vote.
- */
-export async function voteOnGrade(
-  slug: string,
-  staticLetter: string,
-  staticScore: number,
-  expertResults: ExpertResult[]
-): Promise<ConsensusResult> {
-  const expertSummary = expertResults
-    .filter((e) => e.score >= 0)
-    .map(
-      (e) =>
-        `${e.dimension}: ${e.score}/100 (confidence ${(e.confidence * 100).toFixed(0)}%)`
-    )
-    .join(", ");
-
-  const proposal = [
-    `Grade GitHub repo ${slug} overall as "${staticLetter}" (${staticScore}/100).`,
-    expertSummary
-      ? `Expert AI analysis: ${expertSummary}.`
-      : "Expert AI analysis unavailable.",
-    `Should the grade of ${staticLetter} be accepted?`,
-  ].join(" ");
-
-  const raw = await runNexus([
-    "vote",
-    "--proposal",
-    proposal,
-    "--threshold",
-    "majority",
-    "--quick",
-  ]);
-
-  const parsed = tryParseJson(raw);
-
-  const approvalPct =
-    typeof parsed?.["approvalPercentage"] === "number"
-      ? parsed["approvalPercentage"]
-      : typeof parsed?.["approval"] === "number"
-        ? (parsed["approval"] as number)
-        : 60;
-
-  const reasoning =
-    typeof parsed?.["reasoning"] === "string"
-      ? parsed["reasoning"]
-      : typeof parsed?.["summary"] === "string"
-        ? (parsed["summary"] as string)
-        : raw.slice(0, 400);
-
-  return {
-    grade: staticLetter,
-    reasoning,
-    approvalPercentage: Math.min(100, Math.max(0, Math.round(approvalPct))),
-  };
-}
-
-/**
- * Build a plain-text summary of static findings for use as AI context.
- */
-export function buildStaticSummary(
-  dimensions: Array<{ name: string; score: number; findings: Array<{ name: string; passed: boolean }> }>
+export function buildVoteProposal(
+  repo: string,
+  projectType: string,
+  dimensions: DimensionResult[],
+  staticGrade: string,
+  staticScore: number
 ): string {
-  return dimensions
-    .map((d) => {
-      const failed = d.findings
-        .filter((f) => !f.passed)
-        .map((f) => f.name)
-        .join(", ");
-      return `${d.name} ${d.score}/100${failed ? ` (issues: ${failed})` : ""}`;
-    })
-    .join("; ");
+  const findings = dimensions
+    .map(
+      (d) =>
+        `${d.name} ${d.score}/100: ${d.findings
+          .map((f) => `${f.passed ? "PASS" : "FAIL"} ${f.name}`)
+          .join(", ")}`
+    )
+    .join(". ");
+
+  return (
+    `Grade the GitHub repository ${repo} (${projectType} project) for overall health. ` +
+    `Static analysis scored ${staticScore}/100 (${staticGrade}). ` +
+    `Dimension scores: ${findings}. ` +
+    `Should the grade be adjusted based on project type context and findings?`
+  );
 }
 
 /**
- * Run the full AI analysis pipeline.
- * Always fails gracefully — static analysis continues to work without this.
+ * Build a prompt for nexus-agents repo_analyze MCP tool.
  */
-export async function runAiAnalysis(
-  slug: string,
-  staticLetter: string,
-  staticScore: number,
-  staticSummary: string
-): Promise<AiAnalysisResult> {
-  if (!isNexusAvailable()) {
-    return {
-      available: false,
-      experts: [],
-      consensus: null,
-      error:
-        "nexus-agents CLI not found. Install it to enable AI analysis.",
-    };
-  }
+export function buildAnalyzePrompt(repo: string): string {
+  return `Analyze the GitHub repository ${repo} for language, framework, CI provider, security tooling, and gaps.`;
+}
 
-  try {
-    const experts = await analyzeWithExperts(slug, staticSummary);
-
-    let consensus: ConsensusResult | null = null;
-    try {
-      consensus = await voteOnGrade(
-        slug,
-        staticLetter,
-        staticScore,
-        experts
-      );
-    } catch (voteErr) {
-      // Consensus vote is optional — expert results alone are still useful
-      process.stderr.write(
-        `  [AI] Consensus vote failed: ${(voteErr as Error).message.slice(0, 100)}\n`
-      );
-    }
-
-    return { available: true, experts, consensus };
-  } catch (err) {
-    return {
-      available: true,
-      experts: [],
-      consensus: null,
-      error: (err as Error).message,
-    };
-  }
+/**
+ * Placeholder for when AI analysis is requested but no MCP tools are available.
+ * Points the user to the correct integration path.
+ */
+export function getUnavailableResult(): AiAnalysisResult {
+  return {
+    available: false,
+    experts: [],
+    consensus: null,
+    error:
+      "AI analysis requires nexus-agents MCP tools. " +
+      "Run from Claude Code with nexus-agents MCP server configured, " +
+      "or use: repo-health-report <repo> --json | then feed to nexus-agents MCP tools. " +
+      "See: https://github.com/williamzujkowski/nexus-agents",
+  };
 }

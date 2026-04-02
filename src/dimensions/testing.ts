@@ -1,6 +1,7 @@
 import {
   type RepoTree,
   type RepoMeta,
+  type ProjectType,
   treeHasPattern,
   treeCountPattern,
   treeHasFile,
@@ -8,12 +9,106 @@ import {
 } from "../analyze.js";
 import type { DimensionResult, Finding } from "./security.js";
 
-export async function analyzeTestingDimension(
+async function analyzeIacTesting(
+  tree: RepoTree,
+  slug: string
+): Promise<Finding[]> {
+  const findings: Finding[] = [];
+
+  // CI: GitHub Actions or Concourse ci/ directory
+  const ciWorkflowCount = treeCountPattern(
+    tree,
+    /^\.github\/workflows\/.*\.ya?ml$/
+  );
+  const hasCiDir = treeHasPattern(tree, /^ci\//);
+  const hasAnyCi = ciWorkflowCount > 0 || hasCiDir;
+  findings.push({
+    name: "CI pipeline",
+    passed: hasAnyCi,
+    detail: hasAnyCi
+      ? ciWorkflowCount > 0
+        ? `${ciWorkflowCount} GitHub Actions workflow(s) found`
+        : "ci/ directory found (Concourse or similar)"
+      : "No CI pipeline detected (.github/workflows/ or ci/)",
+    weight: 25,
+  });
+
+  // Terratest or Go test files
+  const hasGoTestFiles = treeHasPattern(tree, /_test\.go$/);
+  const hasTerratest =
+    hasGoTestFiles ||
+    treeHasFile(tree, "go.mod");
+  findings.push({
+    name: "Terratest / Go tests",
+    passed: hasTerratest,
+    detail: hasTerratest
+      ? hasGoTestFiles
+        ? "Go test files found (terratest)"
+        : "go.mod found — Go test framework available"
+      : "No terratest/Go tests found — consider adding infrastructure tests",
+    weight: 30,
+  });
+
+  // terraform validate / validate script
+  const hasValidateScript =
+    treeHasFile(tree, "validate.sh") ||
+    treeHasPattern(tree, /scripts\/validate/);
+  // Also check Makefile for validate target (approximation: Makefile exists)
+  const hasMakefile = treeHasFile(tree, "Makefile");
+  const hasValidate = hasValidateScript || hasMakefile;
+  findings.push({
+    name: "Validation script (terraform validate)",
+    passed: hasValidate,
+    detail: hasValidate
+      ? hasValidateScript
+        ? "validate.sh or scripts/validate found"
+        : "Makefile found — likely includes validate target"
+      : "No validation script found (validate.sh or Makefile)",
+    weight: 20,
+  });
+
+  // Kitchen-terraform or InSpec
+  const hasKitchen =
+    treeHasFile(tree, ".kitchen.yml") ||
+    treeHasFile(tree, "kitchen.yml") ||
+    treeHasPattern(tree, /^test\/integration\//);
+  const hasInspec =
+    treeHasPattern(tree, /\.rb$/) &&
+    treeHasPattern(tree, /^test\//);
+  const hasCompliance = hasKitchen || hasInspec;
+  findings.push({
+    name: "Compliance testing (kitchen-terraform / inspec)",
+    passed: hasCompliance,
+    detail: hasCompliance
+      ? hasKitchen
+        ? "kitchen-terraform config found"
+        : "InSpec/Ruby test files found"
+      : "No compliance testing detected (kitchen-terraform, inspec)",
+    weight: 10,
+  });
+
+  // Pre-commit hooks
+  const hasPreCommit = treeHasFile(tree, ".pre-commit-config.yaml");
+  findings.push({
+    name: "Pre-commit hooks",
+    passed: hasPreCommit,
+    detail: hasPreCommit
+      ? "pre-commit config found"
+      : "No pre-commit hooks — consider hooks for fmt/validate/lint",
+    weight: 15,
+  });
+
+  // Suppress unused slug warning (slug not used in IaC path but kept for API symmetry)
+  void slug;
+
+  return findings;
+}
+
+async function analyzeApplicationTesting(
   tree: RepoTree,
   _meta: RepoMeta,
   slug: string
-): Promise<DimensionResult> {
-  const start = performance.now();
+): Promise<Finding[]> {
   const findings: Finding[] = [];
 
   // CI workflows
@@ -88,7 +183,8 @@ export async function analyzeTestingDimension(
   }
 
   // Also check for pyproject.toml, Cargo.toml, go.mod test conventions
-  const hasPytest = treeHasFile(tree, "pyproject.toml") || treeHasFile(tree, "pytest.ini");
+  const hasPytest =
+    treeHasFile(tree, "pyproject.toml") || treeHasFile(tree, "pytest.ini");
   const hasCargo = treeHasFile(tree, "Cargo.toml");
   const hasGo = treeHasFile(tree, "go.mod");
   const hasTestConfig = hasTestScript || hasPytest || hasCargo || hasGo;
@@ -114,6 +210,22 @@ export async function analyzeTestingDimension(
       : "No pre-commit hooks found",
     weight: 15,
   });
+
+  return findings;
+}
+
+export async function analyzeTestingDimension(
+  tree: RepoTree,
+  meta: RepoMeta,
+  slug: string,
+  projectType: ProjectType = "application"
+): Promise<DimensionResult> {
+  const start = performance.now();
+
+  const findings: Finding[] =
+    projectType === "iac"
+      ? await analyzeIacTesting(tree, slug)
+      : await analyzeApplicationTesting(tree, meta, slug);
 
   const totalWeight = findings.reduce((sum, f) => sum + f.weight, 0);
   const earnedWeight = findings

@@ -153,3 +153,36 @@ export function treeHasPattern(tree: RepoTree, pattern: RegExp): boolean {
 export function treeCountPattern(tree: RepoTree, pattern: RegExp): number {
   return tree.tree.filter((entry) => pattern.test(entry.path)).length;
 }
+
+export type ProjectType = "application" | "iac" | "library";
+
+/**
+ * Detect the project type based on the file tree.
+ * - 'iac': Terraform, Ansible, Pulumi, or CloudFormation files/directories present
+ * - 'library': no src/ but has lib/ or an index.ts/index.js at the root
+ * - 'application': everything else (default)
+ */
+export function detectProjectType(tree: RepoTree): ProjectType {
+  const iacIndicators =
+    treeHasPattern(tree, /\.tf$/) ||
+    treeHasPattern(tree, /^terraform\//) ||
+    treeHasPattern(tree, /^ansible\//) ||
+    treeHasPattern(tree, /^pulumi\//) ||
+    treeHasPattern(tree, /^cloudformation\//) ||
+    treeHasFile(tree, "Pulumi.yaml") ||
+    treeHasFile(tree, "Pulumi.yml") ||
+    treeHasPattern(tree, /\.cfn\.ya?ml$/);
+  if (iacIndicators) {
+    return "iac";
+  }
+
+  const hasSrcDir = treeHasPattern(tree, /^src\//);
+  const hasLibDir = treeHasPattern(tree, /^lib\//);
+  const hasRootIndex =
+    treeHasFile(tree, "index.ts") || treeHasFile(tree, "index.js");
+  if (!hasSrcDir && (hasLibDir || hasRootIndex)) {
+    return "library";
+  }
+
+  return "application";
+}

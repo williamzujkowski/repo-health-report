@@ -6,6 +6,7 @@ import {
   parseRepoSlug,
   fetchRepoMeta,
   fetchRepoTree,
+  detectProjectType,
 } from "./analyze.js";
 import { analyzeSecurityDimension } from "./dimensions/security.js";
 import { analyzeTestingDimension } from "./dimensions/testing.js";
@@ -15,7 +16,8 @@ import { analyzeDevOpsDimension } from "./dimensions/devops.js";
 import { computeGrade } from "./grader.js";
 import { renderTerminal } from "./render.js";
 import { generateMarkdown } from "./report.js";
-import { runAiAnalysis, buildStaticSummary } from "./ai-analysis.js";
+import { getUnavailableResult, buildVoteProposal } from "./ai-analysis.js";
+import type { AiAnalysisResult } from "./ai-analysis.js";
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
@@ -32,7 +34,7 @@ ${chalk.bold("Options:")}
   --output, -o <file>   Write markdown report to file (default: health-report.md)
   --no-file             Skip writing markdown file
   --json                Output JSON instead of terminal rendering
-  --ai                  Enable AI expert analysis via nexus-agents (requires nexus-agents CLI)
+  --ai                  Include AI vote proposal for nexus-agents MCP tools
   --help, -h            Show this help
 
 ${chalk.bold("Examples:")}
@@ -101,24 +103,47 @@ ${chalk.bold("Examples:")}
     process.exit(1);
   }
 
+  const projectType = detectProjectType(tree);
+  if (projectType !== "application") {
+    console.log(chalk.gray(`  Detected project type: ${projectType}`));
+  }
+
   // Run all 5 dimensions in parallel
   const dimensionResults = await Promise.all([
     analyzeSecurityDimension(tree, meta, slug),
-    analyzeTestingDimension(tree, meta, slug),
+    analyzeTestingDimension(tree, meta, slug, projectType),
     analyzeDocsDimension(tree, meta, slug),
-    analyzeArchitectureDimension(tree, meta, slug),
-    analyzeDevOpsDimension(tree, meta, slug),
+    analyzeArchitectureDimension(tree, meta, slug, projectType),
+    analyzeDevOpsDimension(tree, meta, slug, projectType),
   ]);
 
   // Compute grade
   const grade = computeGrade(dimensionResults);
 
-  // Run AI analysis if requested
-  let ai;
+  // AI analysis: when --ai is used, output a vote proposal for nexus-agents MCP
+  let ai: AiAnalysisResult | undefined;
   if (aiEnabled) {
-    console.log(chalk.gray("  Running AI expert analysis via nexus-agents..."));
-    const summary = buildStaticSummary(dimensionResults);
-    ai = await runAiAnalysis(slug, grade.letter, grade.overall, summary);
+    const proposal = buildVoteProposal(slug, projectType, dimensionResults, grade.letter, grade.overall);
+    if (jsonOutput) {
+      // In JSON mode, include the vote proposal for MCP tool consumption
+      ai = {
+        available: true,
+        experts: [],
+        consensus: null,
+        error: undefined,
+        voteProposal: proposal,
+      } as AiAnalysisResult & { voteProposal: string };
+    } else {
+      // In terminal mode, show instructions for MCP integration
+      const result = getUnavailableResult();
+      result.error =
+        `AI analysis works via nexus-agents MCP tools in Claude Code.\n` +
+        `  Use: repo-health-report ${slug} --json --ai | then feed to nexus-agents MCP\n` +
+        `  Or use the /analyze Claude Code command.\n\n` +
+        `  Vote proposal for nexus-agents consensus_vote:\n` +
+        `  "${proposal.substring(0, 200)}..."`;
+      ai = result;
+    }
   }
 
   // Output
