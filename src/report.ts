@@ -1,4 +1,5 @@
 import type { GradeResult } from "./grader.js";
+import type { AiAnalysisResult } from "./ai-analysis.js";
 
 function gradeEmoji(letter: string): string {
   switch (letter) {
@@ -15,7 +16,11 @@ function gradeEmoji(letter: string): string {
   }
 }
 
-export function generateMarkdown(slug: string, grade: GradeResult): string {
+export function generateMarkdown(
+  slug: string,
+  grade: GradeResult,
+  ai?: AiAnalysisResult
+): string {
   const lines: string[] = [];
 
   lines.push(`# Repo Health Report: ${slug}`);
@@ -24,8 +29,12 @@ export function generateMarkdown(slug: string, grade: GradeResult): string {
     `**Overall Grade: ${grade.letter} (${grade.overall}/100)** — ${gradeEmoji(grade.letter)}`
   );
   lines.push("");
+  const analysisMode =
+    ai?.available
+      ? "static analysis via GitHub API + AI expert analysis via nexus-agents"
+      : "pure static analysis via GitHub API";
   lines.push(
-    `Generated on ${new Date().toISOString().split("T")[0]} via [repo-health-report](https://github.com/williamzujkowski/repo-health-report) (pure static analysis, no AI APIs).`
+    `Generated on ${new Date().toISOString().split("T")[0]} via [repo-health-report](https://github.com/williamzujkowski/repo-health-report) (${analysisMode}).`
   );
   lines.push("");
 
@@ -76,6 +85,56 @@ export function generateMarkdown(slug: string, grade: GradeResult): string {
     for (const f of sorted.slice(0, 10)) {
       lines.push(`1. **${f.dim} — ${f.name}**: ${f.detail}`);
     }
+    lines.push("");
+  }
+
+  // AI Expert Analysis section
+  if (ai !== undefined) {
+    lines.push("## AI Expert Analysis");
+    lines.push("");
+
+    if (!ai.available) {
+      lines.push(
+        `> nexus-agents not available: ${ai.error ?? "not installed"}`
+      );
+    } else if (ai.error) {
+      lines.push(`> AI analysis error: ${ai.error}`);
+    } else if (ai.experts.length === 0) {
+      lines.push("> No expert results returned.");
+    } else {
+      lines.push("| Dimension | AI Score | Confidence | Analysis |");
+      lines.push("|-----------|:--------:|:----------:|---------|");
+      for (const expert of ai.experts) {
+        const scoreStr = expert.score >= 0 ? `${expert.score}/100` : "n/a";
+        const confStr =
+          expert.confidence > 0
+            ? `${(expert.confidence * 100).toFixed(0)}%`
+            : "—";
+        const truncated =
+          expert.analysis.length > 200
+            ? `${expert.analysis.slice(0, 197)}...`
+            : expert.analysis;
+        lines.push(
+          `| ${expert.dimension} | ${scoreStr} | ${confStr} | ${truncated} |`
+        );
+      }
+
+      if (ai.consensus) {
+        lines.push("");
+        lines.push("### Consensus Vote");
+        lines.push("");
+        lines.push(
+          `**Grade ${ai.consensus.grade}** — ${ai.consensus.approvalPercentage}% approval`
+        );
+        lines.push("");
+        const truncatedReasoning =
+          ai.consensus.reasoning.length > 400
+            ? `${ai.consensus.reasoning.slice(0, 397)}...`
+            : ai.consensus.reasoning;
+        lines.push(`> ${truncatedReasoning}`);
+      }
+    }
+
     lines.push("");
   }
 

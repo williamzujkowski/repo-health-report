@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import type { GradeResult } from "./grader.js";
+import type { AiAnalysisResult } from "./ai-analysis.js";
 
 function gradeColor(letter: string): (text: string) => string {
   switch (letter) {
@@ -29,7 +30,76 @@ function bar(score: number, width: number = 20): string {
   return color("\u2588".repeat(filled)) + chalk.gray("\u2591".repeat(empty));
 }
 
-export function renderTerminal(slug: string, grade: GradeResult): void {
+export function renderAiAnalysis(ai: AiAnalysisResult): void {
+  console.log("");
+  console.log(chalk.bold.white("  AI Expert Analysis (nexus-agents):"));
+  console.log(chalk.gray(`  ${"─".repeat(50)}`));
+
+  if (!ai.available) {
+    console.log(
+      chalk.yellow(`  ${ai.error ?? "nexus-agents not available"}`)
+    );
+    return;
+  }
+
+  if (ai.error) {
+    console.log(chalk.red(`  AI analysis error: ${ai.error}`));
+    return;
+  }
+
+  if (ai.experts.length === 0) {
+    console.log(chalk.gray("  No expert results returned."));
+    return;
+  }
+
+  console.log("");
+  for (const expert of ai.experts) {
+    const scoreStr =
+      expert.score >= 0
+        ? `${expert.score}/100`
+        : chalk.gray("n/a");
+    const confStr =
+      expert.confidence > 0
+        ? chalk.gray(` (${(expert.confidence * 100).toFixed(0)}% confidence)`)
+        : "";
+    const truncated =
+      expert.analysis.length > 200
+        ? `${expert.analysis.slice(0, 197)}...`
+        : expert.analysis;
+
+    const colorFn =
+      expert.score >= 80
+        ? chalk.green
+        : expert.score >= 60
+          ? chalk.yellow
+          : expert.score >= 0
+            ? chalk.red
+            : chalk.gray;
+
+    console.log(
+      `  ${chalk.white(expert.dimension.padEnd(16))} ${colorFn(scoreStr)}${confStr}`
+    );
+    console.log(chalk.gray(`    ${truncated}`));
+  }
+
+  if (ai.consensus) {
+    console.log("");
+    console.log(
+      `  ${chalk.bold("Consensus Vote:")} ${chalk.cyan(ai.consensus.grade)} — ${ai.consensus.approvalPercentage}% approval`
+    );
+    const truncatedReasoning =
+      ai.consensus.reasoning.length > 200
+        ? `${ai.consensus.reasoning.slice(0, 197)}...`
+        : ai.consensus.reasoning;
+    console.log(chalk.gray(`    ${truncatedReasoning}`));
+  }
+}
+
+export function renderTerminal(
+  slug: string,
+  grade: GradeResult,
+  ai?: AiAnalysisResult
+): void {
   const colorGrade = gradeColor(grade.letter);
 
   console.log("");
@@ -75,10 +145,19 @@ export function renderTerminal(slug: string, grade: GradeResult): void {
   }
 
   console.log("");
+  const analysisMode = ai?.available
+    ? "Static + AI analysis (nexus-agents)"
+    : "Pure static analysis via GitHub API";
   console.log(
     chalk.gray(
-      `  Completed in ${(grade.totalDurationMs / 1000).toFixed(1)}s | ${grade.dimensions.length} dimensions | Pure static analysis via GitHub API`
+      `  Completed in ${(grade.totalDurationMs / 1000).toFixed(1)}s | ${grade.dimensions.length} dimensions | ${analysisMode}`
     )
   );
   console.log("");
+
+  // AI section (only when --ai flag was used)
+  if (ai !== undefined) {
+    renderAiAnalysis(ai);
+    console.log("");
+  }
 }

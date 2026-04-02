@@ -15,6 +15,7 @@ import { analyzeDevOpsDimension } from "./dimensions/devops.js";
 import { computeGrade } from "./grader.js";
 import { renderTerminal } from "./render.js";
 import { generateMarkdown } from "./report.js";
+import { runAiAnalysis, buildStaticSummary } from "./ai-analysis.js";
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
@@ -31,11 +32,13 @@ ${chalk.bold("Options:")}
   --output, -o <file>   Write markdown report to file (default: health-report.md)
   --no-file             Skip writing markdown file
   --json                Output JSON instead of terminal rendering
+  --ai                  Enable AI expert analysis via nexus-agents (requires nexus-agents CLI)
   --help, -h            Show this help
 
 ${chalk.bold("Examples:")}
   repo-health-report williamzujkowski/nexus-agents
   repo-health-report https://github.com/facebook/react --output react-report.md
+  repo-health-report williamzujkowski/nexus-agents --ai
 `);
     process.exit(0);
   }
@@ -44,6 +47,7 @@ ${chalk.bold("Examples:")}
   let outputFile = "health-report.md";
   let writeMarkdown = true;
   let jsonOutput = false;
+  let aiEnabled = false;
   let repoArg: string | undefined;
 
   for (let i = 0; i < args.length; i++) {
@@ -54,6 +58,8 @@ ${chalk.bold("Examples:")}
       writeMarkdown = false;
     } else if (arg === "--json") {
       jsonOutput = true;
+    } else if (arg === "--ai") {
+      aiEnabled = true;
     } else if (!arg.startsWith("-")) {
       repoArg = arg;
     }
@@ -107,16 +113,25 @@ ${chalk.bold("Examples:")}
   // Compute grade
   const grade = computeGrade(dimensionResults);
 
+  // Run AI analysis if requested
+  let ai;
+  if (aiEnabled) {
+    console.log(chalk.gray("  Running AI expert analysis via nexus-agents..."));
+    const summary = buildStaticSummary(dimensionResults);
+    ai = await runAiAnalysis(slug, grade.letter, grade.overall, summary);
+  }
+
   // Output
   if (jsonOutput) {
-    console.log(JSON.stringify({ repo: slug, ...grade }, null, 2));
+    const output = { repo: slug, ...grade, ...(ai ? { ai } : {}) };
+    console.log(JSON.stringify(output, null, 2));
   } else {
-    renderTerminal(slug, grade);
+    renderTerminal(slug, grade, ai);
   }
 
   // Write markdown
   if (writeMarkdown) {
-    const md = generateMarkdown(slug, grade);
+    const md = generateMarkdown(slug, grade, ai);
     await writeFile(outputFile, md, "utf-8");
     if (!jsonOutput) {
       console.log(

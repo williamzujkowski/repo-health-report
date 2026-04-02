@@ -1,23 +1,39 @@
 # repo-health-report
 
+[![CI](https://github.com/williamzujkowski/repo-health-report/actions/workflows/ci.yml/badge.svg)](https://github.com/williamzujkowski/repo-health-report/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/repo-health-report)](https://www.npmjs.com/package/repo-health-report)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Analyze any GitHub repository's health across 5 dimensions and generate a color-coded terminal report with a markdown file.
 
 **Pure static analysis via the GitHub API. No AI APIs, no cloning, no secrets required.**
 
-## Quick Start
+## Installation
 
 ```bash
-# Requires: gh CLI installed and authenticated (gh auth login)
+# Run directly without installing
 npx repo-health-report williamzujkowski/nexus-agents
-```
 
-Or with a full URL:
+# Install globally
+npm install -g repo-health-report
+repo-health-report williamzujkowski/nexus-agents
 
-```bash
+# Or with a full GitHub URL
 npx repo-health-report https://github.com/facebook/react
 ```
 
+## Quick Start
+
+```bash
+# Requires: gh CLI installed and authenticated
+gh auth login
+
+npx repo-health-report williamzujkowski/nexus-agents
+```
+
 ## Example Output
+
+Running against [nexus-agents](https://github.com/williamzujkowski/nexus-agents) — a Grade A result:
 
 ```
   Repo Health Report: williamzujkowski/nexus-agents
@@ -38,10 +54,54 @@ npx repo-health-report https://github.com/facebook/react
     ✔ Security policy (SECURITY.md)
     ✔ Dependency update automation
     ✔ CODEOWNERS file
-    ...
+    ✔ No committed .env files
+    ✔ .gitignore present
+    ✔ CI workflows (branch protection proxy)
+
+  Testing
+    ✔ CI workflows
+    ✔ Test files
+    ✔ Coverage configuration
+    ✔ Test runner configured
+    ✔ Pre-commit hooks
+
+  Documentation
+    ✔ README.md quality
+    ✔ LICENSE file
+    ✔ CONTRIBUTING.md
+    ✔ CHANGELOG
+    ✔ Documentation directory or API docs
+    ✔ Repository description
+
+  Architecture
+    ✔ Type safety
+    ✔ Linter configuration
+    ✔ Code formatter
+    ✔ Organized source structure
+    ✔ Monorepo tooling
+    ✔ Build configuration
+
+  DevOps
+    ✔ CI/CD pipeline
+    ✔ Release automation
+    ✔ Issue/PR templates
+    ✗ Container support (Docker)
+    ✗ Deployment/Infrastructure config
 ```
 
 A markdown report (`health-report.md`) is also written with a full findings table and prioritized recommendations.
+
+## How It Works
+
+`repo-health-report` uses the GitHub API exclusively — no repo cloning, no AI, no external services beyond `gh` authentication.
+
+1. **Fetch metadata** — pulls repo info (description, default branch, license) via `gh api`.
+2. **Fetch file tree** — gets a flat list of all paths in the repo in a single API call.
+3. **Run 5 dimensions in parallel** — each dimension pattern-matches on the file tree and fetches specific file contents only when needed (e.g., README length, package.json scripts).
+4. **Score and grade** — weighted scores per dimension are averaged into an overall 0–100 score and converted to a letter grade (A/B/C/D/F).
+5. **Render output** — color-coded terminal output via chalk, plus a markdown report with a findings table and prioritized recommendations.
+
+All analysis is deterministic: the same repo always produces the same score unless the repo itself changes.
 
 ## What It Checks
 
@@ -55,7 +115,7 @@ A markdown report (`health-report.md`) is also written with a full findings tabl
 
 ### Testing (0-100)
 - GitHub Actions or other CI workflows
-- Test files (test/, __tests__, *.test.*, *.spec.*)
+- Test files (`test/`, `__tests__/`, `*.test.*`, `*.spec.*`)
 - Coverage/test runner configuration (vitest, jest, pytest, etc.)
 - Test scripts in package.json (or language-equivalent)
 - Pre-commit hooks (Husky, pre-commit)
@@ -65,14 +125,14 @@ A markdown report (`health-report.md`) is also written with a full findings tabl
 - LICENSE file
 - CONTRIBUTING.md
 - CHANGELOG
-- docs/ directory or API documentation
+- `docs/` directory or API documentation
 - Repository description on GitHub
 
 ### Architecture (0-100)
 - Type safety (TypeScript, mypy, Rust, Go, Java)
 - Linter configuration (ESLint, flake8, ruff, clippy, biome)
 - Code formatter (Prettier, editorconfig, rustfmt, black)
-- Organized source structure (src/, lib/, packages/)
+- Organized source structure (`src/`, `lib/`, `packages/`)
 - Monorepo tooling (if applicable)
 - Build configuration
 
@@ -82,6 +142,16 @@ A markdown report (`health-report.md`) is also written with a full findings tabl
 - Release automation (semantic-release, changesets)
 - Issue/PR templates
 - Deployment/Infrastructure config (Terraform, k8s, Vercel, Fly, etc.)
+
+## Grading Scale
+
+| Score | Grade |
+|------:|-------|
+| 90–100 | A |
+| 80–89  | B |
+| 70–79  | C |
+| 60–69  | D |
+| 0–59   | F |
 
 ## CLI Options
 
@@ -95,27 +165,30 @@ Options:
   --help, -h            Show help
 ```
 
+## The `--ai` Flag (Phase 2)
+
+A future `--ai` flag will layer AI-powered analysis on top of the static scores:
+
+```bash
+# Coming in Phase 2
+repo-health-report williamzujkowski/nexus-agents --ai
+```
+
+When enabled, the tool will delegate to [nexus-agents](https://github.com/williamzujkowski/nexus-agents) — a multi-agent orchestration system — to run deeper analysis: reading actual code quality, evaluating documentation coherence, reviewing CI pipeline logic, and generating prioritized improvement recommendations grounded in the repo's actual content (not just file existence).
+
+Phase 2 will use nexus-agents' 24 MCP tools to coordinate Claude, Gemini, Codex, and OpenCode for consensus-based scoring, making the health report substantially more meaningful for complex codebases.
+
 ## Requirements
 
-- **[GitHub CLI (`gh`)](https://cli.github.com/)** installed and authenticated
+- **[GitHub CLI (`gh`)](https://cli.github.com/)** installed and authenticated (`gh auth login`)
 - Node.js 18+
 
-The tool uses `gh api` to fetch repository data. It never clones repos or requires any API keys beyond your GitHub authentication.
-
-## How It Works
-
-1. Fetches repo metadata and full file tree via the GitHub API
-2. Runs 5 analysis dimensions in parallel (pattern matching on the file tree)
-3. Fetches specific file contents when needed (README length, package.json scripts)
-4. Computes weighted scores per dimension and an overall letter grade
-5. Renders a color-coded terminal report and writes a markdown file
-
-All analysis is deterministic. The same repo will always produce the same score (unless the repo changes).
+The tool uses `gh api` subprocess calls. It never clones repos or requires any API keys beyond your GitHub authentication.
 
 ## Related
 
-Built to work alongside [nexus-agents](https://github.com/williamzujkowski/nexus-agents), a multi-agent orchestration system with 24 MCP tools for coordinating Claude, Gemini, Codex, and OpenCode.
+Built to work alongside [nexus-agents](https://github.com/williamzujkowski/nexus-agents), a multi-agent orchestration system with 24 MCP tools for coordinating Claude, Gemini, Codex, and OpenCode. The `--ai` flag in Phase 2 will use nexus-agents directly to produce AI-grounded repository health scores.
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE).
