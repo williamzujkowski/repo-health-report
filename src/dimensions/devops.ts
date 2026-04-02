@@ -192,7 +192,7 @@ function analyzeApplicationDevOps(tree: RepoTree): Finding[] {
     weight: 15,
   });
 
-  // Deployment/IaC config
+  // Deployment/IaC config — low weight since most repos are libraries/tools
   const hasIaC =
     treeHasPattern(tree, /\.tf$/) ||
     treeHasPattern(tree, /^k8s\//) ||
@@ -203,14 +203,15 @@ function analyzeApplicationDevOps(tree: RepoTree): Finding[] {
     treeHasFile(tree, "app.yaml") ||
     treeHasFile(tree, "fly.toml") ||
     treeHasFile(tree, "vercel.json") ||
-    treeHasFile(tree, "netlify.toml");
+    treeHasFile(tree, "netlify.toml") ||
+    treeHasFile(tree, "Makefile"); // Makefile serves as "run" interface for most OSS
   findings.push({
     name: "Deployment/Infrastructure config",
     passed: hasIaC,
     detail: hasIaC
-      ? "Deployment or IaC config found"
+      ? "Deployment or build config found"
       : "No deployment configuration detected",
-    weight: 15,
+    weight: 5,
   });
 
   return findings;

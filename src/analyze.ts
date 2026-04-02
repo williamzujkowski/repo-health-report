@@ -156,6 +156,40 @@ export function treeCountPattern(tree: RepoTree, pattern: RegExp): number {
 
 export type ProjectType = "application" | "iac" | "library" | "hybrid";
 
+export type RepoLanguage =
+  | "typescript"
+  | "javascript"
+  | "python"
+  | "go"
+  | "rust"
+  | "java"
+  | "shell"
+  | "c"
+  | "ruby"
+  | "other";
+
+const LANGUAGE_MAP: Record<string, RepoLanguage> = {
+  typescript: "typescript",
+  javascript: "javascript",
+  python: "python",
+  go: "go",
+  rust: "rust",
+  java: "java",
+  kotlin: "java",
+  scala: "java",
+  shell: "shell",
+  bash: "shell",
+  c: "c",
+  "c++": "c",
+  "objective-c": "c",
+  ruby: "ruby",
+};
+
+export function normalizeLanguage(ghLanguage: string | null): RepoLanguage {
+  const lower = (ghLanguage ?? "").toLowerCase();
+  return LANGUAGE_MAP[lower] ?? "other";
+}
+
 /**
  * Detect the project type based on the file tree.
  * Checks application entry points FIRST to avoid misclassifying

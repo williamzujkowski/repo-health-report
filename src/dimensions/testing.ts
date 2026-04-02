@@ -208,7 +208,7 @@ async function analyzeApplicationTesting(
     detail: hasHooks
       ? `Using ${hasHusky ? "Husky" : "pre-commit"}`
       : "No pre-commit hooks found",
-    weight: 15,
+    weight: 5,
   });
 
   return findings;

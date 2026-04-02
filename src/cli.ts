@@ -7,6 +7,7 @@ import {
   fetchRepoMeta,
   fetchRepoTree,
   detectProjectType,
+  normalizeLanguage,
 } from "./analyze.js";
 import { analyzeSecurityDimension } from "./dimensions/security.js";
 import { analyzeTestingDimension } from "./dimensions/testing.js";
@@ -104,8 +105,12 @@ ${chalk.bold("Examples:")}
   }
 
   const projectType = detectProjectType(tree);
+  const language = normalizeLanguage(meta.language);
   if (projectType !== "application") {
     console.log(chalk.gray(`  Detected project type: ${projectType}`));
+  }
+  if (language !== "other") {
+    console.log(chalk.gray(`  Detected language: ${language}`));
   }
 
   // Run all 5 dimensions in parallel
@@ -113,7 +118,7 @@ ${chalk.bold("Examples:")}
     analyzeSecurityDimension(tree, meta, slug),
     analyzeTestingDimension(tree, meta, slug, projectType),
     analyzeDocsDimension(tree, meta, slug),
-    analyzeArchitectureDimension(tree, meta, slug, projectType),
+    analyzeArchitectureDimension(tree, meta, slug, projectType, language),
     analyzeDevOpsDimension(tree, meta, slug, projectType),
   ]);
 

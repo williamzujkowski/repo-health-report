@@ -69,7 +69,7 @@ export async function analyzeSecurityDimension(
     detail: hasCodeowners
       ? "CODEOWNERS file found"
       : "No CODEOWNERS — add ownership for review enforcement",
-    weight: 15,
+    weight: 5,
   });
 
   // No committed secrets patterns (check for .env files in tree)
