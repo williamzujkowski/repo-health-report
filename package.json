@@ -1,0 +1,29 @@
+{
+  "name": "repo-health-report",
+  "version": "1.0.0",
+  "description": "Analyze any GitHub repo and generate a health report using static analysis via the GitHub API",
+  "type": "module",
+  "bin": {
+    "repo-health-report": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli.js"
+  },
+  "keywords": [
+    "github",
+    "repo",
+    "health",
+    "analysis",
+    "cli"
+  ],
+  "author": "William Zujkowski",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.2",
+    "typescript": "^5.8.3"
+  }
+}
