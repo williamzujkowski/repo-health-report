@@ -14,6 +14,7 @@ import { analyzeTestingDimension } from "./dimensions/testing.js";
 import { analyzeDocsDimension } from "./dimensions/docs.js";
 import { analyzeArchitectureDimension } from "./dimensions/architecture.js";
 import { analyzeDevOpsDimension } from "./dimensions/devops.js";
+import { analyzeMaintenanceDimension } from "./dimensions/maintenance.js";
 import { computeGrade } from "./grader.js";
 import { renderTerminal } from "./render.js";
 import { generateMarkdown } from "./report.js";
@@ -113,13 +114,14 @@ ${chalk.bold("Examples:")}
     console.log(chalk.gray(`  Detected language: ${language}`));
   }
 
-  // Run all 5 dimensions in parallel
+  // Run all 6 dimensions in parallel
   const dimensionResults = await Promise.all([
     analyzeSecurityDimension(tree, meta, slug),
     analyzeTestingDimension(tree, meta, slug, projectType),
     analyzeDocsDimension(tree, meta, slug),
     analyzeArchitectureDimension(tree, meta, slug, projectType, language),
     analyzeDevOpsDimension(tree, meta, slug, projectType),
+    analyzeMaintenanceDimension(tree, meta, slug),
   ]);
 
   // Compute grade

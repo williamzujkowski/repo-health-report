@@ -1,6 +1,6 @@
 import { execFile } from "node:child_process";
 
-const GH_TIMEOUT_MS = 10_000;
+const GH_TIMEOUT_MS = 15_000;
 
 export interface RepoTree {
   tree: Array<{ path: string; type: string; size?: number }>;
@@ -15,6 +15,7 @@ export interface RepoMeta {
   open_issues_count: number;
   archived: boolean;
   description: string | null;
+  stargazers_count?: number;
 }
 
 export interface WorkflowFile {
@@ -51,12 +52,20 @@ export function parseRepoSlug(input: string): string {
 
 /**
  * Run a `gh api` call and parse JSON output.
+ * Uses --paginate by default for endpoints that return paginated results.
  */
-export async function ghApi<T>(endpoint: string): Promise<T> {
+export async function ghApi<T>(
+  endpoint: string,
+  options?: { paginate?: boolean }
+): Promise<T> {
+  const args = ["api", endpoint];
+  if (options?.paginate !== false) {
+    args.push("--paginate");
+  }
   return new Promise((resolve, reject) => {
     execFile(
       "gh",
-      ["api", endpoint, "--paginate"],
+      args,
       { timeout: GH_TIMEOUT_MS, maxBuffer: 50 * 1024 * 1024 },
       (error, stdout, stderr) => {
         if (error) {
