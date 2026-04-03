@@ -142,3 +142,36 @@ describe("computeGrade — dimensions passthrough", () => {
     assert.equal(result.dimensions, dims);
   });
 });
+
+describe("computeGrade — graded field", () => {
+  it("sets graded: true for code repos (no projectType)", () => {
+    const result = computeGrade(makeDimensions(80));
+    assert.equal(result.graded, true);
+  });
+
+  it("sets graded: true for non-documentation projectType", () => {
+    const result = computeGrade(makeDimensions(80), "library");
+    assert.equal(result.graded, true);
+    assert.equal(result.letter, "B");
+  });
+
+  it("sets graded: false and letter N/A for documentation projectType", () => {
+    const result = computeGrade(makeDimensions(47), "documentation");
+    assert.equal(result.graded, false);
+    assert.equal(result.letter, "N/A");
+    assert.equal(result.overall, 47);
+  });
+
+  it("still computes numeric overall score for documentation repos", () => {
+    // Score should still be computed for documentation-specific analysis
+    const result = computeGrade(makeDimensionsAvg(60, 40), "documentation");
+    assert.equal(result.overall, 50);
+    assert.equal(result.graded, false);
+  });
+
+  it("still returns all dimensions for documentation repos", () => {
+    const dims = makeDimensions(50);
+    const result = computeGrade(dims, "documentation");
+    assert.equal(result.dimensions, dims);
+  });
+});

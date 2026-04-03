@@ -112,9 +112,18 @@ export function renderTerminal(
   console.log("");
 
   // Overall grade
-  console.log(
-    `  Overall Grade: ${colorGrade(chalk.bold(`${grade.letter} (${grade.overall}/100)`))}`
-  );
+  if (!grade.graded) {
+    console.log(
+      chalk.gray("  Documentation Repo (not graded on code metrics)")
+    );
+    console.log(
+      chalk.gray(`  Score: ${grade.overall}/100 (documentation-specific checks only)`)
+    );
+  } else {
+    console.log(
+      `  Overall Grade: ${colorGrade(chalk.bold(`${grade.letter} (${grade.overall}/100)`))}`
+    );
+  }
   console.log("");
 
   // Dimension scores

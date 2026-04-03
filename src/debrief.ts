@@ -30,6 +30,8 @@ interface CheckStat {
 
 interface AggregateData {
   totalRepos: number;
+  codeRepos?: number;
+  documentationRepos?: number;
   averageOverall: number;
   gradeDistribution: Record<string, number>;
   dimensionAverages: DimensionAverage[];
@@ -86,9 +88,10 @@ interface DebriefInsights {
 }
 
 function computeInsights(aggregate: AggregateData): DebriefInsights {
-  const fRate = Math.round(
-    ((aggregate.gradeDistribution.F ?? 0) / aggregate.totalRepos) * 100
-  );
+  const gradedCount = aggregate.codeRepos ?? aggregate.totalRepos;
+  const fRate = gradedCount > 0
+    ? Math.round(((aggregate.gradeDistribution.F ?? 0) / gradedCount) * 100)
+    : 0;
   const unknownLangCount = aggregate.languageBreakdown["unknown"] ?? 0;
   const sorted = [...aggregate.dimensionAverages].sort(
     (a, b) => a.averageScore - b.averageScore
@@ -140,10 +143,22 @@ function computeInsights(aggregate: AggregateData): DebriefInsights {
 function printOverallHealth(aggregate: AggregateData, fRate: number): void {
   console.log(chalk.bold("\n  1. Overall Health"));
   console.log(
-    `  ${aggregate.totalRepos} repos analyzed, average score: ${aggregate.averageOverall}/100`
+    `  ${aggregate.totalRepos} repos analyzed`
   );
+  if (aggregate.codeRepos !== undefined && aggregate.documentationRepos !== undefined) {
+    console.log(
+      `  Code Repos:          ${aggregate.codeRepos}, average score: ${aggregate.averageOverall}/100`
+    );
+    console.log(
+      `  Documentation Repos: ${aggregate.documentationRepos} (not graded)`
+    );
+  } else {
+    console.log(
+      `  Average score: ${aggregate.averageOverall}/100`
+    );
+  }
   console.log(
-    `  F-rate: ${fRate}% (${aggregate.gradeDistribution.F ?? 0} repos)`
+    `  F-rate: ${fRate}% (${aggregate.gradeDistribution.F ?? 0} code repos)`
   );
   if (fRate > 40) {
     console.log(

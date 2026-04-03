@@ -24,6 +24,7 @@ interface StoredReport {
   repo: string;
   letter: string;
   overall: number;
+  graded?: boolean;
   dimensions: DimensionResult[];
   totalDurationMs: number;
   projectType: ProjectType;
@@ -56,6 +57,8 @@ interface CheckStat {
 
 interface AggregateResult {
   totalRepos: number;
+  codeRepos: number;
+  documentationRepos: number;
   generatedAt: string;
   gradeDistribution: GradeDistribution;
   averageOverall: number;
@@ -102,7 +105,21 @@ async function loadReport(filePath: string): Promise<StoredReport | null> {
 }
 
 /**
+ * Determine whether a stored report represents a graded (code) repo.
+ * Older reports without the `graded` field are treated as graded unless
+ * their projectType is "documentation".
+ */
+function isGraded(report: StoredReport): boolean {
+  if (report.graded !== undefined) {
+    return report.graded;
+  }
+  return report.projectType !== "documentation";
+}
+
+/**
  * Compute aggregate statistics from all reports.
+ * Documentation repos are counted separately and excluded from grade
+ * distribution and average score calculations.
  */
 function computeAggregate(reports: StoredReport[]): AggregateResult {
   const gradeDistribution: GradeDistribution = { A: 0, B: 0, C: 0, D: 0, F: 0 };
@@ -112,25 +129,33 @@ function computeAggregate(reports: StoredReport[]): AggregateResult {
   const checkStats: Record<string, { pass: number; fail: number }> = {};
 
   let totalOverall = 0;
+  let codeRepos = 0;
+  let documentationRepos = 0;
 
   for (const report of reports) {
-    // Grade distribution
-    const grade = report.letter as keyof GradeDistribution;
-    if (grade in gradeDistribution) {
-      gradeDistribution[grade]++;
+    const graded = isGraded(report);
+
+    if (graded) {
+      // Grade distribution — only code repos
+      const grade = report.letter as keyof GradeDistribution;
+      if (grade in gradeDistribution) {
+        gradeDistribution[grade]++;
+      }
+      totalOverall += report.overall;
+      codeRepos++;
+    } else {
+      documentationRepos++;
     }
 
-    totalOverall += report.overall;
-
-    // Type breakdown
+    // Type breakdown includes all repos
     const pType = report.projectType ?? "unknown";
     typeBreakdown[pType] = (typeBreakdown[pType] ?? 0) + 1;
 
-    // Language breakdown
+    // Language breakdown includes all repos
     const lang = report.language ?? "unknown";
     languageBreakdown[lang] = (languageBreakdown[lang] ?? 0) + 1;
 
-    // Dimension scores
+    // Dimension scores and check stats include all repos
     for (const dim of report.dimensions) {
       if (!dimensionScores[dim.name]) {
         dimensionScores[dim.name] = [];
@@ -182,10 +207,12 @@ function computeAggregate(reports: StoredReport[]): AggregateResult {
 
   return {
     totalRepos: reports.length,
+    codeRepos,
+    documentationRepos,
     generatedAt: new Date().toISOString(),
     gradeDistribution,
-    averageOverall: reports.length > 0
-      ? Math.round(totalOverall / reports.length)
+    averageOverall: codeRepos > 0
+      ? Math.round(totalOverall / codeRepos)
       : 0,
     dimensionAverages,
     typeBreakdown,
@@ -198,8 +225,16 @@ function computeAggregate(reports: StoredReport[]): AggregateResult {
 function printAggregate(agg: AggregateResult): void {
   console.log(chalk.bold(`\n  Aggregate Report (${agg.totalRepos} repos)\n`));
 
-  // Grade distribution
-  console.log(chalk.bold("  Grade Distribution:"));
+  // Code vs documentation split
+  console.log(
+    `  Code Repos:          ${agg.codeRepos} analyzed, average ${agg.averageOverall}/100`
+  );
+  console.log(
+    `  Documentation Repos: ${agg.documentationRepos} analyzed (not graded)\n`
+  );
+
+  // Grade distribution (code repos only)
+  console.log(chalk.bold("  Grade Distribution (code repos only):"));
   const grades: Array<keyof GradeDistribution> = ["A", "B", "C", "D", "F"];
   for (const g of grades) {
     const count = agg.gradeDistribution[g];

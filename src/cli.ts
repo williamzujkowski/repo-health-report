@@ -125,7 +125,7 @@ ${chalk.bold("Examples:")}
   ]);
 
   // Compute grade
-  const grade = computeGrade(dimensionResults);
+  const grade = computeGrade(dimensionResults, projectType);
 
   // AI analysis: when --ai is used, output a vote proposal for nexus-agents MCP
   let ai: AiAnalysisResult | undefined;

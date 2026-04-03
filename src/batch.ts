@@ -77,6 +77,7 @@ interface BatchReport {
   repo: string;
   letter: string;
   overall: number;
+  graded: boolean;
   dimensions: GradeResult["dimensions"];
   totalDurationMs: number;
   projectType: ProjectType;
@@ -216,7 +217,7 @@ async function analyzeRepo(
     analyzeMaintenanceDimension(tree, meta, validSlug),
   ]);
 
-  const grade = computeGrade(dimensionResults);
+  const grade = computeGrade(dimensionResults, projectType);
   const analyzedAt = new Date().toISOString();
   const detectorVersion = await computeDetectorVersion();
 
@@ -229,6 +230,7 @@ async function analyzeRepo(
     repo: validSlug,
     letter: grade.letter,
     overall: grade.overall,
+    graded: grade.graded,
     dimensions: grade.dimensions,
     totalDurationMs: grade.totalDurationMs,
     projectType,

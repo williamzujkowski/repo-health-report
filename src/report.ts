@@ -25,9 +25,15 @@ export function generateMarkdown(
 
   lines.push(`# Repo Health Report: ${slug}`);
   lines.push("");
-  lines.push(
-    `**Overall Grade: ${grade.letter} (${grade.overall}/100)** — ${gradeEmoji(grade.letter)}`
-  );
+  if (!grade.graded) {
+    lines.push(
+      `**Documentation Repo (not graded on code metrics)** — Score: ${grade.overall}/100 (documentation-specific checks only)`
+    );
+  } else {
+    lines.push(
+      `**Overall Grade: ${grade.letter} (${grade.overall}/100)** — ${gradeEmoji(grade.letter)}`
+    );
+  }
   lines.push("");
   const analysisMode =
     ai?.available

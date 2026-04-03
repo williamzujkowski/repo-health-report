@@ -1,16 +1,25 @@
 import type { DimensionResult } from "./dimensions/security.js";
+import type { ProjectType } from "./analyze.js";
 
 export interface GradeResult {
   letter: string;
   overall: number;
+  graded: boolean;
   dimensions: DimensionResult[];
   totalDurationMs: number;
 }
 
-export function computeGrade(dimensions: DimensionResult[]): GradeResult {
+export function computeGrade(
+  dimensions: DimensionResult[],
+  projectType?: ProjectType
+): GradeResult {
   const totalScore = dimensions.reduce((sum, d) => sum + d.score, 0);
   const overall = Math.round(totalScore / dimensions.length);
   const totalDurationMs = dimensions.reduce((sum, d) => sum + d.durationMs, 0);
+
+  if (projectType === "documentation") {
+    return { letter: "N/A", overall, graded: false, dimensions, totalDurationMs };
+  }
 
   let letter: string;
   if (overall >= 90) {
@@ -25,5 +34,5 @@ export function computeGrade(dimensions: DimensionResult[]): GradeResult {
     letter = "F";
   }
 
-  return { letter, overall, dimensions, totalDurationMs };
+  return { letter, overall, graded: true, dimensions, totalDurationMs };
 }
