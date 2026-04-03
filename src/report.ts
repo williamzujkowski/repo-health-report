@@ -1,5 +1,6 @@
 import type { GradeResult } from "./grader.js";
 import type { AiAnalysisResult } from "./ai-analysis.js";
+import type { ScorecardResult, DepsDevResult } from "./external-apis.js";
 
 function gradeEmoji(letter: string): string {
   switch (letter) {
@@ -19,7 +20,9 @@ function gradeEmoji(letter: string): string {
 export function generateMarkdown(
   slug: string,
   grade: GradeResult,
-  ai?: AiAnalysisResult
+  ai?: AiAnalysisResult,
+  scorecard?: ScorecardResult | null,
+  depsDev?: DepsDevResult | null
 ): string {
   const lines: string[] = [];
 
@@ -90,6 +93,38 @@ export function generateMarkdown(
     const sorted = [...failedFindings].sort((a, b) => b.weight - a.weight);
     for (const f of sorted.slice(0, 10)) {
       lines.push(`1. **${f.dim} — ${f.name}**: ${f.detail}`);
+    }
+    lines.push("");
+  }
+
+  // OpenSSF Scorecard section
+  if (scorecard != null) {
+    lines.push("## OpenSSF Scorecard");
+    lines.push("");
+    const scoreLine = scorecard.score.toFixed(1);
+    const dateStr = scorecard.date ? ` (${scorecard.date})` : "";
+    lines.push(`**Score: ${scoreLine}/10**${dateStr}`);
+    lines.push("");
+    if (scorecard.checks.length > 0) {
+      lines.push("| Check | Score | Reason |");
+      lines.push("|-------|------:|--------|");
+      for (const check of scorecard.checks) {
+        const scoreStr = check.score >= 0 ? `${check.score}/10` : "N/A";
+        const icon = check.score >= 7 ? "✔" : check.score >= 4 ? "?" : "✘";
+        const reason = check.reason.length > 120 ? `${check.reason.slice(0, 117)}...` : check.reason;
+        lines.push(`| ${icon} ${check.name} | ${scoreStr} | ${reason} |`);
+      }
+      lines.push("");
+    }
+  }
+
+  // deps.dev dependent count section
+  if (depsDev != null) {
+    lines.push("## Package Dependents (deps.dev)");
+    lines.push("");
+    lines.push(`**Dependent count: ${depsDev.dependentCount.toLocaleString()}**`);
+    if (depsDev.latestVersion) {
+      lines.push(`Latest published version: \`${depsDev.latestVersion}\``);
     }
     lines.push("");
   }

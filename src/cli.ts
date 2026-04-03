@@ -22,6 +22,12 @@ import { generateMarkdown } from "./report.js";
 import { getUnavailableResult, buildVoteProposal } from "./ai-analysis.js";
 import type { AiAnalysisResult } from "./ai-analysis.js";
 import { explainScore } from "./explain.js";
+import {
+  fetchScorecard,
+  fetchDepsDevInfo,
+  detectPackageInfo,
+} from "./external-apis.js";
+import type { ScorecardResult, DepsDevResult } from "./external-apis.js";
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
@@ -39,6 +45,7 @@ ${chalk.bold("Options:")}
   --no-file             Skip writing markdown file
   --json                Output JSON instead of terminal rendering
   --ai                  Include AI vote proposal for nexus-agents MCP tools
+  --scorecard           Fetch OpenSSF Scorecard + deps.dev dependent count (external APIs)
   --explain             Show detailed scoring breakdown (weights, contributions, grade scale)
   --help, -h            Show this help
 
@@ -46,6 +53,7 @@ ${chalk.bold("Examples:")}
   repo-health-report williamzujkowski/nexus-agents
   repo-health-report https://github.com/facebook/react --output react-report.md
   repo-health-report williamzujkowski/nexus-agents --ai
+  repo-health-report williamzujkowski/nexus-agents --scorecard
 `);
     process.exit(0);
   }
@@ -55,6 +63,7 @@ ${chalk.bold("Examples:")}
   let writeMarkdown = true;
   let jsonOutput = false;
   let aiEnabled = false;
+  let scorecardEnabled = false;
   let explainEnabled = false;
   let repoArg: string | undefined;
 
@@ -68,6 +77,8 @@ ${chalk.bold("Examples:")}
       jsonOutput = true;
     } else if (arg === "--ai") {
       aiEnabled = true;
+    } else if (arg === "--scorecard") {
+      scorecardEnabled = true;
     } else if (arg === "--explain") {
       explainEnabled = true;
     } else if (!arg.startsWith("-")) {
@@ -137,6 +148,41 @@ ${chalk.bold("Examples:")}
   // Compute grade
   const grade = computeGrade(dimensionResults, projectType, sizeTier);
 
+  // External APIs: when --scorecard is used, fetch Scorecard + deps.dev
+  let scorecard: ScorecardResult | null = null;
+  let depsDev: DepsDevResult | null = null;
+  if (scorecardEnabled) {
+    console.log(chalk.gray("  Fetching OpenSSF Scorecard..."));
+    const treePaths = tree.tree.map((f) => f.path);
+    // Detect npm package name from package.json if present
+    let packageJsonName: string | undefined;
+    if (treePaths.includes("package.json")) {
+      try {
+        const { ghApi } = await import("./analyze.js");
+        const pkgContent = await ghApi<{ content: string; encoding: string }>(
+          `/repos/${slug}/contents/package.json`,
+          { paginate: false }
+        );
+        if (pkgContent?.encoding === "base64") {
+          const decoded = Buffer.from(pkgContent.content.replace(/\s/g, ""), "base64").toString("utf-8");
+          const pkg = JSON.parse(decoded) as { name?: string };
+          if (typeof pkg.name === "string") packageJsonName = pkg.name;
+        }
+      } catch {
+        // package.json name not available — continue
+      }
+    }
+    const [scorecardResult, pkgInfo] = await Promise.all([
+      fetchScorecard(slug),
+      Promise.resolve(detectPackageInfo(treePaths, packageJsonName)),
+    ]);
+    scorecard = scorecardResult;
+    if (pkgInfo) {
+      console.log(chalk.gray(`  Fetching deps.dev info for ${pkgInfo.system}/${pkgInfo.packageName}...`));
+      depsDev = await fetchDepsDevInfo(pkgInfo.packageName, pkgInfo.system);
+    }
+  }
+
   // AI analysis: when --ai is used, output a vote proposal for nexus-agents MCP
   let ai: AiAnalysisResult | undefined;
   if (aiEnabled) {
@@ -165,10 +211,47 @@ ${chalk.bold("Examples:")}
 
   // Output
   if (jsonOutput) {
-    const output = { repo: slug, ...grade, ...(ai ? { ai } : {}) };
+    const output = {
+      repo: slug,
+      ...grade,
+      ...(ai ? { ai } : {}),
+      ...(scorecard ? { scorecard } : {}),
+      ...(depsDev ? { depsDev } : {}),
+    };
     console.log(JSON.stringify(output, null, 2));
   } else {
     renderTerminal(slug, grade, ai);
+    // Scorecard terminal display
+    if (scorecard) {
+      const scoreLine = scorecard.score.toFixed(1);
+      const scoreColor =
+        scorecard.score >= 7
+          ? chalk.green
+          : scorecard.score >= 4
+            ? chalk.yellow
+            : chalk.red;
+      console.log(
+        chalk.bold(`\n  OpenSSF Scorecard: ${scoreColor(scoreLine + "/10")}`) +
+          (scorecard.date ? chalk.gray(` (${scorecard.date})`) : "")
+      );
+      for (const check of scorecard.checks.slice(0, 10)) {
+        const icon =
+          check.score >= 7 ? chalk.green("✔") : check.score >= 4 ? chalk.yellow("?") : chalk.red("✘");
+        const scoreStr = check.score >= 0 ? ` ${check.score}/10` : " N/A";
+        console.log(`    ${icon} ${check.name}:${scoreStr}`);
+      }
+    } else if (scorecardEnabled) {
+      console.log(chalk.gray("  OpenSSF Scorecard: not indexed for this repo"));
+    }
+    // deps.dev dependent count display
+    if (depsDev) {
+      const countStr = depsDev.dependentCount.toLocaleString();
+      console.log(
+        chalk.bold(`\n  deps.dev dependents: ${chalk.cyan(countStr)}`) +
+          (depsDev.latestVersion ? chalk.gray(` (latest: ${depsDev.latestVersion})`) : "")
+      );
+    }
+    if (scorecard || depsDev) console.log("");
   }
 
   // Explain scoring breakdown
@@ -178,7 +261,7 @@ ${chalk.bold("Examples:")}
 
   // Write markdown
   if (writeMarkdown) {
-    const md = generateMarkdown(slug, grade, ai);
+    const md = generateMarkdown(slug, grade, ai, scorecard, depsDev);
     await writeFile(outputFile, md, "utf-8");
     if (!jsonOutput) {
       console.log(
