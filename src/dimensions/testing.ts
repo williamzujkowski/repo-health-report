@@ -127,9 +127,10 @@ async function analyzeApplicationTesting(
   });
 
   // Test directories or test files
+  // test/ (no trailing s) used by golang/go, ansible; tests/ used by Python etc.
   const testFileCount = treeCountPattern(
     tree,
-    /(?:__tests__|\.test\.|\.spec\.|test\/|tests\/|spec\/)/
+    /(?:__tests__|\.test\.|\.spec\.|(?:^|\/)tests?\/|spec\/)/
   );
   findings.push({
     name: "Test files",

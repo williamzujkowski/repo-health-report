@@ -183,7 +183,9 @@ async function checkSecurityMdQuality(
   const hasSecurityMd =
     treeHasFile(tree, "SECURITY.md") ||
     treeHasFile(tree, "SECURITY.rst") ||
-    treeHasFile(tree, ".github/SECURITY.md");
+    treeHasFile(tree, ".github/SECURITY.md") ||
+    treeHasFile(tree, "SECURITY_CONTACTS") ||
+    treeHasFile(tree, "SECURITY_CONTACTS.md");
 
   if (!hasSecurityMd) {
     return {
@@ -199,7 +201,11 @@ async function checkSecurityMdQuality(
     ? "SECURITY.md"
     : treeHasFile(tree, "SECURITY.rst")
       ? "SECURITY.rst"
-      : ".github/SECURITY.md";
+      : treeHasFile(tree, ".github/SECURITY.md")
+        ? ".github/SECURITY.md"
+        : treeHasFile(tree, "SECURITY_CONTACTS")
+          ? "SECURITY_CONTACTS"
+          : "SECURITY_CONTACTS.md";
   const content = await fetchFileContent(slug, secPath);
 
   if (!content || content.length < 200) {
@@ -282,17 +288,19 @@ export async function analyzeSecurityDimension(
     weight: 15,
   });
 
-  // CODEOWNERS
+  // CODEOWNERS (or OWNERS — used in kubernetes/Go ecosystem)
   const hasCodeowners =
     treeHasFile(tree, "CODEOWNERS") ||
     treeHasFile(tree, ".github/CODEOWNERS") ||
-    treeHasFile(tree, "docs/CODEOWNERS");
+    treeHasFile(tree, "docs/CODEOWNERS") ||
+    treeHasFile(tree, "OWNERS") ||
+    treeHasFile(tree, "OWNERS_ALIASES");
   findings.push({
     name: "CODEOWNERS file",
     passed: hasCodeowners,
     detail: hasCodeowners
-      ? "CODEOWNERS file found"
-      : "No CODEOWNERS — add ownership for review enforcement",
+      ? "CODEOWNERS or OWNERS file found"
+      : "No CODEOWNERS or OWNERS file — add ownership for review enforcement",
     weight: 5,
   });
 

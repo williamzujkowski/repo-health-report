@@ -329,6 +329,23 @@ function checkGo(tree: RepoTree): Finding[] {
     weight: 10,
   });
 
+  // Go version pinning (.go-version used by kubernetes and similar projects)
+  const hasGoVersionPin =
+    treeHasFile(tree, ".go-version") ||
+    treeHasFile(tree, ".tool-versions");
+  // go.work signals a Go workspace/monorepo (bonus, not penalized)
+  const hasGoWork = treeHasFile(tree, "go.work");
+  findings.push({
+    name: "Go version pinning (.go-version / go.work)",
+    passed: hasGoVersionPin || hasGoWork,
+    detail: hasGoVersionPin
+      ? ".go-version or .tool-versions found — reproducible Go toolchain"
+      : hasGoWork
+        ? "go.work found — Go workspace monorepo"
+        : "No .go-version or go.work — consider pinning the Go toolchain version",
+    weight: 15,
+  });
+
   return findings;
 }
 
@@ -793,13 +810,18 @@ function analyzeDocumentationArchitecture(tree: RepoTree): Finding[] {
     weight: 20,
   });
 
-  // LICENSE present
+  // LICENSE present (COPYING for GPL projects, LICENCE for British spelling)
   const hasLicense =
     treeHasFile(tree, "LICENSE") ||
     treeHasFile(tree, "LICENSE.md") ||
     treeHasFile(tree, "LICENSE.txt") ||
     treeHasFile(tree, "license") ||
-    treeHasFile(tree, "license.md");
+    treeHasFile(tree, "license.md") ||
+    treeHasFile(tree, "LICENCE") ||
+    treeHasFile(tree, "LICENCE.md") ||
+    treeHasFile(tree, "COPYING") ||
+    treeHasFile(tree, "COPYING.md") ||
+    treeHasPattern(tree, /^licenses\//);
   findings.push({
     name: "License (LICENSE file)",
     passed: hasLicense,

@@ -37,11 +37,16 @@ export async function analyzeDocsDimension(
     weight: 30,
   });
 
-  // LICENSE
+  // LICENSE (many naming conventions: COPYING for GPL, LICENCE for British spelling, licenses/ directory)
   const hasLicense =
     treeHasFile(tree, "LICENSE") ||
     treeHasFile(tree, "LICENSE.md") ||
     treeHasFile(tree, "LICENSE.txt") ||
+    treeHasFile(tree, "LICENCE") ||
+    treeHasFile(tree, "LICENCE.md") ||
+    treeHasFile(tree, "COPYING") ||
+    treeHasFile(tree, "COPYING.md") ||
+    treeHasPattern(tree, /^licenses\//) ||
     meta.license !== null;
   findings.push({
     name: "LICENSE file",
@@ -66,7 +71,7 @@ export async function analyzeDocsDimension(
     weight: 15,
   });
 
-  // CHANGELOG (many naming conventions across ecosystems)
+  // CHANGELOG (many naming conventions across ecosystems; ansible uses changelogs/ directory)
   const hasChangelog =
     treeHasFile(tree, "CHANGELOG.md") ||
     treeHasFile(tree, "CHANGELOG.rst") ||
@@ -81,7 +86,8 @@ export async function analyzeDocsDimension(
     treeHasFile(tree, "NEWS.rst") ||
     treeHasFile(tree, "release-notes.md") ||
     treeHasPattern(tree, /^docs\/releases\//) ||
-    treeHasPattern(tree, /^docs\/changelog/i);
+    treeHasPattern(tree, /^docs\/changelog/i) ||
+    treeHasPattern(tree, /^changelogs\//);
   findings.push({
     name: "CHANGELOG",
     passed: hasChangelog,
