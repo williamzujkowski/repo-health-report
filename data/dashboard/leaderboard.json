@@ -1,0 +1,9004 @@
+{
+  "repos": [
+    {
+      "slug": "lobehub/lobehub",
+      "grade": "A",
+      "score": 98,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 74671,
+      "graded": true
+    },
+    {
+      "slug": "google-gemini/gemini-cli",
+      "grade": "A",
+      "score": 97,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 100039,
+      "graded": true
+    },
+    {
+      "slug": "paperless-ngx/paperless-ngx",
+      "grade": "A",
+      "score": 97,
+      "language": "Python",
+      "type": "application",
+      "stars": 37803,
+      "graded": true
+    },
+    {
+      "slug": "psf/black",
+      "grade": "A",
+      "score": 95,
+      "language": "Python",
+      "type": "application",
+      "stars": 41442,
+      "graded": true
+    },
+    {
+      "slug": "surrealdb/surrealdb",
+      "grade": "A",
+      "score": 95,
+      "language": "Rust",
+      "type": "application",
+      "stars": 31749,
+      "graded": true
+    },
+    {
+      "slug": "nicolargo/glances",
+      "grade": "A",
+      "score": 93,
+      "language": "Python",
+      "type": "application",
+      "stars": 32250,
+      "graded": true
+    },
+    {
+      "slug": "nuxt/nuxt",
+      "grade": "A",
+      "score": 93,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 59947,
+      "graded": true
+    },
+    {
+      "slug": "axios/axios",
+      "grade": "A",
+      "score": 92,
+      "language": "JavaScript",
+      "type": "library",
+      "stars": 109003,
+      "graded": true
+    },
+    {
+      "slug": "mitmproxy/mitmproxy",
+      "grade": "A",
+      "score": 92,
+      "language": "Python",
+      "type": "application",
+      "stars": 42934,
+      "graded": true
+    },
+    {
+      "slug": "nodejs/node",
+      "grade": "A",
+      "score": 92,
+      "language": "JavaScript",
+      "type": "runtime",
+      "stars": 116529,
+      "graded": true
+    },
+    {
+      "slug": "pytorch/pytorch",
+      "grade": "A",
+      "score": 92,
+      "language": "Python",
+      "type": "application",
+      "stars": 98760,
+      "graded": true
+    },
+    {
+      "slug": "unclecode/crawl4ai",
+      "grade": "A",
+      "score": 92,
+      "language": "Python",
+      "type": "application",
+      "stars": 63253,
+      "graded": true
+    },
+    {
+      "slug": "ClickHouse/ClickHouse",
+      "grade": "A",
+      "score": 91,
+      "language": "C++",
+      "type": "application",
+      "stars": 46673,
+      "graded": true
+    },
+    {
+      "slug": "getsentry/sentry",
+      "grade": "A",
+      "score": 91,
+      "language": "Python",
+      "type": "application",
+      "stars": 43492,
+      "graded": true
+    },
+    {
+      "slug": "grafana/grafana",
+      "grade": "A",
+      "score": 91,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 72940,
+      "graded": true
+    },
+    {
+      "slug": "jax-ml/jax",
+      "grade": "A",
+      "score": 91,
+      "language": "Python",
+      "type": "application",
+      "stars": 35289,
+      "graded": true
+    },
+    {
+      "slug": "openai/openai-python",
+      "grade": "A",
+      "score": 91,
+      "language": "Python",
+      "type": "application",
+      "stars": 30364,
+      "graded": true
+    },
+    {
+      "slug": "openclaw/openclaw",
+      "grade": "A",
+      "score": 91,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 346180,
+      "graded": true
+    },
+    {
+      "slug": "docling-project/docling",
+      "grade": "A",
+      "score": 90,
+      "language": "Python",
+      "type": "application",
+      "stars": 56946,
+      "graded": true
+    },
+    {
+      "slug": "gradio-app/gradio",
+      "grade": "A",
+      "score": 90,
+      "language": "Python",
+      "type": "application",
+      "stars": 42240,
+      "graded": true
+    },
+    {
+      "slug": "grpc/grpc",
+      "grade": "A",
+      "score": 90,
+      "language": "C++",
+      "type": "application",
+      "stars": 44583,
+      "graded": true
+    },
+    {
+      "slug": "huggingface/transformers",
+      "grade": "A",
+      "score": 90,
+      "language": "Python",
+      "type": "application",
+      "stars": 158710,
+      "graded": true
+    },
+    {
+      "slug": "langflow-ai/langflow",
+      "grade": "A",
+      "score": 90,
+      "language": "Python",
+      "type": "application",
+      "stars": 146517,
+      "graded": true
+    },
+    {
+      "slug": "mindsdb/mindsdb",
+      "grade": "A",
+      "score": 90,
+      "language": "Python",
+      "type": "application",
+      "stars": 38891,
+      "graded": true
+    },
+    {
+      "slug": "prometheus/prometheus",
+      "grade": "A",
+      "score": 90,
+      "language": "Go",
+      "type": "application",
+      "stars": 63363,
+      "graded": true
+    },
+    {
+      "slug": "psf/requests",
+      "grade": "A",
+      "score": 90,
+      "language": "Python",
+      "type": "application",
+      "stars": 53855,
+      "graded": true
+    },
+    {
+      "slug": "toeverything/AFFiNE",
+      "grade": "A",
+      "score": 90,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 66900,
+      "graded": true
+    },
+    {
+      "slug": "vllm-project/vllm",
+      "grade": "A",
+      "score": 90,
+      "language": "Python",
+      "type": "application",
+      "stars": 75051,
+      "graded": true
+    },
+    {
+      "slug": "babel/babel",
+      "grade": "B",
+      "score": 89,
+      "language": "TypeScript",
+      "type": "library",
+      "stars": 43901,
+      "graded": true
+    },
+    {
+      "slug": "chakra-ui/chakra-ui",
+      "grade": "B",
+      "score": 89,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 40329,
+      "graded": true
+    },
+    {
+      "slug": "docsifyjs/docsify",
+      "grade": "B",
+      "score": 89,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 31103,
+      "graded": true
+    },
+    {
+      "slug": "firecracker-microvm/firecracker",
+      "grade": "B",
+      "score": 89,
+      "language": "Rust",
+      "type": "application",
+      "stars": 33426,
+      "graded": true
+    },
+    {
+      "slug": "fish-shell/fish-shell",
+      "grade": "B",
+      "score": 89,
+      "language": "Rust",
+      "type": "application",
+      "stars": 33038,
+      "graded": true
+    },
+    {
+      "slug": "github/spec-kit",
+      "grade": "B",
+      "score": 89,
+      "language": "Python",
+      "type": "application",
+      "stars": 84831,
+      "graded": true
+    },
+    {
+      "slug": "mermaid-js/mermaid",
+      "grade": "B",
+      "score": 89,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 87077,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/graphrag",
+      "grade": "B",
+      "score": 89,
+      "language": "Python",
+      "type": "application",
+      "stars": 31956,
+      "graded": true
+    },
+    {
+      "slug": "prettier/prettier",
+      "grade": "B",
+      "score": 89,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 51740,
+      "graded": true
+    },
+    {
+      "slug": "yt-dlp/yt-dlp",
+      "grade": "B",
+      "score": 89,
+      "language": "Python",
+      "type": "application",
+      "stars": 154506,
+      "graded": true
+    },
+    {
+      "slug": "CherryHQ/cherry-studio",
+      "grade": "B",
+      "score": 88,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 42812,
+      "graded": true
+    },
+    {
+      "slug": "containers/podman",
+      "grade": "B",
+      "score": 88,
+      "language": "Go",
+      "type": "application",
+      "stars": 31210,
+      "graded": true
+    },
+    {
+      "slug": "ggml-org/llama.cpp",
+      "grade": "B",
+      "score": 88,
+      "language": "C++",
+      "type": "application",
+      "stars": 100873,
+      "graded": true
+    },
+    {
+      "slug": "go-gitea/gitea",
+      "grade": "B",
+      "score": 88,
+      "language": "Go",
+      "type": "application",
+      "stars": 54698,
+      "graded": true
+    },
+    {
+      "slug": "jestjs/jest",
+      "grade": "B",
+      "score": 88,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 45336,
+      "graded": true
+    },
+    {
+      "slug": "kubernetes/minikube",
+      "grade": "B",
+      "score": 88,
+      "language": "Go",
+      "type": "application",
+      "stars": 31653,
+      "graded": true
+    },
+    {
+      "slug": "mui/material-ui",
+      "grade": "B",
+      "score": 88,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 98011,
+      "graded": true
+    },
+    {
+      "slug": "traefik/traefik",
+      "grade": "B",
+      "score": 88,
+      "language": "Go",
+      "type": "application",
+      "stars": 62446,
+      "graded": true
+    },
+    {
+      "slug": "ueberdosis/tiptap",
+      "grade": "B",
+      "score": 88,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 36020,
+      "graded": true
+    },
+    {
+      "slug": "BerriAI/litellm",
+      "grade": "B",
+      "score": 87,
+      "language": "Python",
+      "type": "application",
+      "stars": 41988,
+      "graded": true
+    },
+    {
+      "slug": "HKUDS/LightRAG",
+      "grade": "B",
+      "score": 87,
+      "language": "Python",
+      "type": "application",
+      "stars": 31629,
+      "graded": true
+    },
+    {
+      "slug": "dragonflydb/dragonfly",
+      "grade": "B",
+      "score": 87,
+      "language": "C++",
+      "type": "application",
+      "stars": 30289,
+      "graded": true
+    },
+    {
+      "slug": "etcd-io/etcd",
+      "grade": "B",
+      "score": 87,
+      "language": "Go",
+      "type": "application",
+      "stars": 51675,
+      "graded": true
+    },
+    {
+      "slug": "gatsbyjs/gatsby",
+      "grade": "B",
+      "score": 87,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 55951,
+      "graded": true
+    },
+    {
+      "slug": "louislam/uptime-kuma",
+      "grade": "B",
+      "score": 87,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 84786,
+      "graded": true
+    },
+    {
+      "slug": "refinedev/refine",
+      "grade": "B",
+      "score": 87,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 34410,
+      "graded": true
+    },
+    {
+      "slug": "ant-design/ant-design",
+      "grade": "B",
+      "score": 86,
+      "language": "TypeScript",
+      "type": "library",
+      "stars": 97766,
+      "graded": true
+    },
+    {
+      "slug": "astral-sh/ruff",
+      "grade": "B",
+      "score": 86,
+      "language": "Rust",
+      "type": "application",
+      "stars": 46817,
+      "graded": true
+    },
+    {
+      "slug": "curl/curl",
+      "grade": "B",
+      "score": 86,
+      "language": "C",
+      "type": "application",
+      "stars": 41181,
+      "graded": true
+    },
+    {
+      "slug": "mastodon/mastodon",
+      "grade": "B",
+      "score": 86,
+      "language": "Ruby",
+      "type": "library",
+      "stars": 49801,
+      "graded": true
+    },
+    {
+      "slug": "moeru-ai/airi",
+      "grade": "B",
+      "score": 86,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 36955,
+      "graded": true
+    },
+    {
+      "slug": "mozilla/pdf.js",
+      "grade": "B",
+      "score": 86,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 53067,
+      "graded": true
+    },
+    {
+      "slug": "pingcap/tidb",
+      "grade": "B",
+      "score": 86,
+      "language": "Go",
+      "type": "application",
+      "stars": 39905,
+      "graded": true
+    },
+    {
+      "slug": "puppeteer/puppeteer",
+      "grade": "B",
+      "score": 86,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 94012,
+      "graded": true
+    },
+    {
+      "slug": "roboflow/supervision",
+      "grade": "B",
+      "score": 86,
+      "language": "Python",
+      "type": "application",
+      "stars": 37459,
+      "graded": true
+    },
+    {
+      "slug": "run-llama/llama_index",
+      "grade": "B",
+      "score": 86,
+      "language": "Python",
+      "type": "application",
+      "stars": 48247,
+      "graded": true
+    },
+    {
+      "slug": "trailofbits/algo",
+      "grade": "B",
+      "score": 86,
+      "language": "Python",
+      "type": "application",
+      "stars": 30326,
+      "graded": true
+    },
+    {
+      "slug": "withastro/astro",
+      "grade": "B",
+      "score": 86,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 58083,
+      "graded": true
+    },
+    {
+      "slug": "FuelLabs/fuels-ts",
+      "grade": "B",
+      "score": 85,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 43276,
+      "graded": true
+    },
+    {
+      "slug": "ManimCommunity/manim",
+      "grade": "B",
+      "score": 85,
+      "language": "Python",
+      "type": "application",
+      "stars": 37527,
+      "graded": true
+    },
+    {
+      "slug": "apache/airflow",
+      "grade": "B",
+      "score": 85,
+      "language": "Python",
+      "type": "hybrid",
+      "stars": 44865,
+      "graded": true
+    },
+    {
+      "slug": "astral-sh/uv",
+      "grade": "B",
+      "score": 85,
+      "language": "Rust",
+      "type": "application",
+      "stars": 82524,
+      "graded": true
+    },
+    {
+      "slug": "bevyengine/bevy",
+      "grade": "B",
+      "score": 85,
+      "language": "Rust",
+      "type": "application",
+      "stars": 45402,
+      "graded": true
+    },
+    {
+      "slug": "browser-use/browser-use",
+      "grade": "B",
+      "score": 85,
+      "language": "Python",
+      "type": "application",
+      "stars": 85741,
+      "graded": true
+    },
+    {
+      "slug": "cypress-io/cypress",
+      "grade": "B",
+      "score": 85,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 49609,
+      "graded": true
+    },
+    {
+      "slug": "freqtrade/freqtrade",
+      "grade": "B",
+      "score": 85,
+      "language": "Python",
+      "type": "application",
+      "stars": 48278,
+      "graded": true
+    },
+    {
+      "slug": "home-assistant/core",
+      "grade": "B",
+      "score": 85,
+      "language": "Python",
+      "type": "application",
+      "stars": 85954,
+      "graded": true
+    },
+    {
+      "slug": "huggingface/diffusers",
+      "grade": "B",
+      "score": 85,
+      "language": "Python",
+      "type": "application",
+      "stars": 33245,
+      "graded": true
+    },
+    {
+      "slug": "infiniflow/ragflow",
+      "grade": "B",
+      "score": 85,
+      "language": "Python",
+      "type": "application",
+      "stars": 76960,
+      "graded": true
+    },
+    {
+      "slug": "juanfont/headscale",
+      "grade": "B",
+      "score": 85,
+      "language": "Go",
+      "type": "application",
+      "stars": 37057,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/qlib",
+      "grade": "B",
+      "score": 85,
+      "language": "Python",
+      "type": "application",
+      "stars": 40074,
+      "graded": true
+    },
+    {
+      "slug": "moby/moby",
+      "grade": "B",
+      "score": 85,
+      "language": "Go",
+      "type": "application",
+      "stars": 71557,
+      "graded": true
+    },
+    {
+      "slug": "nextcloud/server",
+      "grade": "B",
+      "score": 85,
+      "language": "PHP",
+      "type": "library",
+      "stars": 34514,
+      "graded": true
+    },
+    {
+      "slug": "payloadcms/payload",
+      "grade": "B",
+      "score": 85,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 41598,
+      "graded": true
+    },
+    {
+      "slug": "python-poetry/poetry",
+      "grade": "B",
+      "score": 85,
+      "language": "Python",
+      "type": "application",
+      "stars": 34265,
+      "graded": true
+    },
+    {
+      "slug": "stanfordnlp/dspy",
+      "grade": "B",
+      "score": 85,
+      "language": "Python",
+      "type": "application",
+      "stars": 33402,
+      "graded": true
+    },
+    {
+      "slug": "transloadit/uppy",
+      "grade": "B",
+      "score": 85,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 30702,
+      "graded": true
+    },
+    {
+      "slug": "typeorm/typeorm",
+      "grade": "B",
+      "score": 85,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 36420,
+      "graded": true
+    },
+    {
+      "slug": "upstash/context7",
+      "grade": "B",
+      "score": 85,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 51475,
+      "graded": true
+    },
+    {
+      "slug": "vuejs/core",
+      "grade": "B",
+      "score": 85,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 53366,
+      "graded": true
+    },
+    {
+      "slug": "webpack/webpack",
+      "grade": "B",
+      "score": 85,
+      "language": "JavaScript",
+      "type": "library",
+      "stars": 65949,
+      "graded": true
+    },
+    {
+      "slug": "ChromeDevTools/chrome-devtools-mcp",
+      "grade": "B",
+      "score": 84,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 32957,
+      "graded": true
+    },
+    {
+      "slug": "LizardByte/Sunshine",
+      "grade": "B",
+      "score": 84,
+      "language": "C++",
+      "type": "application",
+      "stars": 35728,
+      "graded": true
+    },
+    {
+      "slug": "OpenHands/OpenHands",
+      "grade": "B",
+      "score": 84,
+      "language": "Python",
+      "type": "application",
+      "stars": 70470,
+      "graded": true
+    },
+    {
+      "slug": "block/goose",
+      "grade": "B",
+      "score": 84,
+      "language": "Rust",
+      "type": "application",
+      "stars": 34045,
+      "graded": true
+    },
+    {
+      "slug": "calcom/cal.com",
+      "grade": "B",
+      "score": 84,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 40945,
+      "graded": true
+    },
+    {
+      "slug": "continuedev/continue",
+      "grade": "B",
+      "score": 84,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 32255,
+      "graded": true
+    },
+    {
+      "slug": "dani-garcia/vaultwarden",
+      "grade": "B",
+      "score": 84,
+      "language": "Rust",
+      "type": "application",
+      "stars": 57819,
+      "graded": true
+    },
+    {
+      "slug": "docker/compose",
+      "grade": "B",
+      "score": 84,
+      "language": "Go",
+      "type": "application",
+      "stars": 37211,
+      "graded": true
+    },
+    {
+      "slug": "fabricjs/fabric.js",
+      "grade": "B",
+      "score": 84,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 31052,
+      "graded": true
+    },
+    {
+      "slug": "gogs/gogs",
+      "grade": "B",
+      "score": 84,
+      "language": "Go",
+      "type": "application",
+      "stars": 47590,
+      "graded": true
+    },
+    {
+      "slug": "scikit-learn/scikit-learn",
+      "grade": "B",
+      "score": 84,
+      "language": "Python",
+      "type": "application",
+      "stars": 65601,
+      "graded": true
+    },
+    {
+      "slug": "starship/starship",
+      "grade": "B",
+      "score": 84,
+      "language": "Rust",
+      "type": "application",
+      "stars": 55740,
+      "graded": true
+    },
+    {
+      "slug": "streamlit/streamlit",
+      "grade": "B",
+      "score": 84,
+      "language": "Python",
+      "type": "library",
+      "stars": 44097,
+      "graded": true
+    },
+    {
+      "slug": "trpc/trpc",
+      "grade": "B",
+      "score": 84,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 39880,
+      "graded": true
+    },
+    {
+      "slug": "GyulyVGC/sniffnet",
+      "grade": "B",
+      "score": 83,
+      "language": "Rust",
+      "type": "application",
+      "stars": 33148,
+      "graded": true
+    },
+    {
+      "slug": "Kong/insomnia",
+      "grade": "B",
+      "score": 83,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 38247,
+      "graded": true
+    },
+    {
+      "slug": "Lightning-AI/pytorch-lightning",
+      "grade": "B",
+      "score": 83,
+      "language": "Python",
+      "type": "application",
+      "stars": 30985,
+      "graded": true
+    },
+    {
+      "slug": "PaddlePaddle/PaddleOCR",
+      "grade": "B",
+      "score": 83,
+      "language": "Python",
+      "type": "application",
+      "stars": 74751,
+      "graded": true
+    },
+    {
+      "slug": "ReactiveX/RxJava",
+      "grade": "B",
+      "score": 83,
+      "language": "Java",
+      "type": "application",
+      "stars": 48435,
+      "graded": true
+    },
+    {
+      "slug": "RocketChat/Rocket.Chat",
+      "grade": "B",
+      "score": 83,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 45076,
+      "graded": true
+    },
+    {
+      "slug": "deepspeedai/DeepSpeed",
+      "grade": "B",
+      "score": 83,
+      "language": "Python",
+      "type": "application",
+      "stars": 41972,
+      "graded": true
+    },
+    {
+      "slug": "frappe/erpnext",
+      "grade": "B",
+      "score": 83,
+      "language": "Python",
+      "type": "application",
+      "stars": 32633,
+      "graded": true
+    },
+    {
+      "slug": "gchq/CyberChef",
+      "grade": "B",
+      "score": 83,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 34474,
+      "graded": true
+    },
+    {
+      "slug": "immutable-js/immutable-js",
+      "grade": "B",
+      "score": 83,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 33086,
+      "graded": true
+    },
+    {
+      "slug": "k3s-io/k3s",
+      "grade": "B",
+      "score": 83,
+      "language": "Go",
+      "type": "hybrid",
+      "stars": 32643,
+      "graded": true
+    },
+    {
+      "slug": "koala73/worldmonitor",
+      "grade": "B",
+      "score": 83,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 46082,
+      "graded": true
+    },
+    {
+      "slug": "markedjs/marked",
+      "grade": "B",
+      "score": 83,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 36752,
+      "graded": true
+    },
+    {
+      "slug": "novuhq/novu",
+      "grade": "B",
+      "score": 83,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 38757,
+      "graded": true
+    },
+    {
+      "slug": "open-webui/open-webui",
+      "grade": "B",
+      "score": 83,
+      "language": "Python",
+      "type": "application",
+      "stars": 129734,
+      "graded": true
+    },
+    {
+      "slug": "ossu/computer-science",
+      "grade": "N/A",
+      "score": 83,
+      "language": "HTML",
+      "type": "documentation",
+      "stars": 202887,
+      "graded": false
+    },
+    {
+      "slug": "pandas-dev/pandas",
+      "grade": "B",
+      "score": 83,
+      "language": "Python",
+      "type": "application",
+      "stars": 48333,
+      "graded": true
+    },
+    {
+      "slug": "scrapy/scrapy",
+      "grade": "B",
+      "score": 83,
+      "language": "Python",
+      "type": "application",
+      "stars": 61062,
+      "graded": true
+    },
+    {
+      "slug": "tw93/Mole",
+      "grade": "B",
+      "score": 83,
+      "language": "Shell",
+      "type": "library",
+      "stars": 45182,
+      "graded": true
+    },
+    {
+      "slug": "AdguardTeam/AdGuardHome",
+      "grade": "B",
+      "score": 82,
+      "language": "Go",
+      "type": "application",
+      "stars": 33360,
+      "graded": true
+    },
+    {
+      "slug": "D4Vinci/Scrapling",
+      "grade": "B",
+      "score": 82,
+      "language": "Python",
+      "type": "application",
+      "stars": 34468,
+      "graded": true
+    },
+    {
+      "slug": "affaan-m/everything-claude-code",
+      "grade": "B",
+      "score": 82,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 133864,
+      "graded": true
+    },
+    {
+      "slug": "anomalyco/opencode",
+      "grade": "B",
+      "score": 82,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 135912,
+      "graded": true
+    },
+    {
+      "slug": "ccxt/ccxt",
+      "grade": "B",
+      "score": 82,
+      "language": "Python",
+      "type": "application",
+      "stars": 41626,
+      "graded": true
+    },
+    {
+      "slug": "certbot/certbot",
+      "grade": "B",
+      "score": 82,
+      "language": "Python",
+      "type": "application",
+      "stars": 32959,
+      "graded": true
+    },
+    {
+      "slug": "explosion/spaCy",
+      "grade": "B",
+      "score": 82,
+      "language": "Python",
+      "type": "application",
+      "stars": 33410,
+      "graded": true
+    },
+    {
+      "slug": "facebook/react",
+      "grade": "B",
+      "score": 82,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 244350,
+      "graded": true
+    },
+    {
+      "slug": "hoppscotch/hoppscotch",
+      "grade": "B",
+      "score": 82,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 78768,
+      "graded": true
+    },
+    {
+      "slug": "jquery/jquery",
+      "grade": "B",
+      "score": 82,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 59859,
+      "graded": true
+    },
+    {
+      "slug": "mem0ai/mem0",
+      "grade": "B",
+      "score": 82,
+      "language": "Python",
+      "type": "application",
+      "stars": 51816,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/playwright",
+      "grade": "B",
+      "score": 82,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 85500,
+      "graded": true
+    },
+    {
+      "slug": "nushell/nushell",
+      "grade": "B",
+      "score": 82,
+      "language": "Rust",
+      "type": "application",
+      "stars": 38891,
+      "graded": true
+    },
+    {
+      "slug": "ocrmypdf/OCRmyPDF",
+      "grade": "B",
+      "score": 82,
+      "language": "Python",
+      "type": "application",
+      "stars": 33100,
+      "graded": true
+    },
+    {
+      "slug": "pathwaycom/pathway",
+      "grade": "B",
+      "score": 82,
+      "language": "Python",
+      "type": "application",
+      "stars": 63320,
+      "graded": true
+    },
+    {
+      "slug": "ray-project/ray",
+      "grade": "B",
+      "score": 82,
+      "language": "Python",
+      "type": "application",
+      "stars": 41927,
+      "graded": true
+    },
+    {
+      "slug": "rust-unofficial/awesome-rust",
+      "grade": "N/A",
+      "score": 82,
+      "language": "Rust",
+      "type": "documentation",
+      "stars": 56516,
+      "graded": false
+    },
+    {
+      "slug": "servo/servo",
+      "grade": "B",
+      "score": 82,
+      "language": "Rust",
+      "type": "application",
+      "stars": 36165,
+      "graded": true
+    },
+    {
+      "slug": "sharkdp/fd",
+      "grade": "B",
+      "score": 82,
+      "language": "Rust",
+      "type": "application",
+      "stars": 42295,
+      "graded": true
+    },
+    {
+      "slug": "spacedriveapp/spacedrive",
+      "grade": "B",
+      "score": 82,
+      "language": "Rust",
+      "type": "application",
+      "stars": 37615,
+      "graded": true
+    },
+    {
+      "slug": "syncthing/syncthing",
+      "grade": "B",
+      "score": 82,
+      "language": "Go",
+      "type": "library",
+      "stars": 81357,
+      "graded": true
+    },
+    {
+      "slug": "tqdm/tqdm",
+      "grade": "B",
+      "score": 82,
+      "language": "Python",
+      "type": "application",
+      "stars": 31084,
+      "graded": true
+    },
+    {
+      "slug": "ultralytics/ultralytics",
+      "grade": "B",
+      "score": 82,
+      "language": "Python",
+      "type": "application",
+      "stars": 55359,
+      "graded": true
+    },
+    {
+      "slug": "zellij-org/zellij",
+      "grade": "B",
+      "score": 82,
+      "language": "Rust",
+      "type": "application",
+      "stars": 30968,
+      "graded": true
+    },
+    {
+      "slug": "DIYgod/RSSHub",
+      "grade": "B",
+      "score": 81,
+      "language": "TypeScript",
+      "type": "library",
+      "stars": 43186,
+      "graded": true
+    },
+    {
+      "slug": "TriliumNext/Trilium",
+      "grade": "B",
+      "score": 81,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 35282,
+      "graded": true
+    },
+    {
+      "slug": "ansible/ansible",
+      "grade": "B",
+      "score": 81,
+      "language": "Python",
+      "type": "library",
+      "stars": 68396,
+      "graded": true
+    },
+    {
+      "slug": "backstage/backstage",
+      "grade": "B",
+      "score": 81,
+      "language": "TypeScript",
+      "type": "hybrid",
+      "stars": 33000,
+      "graded": true
+    },
+    {
+      "slug": "crewAIInc/crewAI",
+      "grade": "B",
+      "score": 81,
+      "language": "Python",
+      "type": "library",
+      "stars": 47881,
+      "graded": true
+    },
+    {
+      "slug": "daytonaio/daytona",
+      "grade": "B",
+      "score": 81,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 71137,
+      "graded": true
+    },
+    {
+      "slug": "fastapi/fastapi",
+      "grade": "B",
+      "score": 81,
+      "language": "Python",
+      "type": "application",
+      "stars": 96787,
+      "graded": true
+    },
+    {
+      "slug": "filebrowser/filebrowser",
+      "grade": "B",
+      "score": 81,
+      "language": "Go",
+      "type": "application",
+      "stars": 34142,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/TypeScript",
+      "grade": "B",
+      "score": 81,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 108385,
+      "graded": true
+    },
+    {
+      "slug": "nektos/act",
+      "grade": "B",
+      "score": 81,
+      "language": "Go",
+      "type": "application",
+      "stars": 69690,
+      "graded": true
+    },
+    {
+      "slug": "ollama/ollama",
+      "grade": "B",
+      "score": 81,
+      "language": "Go",
+      "type": "application",
+      "stars": 166864,
+      "graded": true
+    },
+    {
+      "slug": "sequelize/sequelize",
+      "grade": "B",
+      "score": 81,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 30351,
+      "graded": true
+    },
+    {
+      "slug": "shadcn-ui/ui",
+      "grade": "B",
+      "score": 81,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 111362,
+      "graded": true
+    },
+    {
+      "slug": "vercel/swr",
+      "grade": "B",
+      "score": 81,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 32350,
+      "graded": true
+    },
+    {
+      "slug": "PostHog/posthog",
+      "grade": "B",
+      "score": 80,
+      "language": "Python",
+      "type": "hybrid",
+      "stars": 32352,
+      "graded": true
+    },
+    {
+      "slug": "RSSNext/Folo",
+      "grade": "B",
+      "score": 80,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 37914,
+      "graded": true
+    },
+    {
+      "slug": "Textualize/rich",
+      "grade": "B",
+      "score": 80,
+      "language": "Python",
+      "type": "application",
+      "stars": 55952,
+      "graded": true
+    },
+    {
+      "slug": "angular/angular",
+      "grade": "B",
+      "score": 80,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 100102,
+      "graded": true
+    },
+    {
+      "slug": "apache/superset",
+      "grade": "B",
+      "score": 80,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 72192,
+      "graded": true
+    },
+    {
+      "slug": "cline/cline",
+      "grade": "B",
+      "score": 80,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 59818,
+      "graded": true
+    },
+    {
+      "slug": "farion1231/cc-switch",
+      "grade": "B",
+      "score": 80,
+      "language": "Rust",
+      "type": "application",
+      "stars": 37992,
+      "graded": true
+    },
+    {
+      "slug": "grafana/k6",
+      "grade": "B",
+      "score": 80,
+      "language": "Go",
+      "type": "library",
+      "stars": 30265,
+      "graded": true
+    },
+    {
+      "slug": "hiyouga/LlamaFactory",
+      "grade": "B",
+      "score": 80,
+      "language": "Python",
+      "type": "application",
+      "stars": 69417,
+      "graded": true
+    },
+    {
+      "slug": "ionic-team/ionic-framework",
+      "grade": "B",
+      "score": 80,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 52433,
+      "graded": true
+    },
+    {
+      "slug": "jesseduffield/lazygit",
+      "grade": "B",
+      "score": 80,
+      "language": "Go",
+      "type": "application",
+      "stars": 75502,
+      "graded": true
+    },
+    {
+      "slug": "medusajs/medusa",
+      "grade": "B",
+      "score": 80,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 32509,
+      "graded": true
+    },
+    {
+      "slug": "meilisearch/meilisearch",
+      "grade": "B",
+      "score": 80,
+      "language": "Rust",
+      "type": "application",
+      "stars": 56924,
+      "graded": true
+    },
+    {
+      "slug": "mingrammer/diagrams",
+      "grade": "B",
+      "score": 80,
+      "language": "Python",
+      "type": "application",
+      "stars": 42140,
+      "graded": true
+    },
+    {
+      "slug": "n8n-io/n8n",
+      "grade": "B",
+      "score": 80,
+      "language": "TypeScript",
+      "type": "hybrid",
+      "stars": 182237,
+      "graded": true
+    },
+    {
+      "slug": "numpy/numpy",
+      "grade": "B",
+      "score": 80,
+      "language": "Python",
+      "type": "application",
+      "stars": 31712,
+      "graded": true
+    },
+    {
+      "slug": "pixijs/pixijs",
+      "grade": "B",
+      "score": 80,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 46844,
+      "graded": true
+    },
+    {
+      "slug": "supabase/supabase",
+      "grade": "B",
+      "score": 80,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 100115,
+      "graded": true
+    },
+    {
+      "slug": "typst/typst",
+      "grade": "B",
+      "score": 80,
+      "language": "Rust",
+      "type": "application",
+      "stars": 52410,
+      "graded": true
+    },
+    {
+      "slug": "vuejs/awesome-vue",
+      "grade": "N/A",
+      "score": 80,
+      "language": null,
+      "type": "documentation",
+      "stars": 73615,
+      "graded": false
+    },
+    {
+      "slug": "zed-industries/zed",
+      "grade": "B",
+      "score": 80,
+      "language": "Rust",
+      "type": "application",
+      "stars": 78362,
+      "graded": true
+    },
+    {
+      "slug": "LadybirdBrowser/ladybird",
+      "grade": "C",
+      "score": 79,
+      "language": "C++",
+      "type": "application",
+      "stars": 62027,
+      "graded": true
+    },
+    {
+      "slug": "Textualize/textual",
+      "grade": "C",
+      "score": 79,
+      "language": "Python",
+      "type": "application",
+      "stars": 35197,
+      "graded": true
+    },
+    {
+      "slug": "apache/dubbo",
+      "grade": "C",
+      "score": 79,
+      "language": "Java",
+      "type": "application",
+      "stars": 41686,
+      "graded": true
+    },
+    {
+      "slug": "aquasecurity/trivy",
+      "grade": "C",
+      "score": 79,
+      "language": "Go",
+      "type": "hybrid",
+      "stars": 34312,
+      "graded": true
+    },
+    {
+      "slug": "commaai/openpilot",
+      "grade": "C",
+      "score": 79,
+      "language": "Python",
+      "type": "application",
+      "stars": 60508,
+      "graded": true
+    },
+    {
+      "slug": "django/django",
+      "grade": "C",
+      "score": 79,
+      "language": "Python",
+      "type": "application",
+      "stars": 87150,
+      "graded": true
+    },
+    {
+      "slug": "gofiber/fiber",
+      "grade": "C",
+      "score": 79,
+      "language": "Go",
+      "type": "application",
+      "stars": 39506,
+      "graded": true
+    },
+    {
+      "slug": "hashicorp/terraform",
+      "grade": "C",
+      "score": 79,
+      "language": "Go",
+      "type": "hybrid",
+      "stars": 48011,
+      "graded": true
+    },
+    {
+      "slug": "lapce/lapce",
+      "grade": "C",
+      "score": 79,
+      "language": "Rust",
+      "type": "application",
+      "stars": 38199,
+      "graded": true
+    },
+    {
+      "slug": "layui/layui",
+      "grade": "C",
+      "score": 79,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 30540,
+      "graded": true
+    },
+    {
+      "slug": "milvus-io/milvus",
+      "grade": "C",
+      "score": 79,
+      "language": "Go",
+      "type": "application",
+      "stars": 43584,
+      "graded": true
+    },
+    {
+      "slug": "nvm-sh/nvm",
+      "grade": "C",
+      "score": 79,
+      "language": "Shell",
+      "type": "application",
+      "stars": 92692,
+      "graded": true
+    },
+    {
+      "slug": "pola-rs/polars",
+      "grade": "C",
+      "score": 79,
+      "language": "Rust",
+      "type": "application",
+      "stars": 37967,
+      "graded": true
+    },
+    {
+      "slug": "prisma/prisma",
+      "grade": "C",
+      "score": 79,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 45647,
+      "graded": true
+    },
+    {
+      "slug": "protocolbuffers/protobuf",
+      "grade": "C",
+      "score": 79,
+      "language": "C++",
+      "type": "application",
+      "stars": 71032,
+      "graded": true
+    },
+    {
+      "slug": "qbittorrent/qBittorrent",
+      "grade": "C",
+      "score": 79,
+      "language": "C++",
+      "type": "application",
+      "stars": 36302,
+      "graded": true
+    },
+    {
+      "slug": "streamich/react-use",
+      "grade": "C",
+      "score": 79,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 43965,
+      "graded": true
+    },
+    {
+      "slug": "tldraw/tldraw",
+      "grade": "C",
+      "score": 79,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 46167,
+      "graded": true
+    },
+    {
+      "slug": "unionlabs/union",
+      "grade": "C",
+      "score": 79,
+      "language": "Rust",
+      "type": "library",
+      "stars": 74178,
+      "graded": true
+    },
+    {
+      "slug": "usememos/memos",
+      "grade": "C",
+      "score": 79,
+      "language": "Go",
+      "type": "application",
+      "stars": 58502,
+      "graded": true
+    },
+    {
+      "slug": "ColorlibHQ/AdminLTE",
+      "grade": "C",
+      "score": 78,
+      "language": "CSS",
+      "type": "application",
+      "stars": 45336,
+      "graded": true
+    },
+    {
+      "slug": "Comfy-Org/ComfyUI",
+      "grade": "C",
+      "score": 78,
+      "language": "Python",
+      "type": "application",
+      "stars": 107618,
+      "graded": true
+    },
+    {
+      "slug": "FuelLabs/fuel-core",
+      "grade": "C",
+      "score": 78,
+      "language": "Rust",
+      "type": "application",
+      "stars": 57219,
+      "graded": true
+    },
+    {
+      "slug": "HKUDS/nanobot",
+      "grade": "C",
+      "score": 78,
+      "language": "Python",
+      "type": "application",
+      "stars": 37701,
+      "graded": true
+    },
+    {
+      "slug": "TanStack/query",
+      "grade": "C",
+      "score": 78,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 48996,
+      "graded": true
+    },
+    {
+      "slug": "TheAlgorithms/Python",
+      "grade": "C",
+      "score": 78,
+      "language": "Python",
+      "type": "application",
+      "stars": 219235,
+      "graded": true
+    },
+    {
+      "slug": "carbon-language/carbon-lang",
+      "grade": "C",
+      "score": 78,
+      "language": "C++",
+      "type": "application",
+      "stars": 33662,
+      "graded": true
+    },
+    {
+      "slug": "clash-verge-rev/clash-verge-rev",
+      "grade": "C",
+      "score": 78,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 107285,
+      "graded": true
+    },
+    {
+      "slug": "cli/cli",
+      "grade": "C",
+      "score": 78,
+      "language": "Go",
+      "type": "application",
+      "stars": 43531,
+      "graded": true
+    },
+    {
+      "slug": "denoland/deno",
+      "grade": "C",
+      "score": 78,
+      "language": "Rust",
+      "type": "runtime",
+      "stars": 106454,
+      "graded": true
+    },
+    {
+      "slug": "duckdb/duckdb",
+      "grade": "C",
+      "score": 78,
+      "language": "C++",
+      "type": "application",
+      "stars": 37148,
+      "graded": true
+    },
+    {
+      "slug": "facebook/docusaurus",
+      "grade": "C",
+      "score": 78,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 64358,
+      "graded": true
+    },
+    {
+      "slug": "gin-gonic/gin",
+      "grade": "C",
+      "score": 78,
+      "language": "Go",
+      "type": "application",
+      "stars": 88315,
+      "graded": true
+    },
+    {
+      "slug": "keras-team/keras",
+      "grade": "C",
+      "score": 78,
+      "language": "Python",
+      "type": "application",
+      "stars": 63928,
+      "graded": true
+    },
+    {
+      "slug": "linera-io/linera-protocol",
+      "grade": "C",
+      "score": 78,
+      "language": "Rust",
+      "type": "application",
+      "stars": 32149,
+      "graded": true
+    },
+    {
+      "slug": "mudler/LocalAI",
+      "grade": "C",
+      "score": 78,
+      "language": "Go",
+      "type": "application",
+      "stars": 44792,
+      "graded": true
+    },
+    {
+      "slug": "netdata/netdata",
+      "grade": "C",
+      "score": 78,
+      "language": "C",
+      "type": "application",
+      "stars": 78301,
+      "graded": true
+    },
+    {
+      "slug": "opencv/opencv",
+      "grade": "C",
+      "score": 78,
+      "language": "C++",
+      "type": "application",
+      "stars": 86889,
+      "graded": true
+    },
+    {
+      "slug": "oven-sh/bun",
+      "grade": "C",
+      "score": 78,
+      "language": "Zig",
+      "type": "application",
+      "stars": 88701,
+      "graded": true
+    },
+    {
+      "slug": "photoprism/photoprism",
+      "grade": "C",
+      "score": 78,
+      "language": "Go",
+      "type": "application",
+      "stars": 39474,
+      "graded": true
+    },
+    {
+      "slug": "pyenv/pyenv",
+      "grade": "C",
+      "score": 78,
+      "language": "Shell",
+      "type": "application",
+      "stars": 44534,
+      "graded": true
+    },
+    {
+      "slug": "vbenjs/vue-vben-admin",
+      "grade": "C",
+      "score": 78,
+      "language": "Vue",
+      "type": "application",
+      "stars": 31974,
+      "graded": true
+    },
+    {
+      "slug": "vinta/awesome-python",
+      "grade": "N/A",
+      "score": 78,
+      "language": "Python",
+      "type": "documentation",
+      "stars": 290359,
+      "graded": false
+    },
+    {
+      "slug": "HeyPuter/puter",
+      "grade": "C",
+      "score": 77,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 40138,
+      "graded": true
+    },
+    {
+      "slug": "Stirling-Tools/Stirling-PDF",
+      "grade": "C",
+      "score": 77,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 76112,
+      "graded": true
+    },
+    {
+      "slug": "coder/code-server",
+      "grade": "C",
+      "score": 77,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 76952,
+      "graded": true
+    },
+    {
+      "slug": "ethereum/go-ethereum",
+      "grade": "C",
+      "score": 77,
+      "language": "Go",
+      "type": "application",
+      "stars": 50964,
+      "graded": true
+    },
+    {
+      "slug": "hashicorp/vault",
+      "grade": "C",
+      "score": 77,
+      "language": "Go",
+      "type": "hybrid",
+      "stars": 35334,
+      "graded": true
+    },
+    {
+      "slug": "localstack/localstack",
+      "grade": "C",
+      "score": 77,
+      "language": "Python",
+      "type": "hybrid",
+      "stars": 64837,
+      "graded": true
+    },
+    {
+      "slug": "mattermost/mattermost",
+      "grade": "C",
+      "score": 77,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 36049,
+      "graded": true
+    },
+    {
+      "slug": "mrdoob/three.js",
+      "grade": "C",
+      "score": 77,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 111732,
+      "graded": true
+    },
+    {
+      "slug": "openai/gym",
+      "grade": "C",
+      "score": 77,
+      "language": "Python",
+      "type": "application",
+      "stars": 37128,
+      "graded": true
+    },
+    {
+      "slug": "opendatalab/MinerU",
+      "grade": "C",
+      "score": 77,
+      "language": "Python",
+      "type": "application",
+      "stars": 57922,
+      "graded": true
+    },
+    {
+      "slug": "pallets/flask",
+      "grade": "C",
+      "score": 77,
+      "language": "Python",
+      "type": "application",
+      "stars": 71362,
+      "graded": true
+    },
+    {
+      "slug": "redis/redis",
+      "grade": "C",
+      "score": 77,
+      "language": "C",
+      "type": "application",
+      "stars": 73636,
+      "graded": true
+    },
+    {
+      "slug": "remix-run/react-router",
+      "grade": "C",
+      "score": 77,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 56331,
+      "graded": true
+    },
+    {
+      "slug": "serverless/serverless",
+      "grade": "C",
+      "score": 77,
+      "language": "JavaScript",
+      "type": "hybrid",
+      "stars": 46931,
+      "graded": true
+    },
+    {
+      "slug": "slidevjs/slidev",
+      "grade": "C",
+      "score": 77,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 45395,
+      "graded": true
+    },
+    {
+      "slug": "vercel/next.js",
+      "grade": "C",
+      "score": 77,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 138587,
+      "graded": true
+    },
+    {
+      "slug": "vitejs/vite",
+      "grade": "C",
+      "score": 77,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 79522,
+      "graded": true
+    },
+    {
+      "slug": "vlang/v",
+      "grade": "C",
+      "score": 77,
+      "language": "V",
+      "type": "application",
+      "stars": 37455,
+      "graded": true
+    },
+    {
+      "slug": "vnpy/vnpy",
+      "grade": "C",
+      "score": 77,
+      "language": "Python",
+      "type": "application",
+      "stars": 38763,
+      "graded": true
+    },
+    {
+      "slug": "vuetifyjs/vuetify",
+      "grade": "C",
+      "score": 77,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 40986,
+      "graded": true
+    },
+    {
+      "slug": "AntonOsika/gpt-engineer",
+      "grade": "C",
+      "score": 76,
+      "language": "Python",
+      "type": "application",
+      "stars": 55227,
+      "graded": true
+    },
+    {
+      "slug": "FlowiseAI/Flowise",
+      "grade": "C",
+      "score": 76,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 51448,
+      "graded": true
+    },
+    {
+      "slug": "anthropics/claude-cookbooks",
+      "grade": "C",
+      "score": 76,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 37217,
+      "graded": true
+    },
+    {
+      "slug": "coqui-ai/TTS",
+      "grade": "C",
+      "score": 76,
+      "language": "Python",
+      "type": "application",
+      "stars": 44967,
+      "graded": true
+    },
+    {
+      "slug": "f/prompts.chat",
+      "grade": "C",
+      "score": 76,
+      "language": "HTML",
+      "type": "application",
+      "stars": 156762,
+      "graded": true
+    },
+    {
+      "slug": "google/langextract",
+      "grade": "C",
+      "score": 76,
+      "language": "Python",
+      "type": "application",
+      "stars": 35160,
+      "graded": true
+    },
+    {
+      "slug": "gsd-build/get-shit-done",
+      "grade": "C",
+      "score": 76,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 47120,
+      "graded": true
+    },
+    {
+      "slug": "influxdata/influxdb",
+      "grade": "C",
+      "score": 76,
+      "language": "Rust",
+      "type": "application",
+      "stars": 31372,
+      "graded": true
+    },
+    {
+      "slug": "khoj-ai/khoj",
+      "grade": "C",
+      "score": 76,
+      "language": "Python",
+      "type": "application",
+      "stars": 33830,
+      "graded": true
+    },
+    {
+      "slug": "laurent22/joplin",
+      "grade": "C",
+      "score": 76,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 54188,
+      "graded": true
+    },
+    {
+      "slug": "openai/whisper",
+      "grade": "C",
+      "score": 76,
+      "language": "Python",
+      "type": "application",
+      "stars": 97062,
+      "graded": true
+    },
+    {
+      "slug": "paperclipai/paperclip",
+      "grade": "C",
+      "score": 76,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 45232,
+      "graded": true
+    },
+    {
+      "slug": "parcel-bundler/parcel",
+      "grade": "C",
+      "score": 76,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 44053,
+      "graded": true
+    },
+    {
+      "slug": "pmndrs/zustand",
+      "grade": "C",
+      "score": 76,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 57607,
+      "graded": true
+    },
+    {
+      "slug": "rclone/rclone",
+      "grade": "C",
+      "score": 76,
+      "language": "Go",
+      "type": "library",
+      "stars": 56444,
+      "graded": true
+    },
+    {
+      "slug": "rust-lang/rust",
+      "grade": "C",
+      "score": 76,
+      "language": "Rust",
+      "type": "runtime",
+      "stars": 111643,
+      "graded": true
+    },
+    {
+      "slug": "rustdesk/rustdesk",
+      "grade": "C",
+      "score": 76,
+      "language": "Rust",
+      "type": "application",
+      "stars": 110455,
+      "graded": true
+    },
+    {
+      "slug": "tauri-apps/tauri",
+      "grade": "C",
+      "score": 76,
+      "language": "Rust",
+      "type": "application",
+      "stars": 104862,
+      "graded": true
+    },
+    {
+      "slug": "unslothai/unsloth",
+      "grade": "C",
+      "score": 76,
+      "language": "Python",
+      "type": "application",
+      "stars": 59031,
+      "graded": true
+    },
+    {
+      "slug": "veggiemonk/awesome-docker",
+      "grade": "N/A",
+      "score": 76,
+      "language": null,
+      "type": "documentation",
+      "stars": 35819,
+      "graded": false
+    },
+    {
+      "slug": "zylon-ai/private-gpt",
+      "grade": "C",
+      "score": 76,
+      "language": "Python",
+      "type": "application",
+      "stars": 57202,
+      "graded": true
+    },
+    {
+      "slug": "PowerShell/PowerShell",
+      "grade": "C",
+      "score": 75,
+      "language": "C#",
+      "type": "application",
+      "stars": 52234,
+      "graded": true
+    },
+    {
+      "slug": "TryGhost/Ghost",
+      "grade": "C",
+      "score": 75,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 52332,
+      "graded": true
+    },
+    {
+      "slug": "bitcoin/bitcoin",
+      "grade": "C",
+      "score": 75,
+      "language": "C++",
+      "type": "application",
+      "stars": 88675,
+      "graded": true
+    },
+    {
+      "slug": "bmad-code-org/BMAD-METHOD",
+      "grade": "C",
+      "score": 75,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 43378,
+      "graded": true
+    },
+    {
+      "slug": "caddyserver/caddy",
+      "grade": "C",
+      "score": 75,
+      "language": "Go",
+      "type": "application",
+      "stars": 71240,
+      "graded": true
+    },
+    {
+      "slug": "danny-avila/LibreChat",
+      "grade": "C",
+      "score": 75,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 35179,
+      "graded": true
+    },
+    {
+      "slug": "dokku/dokku",
+      "grade": "C",
+      "score": 75,
+      "language": "Shell",
+      "type": "application",
+      "stars": 31926,
+      "graded": true
+    },
+    {
+      "slug": "electron/electron",
+      "grade": "C",
+      "score": 75,
+      "language": "C++",
+      "type": "library",
+      "stars": 120727,
+      "graded": true
+    },
+    {
+      "slug": "fastify/fastify",
+      "grade": "C",
+      "score": 75,
+      "language": "JavaScript",
+      "type": "library",
+      "stars": 35958,
+      "graded": true
+    },
+    {
+      "slug": "httpie/cli",
+      "grade": "C",
+      "score": 75,
+      "language": "Python",
+      "type": "application",
+      "stars": 37825,
+      "graded": true
+    },
+    {
+      "slug": "ianstormtaylor/slate",
+      "grade": "C",
+      "score": 75,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 31609,
+      "graded": true
+    },
+    {
+      "slug": "jgm/pandoc",
+      "grade": "C",
+      "score": 75,
+      "language": "Haskell",
+      "type": "application",
+      "stars": 43058,
+      "graded": true
+    },
+    {
+      "slug": "kubernetes/kubernetes",
+      "grade": "C",
+      "score": 75,
+      "language": "Go",
+      "type": "application",
+      "stars": 121458,
+      "graded": true
+    },
+    {
+      "slug": "langgenius/dify",
+      "grade": "C",
+      "score": 75,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 135546,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/vscode",
+      "grade": "C",
+      "score": 75,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 183339,
+      "graded": true
+    },
+    {
+      "slug": "neovim/neovim",
+      "grade": "C",
+      "score": 75,
+      "language": "Vim Script",
+      "type": "application",
+      "stars": 98147,
+      "graded": true
+    },
+    {
+      "slug": "pmndrs/react-three-fiber",
+      "grade": "C",
+      "score": 75,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 30461,
+      "graded": true
+    },
+    {
+      "slug": "seaweedfs/seaweedfs",
+      "grade": "C",
+      "score": 75,
+      "language": "Go",
+      "type": "application",
+      "stars": 31321,
+      "graded": true
+    },
+    {
+      "slug": "storybookjs/storybook",
+      "grade": "C",
+      "score": 75,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 89607,
+      "graded": true
+    },
+    {
+      "slug": "strapi/strapi",
+      "grade": "C",
+      "score": 75,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 71756,
+      "graded": true
+    },
+    {
+      "slug": "umami-software/umami",
+      "grade": "C",
+      "score": 75,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 35961,
+      "graded": true
+    },
+    {
+      "slug": "zen-browser/desktop",
+      "grade": "C",
+      "score": 75,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 41107,
+      "graded": true
+    },
+    {
+      "slug": "DioxusLabs/dioxus",
+      "grade": "C",
+      "score": 74,
+      "language": "Rust",
+      "type": "application",
+      "stars": 35521,
+      "graded": true
+    },
+    {
+      "slug": "Dokploy/dokploy",
+      "grade": "C",
+      "score": 74,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 32646,
+      "graded": true
+    },
+    {
+      "slug": "FuelLabs/sway",
+      "grade": "C",
+      "score": 74,
+      "language": "Rust",
+      "type": "application",
+      "stars": 61826,
+      "graded": true
+    },
+    {
+      "slug": "OpenCut-app/OpenCut",
+      "grade": "C",
+      "score": 74,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 47619,
+      "graded": true
+    },
+    {
+      "slug": "Significant-Gravitas/AutoGPT",
+      "grade": "C",
+      "score": 74,
+      "language": "Python",
+      "type": "application",
+      "stars": 183072,
+      "graded": true
+    },
+    {
+      "slug": "TabbyML/tabby",
+      "grade": "C",
+      "score": 74,
+      "language": "Rust",
+      "type": "application",
+      "stars": 33286,
+      "graded": true
+    },
+    {
+      "slug": "akullpp/awesome-java",
+      "grade": "N/A",
+      "score": 74,
+      "language": null,
+      "type": "documentation",
+      "stars": 47479,
+      "graded": false
+    },
+    {
+      "slug": "avelino/awesome-go",
+      "grade": "N/A",
+      "score": 74,
+      "language": "Go",
+      "type": "documentation",
+      "stars": 168921,
+      "graded": false
+    },
+    {
+      "slug": "badlogic/pi-mono",
+      "grade": "C",
+      "score": 74,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 30740,
+      "graded": true
+    },
+    {
+      "slug": "deepfakes/faceswap",
+      "grade": "C",
+      "score": 74,
+      "language": "Python",
+      "type": "library",
+      "stars": 55105,
+      "graded": true
+    },
+    {
+      "slug": "exo-explore/exo",
+      "grade": "C",
+      "score": 74,
+      "language": "Python",
+      "type": "application",
+      "stars": 43261,
+      "graded": true
+    },
+    {
+      "slug": "firstcontributions/first-contributions",
+      "grade": "N/A",
+      "score": 74,
+      "language": null,
+      "type": "documentation",
+      "stars": 53283,
+      "graded": false
+    },
+    {
+      "slug": "google/zx",
+      "grade": "C",
+      "score": 74,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 45326,
+      "graded": true
+    },
+    {
+      "slug": "hyprwm/Hyprland",
+      "grade": "C",
+      "score": 74,
+      "language": "C++",
+      "type": "application",
+      "stars": 34849,
+      "graded": true
+    },
+    {
+      "slug": "junegunn/fzf",
+      "grade": "C",
+      "score": 74,
+      "language": "Go",
+      "type": "application",
+      "stars": 79210,
+      "graded": true
+    },
+    {
+      "slug": "lodash/lodash",
+      "grade": "C",
+      "score": 74,
+      "language": "JavaScript",
+      "type": "library",
+      "stars": 61518,
+      "graded": true
+    },
+    {
+      "slug": "modelcontextprotocol/servers",
+      "grade": "C",
+      "score": 74,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 82837,
+      "graded": true
+    },
+    {
+      "slug": "msitarzewski/agency-agents",
+      "grade": "N/A",
+      "score": 74,
+      "language": "Shell",
+      "type": "documentation",
+      "stars": 69098,
+      "graded": false
+    },
+    {
+      "slug": "php/php-src",
+      "grade": "C",
+      "score": 74,
+      "language": "C",
+      "type": "application",
+      "stars": 39959,
+      "graded": true
+    },
+    {
+      "slug": "restic/restic",
+      "grade": "C",
+      "score": 74,
+      "language": "Go",
+      "type": "application",
+      "stars": 32937,
+      "graded": true
+    },
+    {
+      "slug": "sveltejs/svelte",
+      "grade": "C",
+      "score": 74,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 86151,
+      "graded": true
+    },
+    {
+      "slug": "videojs/video.js",
+      "grade": "C",
+      "score": 74,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 39662,
+      "graded": true
+    },
+    {
+      "slug": "vim/vim",
+      "grade": "C",
+      "score": 74,
+      "language": "Vim Script",
+      "type": "application",
+      "stars": 40132,
+      "graded": true
+    },
+    {
+      "slug": "yewstack/yew",
+      "grade": "C",
+      "score": 74,
+      "language": "Rust",
+      "type": "application",
+      "stars": 32511,
+      "graded": true
+    },
+    {
+      "slug": "OpenBMB/ChatDev",
+      "grade": "C",
+      "score": 73,
+      "language": "Python",
+      "type": "application",
+      "stars": 32547,
+      "graded": true
+    },
+    {
+      "slug": "Pythagora-io/gpt-pilot",
+      "grade": "C",
+      "score": 73,
+      "language": "Python",
+      "type": "application",
+      "stars": 33793,
+      "graded": true
+    },
+    {
+      "slug": "ajeetdsouza/zoxide",
+      "grade": "C",
+      "score": 73,
+      "language": "Rust",
+      "type": "application",
+      "stars": 35171,
+      "graded": true
+    },
+    {
+      "slug": "alacritty/alacritty",
+      "grade": "C",
+      "score": 73,
+      "language": "Rust",
+      "type": "application",
+      "stars": 63223,
+      "graded": true
+    },
+    {
+      "slug": "anuraghazra/github-readme-stats",
+      "grade": "C",
+      "score": 73,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 78955,
+      "graded": true
+    },
+    {
+      "slug": "conductor-oss/conductor",
+      "grade": "C",
+      "score": 73,
+      "language": "Java",
+      "type": "application",
+      "stars": 31607,
+      "graded": true
+    },
+    {
+      "slug": "dotnet/aspnetcore",
+      "grade": "C",
+      "score": 73,
+      "language": "C#",
+      "type": "application",
+      "stars": 37809,
+      "graded": true
+    },
+    {
+      "slug": "facebook/rocksdb",
+      "grade": "C",
+      "score": 73,
+      "language": "C++",
+      "type": "application",
+      "stars": 31687,
+      "graded": true
+    },
+    {
+      "slug": "ghostty-org/ghostty",
+      "grade": "C",
+      "score": 73,
+      "language": "Zig",
+      "type": "application",
+      "stars": 49522,
+      "graded": true
+    },
+    {
+      "slug": "git/git",
+      "grade": "C",
+      "score": 73,
+      "language": "C",
+      "type": "application",
+      "stars": 60076,
+      "graded": true
+    },
+    {
+      "slug": "gohugoio/hugo",
+      "grade": "C",
+      "score": 73,
+      "language": "Go",
+      "type": "application",
+      "stars": 87392,
+      "graded": true
+    },
+    {
+      "slug": "harness/harness",
+      "grade": "C",
+      "score": 73,
+      "language": "Go",
+      "type": "application",
+      "stars": 34369,
+      "graded": true
+    },
+    {
+      "slug": "jaywcjlove/awesome-mac",
+      "grade": "N/A",
+      "score": 73,
+      "language": "Swift",
+      "type": "documentation",
+      "stars": 101313,
+      "graded": false
+    },
+    {
+      "slug": "juspay/hyperswitch",
+      "grade": "C",
+      "score": 73,
+      "language": "Rust",
+      "type": "application",
+      "stars": 41771,
+      "graded": true
+    },
+    {
+      "slug": "llvm/llvm-project",
+      "grade": "C",
+      "score": 73,
+      "language": "LLVM",
+      "type": "runtime",
+      "stars": 37686,
+      "graded": true
+    },
+    {
+      "slug": "metabase/metabase",
+      "grade": "C",
+      "score": 73,
+      "language": "Clojure",
+      "type": "application",
+      "stars": 46727,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/generative-ai-for-beginners",
+      "grade": "C",
+      "score": 73,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 108853,
+      "graded": true
+    },
+    {
+      "slug": "minio/minio",
+      "grade": "C",
+      "score": 73,
+      "language": "Go",
+      "type": "application",
+      "stars": 60608,
+      "graded": true
+    },
+    {
+      "slug": "mpv-player/mpv",
+      "grade": "C",
+      "score": 73,
+      "language": "C",
+      "type": "application",
+      "stars": 34653,
+      "graded": true
+    },
+    {
+      "slug": "nlohmann/json",
+      "grade": "C",
+      "score": 73,
+      "language": "C++",
+      "type": "application",
+      "stars": 49292,
+      "graded": true
+    },
+    {
+      "slug": "preactjs/preact",
+      "grade": "C",
+      "score": 73,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 38535,
+      "graded": true
+    },
+    {
+      "slug": "react-hook-form/react-hook-form",
+      "grade": "C",
+      "score": 73,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 44638,
+      "graded": true
+    },
+    {
+      "slug": "sahat/hackathon-starter",
+      "grade": "C",
+      "score": 73,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 35208,
+      "graded": true
+    },
+    {
+      "slug": "tinygrad/tinygrad",
+      "grade": "C",
+      "score": 73,
+      "language": "Python",
+      "type": "application",
+      "stars": 32101,
+      "graded": true
+    },
+    {
+      "slug": "tokio-rs/tokio",
+      "grade": "C",
+      "score": 73,
+      "language": "Rust",
+      "type": "application",
+      "stars": 31527,
+      "graded": true
+    },
+    {
+      "slug": "tw93/Pake",
+      "grade": "C",
+      "score": 73,
+      "language": "Rust",
+      "type": "application",
+      "stars": 47532,
+      "graded": true
+    },
+    {
+      "slug": "zhayujie/chatgpt-on-wechat",
+      "grade": "C",
+      "score": 73,
+      "language": "Python",
+      "type": "application",
+      "stars": 42727,
+      "graded": true
+    },
+    {
+      "slug": "ziadoz/awesome-php",
+      "grade": "N/A",
+      "score": 73,
+      "language": null,
+      "type": "documentation",
+      "stars": 32459,
+      "graded": false
+    },
+    {
+      "slug": "NervJS/taro",
+      "grade": "C",
+      "score": 72,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 37376,
+      "graded": true
+    },
+    {
+      "slug": "OpenBB-finance/OpenBB",
+      "grade": "C",
+      "score": 72,
+      "language": "Python",
+      "type": "application",
+      "stars": 65148,
+      "graded": true
+    },
+    {
+      "slug": "SagerNet/sing-box",
+      "grade": "C",
+      "score": 72,
+      "language": "Go",
+      "type": "application",
+      "stars": 32044,
+      "graded": true
+    },
+    {
+      "slug": "VoltAgent/awesome-openclaw-skills",
+      "grade": "N/A",
+      "score": 72,
+      "language": null,
+      "type": "documentation",
+      "stars": 43897,
+      "graded": false
+    },
+    {
+      "slug": "alpinejs/alpine",
+      "grade": "C",
+      "score": 72,
+      "language": "HTML",
+      "type": "application",
+      "stars": 31395,
+      "graded": true
+    },
+    {
+      "slug": "ant-design/ant-design-pro",
+      "grade": "C",
+      "score": 72,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 38047,
+      "graded": true
+    },
+    {
+      "slug": "appsmithorg/appsmith",
+      "grade": "C",
+      "score": 72,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 39502,
+      "graded": true
+    },
+    {
+      "slug": "casey/just",
+      "grade": "C",
+      "score": 72,
+      "language": "Rust",
+      "type": "application",
+      "stars": 32567,
+      "graded": true
+    },
+    {
+      "slug": "datalab-to/marker",
+      "grade": "C",
+      "score": 72,
+      "language": "Python",
+      "type": "application",
+      "stars": 33289,
+      "graded": true
+    },
+    {
+      "slug": "dgtlmoon/changedetection.io",
+      "grade": "C",
+      "score": 72,
+      "language": "Python",
+      "type": "application",
+      "stars": 30883,
+      "graded": true
+    },
+    {
+      "slug": "discourse/discourse",
+      "grade": "C",
+      "score": 72,
+      "language": "Ruby",
+      "type": "library",
+      "stars": 46680,
+      "graded": true
+    },
+    {
+      "slug": "facebookresearch/fairseq",
+      "grade": "C",
+      "score": 72,
+      "language": "Python",
+      "type": "application",
+      "stars": 32202,
+      "graded": true
+    },
+    {
+      "slug": "facebookresearch/faiss",
+      "grade": "C",
+      "score": 72,
+      "language": "C++",
+      "type": "application",
+      "stars": 39588,
+      "graded": true
+    },
+    {
+      "slug": "fatedier/frp",
+      "grade": "C",
+      "score": 72,
+      "language": "Go",
+      "type": "application",
+      "stars": 105759,
+      "graded": true
+    },
+    {
+      "slug": "h5bp/html5-boilerplate",
+      "grade": "C",
+      "score": 72,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 57423,
+      "graded": true
+    },
+    {
+      "slug": "hexojs/hexo",
+      "grade": "C",
+      "score": 72,
+      "language": "TypeScript",
+      "type": "library",
+      "stars": 41335,
+      "graded": true
+    },
+    {
+      "slug": "huggingface/pytorch-image-models",
+      "grade": "C",
+      "score": 72,
+      "language": "Python",
+      "type": "application",
+      "stars": 36589,
+      "graded": true
+    },
+    {
+      "slug": "iamkun/dayjs",
+      "grade": "C",
+      "score": 72,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 48625,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/WSL",
+      "grade": "C",
+      "score": 72,
+      "language": "C++",
+      "type": "application",
+      "stars": 31666,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/monaco-editor",
+      "grade": "C",
+      "score": 72,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 45862,
+      "graded": true
+    },
+    {
+      "slug": "shardeum/shardeum",
+      "grade": "C",
+      "score": 72,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 31518,
+      "graded": true
+    },
+    {
+      "slug": "sherlock-project/sherlock",
+      "grade": "C",
+      "score": 72,
+      "language": "Python",
+      "type": "application",
+      "stars": 77388,
+      "graded": true
+    },
+    {
+      "slug": "twbs/bootstrap",
+      "grade": "C",
+      "score": 72,
+      "language": "MDX",
+      "type": "application",
+      "stars": 174119,
+      "graded": true
+    },
+    {
+      "slug": "FortAwesome/Font-Awesome",
+      "grade": "N/A",
+      "score": 71,
+      "language": "JavaScript",
+      "type": "documentation",
+      "stars": 76472,
+      "graded": false
+    },
+    {
+      "slug": "FoundationAgents/MetaGPT",
+      "grade": "C",
+      "score": 71,
+      "language": "Python",
+      "type": "application",
+      "stars": 66591,
+      "graded": true
+    },
+    {
+      "slug": "Homebrew/brew",
+      "grade": "C",
+      "score": 71,
+      "language": "Ruby",
+      "type": "application",
+      "stars": 47344,
+      "graded": true
+    },
+    {
+      "slug": "Leaflet/Leaflet",
+      "grade": "C",
+      "score": 71,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 44765,
+      "graded": true
+    },
+    {
+      "slug": "PDFMathTranslate/PDFMathTranslate",
+      "grade": "C",
+      "score": 71,
+      "language": "Python",
+      "type": "application",
+      "stars": 32666,
+      "graded": true
+    },
+    {
+      "slug": "blakeblackshear/frigate",
+      "grade": "C",
+      "score": 71,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 31211,
+      "graded": true
+    },
+    {
+      "slug": "colinhacks/zod",
+      "grade": "C",
+      "score": 71,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 42285,
+      "graded": true
+    },
+    {
+      "slug": "date-fns/date-fns",
+      "grade": "C",
+      "score": 71,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 36538,
+      "graded": true
+    },
+    {
+      "slug": "freeCodeCamp/freeCodeCamp",
+      "grade": "C",
+      "score": 71,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 440608,
+      "graded": true
+    },
+    {
+      "slug": "jaredpalmer/formik",
+      "grade": "C",
+      "score": 71,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 34379,
+      "graded": true
+    },
+    {
+      "slug": "keycloak/keycloak",
+      "grade": "C",
+      "score": 71,
+      "language": "Java",
+      "type": "application",
+      "stars": 33693,
+      "graded": true
+    },
+    {
+      "slug": "lerna/lerna",
+      "grade": "C",
+      "score": 71,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 36081,
+      "graded": true
+    },
+    {
+      "slug": "meteor/meteor",
+      "grade": "C",
+      "score": 71,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 44789,
+      "graded": true
+    },
+    {
+      "slug": "openai/codex",
+      "grade": "C",
+      "score": 71,
+      "language": "Rust",
+      "type": "application",
+      "stars": 72669,
+      "graded": true
+    },
+    {
+      "slug": "pear-devs/pear-desktop",
+      "grade": "C",
+      "score": 71,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 31254,
+      "graded": true
+    },
+    {
+      "slug": "tensorflow/tensorflow",
+      "grade": "C",
+      "score": 71,
+      "language": "C++",
+      "type": "application",
+      "stars": 194440,
+      "graded": true
+    },
+    {
+      "slug": "CorentinTh/it-tools",
+      "grade": "C",
+      "score": 70,
+      "language": "Vue",
+      "type": "application",
+      "stars": 37923,
+      "graded": true
+    },
+    {
+      "slug": "ageitgey/face_recognition",
+      "grade": "C",
+      "score": 70,
+      "language": "Python",
+      "type": "application",
+      "stars": 56260,
+      "graded": true
+    },
+    {
+      "slug": "base/node",
+      "grade": "C",
+      "score": 70,
+      "language": "Go",
+      "type": "application",
+      "stars": 68643,
+      "graded": true
+    },
+    {
+      "slug": "beego/beego",
+      "grade": "C",
+      "score": 70,
+      "language": "Go",
+      "type": "application",
+      "stars": 32402,
+      "graded": true
+    },
+    {
+      "slug": "chartjs/Chart.js",
+      "grade": "C",
+      "score": 70,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 67323,
+      "graded": true
+    },
+    {
+      "slug": "danielmiessler/Fabric",
+      "grade": "C",
+      "score": 70,
+      "language": "Go",
+      "type": "application",
+      "stars": 40352,
+      "graded": true
+    },
+    {
+      "slug": "elastic/elasticsearch",
+      "grade": "C",
+      "score": 70,
+      "language": "Java",
+      "type": "application",
+      "stars": 76425,
+      "graded": true
+    },
+    {
+      "slug": "excalidraw/excalidraw",
+      "grade": "C",
+      "score": 70,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 120162,
+      "graded": true
+    },
+    {
+      "slug": "facebook/react-native",
+      "grade": "C",
+      "score": 70,
+      "language": "C++",
+      "type": "application",
+      "stars": 125678,
+      "graded": true
+    },
+    {
+      "slug": "fastapi/full-stack-fastapi-template",
+      "grade": "C",
+      "score": 70,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 42433,
+      "graded": true
+    },
+    {
+      "slug": "jesseduffield/lazydocker",
+      "grade": "C",
+      "score": 70,
+      "language": "Go",
+      "type": "application",
+      "stars": 50500,
+      "graded": true
+    },
+    {
+      "slug": "kovidgoyal/kitty",
+      "grade": "C",
+      "score": 70,
+      "language": "Python",
+      "type": "application",
+      "stars": 32177,
+      "graded": true
+    },
+    {
+      "slug": "makeplane/plane",
+      "grade": "C",
+      "score": 70,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 47247,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/terminal",
+      "grade": "C",
+      "score": 70,
+      "language": "C++",
+      "type": "application",
+      "stars": 102487,
+      "graded": true
+    },
+    {
+      "slug": "outline/outline",
+      "grade": "C",
+      "score": 70,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 37926,
+      "graded": true
+    },
+    {
+      "slug": "parallax/jsPDF",
+      "grade": "C",
+      "score": 70,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 31208,
+      "graded": true
+    },
+    {
+      "slug": "rails/rails",
+      "grade": "C",
+      "score": 70,
+      "language": "Ruby",
+      "type": "application",
+      "stars": 58315,
+      "graded": true
+    },
+    {
+      "slug": "rapid7/metasploit-framework",
+      "grade": "C",
+      "score": 70,
+      "language": "Ruby",
+      "type": "library",
+      "stars": 37823,
+      "graded": true
+    },
+    {
+      "slug": "socketio/socket.io",
+      "grade": "C",
+      "score": 70,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 63005,
+      "graded": true
+    },
+    {
+      "slug": "tailwindlabs/tailwindcss",
+      "grade": "C",
+      "score": 70,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 94314,
+      "graded": true
+    },
+    {
+      "slug": "zeromicro/go-zero",
+      "grade": "C",
+      "score": 70,
+      "language": "Go",
+      "type": "application",
+      "stars": 32869,
+      "graded": true
+    },
+    {
+      "slug": "9001/copyparty",
+      "grade": "D",
+      "score": 69,
+      "language": "Python",
+      "type": "application",
+      "stars": 43981,
+      "graded": true
+    },
+    {
+      "slug": "Fission-AI/OpenSpec",
+      "grade": "D",
+      "score": 69,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 36760,
+      "graded": true
+    },
+    {
+      "slug": "FuelLabs/fuels-rs",
+      "grade": "D",
+      "score": 69,
+      "language": "Rust",
+      "type": "application",
+      "stars": 43317,
+      "graded": true
+    },
+    {
+      "slug": "KeygraphHQ/shannon",
+      "grade": "D",
+      "score": 69,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 35185,
+      "graded": true
+    },
+    {
+      "slug": "SerenityOS/serenity",
+      "grade": "D",
+      "score": 69,
+      "language": "C++",
+      "type": "application",
+      "stars": 33060,
+      "graded": true
+    },
+    {
+      "slug": "amruthpillai/reactive-resume",
+      "grade": "D",
+      "score": 69,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 36096,
+      "graded": true
+    },
+    {
+      "slug": "apache/spark",
+      "grade": "D",
+      "score": 69,
+      "language": "Scala",
+      "type": "application",
+      "stars": 43077,
+      "graded": true
+    },
+    {
+      "slug": "appwrite/appwrite",
+      "grade": "D",
+      "score": 69,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 55501,
+      "graded": true
+    },
+    {
+      "slug": "aristocratos/btop",
+      "grade": "D",
+      "score": 69,
+      "language": "C++",
+      "type": "application",
+      "stars": 31362,
+      "graded": true
+    },
+    {
+      "slug": "aseprite/aseprite",
+      "grade": "D",
+      "score": 69,
+      "language": "C++",
+      "type": "application",
+      "stars": 36340,
+      "graded": true
+    },
+    {
+      "slug": "drizzle-team/drizzle-orm",
+      "grade": "D",
+      "score": 69,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 33613,
+      "graded": true
+    },
+    {
+      "slug": "helix-editor/helix",
+      "grade": "D",
+      "score": 69,
+      "language": "Rust",
+      "type": "application",
+      "stars": 43739,
+      "graded": true
+    },
+    {
+      "slug": "labstack/echo",
+      "grade": "D",
+      "score": 69,
+      "language": "Go",
+      "type": "application",
+      "stars": 32282,
+      "graded": true
+    },
+    {
+      "slug": "nestjs/nest",
+      "grade": "D",
+      "score": 69,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 75040,
+      "graded": true
+    },
+    {
+      "slug": "nocodb/nocodb",
+      "grade": "D",
+      "score": 69,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 62603,
+      "graded": true
+    },
+    {
+      "slug": "pnpm/pnpm",
+      "grade": "D",
+      "score": 69,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 34476,
+      "graded": true
+    },
+    {
+      "slug": "ruvnet/RuView",
+      "grade": "D",
+      "score": 69,
+      "language": "Rust",
+      "type": "application",
+      "stars": 45341,
+      "graded": true
+    },
+    {
+      "slug": "swc-project/swc",
+      "grade": "D",
+      "score": 69,
+      "language": "Rust",
+      "type": "application",
+      "stars": 33339,
+      "graded": true
+    },
+    {
+      "slug": "telegramdesktop/tdesktop",
+      "grade": "D",
+      "score": 69,
+      "language": "C++",
+      "type": "library",
+      "stars": 30397,
+      "graded": true
+    },
+    {
+      "slug": "FFmpeg/FFmpeg",
+      "grade": "N/A",
+      "score": 68,
+      "language": "C",
+      "type": "mirror",
+      "stars": 58548,
+      "graded": false
+    },
+    {
+      "slug": "TheAlgorithms/Java",
+      "grade": "D",
+      "score": 68,
+      "language": "Java",
+      "type": "application",
+      "stars": 65309,
+      "graded": true
+    },
+    {
+      "slug": "cockroachdb/cockroach",
+      "grade": "D",
+      "score": 68,
+      "language": "Go",
+      "type": "hybrid",
+      "stars": 31990,
+      "graded": true
+    },
+    {
+      "slug": "code-yeongyu/oh-my-openagent",
+      "grade": "D",
+      "score": 68,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 47258,
+      "graded": true
+    },
+    {
+      "slug": "codex-team/editor.js",
+      "grade": "D",
+      "score": 68,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 31653,
+      "graded": true
+    },
+    {
+      "slug": "directus/directus",
+      "grade": "D",
+      "score": 68,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 34632,
+      "graded": true
+    },
+    {
+      "slug": "expo/expo",
+      "grade": "D",
+      "score": 68,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 48444,
+      "graded": true
+    },
+    {
+      "slug": "godotengine/godot",
+      "grade": "D",
+      "score": 68,
+      "language": "C++",
+      "type": "application",
+      "stars": 108875,
+      "graded": true
+    },
+    {
+      "slug": "lovell/sharp",
+      "grade": "D",
+      "score": 68,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 32092,
+      "graded": true
+    },
+    {
+      "slug": "mantinedev/mantine",
+      "grade": "D",
+      "score": 68,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 30900,
+      "graded": true
+    },
+    {
+      "slug": "ohmyzsh/ohmyzsh",
+      "grade": "D",
+      "score": 68,
+      "language": "Shell",
+      "type": "library",
+      "stars": 185860,
+      "graded": true
+    },
+    {
+      "slug": "penpot/penpot",
+      "grade": "D",
+      "score": 68,
+      "language": "Clojure",
+      "type": "application",
+      "stars": 45168,
+      "graded": true
+    },
+    {
+      "slug": "practical-tutorials/project-based-learning",
+      "grade": "N/A",
+      "score": 68,
+      "language": null,
+      "type": "documentation",
+      "stars": 262229,
+      "graded": false
+    },
+    {
+      "slug": "rasbt/LLMs-from-scratch",
+      "grade": "D",
+      "score": 68,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 89855,
+      "graded": true
+    },
+    {
+      "slug": "reduxjs/redux",
+      "grade": "D",
+      "score": 68,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 61442,
+      "graded": true
+    },
+    {
+      "slug": "solidjs/solid",
+      "grade": "D",
+      "score": 68,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 35354,
+      "graded": true
+    },
+    {
+      "slug": "styled-components/styled-components",
+      "grade": "D",
+      "score": 68,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 41016,
+      "graded": true
+    },
+    {
+      "slug": "tesseract-ocr/tesseract",
+      "grade": "D",
+      "score": 68,
+      "language": "C++",
+      "type": "application",
+      "stars": 73288,
+      "graded": true
+    },
+    {
+      "slug": "ultralytics/yolov5",
+      "grade": "D",
+      "score": 68,
+      "language": "Python",
+      "type": "application",
+      "stars": 57148,
+      "graded": true
+    },
+    {
+      "slug": "xyflow/xyflow",
+      "grade": "D",
+      "score": 68,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 35954,
+      "graded": true
+    },
+    {
+      "slug": "yarnpkg/yarn",
+      "grade": "D",
+      "score": 68,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 41524,
+      "graded": true
+    },
+    {
+      "slug": "GokuMohandas/Made-With-ML",
+      "grade": "D",
+      "score": 67,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 47079,
+      "graded": true
+    },
+    {
+      "slug": "JuliaLang/julia",
+      "grade": "D",
+      "score": 67,
+      "language": "Julia",
+      "type": "application",
+      "stars": 48538,
+      "graded": true
+    },
+    {
+      "slug": "NanmiCoder/MediaCrawler",
+      "grade": "D",
+      "score": 67,
+      "language": "Python",
+      "type": "application",
+      "stars": 47141,
+      "graded": true
+    },
+    {
+      "slug": "evanw/esbuild",
+      "grade": "D",
+      "score": 67,
+      "language": "Go",
+      "type": "library",
+      "stars": 39813,
+      "graded": true
+    },
+    {
+      "slug": "facebook/create-react-app",
+      "grade": "D",
+      "score": 67,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 103735,
+      "graded": true
+    },
+    {
+      "slug": "fffaraz/awesome-cpp",
+      "grade": "N/A",
+      "score": 67,
+      "language": null,
+      "type": "documentation",
+      "stars": 70564,
+      "graded": false
+    },
+    {
+      "slug": "google/comprehensive-rust",
+      "grade": "D",
+      "score": 67,
+      "language": "Rust",
+      "type": "application",
+      "stars": 32817,
+      "graded": true
+    },
+    {
+      "slug": "obsproject/obs-studio",
+      "grade": "D",
+      "score": 67,
+      "language": "C",
+      "type": "application",
+      "stars": 71339,
+      "graded": true
+    },
+    {
+      "slug": "openinterpreter/open-interpreter",
+      "grade": "D",
+      "score": 67,
+      "language": "Python",
+      "type": "application",
+      "stars": 62983,
+      "graded": true
+    },
+    {
+      "slug": "punkpeye/awesome-mcp-servers",
+      "grade": "N/A",
+      "score": 67,
+      "language": null,
+      "type": "documentation",
+      "stars": 84116,
+      "graded": false
+    },
+    {
+      "slug": "python/cpython",
+      "grade": "D",
+      "score": 67,
+      "language": "Python",
+      "type": "runtime",
+      "stars": 72151,
+      "graded": true
+    },
+    {
+      "slug": "shadps4-emu/shadPS4",
+      "grade": "D",
+      "score": 67,
+      "language": "C++",
+      "type": "application",
+      "stars": 30647,
+      "graded": true
+    },
+    {
+      "slug": "sharkdp/bat",
+      "grade": "D",
+      "score": 67,
+      "language": "Rust",
+      "type": "hybrid",
+      "stars": 57937,
+      "graded": true
+    },
+    {
+      "slug": "spring-projects/spring-framework",
+      "grade": "D",
+      "score": 67,
+      "language": "Java",
+      "type": "application",
+      "stars": 59806,
+      "graded": true
+    },
+    {
+      "slug": "vsouza/awesome-ios",
+      "grade": "N/A",
+      "score": 67,
+      "language": "Swift",
+      "type": "documentation",
+      "stars": 51682,
+      "graded": false
+    },
+    {
+      "slug": "Aider-AI/aider",
+      "grade": "D",
+      "score": 66,
+      "language": "Python",
+      "type": "hybrid",
+      "stars": 42732,
+      "graded": true
+    },
+    {
+      "slug": "BurntSushi/ripgrep",
+      "grade": "D",
+      "score": 66,
+      "language": "Rust",
+      "type": "application",
+      "stars": 61815,
+      "graded": true
+    },
+    {
+      "slug": "ChatGPTNextWeb/NextChat",
+      "grade": "D",
+      "score": 66,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 87613,
+      "graded": true
+    },
+    {
+      "slug": "SimplifyJobs/Summer2026-Internships",
+      "grade": "D",
+      "score": 66,
+      "language": "Python",
+      "type": "application",
+      "stars": 44041,
+      "graded": true
+    },
+    {
+      "slug": "WerWolv/ImHex",
+      "grade": "D",
+      "score": 66,
+      "language": "C++",
+      "type": "library",
+      "stars": 53035,
+      "graded": true
+    },
+    {
+      "slug": "chatboxai/chatbox",
+      "grade": "D",
+      "score": 66,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 39240,
+      "graded": true
+    },
+    {
+      "slug": "coollabsio/coolify",
+      "grade": "D",
+      "score": 66,
+      "language": "PHP",
+      "type": "application",
+      "stars": 52530,
+      "graded": true
+    },
+    {
+      "slug": "derailed/k9s",
+      "grade": "D",
+      "score": 66,
+      "language": "Go",
+      "type": "application",
+      "stars": 33266,
+      "graded": true
+    },
+    {
+      "slug": "freeCodeCamp/devdocs",
+      "grade": "D",
+      "score": 66,
+      "language": "Ruby",
+      "type": "library",
+      "stars": 38664,
+      "graded": true
+    },
+    {
+      "slug": "harry0703/MoneyPrinterTurbo",
+      "grade": "D",
+      "score": 66,
+      "language": "Python",
+      "type": "application",
+      "stars": 54860,
+      "graded": true
+    },
+    {
+      "slug": "immich-app/immich",
+      "grade": "D",
+      "score": 66,
+      "language": "TypeScript",
+      "type": "hybrid",
+      "stars": 96192,
+      "graded": true
+    },
+    {
+      "slug": "koajs/koa",
+      "grade": "D",
+      "score": 66,
+      "language": "JavaScript",
+      "type": "library",
+      "stars": 35731,
+      "graded": true
+    },
+    {
+      "slug": "laravel/framework",
+      "grade": "D",
+      "score": 66,
+      "language": "PHP",
+      "type": "application",
+      "stars": 34610,
+      "graded": true
+    },
+    {
+      "slug": "marktext/marktext",
+      "grade": "D",
+      "score": 66,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 54859,
+      "graded": true
+    },
+    {
+      "slug": "pocketbase/pocketbase",
+      "grade": "D",
+      "score": 66,
+      "language": "Go",
+      "type": "application",
+      "stars": 57318,
+      "graded": true
+    },
+    {
+      "slug": "skylot/jadx",
+      "grade": "D",
+      "score": 66,
+      "language": "Java",
+      "type": "application",
+      "stars": 47928,
+      "graded": true
+    },
+    {
+      "slug": "square/okhttp",
+      "grade": "D",
+      "score": 66,
+      "language": "Kotlin",
+      "type": "application",
+      "stars": 46921,
+      "graded": true
+    },
+    {
+      "slug": "tabler/tabler",
+      "grade": "D",
+      "score": 66,
+      "language": "HTML",
+      "type": "application",
+      "stars": 40907,
+      "graded": true
+    },
+    {
+      "slug": "thedotmack/claude-mem",
+      "grade": "D",
+      "score": 66,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 44730,
+      "graded": true
+    },
+    {
+      "slug": "TeamNewPipe/NewPipe",
+      "grade": "D",
+      "score": 65,
+      "language": "Java",
+      "type": "application",
+      "stars": 37712,
+      "graded": true
+    },
+    {
+      "slug": "brillout/awesome-react-components",
+      "grade": "N/A",
+      "score": 65,
+      "language": null,
+      "type": "documentation",
+      "stars": 47194,
+      "graded": false
+    },
+    {
+      "slug": "gulpjs/gulp",
+      "grade": "D",
+      "score": 65,
+      "language": "JavaScript",
+      "type": "library",
+      "stars": 32995,
+      "graded": true
+    },
+    {
+      "slug": "hesreallyhim/awesome-claude-code",
+      "grade": "N/A",
+      "score": 65,
+      "language": "Python",
+      "type": "documentation",
+      "stars": 35932,
+      "graded": false
+    },
+    {
+      "slug": "janhq/jan",
+      "grade": "D",
+      "score": 65,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 41478,
+      "graded": true
+    },
+    {
+      "slug": "jqlang/jq",
+      "grade": "D",
+      "score": 65,
+      "language": "C",
+      "type": "application",
+      "stars": 33970,
+      "graded": true
+    },
+    {
+      "slug": "maybe-finance/maybe",
+      "grade": "D",
+      "score": 65,
+      "language": "Ruby",
+      "type": "library",
+      "stars": 54055,
+      "graded": true
+    },
+    {
+      "slug": "pi-hole/pi-hole",
+      "grade": "D",
+      "score": 65,
+      "language": "Shell",
+      "type": "application",
+      "stars": 56384,
+      "graded": true
+    },
+    {
+      "slug": "remix-run/remix",
+      "grade": "D",
+      "score": 65,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 32517,
+      "graded": true
+    },
+    {
+      "slug": "sansan0/TrendRadar",
+      "grade": "D",
+      "score": 65,
+      "language": "Python",
+      "type": "application",
+      "stars": 50646,
+      "graded": true
+    },
+    {
+      "slug": "tensorflow/models",
+      "grade": "D",
+      "score": 65,
+      "language": "Python",
+      "type": "application",
+      "stars": 77682,
+      "graded": true
+    },
+    {
+      "slug": "webtorrent/webtorrent",
+      "grade": "D",
+      "score": 65,
+      "language": "JavaScript",
+      "type": "library",
+      "stars": 30861,
+      "graded": true
+    },
+    {
+      "slug": "AlistGo/alist",
+      "grade": "D",
+      "score": 64,
+      "language": "Go",
+      "type": "application",
+      "stars": 49237,
+      "graded": true
+    },
+    {
+      "slug": "Chalarangelo/30-seconds-of-code",
+      "grade": "D",
+      "score": 64,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 127308,
+      "graded": true
+    },
+    {
+      "slug": "ChrisTitusTech/winutil",
+      "grade": "D",
+      "score": 64,
+      "language": "PowerShell",
+      "type": "application",
+      "stars": 50787,
+      "graded": true
+    },
+    {
+      "slug": "XTLS/Xray-core",
+      "grade": "D",
+      "score": 64,
+      "language": "Go",
+      "type": "application",
+      "stars": 36518,
+      "graded": true
+    },
+    {
+      "slug": "alibaba/nacos",
+      "grade": "D",
+      "score": 64,
+      "language": "Java",
+      "type": "application",
+      "stars": 32788,
+      "graded": true
+    },
+    {
+      "slug": "apache/echarts",
+      "grade": "D",
+      "score": 64,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 66061,
+      "graded": true
+    },
+    {
+      "slug": "atlassian/react-beautiful-dnd",
+      "grade": "D",
+      "score": 64,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 34026,
+      "graded": true
+    },
+    {
+      "slug": "charmbracelet/bubbletea",
+      "grade": "D",
+      "score": 64,
+      "language": "Go",
+      "type": "application",
+      "stars": 41164,
+      "graded": true
+    },
+    {
+      "slug": "chatchat-space/Langchain-Chatchat",
+      "grade": "D",
+      "score": 64,
+      "language": "Python",
+      "type": "application",
+      "stars": 37733,
+      "graded": true
+    },
+    {
+      "slug": "expressjs/express",
+      "grade": "D",
+      "score": 64,
+      "language": "JavaScript",
+      "type": "library",
+      "stars": 68892,
+      "graded": true
+    },
+    {
+      "slug": "floating-ui/floating-ui",
+      "grade": "D",
+      "score": 64,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 32529,
+      "graded": true
+    },
+    {
+      "slug": "getify/You-Dont-Know-JS",
+      "grade": "N/A",
+      "score": 64,
+      "language": null,
+      "type": "documentation",
+      "stars": 184513,
+      "graded": false
+    },
+    {
+      "slug": "ggml-org/whisper.cpp",
+      "grade": "D",
+      "score": 64,
+      "language": "C++",
+      "type": "application",
+      "stars": 48221,
+      "graded": true
+    },
+    {
+      "slug": "go-gorm/gorm",
+      "grade": "D",
+      "score": 64,
+      "language": "Go",
+      "type": "application",
+      "stars": 39629,
+      "graded": true
+    },
+    {
+      "slug": "halo-dev/halo",
+      "grade": "D",
+      "score": 64,
+      "language": "Java",
+      "type": "application",
+      "stars": 38165,
+      "graded": true
+    },
+    {
+      "slug": "hasura/graphql-engine",
+      "grade": "D",
+      "score": 64,
+      "language": "TypeScript",
+      "type": "iac",
+      "stars": 31930,
+      "graded": true
+    },
+    {
+      "slug": "lm-sys/FastChat",
+      "grade": "D",
+      "score": 64,
+      "language": "Python",
+      "type": "application",
+      "stars": 39455,
+      "graded": true
+    },
+    {
+      "slug": "motiondivision/motion",
+      "grade": "D",
+      "score": 64,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 31379,
+      "graded": true
+    },
+    {
+      "slug": "satwikkansal/wtfpython",
+      "grade": "D",
+      "score": 64,
+      "language": "Python",
+      "type": "application",
+      "stars": 36919,
+      "graded": true
+    },
+    {
+      "slug": "twentyhq/twenty",
+      "grade": "D",
+      "score": 64,
+      "language": "TypeScript",
+      "type": "hybrid",
+      "stars": 43517,
+      "graded": true
+    },
+    {
+      "slug": "x64dbg/x64dbg",
+      "grade": "D",
+      "score": 64,
+      "language": "C++",
+      "type": "application",
+      "stars": 48014,
+      "graded": true
+    },
+    {
+      "slug": "zxing/zxing",
+      "grade": "D",
+      "score": 64,
+      "language": "Java",
+      "type": "application",
+      "stars": 33909,
+      "graded": true
+    },
+    {
+      "slug": "ItzCrazyKns/Vane",
+      "grade": "D",
+      "score": 63,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 33582,
+      "graded": true
+    },
+    {
+      "slug": "LAION-AI/Open-Assistant",
+      "grade": "D",
+      "score": 63,
+      "language": "Python",
+      "type": "hybrid",
+      "stars": 37428,
+      "graded": true
+    },
+    {
+      "slug": "Unitech/pm2",
+      "grade": "D",
+      "score": 63,
+      "language": "JavaScript",
+      "type": "library",
+      "stars": 43026,
+      "graded": true
+    },
+    {
+      "slug": "apache/kafka",
+      "grade": "D",
+      "score": 63,
+      "language": "Java",
+      "type": "application",
+      "stars": 32273,
+      "graded": true
+    },
+    {
+      "slug": "facebookresearch/detectron2",
+      "grade": "D",
+      "score": 63,
+      "language": "Python",
+      "type": "application",
+      "stars": 34274,
+      "graded": true
+    },
+    {
+      "slug": "google-ai-edge/mediapipe",
+      "grade": "D",
+      "score": 63,
+      "language": "C++",
+      "type": "application",
+      "stars": 34486,
+      "graded": true
+    },
+    {
+      "slug": "hpcaitech/ColossalAI",
+      "grade": "D",
+      "score": 63,
+      "language": "Python",
+      "type": "application",
+      "stars": 41372,
+      "graded": true
+    },
+    {
+      "slug": "iptv-org/iptv",
+      "grade": "D",
+      "score": 63,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 114141,
+      "graded": true
+    },
+    {
+      "slug": "istio/istio",
+      "grade": "D",
+      "score": 63,
+      "language": "Go",
+      "type": "application",
+      "stars": 38072,
+      "graded": true
+    },
+    {
+      "slug": "langchain-ai/langchain",
+      "grade": "D",
+      "score": 63,
+      "language": "Python",
+      "type": "application",
+      "stars": 132143,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/autogen",
+      "grade": "D",
+      "score": 63,
+      "language": "Python",
+      "type": "application",
+      "stars": 56617,
+      "graded": true
+    },
+    {
+      "slug": "raysan5/raylib",
+      "grade": "D",
+      "score": 63,
+      "language": "C",
+      "type": "application",
+      "stars": 31868,
+      "graded": true
+    },
+    {
+      "slug": "tiimgreen/github-cheat-sheet",
+      "grade": "N/A",
+      "score": 63,
+      "language": null,
+      "type": "documentation",
+      "stars": 56004,
+      "graded": false
+    },
+    {
+      "slug": "tldr-pages/tldr",
+      "grade": "D",
+      "score": 63,
+      "language": "Markdown",
+      "type": "application",
+      "stars": 61892,
+      "graded": true
+    },
+    {
+      "slug": "typicode/json-server",
+      "grade": "D",
+      "score": 63,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 75674,
+      "graded": true
+    },
+    {
+      "slug": "usebruno/bruno",
+      "grade": "D",
+      "score": 63,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 42521,
+      "graded": true
+    },
+    {
+      "slug": "vuejs/vue",
+      "grade": "D",
+      "score": 63,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 209891,
+      "graded": true
+    },
+    {
+      "slug": "AUTOMATIC1111/stable-diffusion-webui",
+      "grade": "D",
+      "score": 62,
+      "language": "Python",
+      "type": "application",
+      "stars": 162103,
+      "graded": true
+    },
+    {
+      "slug": "DefinitelyTyped/DefinitelyTyped",
+      "grade": "D",
+      "score": 62,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 51124,
+      "graded": true
+    },
+    {
+      "slug": "SeleniumHQ/selenium",
+      "grade": "D",
+      "score": 62,
+      "language": "Java",
+      "type": "application",
+      "stars": 34182,
+      "graded": true
+    },
+    {
+      "slug": "alebcay/awesome-shell",
+      "grade": "N/A",
+      "score": 62,
+      "language": null,
+      "type": "documentation",
+      "stars": 36778,
+      "graded": false
+    },
+    {
+      "slug": "bigskysoftware/htmx",
+      "grade": "D",
+      "score": 62,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 47736,
+      "graded": true
+    },
+    {
+      "slug": "docker/awesome-compose",
+      "grade": "N/A",
+      "score": 62,
+      "language": "HTML",
+      "type": "documentation",
+      "stars": 44678,
+      "graded": false
+    },
+    {
+      "slug": "gedoor/legado",
+      "grade": "D",
+      "score": 62,
+      "language": "Kotlin",
+      "type": "application",
+      "stars": 45555,
+      "graded": true
+    },
+    {
+      "slug": "gorhill/uBlock",
+      "grade": "D",
+      "score": 62,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 62472,
+      "graded": true
+    },
+    {
+      "slug": "netty/netty",
+      "grade": "D",
+      "score": 62,
+      "language": "Java",
+      "type": "application",
+      "stars": 34901,
+      "graded": true
+    },
+    {
+      "slug": "open-mmlab/mmdetection",
+      "grade": "D",
+      "score": 62,
+      "language": "Python",
+      "type": "application",
+      "stars": 32564,
+      "graded": true
+    },
+    {
+      "slug": "pathwaycom/llm-app",
+      "grade": "D",
+      "score": 62,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 59895,
+      "graded": true
+    },
+    {
+      "slug": "portainer/portainer",
+      "grade": "D",
+      "score": 62,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 37043,
+      "graded": true
+    },
+    {
+      "slug": "saadeghi/daisyui",
+      "grade": "D",
+      "score": 62,
+      "language": "Svelte",
+      "type": "application",
+      "stars": 40651,
+      "graded": true
+    },
+    {
+      "slug": "sindresorhus/awesome",
+      "grade": "N/A",
+      "score": 62,
+      "language": null,
+      "type": "documentation",
+      "stars": 451298,
+      "graded": false
+    },
+    {
+      "slug": "spring-projects/spring-boot",
+      "grade": "D",
+      "score": 62,
+      "language": "Java",
+      "type": "application",
+      "stars": 80326,
+      "graded": true
+    },
+    {
+      "slug": "Eugeny/tabby",
+      "grade": "D",
+      "score": 61,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 70010,
+      "graded": true
+    },
+    {
+      "slug": "Hack-with-Github/Awesome-Hacking",
+      "grade": "N/A",
+      "score": 61,
+      "language": null,
+      "type": "documentation",
+      "stars": 109528,
+      "graded": false
+    },
+    {
+      "slug": "PatrickJS/awesome-cursorrules",
+      "grade": "N/A",
+      "score": 61,
+      "language": "MDX",
+      "type": "documentation",
+      "stars": 38859,
+      "graded": false
+    },
+    {
+      "slug": "TheAlgorithms/JavaScript",
+      "grade": "D",
+      "score": 61,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 34081,
+      "graded": true
+    },
+    {
+      "slug": "agno-agi/agno",
+      "grade": "D",
+      "score": 61,
+      "language": "Python",
+      "type": "application",
+      "stars": 39124,
+      "graded": true
+    },
+    {
+      "slug": "balena-io/etcher",
+      "grade": "D",
+      "score": 61,
+      "language": "TypeScript",
+      "type": "library",
+      "stars": 33422,
+      "graded": true
+    },
+    {
+      "slug": "binarywang/WxJava",
+      "grade": "D",
+      "score": 61,
+      "language": "Java",
+      "type": "application",
+      "stars": 32680,
+      "graded": true
+    },
+    {
+      "slug": "chinabugotech/hutool",
+      "grade": "D",
+      "score": 61,
+      "language": "Java",
+      "type": "application",
+      "stars": 30316,
+      "graded": true
+    },
+    {
+      "slug": "logseq/logseq",
+      "grade": "D",
+      "score": 61,
+      "language": "Clojure",
+      "type": "application",
+      "stars": 41824,
+      "graded": true
+    },
+    {
+      "slug": "niklasvh/html2canvas",
+      "grade": "D",
+      "score": 61,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 31829,
+      "graded": true
+    },
+    {
+      "slug": "nolimits4web/swiper",
+      "grade": "D",
+      "score": 61,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 41824,
+      "graded": true
+    },
+    {
+      "slug": "oobabooga/text-generation-webui",
+      "grade": "D",
+      "score": 61,
+      "language": "Python",
+      "type": "application",
+      "stars": 46384,
+      "graded": true
+    },
+    {
+      "slug": "refined-github/refined-github",
+      "grade": "D",
+      "score": 61,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 30982,
+      "graded": true
+    },
+    {
+      "slug": "schollz/croc",
+      "grade": "D",
+      "score": 61,
+      "language": "Go",
+      "type": "application",
+      "stars": 34541,
+      "graded": true
+    },
+    {
+      "slug": "spf13/cobra",
+      "grade": "D",
+      "score": 61,
+      "language": "Go",
+      "type": "application",
+      "stars": 43565,
+      "graded": true
+    },
+    {
+      "slug": "wailsapp/wails",
+      "grade": "D",
+      "score": 61,
+      "language": "Go",
+      "type": "application",
+      "stars": 33563,
+      "graded": true
+    },
+    {
+      "slug": "ReactiveX/rxjs",
+      "grade": "D",
+      "score": 60,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 31657,
+      "graded": true
+    },
+    {
+      "slug": "SortableJS/Sortable",
+      "grade": "D",
+      "score": 60,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 31055,
+      "graded": true
+    },
+    {
+      "slug": "carbon-app/carbon",
+      "grade": "D",
+      "score": 60,
+      "language": "JavaScript",
+      "type": "library",
+      "stars": 36002,
+      "graded": true
+    },
+    {
+      "slug": "facebook/folly",
+      "grade": "D",
+      "score": 60,
+      "language": "C++",
+      "type": "application",
+      "stars": 30311,
+      "graded": true
+    },
+    {
+      "slug": "faif/python-patterns",
+      "grade": "D",
+      "score": 60,
+      "language": "Python",
+      "type": "application",
+      "stars": 42791,
+      "graded": true
+    },
+    {
+      "slug": "fastlane/fastlane",
+      "grade": "D",
+      "score": 60,
+      "language": "Ruby",
+      "type": "application",
+      "stars": 41304,
+      "graded": true
+    },
+    {
+      "slug": "flutter/flutter",
+      "grade": "D",
+      "score": 60,
+      "language": "Dart",
+      "type": "application",
+      "stars": 175805,
+      "graded": true
+    },
+    {
+      "slug": "google/leveldb",
+      "grade": "D",
+      "score": 60,
+      "language": "C++",
+      "type": "application",
+      "stars": 38941,
+      "graded": true
+    },
+    {
+      "slug": "hakimel/reveal.js",
+      "grade": "D",
+      "score": 60,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 70924,
+      "graded": true
+    },
+    {
+      "slug": "jellyfin/jellyfin",
+      "grade": "D",
+      "score": 60,
+      "language": "C#",
+      "type": "application",
+      "stars": 49922,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/PowerToys",
+      "grade": "D",
+      "score": 60,
+      "language": "C#",
+      "type": "application",
+      "stars": 131265,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/VibeVoice",
+      "grade": "D",
+      "score": 60,
+      "language": "Python",
+      "type": "application",
+      "stars": 35298,
+      "graded": true
+    },
+    {
+      "slug": "mifi/lossless-cut",
+      "grade": "D",
+      "score": 60,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 39527,
+      "graded": true
+    },
+    {
+      "slug": "phaserjs/phaser",
+      "grade": "D",
+      "score": 60,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 39270,
+      "graded": true
+    },
+    {
+      "slug": "qarmin/czkawka",
+      "grade": "D",
+      "score": 60,
+      "language": "Rust",
+      "type": "application",
+      "stars": 30339,
+      "graded": true
+    },
+    {
+      "slug": "s0md3v/roop",
+      "grade": "D",
+      "score": 60,
+      "language": "Python",
+      "type": "application",
+      "stars": 30517,
+      "graded": true
+    },
+    {
+      "slug": "siyuan-note/siyuan",
+      "grade": "D",
+      "score": 60,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 42267,
+      "graded": true
+    },
+    {
+      "slug": "termux/termux-app",
+      "grade": "D",
+      "score": 60,
+      "language": "Java",
+      "type": "application",
+      "stars": 52816,
+      "graded": true
+    },
+    {
+      "slug": "v2fly/v2ray-core",
+      "grade": "D",
+      "score": 60,
+      "language": "Go",
+      "type": "application",
+      "stars": 33499,
+      "graded": true
+    },
+    {
+      "slug": "wagoodman/dive",
+      "grade": "D",
+      "score": 60,
+      "language": "Go",
+      "type": "application",
+      "stars": 53694,
+      "graded": true
+    },
+    {
+      "slug": "ytdl-org/youtube-dl",
+      "grade": "D",
+      "score": 60,
+      "language": "Python",
+      "type": "application",
+      "stars": 139969,
+      "graded": true
+    },
+    {
+      "slug": "3b1b/manim",
+      "grade": "F",
+      "score": 59,
+      "language": "Python",
+      "type": "application",
+      "stars": 85725,
+      "graded": true
+    },
+    {
+      "slug": "CorentinJ/Real-Time-Voice-Cloning",
+      "grade": "F",
+      "score": 59,
+      "language": "Python",
+      "type": "application",
+      "stars": 59582,
+      "graded": true
+    },
+    {
+      "slug": "MHSanaei/3x-ui",
+      "grade": "F",
+      "score": 59,
+      "language": "HTML",
+      "type": "application",
+      "stars": 33028,
+      "graded": true
+    },
+    {
+      "slug": "Mintplex-Labs/anything-llm",
+      "grade": "F",
+      "score": 59,
+      "language": "JavaScript",
+      "type": "hybrid",
+      "stars": 57475,
+      "graded": true
+    },
+    {
+      "slug": "PKUFlyingPig/cs-self-learning",
+      "grade": "N/A",
+      "score": 59,
+      "language": "HTML",
+      "type": "documentation",
+      "stars": 72131,
+      "graded": false
+    },
+    {
+      "slug": "Shubhamsaboo/awesome-llm-apps",
+      "grade": "N/A",
+      "score": 59,
+      "language": "Python",
+      "type": "documentation",
+      "stars": 104343,
+      "graded": false
+    },
+    {
+      "slug": "YunaiV/ruoyi-vue-pro",
+      "grade": "F",
+      "score": 59,
+      "language": "Java",
+      "type": "application",
+      "stars": 36157,
+      "graded": true
+    },
+    {
+      "slug": "aria2/aria2",
+      "grade": "F",
+      "score": 59,
+      "language": "C++",
+      "type": "application",
+      "stars": 40466,
+      "graded": true
+    },
+    {
+      "slug": "jekyll/jekyll",
+      "grade": "F",
+      "score": 59,
+      "language": "Ruby",
+      "type": "library",
+      "stars": 51468,
+      "graded": true
+    },
+    {
+      "slug": "qier222/YesPlayMusic",
+      "grade": "F",
+      "score": 59,
+      "language": "Vue",
+      "type": "application",
+      "stars": 32711,
+      "graded": true
+    },
+    {
+      "slug": "remotion-dev/remotion",
+      "grade": "F",
+      "score": 59,
+      "language": "TypeScript",
+      "type": "hybrid",
+      "stars": 41654,
+      "graded": true
+    },
+    {
+      "slug": "rust-lang/rustlings",
+      "grade": "F",
+      "score": 59,
+      "language": "Rust",
+      "type": "application",
+      "stars": 62358,
+      "graded": true
+    },
+    {
+      "slug": "sxyazi/yazi",
+      "grade": "F",
+      "score": 59,
+      "language": "Rust",
+      "type": "application",
+      "stars": 35859,
+      "graded": true
+    },
+    {
+      "slug": "xtekky/gpt4free",
+      "grade": "F",
+      "score": 59,
+      "language": "Python",
+      "type": "application",
+      "stars": 65964,
+      "graded": true
+    },
+    {
+      "slug": "Genymobile/scrcpy",
+      "grade": "F",
+      "score": 58,
+      "language": "C",
+      "type": "application",
+      "stars": 137939,
+      "graded": true
+    },
+    {
+      "slug": "RVC-Project/Retrieval-based-Voice-Conversion-WebUI",
+      "grade": "F",
+      "score": 58,
+      "language": "Python",
+      "type": "application",
+      "stars": 35076,
+      "graded": true
+    },
+    {
+      "slug": "VSCodium/vscodium",
+      "grade": "F",
+      "score": 58,
+      "language": "Shell",
+      "type": "application",
+      "stars": 30763,
+      "graded": true
+    },
+    {
+      "slug": "bytedance/deer-flow",
+      "grade": "F",
+      "score": 58,
+      "language": "Python",
+      "type": "application",
+      "stars": 56815,
+      "graded": true
+    },
+    {
+      "slug": "ehang-io/nps",
+      "grade": "F",
+      "score": 58,
+      "language": "Go",
+      "type": "library",
+      "stars": 34003,
+      "graded": true
+    },
+    {
+      "slug": "firecrawl/firecrawl",
+      "grade": "F",
+      "score": 58,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 103195,
+      "graded": true
+    },
+    {
+      "slug": "florinpop17/app-ideas",
+      "grade": "N/A",
+      "score": 58,
+      "language": null,
+      "type": "documentation",
+      "stars": 92370,
+      "graded": false
+    },
+    {
+      "slug": "google/guava",
+      "grade": "F",
+      "score": 58,
+      "language": "Java",
+      "type": "application",
+      "stars": 51519,
+      "graded": true
+    },
+    {
+      "slug": "huginn/huginn",
+      "grade": "F",
+      "score": 58,
+      "language": "Ruby",
+      "type": "library",
+      "stars": 49027,
+      "graded": true
+    },
+    {
+      "slug": "josephmisiti/awesome-machine-learning",
+      "grade": "N/A",
+      "score": 58,
+      "language": "Python",
+      "type": "documentation",
+      "stars": 72139,
+      "graded": false
+    },
+    {
+      "slug": "leonardomso/33-js-concepts",
+      "grade": "F",
+      "score": 58,
+      "language": "JavaScript",
+      "type": "library",
+      "stars": 66301,
+      "graded": true
+    },
+    {
+      "slug": "lutzroeder/netron",
+      "grade": "F",
+      "score": 58,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 32694,
+      "graded": true
+    },
+    {
+      "slug": "remoteintech/remote-jobs",
+      "grade": "F",
+      "score": 58,
+      "language": "Nunjucks",
+      "type": "application",
+      "stars": 40159,
+      "graded": true
+    },
+    {
+      "slug": "sindresorhus/awesome-nodejs",
+      "grade": "N/A",
+      "score": 58,
+      "language": null,
+      "type": "documentation",
+      "stars": 65462,
+      "graded": false
+    },
+    {
+      "slug": "slab/quill",
+      "grade": "F",
+      "score": 58,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 47022,
+      "graded": true
+    },
+    {
+      "slug": "vercel/hyper",
+      "grade": "F",
+      "score": 58,
+      "language": "TypeScript",
+      "type": "library",
+      "stars": 44678,
+      "graded": true
+    },
+    {
+      "slug": "Kong/kong",
+      "grade": "F",
+      "score": 57,
+      "language": "Lua",
+      "type": "iac",
+      "stars": 43093,
+      "graded": true
+    },
+    {
+      "slug": "OAI/OpenAPI-Specification",
+      "grade": "F",
+      "score": 57,
+      "language": "Markdown",
+      "type": "application",
+      "stars": 30985,
+      "graded": true
+    },
+    {
+      "slug": "ToolJet/ToolJet",
+      "grade": "F",
+      "score": 57,
+      "language": "JavaScript",
+      "type": "hybrid",
+      "stars": 37707,
+      "graded": true
+    },
+    {
+      "slug": "angular/angular.js",
+      "grade": "F",
+      "score": 57,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 58861,
+      "graded": true
+    },
+    {
+      "slug": "anoma/anoma",
+      "grade": "F",
+      "score": 57,
+      "language": "Elixir",
+      "type": "application",
+      "stars": 33941,
+      "graded": true
+    },
+    {
+      "slug": "awesome-selfhosted/awesome-selfhosted",
+      "grade": "N/A",
+      "score": 57,
+      "language": null,
+      "type": "documentation",
+      "stars": 283619,
+      "graded": false
+    },
+    {
+      "slug": "denysdovhan/wtfjs",
+      "grade": "F",
+      "score": 57,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 37764,
+      "graded": true
+    },
+    {
+      "slug": "garrytan/gstack",
+      "grade": "F",
+      "score": 57,
+      "language": "TypeScript",
+      "type": "library",
+      "stars": 62347,
+      "graded": true
+    },
+    {
+      "slug": "glanceapp/glance",
+      "grade": "F",
+      "score": 57,
+      "language": "Go",
+      "type": "application",
+      "stars": 32895,
+      "graded": true
+    },
+    {
+      "slug": "golang-standards/project-layout",
+      "grade": "N/A",
+      "score": 57,
+      "language": "Makefile",
+      "type": "documentation",
+      "stars": 55683,
+      "graded": false
+    },
+    {
+      "slug": "iawia002/lux",
+      "grade": "F",
+      "score": 57,
+      "language": "Go",
+      "type": "application",
+      "stars": 31002,
+      "graded": true
+    },
+    {
+      "slug": "jgraph/drawio-desktop",
+      "grade": "F",
+      "score": 57,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 60189,
+      "graded": true
+    },
+    {
+      "slug": "jwasham/coding-interview-university",
+      "grade": "N/A",
+      "score": 57,
+      "language": null,
+      "type": "documentation",
+      "stars": 340185,
+      "graded": false
+    },
+    {
+      "slug": "lyswhut/lx-music-desktop",
+      "grade": "F",
+      "score": 57,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 49746,
+      "graded": true
+    },
+    {
+      "slug": "nvbn/thefuck",
+      "grade": "F",
+      "score": 57,
+      "language": "Python",
+      "type": "application",
+      "stars": 95807,
+      "graded": true
+    },
+    {
+      "slug": "pbatard/rufus",
+      "grade": "F",
+      "score": 57,
+      "language": "C",
+      "type": "application",
+      "stars": 35303,
+      "graded": true
+    },
+    {
+      "slug": "AppFlowy-IO/AppFlowy",
+      "grade": "F",
+      "score": 56,
+      "language": "Dart",
+      "type": "application",
+      "stars": 68898,
+      "graded": true
+    },
+    {
+      "slug": "BVLC/caffe",
+      "grade": "F",
+      "score": 56,
+      "language": "C++",
+      "type": "application",
+      "stars": 34753,
+      "graded": true
+    },
+    {
+      "slug": "FoundationAgents/OpenManus",
+      "grade": "F",
+      "score": 56,
+      "language": "Python",
+      "type": "application",
+      "stars": 55595,
+      "graded": true
+    },
+    {
+      "slug": "IceWhaleTech/CasaOS",
+      "grade": "F",
+      "score": 56,
+      "language": "Go",
+      "type": "application",
+      "stars": 33543,
+      "graded": true
+    },
+    {
+      "slug": "QuivrHQ/quivr",
+      "grade": "F",
+      "score": 56,
+      "language": "Python",
+      "type": "application",
+      "stars": 39080,
+      "graded": true
+    },
+    {
+      "slug": "Trinea/android-open-project",
+      "grade": "N/A",
+      "score": 56,
+      "language": null,
+      "type": "documentation",
+      "stars": 31835,
+      "graded": false
+    },
+    {
+      "slug": "alibaba/arthas",
+      "grade": "F",
+      "score": 56,
+      "language": "Java",
+      "type": "library",
+      "stars": 37220,
+      "graded": true
+    },
+    {
+      "slug": "alibaba/easyexcel",
+      "grade": "F",
+      "score": 56,
+      "language": "Java",
+      "type": "application",
+      "stars": 33755,
+      "graded": true
+    },
+    {
+      "slug": "anthropics/claude-code",
+      "grade": "F",
+      "score": 56,
+      "language": "Shell",
+      "type": "application",
+      "stars": 106840,
+      "graded": true
+    },
+    {
+      "slug": "dbeaver/dbeaver",
+      "grade": "F",
+      "score": 56,
+      "language": "Java",
+      "type": "application",
+      "stars": 49375,
+      "graded": true
+    },
+    {
+      "slug": "gkd-kit/gkd",
+      "grade": "F",
+      "score": 56,
+      "language": "Kotlin",
+      "type": "application",
+      "stars": 37488,
+      "graded": true
+    },
+    {
+      "slug": "google/googletest",
+      "grade": "F",
+      "score": 56,
+      "language": "C++",
+      "type": "application",
+      "stars": 38434,
+      "graded": true
+    },
+    {
+      "slug": "inkonchain/docs",
+      "grade": "F",
+      "score": 56,
+      "language": "MDX",
+      "type": "application",
+      "stars": 36784,
+      "graded": true
+    },
+    {
+      "slug": "jobbole/awesome-python-cn",
+      "grade": "N/A",
+      "score": 56,
+      "language": "Makefile",
+      "type": "documentation",
+      "stars": 30302,
+      "graded": false
+    },
+    {
+      "slug": "koalaman/shellcheck",
+      "grade": "F",
+      "score": 56,
+      "language": "Haskell",
+      "type": "application",
+      "stars": 39217,
+      "graded": true
+    },
+    {
+      "slug": "moment/moment",
+      "grade": "F",
+      "score": 56,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 48019,
+      "graded": true
+    },
+    {
+      "slug": "musistudio/claude-code-router",
+      "grade": "F",
+      "score": 56,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 31302,
+      "graded": true
+    },
+    {
+      "slug": "naptha/tesseract.js",
+      "grade": "F",
+      "score": 56,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 37980,
+      "graded": true
+    },
+    {
+      "slug": "nativefier/nativefier",
+      "grade": "F",
+      "score": 56,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 35336,
+      "graded": true
+    },
+    {
+      "slug": "pcottle/learnGitBranching",
+      "grade": "F",
+      "score": 56,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 33305,
+      "graded": true
+    },
+    {
+      "slug": "zsh-users/zsh-autosuggestions",
+      "grade": "F",
+      "score": 56,
+      "language": "Shell",
+      "type": "application",
+      "stars": 35190,
+      "graded": true
+    },
+    {
+      "slug": "1c7/chinese-independent-developer",
+      "grade": "F",
+      "score": 55,
+      "language": null,
+      "type": "application",
+      "stars": 47565,
+      "graded": true
+    },
+    {
+      "slug": "AvaloniaUI/Avalonia",
+      "grade": "F",
+      "score": 55,
+      "language": "C#",
+      "type": "application",
+      "stars": 30453,
+      "graded": true
+    },
+    {
+      "slug": "OWASP/CheatSheetSeries",
+      "grade": "F",
+      "score": 55,
+      "language": "Python",
+      "type": "application",
+      "stars": 31674,
+      "graded": true
+    },
+    {
+      "slug": "TauricResearch/TradingAgents",
+      "grade": "F",
+      "score": 55,
+      "language": "Python",
+      "type": "application",
+      "stars": 46253,
+      "graded": true
+    },
+    {
+      "slug": "chenglou/pretext",
+      "grade": "F",
+      "score": 55,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 34605,
+      "graded": true
+    },
+    {
+      "slug": "coolsnowwolf/lede",
+      "grade": "F",
+      "score": 55,
+      "language": "C",
+      "type": "application",
+      "stars": 31398,
+      "graded": true
+    },
+    {
+      "slug": "drawdb-io/drawdb",
+      "grade": "F",
+      "score": 55,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 37009,
+      "graded": true
+    },
+    {
+      "slug": "inkonchain/ink-kit",
+      "grade": "F",
+      "score": 55,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 36637,
+      "graded": true
+    },
+    {
+      "slug": "localsend/localsend",
+      "grade": "F",
+      "score": 55,
+      "language": "Dart",
+      "type": "application",
+      "stars": 77564,
+      "graded": true
+    },
+    {
+      "slug": "lukasz-madon/awesome-remote-job",
+      "grade": "N/A",
+      "score": 55,
+      "language": null,
+      "type": "documentation",
+      "stars": 44649,
+      "graded": false
+    },
+    {
+      "slug": "microsoft/markitdown",
+      "grade": "F",
+      "score": 55,
+      "language": "Python",
+      "type": "application",
+      "stars": 93185,
+      "graded": true
+    },
+    {
+      "slug": "mtdvio/every-programmer-should-know",
+      "grade": "N/A",
+      "score": 55,
+      "language": null,
+      "type": "documentation",
+      "stars": 98387,
+      "graded": false
+    },
+    {
+      "slug": "poteto/hiring-without-whiteboards",
+      "grade": "F",
+      "score": 55,
+      "language": "JavaScript",
+      "type": "library",
+      "stars": 50529,
+      "graded": true
+    },
+    {
+      "slug": "reworkd/AgentGPT",
+      "grade": "F",
+      "score": 55,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 35921,
+      "graded": true
+    },
+    {
+      "slug": "666ghj/BettaFish",
+      "grade": "F",
+      "score": 54,
+      "language": "Python",
+      "type": "application",
+      "stars": 40134,
+      "graded": true
+    },
+    {
+      "slug": "NginxProxyManager/nginx-proxy-manager",
+      "grade": "F",
+      "score": 54,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 32344,
+      "graded": true
+    },
+    {
+      "slug": "PanJiaChen/vue-element-admin",
+      "grade": "F",
+      "score": 54,
+      "language": "Vue",
+      "type": "application",
+      "stars": 90299,
+      "graded": true
+    },
+    {
+      "slug": "airbnb/lottie-android",
+      "grade": "F",
+      "score": 54,
+      "language": "Java",
+      "type": "application",
+      "stars": 35602,
+      "graded": true
+    },
+    {
+      "slug": "iluwatar/java-design-patterns",
+      "grade": "F",
+      "score": 54,
+      "language": "Java",
+      "type": "application",
+      "stars": 93855,
+      "graded": true
+    },
+    {
+      "slug": "imputnet/cobalt",
+      "grade": "F",
+      "score": 54,
+      "language": "Svelte",
+      "type": "application",
+      "stars": 39370,
+      "graded": true
+    },
+    {
+      "slug": "kelseyhightower/nocode",
+      "grade": "N/A",
+      "score": 54,
+      "language": "Dockerfile",
+      "type": "documentation",
+      "stars": 65137,
+      "graded": false
+    },
+    {
+      "slug": "shadowsocks/shadowsocks-android",
+      "grade": "F",
+      "score": 54,
+      "language": "Kotlin",
+      "type": "application",
+      "stars": 36729,
+      "graded": true
+    },
+    {
+      "slug": "square/retrofit",
+      "grade": "F",
+      "score": 54,
+      "language": "HTML",
+      "type": "application",
+      "stars": 43907,
+      "graded": true
+    },
+    {
+      "slug": "vadimdemedes/ink",
+      "grade": "F",
+      "score": 54,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 36980,
+      "graded": true
+    },
+    {
+      "slug": "xitu/gold-miner",
+      "grade": "N/A",
+      "score": 54,
+      "language": null,
+      "type": "documentation",
+      "stars": 34337,
+      "graded": false
+    },
+    {
+      "slug": "1Panel-dev/1Panel",
+      "grade": "F",
+      "score": 53,
+      "language": "Go",
+      "type": "application",
+      "stars": 34697,
+      "graded": true
+    },
+    {
+      "slug": "DopplerHQ/awesome-interview-questions",
+      "grade": "N/A",
+      "score": 53,
+      "language": null,
+      "type": "documentation",
+      "stars": 81778,
+      "graded": false
+    },
+    {
+      "slug": "MunGell/awesome-for-beginners",
+      "grade": "N/A",
+      "score": 53,
+      "language": null,
+      "type": "documentation",
+      "stars": 84108,
+      "graded": false
+    },
+    {
+      "slug": "deepseek-ai/DeepSeek-R1",
+      "grade": "N/A",
+      "score": 53,
+      "language": null,
+      "type": "documentation",
+      "stars": 91984,
+      "graded": false
+    },
+    {
+      "slug": "golang/go",
+      "grade": "F",
+      "score": 53,
+      "language": "Go",
+      "type": "runtime",
+      "stars": 133250,
+      "graded": true
+    },
+    {
+      "slug": "jgthms/bulma",
+      "grade": "F",
+      "score": 53,
+      "language": "CSS",
+      "type": "application",
+      "stars": 50065,
+      "graded": true
+    },
+    {
+      "slug": "jondot/awesome-react-native",
+      "grade": "N/A",
+      "score": 53,
+      "language": "JavaScript",
+      "type": "documentation",
+      "stars": 35636,
+      "graded": false
+    },
+    {
+      "slug": "kamranahmedse/developer-roadmap",
+      "grade": "F",
+      "score": 53,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 352100,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/ML-For-Beginners",
+      "grade": "F",
+      "score": 53,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 84937,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/Web-Dev-For-Beginners",
+      "grade": "F",
+      "score": 53,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 95518,
+      "graded": true
+    },
+    {
+      "slug": "realworld-apps/realworld",
+      "grade": "F",
+      "score": 53,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 83043,
+      "graded": true
+    },
+    {
+      "slug": "soimort/you-get",
+      "grade": "F",
+      "score": 53,
+      "language": "Python",
+      "type": "application",
+      "stars": 56820,
+      "graded": true
+    },
+    {
+      "slug": "sorrycc/awesome-javascript",
+      "grade": "N/A",
+      "score": 53,
+      "language": null,
+      "type": "documentation",
+      "stars": 34935,
+      "graded": false
+    },
+    {
+      "slug": "sqlmapproject/sqlmap",
+      "grade": "F",
+      "score": 53,
+      "language": "Python",
+      "type": "library",
+      "stars": 36988,
+      "graded": true
+    },
+    {
+      "slug": "symfony/symfony",
+      "grade": "F",
+      "score": 53,
+      "language": "PHP",
+      "type": "application",
+      "stars": 30986,
+      "graded": true
+    },
+    {
+      "slug": "tmux/tmux",
+      "grade": "F",
+      "score": 53,
+      "language": "C",
+      "type": "application",
+      "stars": 43934,
+      "graded": true
+    },
+    {
+      "slug": "trekhleb/javascript-algorithms",
+      "grade": "F",
+      "score": 53,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 195777,
+      "graded": true
+    },
+    {
+      "slug": "upscayl/upscayl",
+      "grade": "F",
+      "score": 53,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 44342,
+      "graded": true
+    },
+    {
+      "slug": "valinet/ExplorerPatcher",
+      "grade": "F",
+      "score": 53,
+      "language": "C",
+      "type": "application",
+      "stars": 32077,
+      "graded": true
+    },
+    {
+      "slug": "0xAX/linux-insides",
+      "grade": "F",
+      "score": 52,
+      "language": "Python",
+      "type": "application",
+      "stars": 32270,
+      "graded": true
+    },
+    {
+      "slug": "KRTirtho/spotube",
+      "grade": "F",
+      "score": 52,
+      "language": "Dart",
+      "type": "library",
+      "stars": 45345,
+      "graded": true
+    },
+    {
+      "slug": "TheAlgorithms/C-Plus-Plus",
+      "grade": "F",
+      "score": 52,
+      "language": "C++",
+      "type": "application",
+      "stars": 34001,
+      "graded": true
+    },
+    {
+      "slug": "agalwood/Motrix",
+      "grade": "F",
+      "score": 52,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 51224,
+      "graded": true
+    },
+    {
+      "slug": "android/architecture-samples",
+      "grade": "F",
+      "score": 52,
+      "language": "Kotlin",
+      "type": "application",
+      "stars": 45630,
+      "graded": true
+    },
+    {
+      "slug": "awesome-foss/awesome-sysadmin",
+      "grade": "N/A",
+      "score": 52,
+      "language": null,
+      "type": "documentation",
+      "stars": 33433,
+      "graded": false
+    },
+    {
+      "slug": "bayandin/awesome-awesomeness",
+      "grade": "N/A",
+      "score": 52,
+      "language": "Ruby",
+      "type": "documentation",
+      "stars": 33318,
+      "graded": false
+    },
+    {
+      "slug": "deepseek-ai/awesome-deepseek-integration",
+      "grade": "N/A",
+      "score": 52,
+      "language": null,
+      "type": "documentation",
+      "stars": 36131,
+      "graded": false
+    },
+    {
+      "slug": "dockur/windows",
+      "grade": "F",
+      "score": 52,
+      "language": "Shell",
+      "type": "application",
+      "stars": 50795,
+      "graded": true
+    },
+    {
+      "slug": "h5bp/Front-end-Developer-Interview-Questions",
+      "grade": "F",
+      "score": 52,
+      "language": "Nunjucks",
+      "type": "application",
+      "stars": 60822,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/calculator",
+      "grade": "F",
+      "score": 52,
+      "language": "C++",
+      "type": "application",
+      "stars": 30888,
+      "graded": true
+    },
+    {
+      "slug": "odoo/odoo",
+      "grade": "F",
+      "score": 52,
+      "language": "Python",
+      "type": "application",
+      "stars": 49892,
+      "graded": true
+    },
+    {
+      "slug": "public-apis/public-apis",
+      "grade": "F",
+      "score": 52,
+      "language": "Python",
+      "type": "application",
+      "stars": 418541,
+      "graded": true
+    },
+    {
+      "slug": "swiftlang/swift",
+      "grade": "F",
+      "score": 52,
+      "language": "Swift",
+      "type": "library",
+      "stars": 69861,
+      "graded": true
+    },
+    {
+      "slug": "Developer-Y/cs-video-courses",
+      "grade": "N/A",
+      "score": 51,
+      "language": null,
+      "type": "mirror",
+      "stars": 79167,
+      "graded": false
+    },
+    {
+      "slug": "ashishps1/awesome-system-design-resources",
+      "grade": "N/A",
+      "score": 51,
+      "language": "Java",
+      "type": "documentation",
+      "stars": 35770,
+      "graded": false
+    },
+    {
+      "slug": "binary-husky/gpt_academic",
+      "grade": "F",
+      "score": 51,
+      "language": "Python",
+      "type": "application",
+      "stars": 70338,
+      "graded": true
+    },
+    {
+      "slug": "bumptech/glide",
+      "grade": "F",
+      "score": 51,
+      "language": "Java",
+      "type": "application",
+      "stars": 35032,
+      "graded": true
+    },
+    {
+      "slug": "d3/d3",
+      "grade": "F",
+      "score": 51,
+      "language": "Shell",
+      "type": "application",
+      "stars": 112672,
+      "graded": true
+    },
+    {
+      "slug": "geekan/HowToLiveLonger",
+      "grade": "N/A",
+      "score": 51,
+      "language": null,
+      "type": "documentation",
+      "stars": 35018,
+      "graded": false
+    },
+    {
+      "slug": "jaywcjlove/linux-command",
+      "grade": "F",
+      "score": 51,
+      "language": "Markdown",
+      "type": "application",
+      "stars": 35793,
+      "graded": true
+    },
+    {
+      "slug": "k88hudson/git-flight-rules",
+      "grade": "N/A",
+      "score": 51,
+      "language": null,
+      "type": "documentation",
+      "stars": 42472,
+      "graded": false
+    },
+    {
+      "slug": "karpathy/nanochat",
+      "grade": "F",
+      "score": 51,
+      "language": "Python",
+      "type": "application",
+      "stars": 50911,
+      "graded": true
+    },
+    {
+      "slug": "lydiahallie/javascript-questions",
+      "grade": "N/A",
+      "score": 51,
+      "language": null,
+      "type": "documentation",
+      "stars": 65299,
+      "graded": false
+    },
+    {
+      "slug": "microsoft/ai-agents-for-beginners",
+      "grade": "F",
+      "score": 51,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 55783,
+      "graded": true
+    },
+    {
+      "slug": "ryanoasis/nerd-fonts",
+      "grade": "F",
+      "score": 51,
+      "language": "CSS",
+      "type": "application",
+      "stars": 62325,
+      "graded": true
+    },
+    {
+      "slug": "torvalds/linux",
+      "grade": "F",
+      "score": 51,
+      "language": "C",
+      "type": "runtime",
+      "stars": 226644,
+      "graded": true
+    },
+    {
+      "slug": "type-challenges/type-challenges",
+      "grade": "F",
+      "score": 51,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 47911,
+      "graded": true
+    },
+    {
+      "slug": "virattt/ai-hedge-fund",
+      "grade": "F",
+      "score": 51,
+      "language": "Python",
+      "type": "application",
+      "stars": 49916,
+      "graded": true
+    },
+    {
+      "slug": "xinntao/Real-ESRGAN",
+      "grade": "F",
+      "score": 51,
+      "language": "Python",
+      "type": "application",
+      "stars": 34889,
+      "graded": true
+    },
+    {
+      "slug": "AykutSarac/jsoncrack.com",
+      "grade": "F",
+      "score": 50,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 43817,
+      "graded": true
+    },
+    {
+      "slug": "DevToys-app/DevToys",
+      "grade": "F",
+      "score": 50,
+      "language": "C#",
+      "type": "application",
+      "stars": 31154,
+      "graded": true
+    },
+    {
+      "slug": "Dogfalo/materialize",
+      "grade": "F",
+      "score": 50,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 39081,
+      "graded": true
+    },
+    {
+      "slug": "adobe/brackets",
+      "grade": "F",
+      "score": 50,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 33087,
+      "graded": true
+    },
+    {
+      "slug": "files-community/Files",
+      "grade": "F",
+      "score": 50,
+      "language": "C#",
+      "type": "application",
+      "stars": 42812,
+      "graded": true
+    },
+    {
+      "slug": "google-research/google-research",
+      "grade": "F",
+      "score": 50,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 37628,
+      "graded": true
+    },
+    {
+      "slug": "junegunn/vim-plug",
+      "grade": "F",
+      "score": 50,
+      "language": "Vim Script",
+      "type": "application",
+      "stars": 35612,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/AI-For-Beginners",
+      "grade": "F",
+      "score": 50,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 46397,
+      "graded": true
+    },
+    {
+      "slug": "nothings/stb",
+      "grade": "F",
+      "score": 50,
+      "language": "C",
+      "type": "application",
+      "stars": 33196,
+      "graded": true
+    },
+    {
+      "slug": "openai/CLIP",
+      "grade": "F",
+      "score": 50,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 33053,
+      "graded": true
+    },
+    {
+      "slug": "v2ray/v2ray-core",
+      "grade": "F",
+      "score": 50,
+      "language": "Go",
+      "type": "application",
+      "stars": 46963,
+      "graded": true
+    },
+    {
+      "slug": "zenorocha/clipboard.js",
+      "grade": "F",
+      "score": 50,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 34171,
+      "graded": true
+    },
+    {
+      "slug": "ziishaned/learn-regex",
+      "grade": "N/A",
+      "score": 50,
+      "language": null,
+      "type": "documentation",
+      "stars": 46149,
+      "graded": false
+    },
+    {
+      "slug": "2dust/v2rayN",
+      "grade": "F",
+      "score": 49,
+      "language": "C#",
+      "type": "application",
+      "stars": 100507,
+      "graded": true
+    },
+    {
+      "slug": "2dust/v2rayNG",
+      "grade": "F",
+      "score": 49,
+      "language": "Kotlin",
+      "type": "application",
+      "stars": 53139,
+      "graded": true
+    },
+    {
+      "slug": "Alamofire/Alamofire",
+      "grade": "F",
+      "score": 49,
+      "language": "Swift",
+      "type": "application",
+      "stars": 42365,
+      "graded": true
+    },
+    {
+      "slug": "Chanzhaoyu/chatgpt-web",
+      "grade": "F",
+      "score": 49,
+      "language": "Vue",
+      "type": "application",
+      "stars": 31751,
+      "graded": true
+    },
+    {
+      "slug": "TencentARC/GFPGAN",
+      "grade": "F",
+      "score": 49,
+      "language": "Python",
+      "type": "application",
+      "stars": 37412,
+      "graded": true
+    },
+    {
+      "slug": "Z4nzu/hackingtool",
+      "grade": "F",
+      "score": 49,
+      "language": "Python",
+      "type": "application",
+      "stars": 57579,
+      "graded": true
+    },
+    {
+      "slug": "airbnb/javascript",
+      "grade": "F",
+      "score": 49,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 148115,
+      "graded": true
+    },
+    {
+      "slug": "animate-css/animate.css",
+      "grade": "F",
+      "score": 49,
+      "language": "CSS",
+      "type": "application",
+      "stars": 82641,
+      "graded": true
+    },
+    {
+      "slug": "dcloudio/uni-app",
+      "grade": "F",
+      "score": 49,
+      "language": "Objective-C",
+      "type": "application",
+      "stars": 41463,
+      "graded": true
+    },
+    {
+      "slug": "doocs/leetcode",
+      "grade": "F",
+      "score": 49,
+      "language": "Java",
+      "type": "application",
+      "stars": 35847,
+      "graded": true
+    },
+    {
+      "slug": "jlevy/the-art-of-command-line",
+      "grade": "N/A",
+      "score": 49,
+      "language": null,
+      "type": "documentation",
+      "stars": 160490,
+      "graded": false
+    },
+    {
+      "slug": "laravel/laravel",
+      "grade": "F",
+      "score": 49,
+      "language": "Blade",
+      "type": "application",
+      "stars": 84052,
+      "graded": true
+    },
+    {
+      "slug": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "grade": "F",
+      "score": 49,
+      "language": "Python",
+      "type": "application",
+      "stars": 57397,
+      "graded": true
+    },
+    {
+      "slug": "zhongyang219/TrafficMonitor",
+      "grade": "F",
+      "score": 49,
+      "language": "C++",
+      "type": "application",
+      "stars": 43760,
+      "graded": true
+    },
+    {
+      "slug": "Anduin2017/HowToCook",
+      "grade": "F",
+      "score": 48,
+      "language": "Dockerfile",
+      "type": "application",
+      "stars": 99136,
+      "graded": true
+    },
+    {
+      "slug": "JetBrains/kotlin",
+      "grade": "N/A",
+      "score": 48,
+      "language": "Kotlin",
+      "type": "mirror",
+      "stars": 52520,
+      "graded": false
+    },
+    {
+      "slug": "RVC-Boss/GPT-SoVITS",
+      "grade": "F",
+      "score": 48,
+      "language": "Python",
+      "type": "application",
+      "stars": 56325,
+      "graded": true
+    },
+    {
+      "slug": "dkhamsing/open-source-ios-apps",
+      "grade": "F",
+      "score": 48,
+      "language": null,
+      "type": "application",
+      "stars": 49534,
+      "graded": true
+    },
+    {
+      "slug": "geekcomputers/Python",
+      "grade": "F",
+      "score": 48,
+      "language": "Python",
+      "type": "application",
+      "stars": 34918,
+      "graded": true
+    },
+    {
+      "slug": "goabstract/Awesome-Design-Tools",
+      "grade": "N/A",
+      "score": 48,
+      "language": "JavaScript",
+      "type": "documentation",
+      "stars": 39437,
+      "graded": false
+    },
+    {
+      "slug": "kuchin/awesome-cto",
+      "grade": "N/A",
+      "score": 48,
+      "language": null,
+      "type": "documentation",
+      "stars": 34636,
+      "graded": false
+    },
+    {
+      "slug": "openai/openai-cookbook",
+      "grade": "F",
+      "score": 48,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 72536,
+      "graded": true
+    },
+    {
+      "slug": "typescript-cheatsheets/react",
+      "grade": "F",
+      "score": 48,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 47014,
+      "graded": true
+    },
+    {
+      "slug": "xai-org/grok-1",
+      "grade": "N/A",
+      "score": 48,
+      "language": "Python",
+      "type": "mirror",
+      "stars": 51513,
+      "graded": false
+    },
+    {
+      "slug": "xkcoding/spring-boot-demo",
+      "grade": "F",
+      "score": 48,
+      "language": "Java",
+      "type": "application",
+      "stars": 34112,
+      "graded": true
+    },
+    {
+      "slug": "yangshun/tech-interview-handbook",
+      "grade": "F",
+      "score": 48,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 138532,
+      "graded": true
+    },
+    {
+      "slug": "666ghj/MiroFish",
+      "grade": "F",
+      "score": 47,
+      "language": "Python",
+      "type": "application",
+      "stars": 48384,
+      "graded": true
+    },
+    {
+      "slug": "ElemeFE/element",
+      "grade": "F",
+      "score": 47,
+      "language": "Vue",
+      "type": "application",
+      "stars": 54171,
+      "graded": true
+    },
+    {
+      "slug": "FreeCodeCampChina/freecodecamp.cn",
+      "grade": "F",
+      "score": 47,
+      "language": "CSS",
+      "type": "application",
+      "stars": 37652,
+      "graded": true
+    },
+    {
+      "slug": "GitSquared/edex-ui",
+      "grade": "F",
+      "score": 47,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 44565,
+      "graded": true
+    },
+    {
+      "slug": "NationalSecurityAgency/ghidra",
+      "grade": "F",
+      "score": 47,
+      "language": "Java",
+      "type": "application",
+      "stars": 66503,
+      "graded": true
+    },
+    {
+      "slug": "Zie619/n8n-workflows",
+      "grade": "F",
+      "score": 47,
+      "language": "Python",
+      "type": "application",
+      "stars": 53479,
+      "graded": true
+    },
+    {
+      "slug": "airbnb/lottie-web",
+      "grade": "F",
+      "score": 47,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 31786,
+      "graded": true
+    },
+    {
+      "slug": "atom/atom",
+      "grade": "F",
+      "score": 47,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 60968,
+      "graded": true
+    },
+    {
+      "slug": "chen08209/FlClash",
+      "grade": "F",
+      "score": 47,
+      "language": "Dart",
+      "type": "library",
+      "stars": 34978,
+      "graded": true
+    },
+    {
+      "slug": "github/gitignore",
+      "grade": "F",
+      "score": 47,
+      "language": null,
+      "type": "application",
+      "stars": 173263,
+      "graded": true
+    },
+    {
+      "slug": "impress/impress.js",
+      "grade": "F",
+      "score": 47,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 38466,
+      "graded": true
+    },
+    {
+      "slug": "qishibo/AnotherRedisDesktopManager",
+      "grade": "F",
+      "score": 47,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 34124,
+      "graded": true
+    },
+    {
+      "slug": "wg/wrk",
+      "grade": "F",
+      "score": 47,
+      "language": "C",
+      "type": "application",
+      "stars": 40174,
+      "graded": true
+    },
+    {
+      "slug": "yangshun/front-end-interview-handbook",
+      "grade": "F",
+      "score": 47,
+      "language": "MDX",
+      "type": "application",
+      "stars": 43916,
+      "graded": true
+    },
+    {
+      "slug": "Blankj/AndroidUtilCode",
+      "grade": "F",
+      "score": 46,
+      "language": "Java",
+      "type": "library",
+      "stars": 33710,
+      "graded": true
+    },
+    {
+      "slug": "CMU-Perceptual-Computing-Lab/openpose",
+      "grade": "F",
+      "score": 46,
+      "language": "C++",
+      "type": "application",
+      "stars": 33912,
+      "graded": true
+    },
+    {
+      "slug": "acmesh-official/acme.sh",
+      "grade": "F",
+      "score": 46,
+      "language": "Shell",
+      "type": "application",
+      "stars": 46165,
+      "graded": true
+    },
+    {
+      "slug": "justjavac/free-programming-books-zh_CN",
+      "grade": "N/A",
+      "score": 46,
+      "language": null,
+      "type": "mirror",
+      "stars": 116533,
+      "graded": false
+    },
+    {
+      "slug": "ripienaar/free-for-dev",
+      "grade": "N/A",
+      "score": 46,
+      "language": "HTML",
+      "type": "mirror",
+      "stars": 120480,
+      "graded": false
+    },
+    {
+      "slug": "ultraworkers/claw-code",
+      "grade": "N/A",
+      "score": 46,
+      "language": "Rust",
+      "type": "mirror",
+      "stars": 152062,
+      "graded": false
+    },
+    {
+      "slug": "FiloSottile/mkcert",
+      "grade": "F",
+      "score": 45,
+      "language": "Go",
+      "type": "application",
+      "stars": 58411,
+      "graded": true
+    },
+    {
+      "slug": "LeCoupa/awesome-cheatsheets",
+      "grade": "N/A",
+      "score": 45,
+      "language": "JavaScript",
+      "type": "documentation",
+      "stars": 45600,
+      "graded": false
+    },
+    {
+      "slug": "ShareX/ShareX",
+      "grade": "F",
+      "score": 45,
+      "language": "C#",
+      "type": "application",
+      "stars": 36051,
+      "graded": true
+    },
+    {
+      "slug": "cloudcommunity/Free-Certifications",
+      "grade": "N/A",
+      "score": 45,
+      "language": null,
+      "type": "documentation",
+      "stars": 53574,
+      "graded": false
+    },
+    {
+      "slug": "inkonchain/node",
+      "grade": "F",
+      "score": 45,
+      "language": "Shell",
+      "type": "application",
+      "stars": 36728,
+      "graded": true
+    },
+    {
+      "slug": "isocpp/CppCoreGuidelines",
+      "grade": "F",
+      "score": 45,
+      "language": "CSS",
+      "type": "application",
+      "stars": 44874,
+      "graded": true
+    },
+    {
+      "slug": "krahets/hello-algo",
+      "grade": "F",
+      "score": 45,
+      "language": "Java",
+      "type": "application",
+      "stars": 124503,
+      "graded": true
+    },
+    {
+      "slug": "nomic-ai/gpt4all",
+      "grade": "F",
+      "score": 45,
+      "language": "C++",
+      "type": "application",
+      "stars": 77230,
+      "graded": true
+    },
+    {
+      "slug": "ocornut/imgui",
+      "grade": "F",
+      "score": 45,
+      "language": "C++",
+      "type": "application",
+      "stars": 72357,
+      "graded": true
+    },
+    {
+      "slug": "sickcodes/Docker-OSX",
+      "grade": "F",
+      "score": 45,
+      "language": "Shell",
+      "type": "application",
+      "stars": 52372,
+      "graded": true
+    },
+    {
+      "slug": "ventoy/Ventoy",
+      "grade": "F",
+      "score": 45,
+      "language": "C",
+      "type": "application",
+      "stars": 75452,
+      "graded": true
+    },
+    {
+      "slug": "ComposioHQ/awesome-claude-skills",
+      "grade": "N/A",
+      "score": 44,
+      "language": "Python",
+      "type": "documentation",
+      "stars": 50659,
+      "graded": false
+    },
+    {
+      "slug": "ZuodaoTech/everyone-can-use-english",
+      "grade": "F",
+      "score": 44,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 33809,
+      "graded": true
+    },
+    {
+      "slug": "chubin/cheat.sh",
+      "grade": "F",
+      "score": 44,
+      "language": "Python",
+      "type": "library",
+      "stars": 41175,
+      "graded": true
+    },
+    {
+      "slug": "coreybutler/nvm-windows",
+      "grade": "F",
+      "score": 44,
+      "language": "Go",
+      "type": "application",
+      "stars": 45768,
+      "graded": true
+    },
+    {
+      "slug": "danielmiessler/SecLists",
+      "grade": "F",
+      "score": 44,
+      "language": "PHP",
+      "type": "application",
+      "stars": 69860,
+      "graded": true
+    },
+    {
+      "slug": "iina/iina",
+      "grade": "F",
+      "score": 44,
+      "language": "Swift",
+      "type": "application",
+      "stars": 44283,
+      "graded": true
+    },
+    {
+      "slug": "papers-we-love/papers-we-love",
+      "grade": "F",
+      "score": 44,
+      "language": "Shell",
+      "type": "application",
+      "stars": 104802,
+      "graded": true
+    },
+    {
+      "slug": "ryanmcdermott/clean-code-javascript",
+      "grade": "N/A",
+      "score": 44,
+      "language": "JavaScript",
+      "type": "documentation",
+      "stars": 94316,
+      "graded": false
+    },
+    {
+      "slug": "shareAI-lab/learn-claude-code",
+      "grade": "F",
+      "score": 44,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 47370,
+      "graded": true
+    },
+    {
+      "slug": "songquanpeng/one-api",
+      "grade": "F",
+      "score": 44,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 31358,
+      "graded": true
+    },
+    {
+      "slug": "thedaviddias/Front-End-Checklist",
+      "grade": "F",
+      "score": 44,
+      "language": null,
+      "type": "application",
+      "stars": 72432,
+      "graded": true
+    },
+    {
+      "slug": "typicode/husky",
+      "grade": "F",
+      "score": 44,
+      "language": "JavaScript",
+      "type": "library",
+      "stars": 34916,
+      "graded": true
+    },
+    {
+      "slug": "utmapp/UTM",
+      "grade": "F",
+      "score": 44,
+      "language": "Swift",
+      "type": "application",
+      "stars": 33509,
+      "graded": true
+    },
+    {
+      "slug": "wasabeef/awesome-android-ui",
+      "grade": "N/A",
+      "score": 44,
+      "language": null,
+      "type": "documentation",
+      "stars": 55792,
+      "graded": false
+    },
+    {
+      "slug": "EbookFoundation/free-programming-books",
+      "grade": "F",
+      "score": 43,
+      "language": "Python",
+      "type": "application",
+      "stars": 384925,
+      "graded": true
+    },
+    {
+      "slug": "PlexPt/awesome-chatgpt-prompts-zh",
+      "grade": "N/A",
+      "score": 43,
+      "language": null,
+      "type": "documentation",
+      "stars": 58874,
+      "graded": false
+    },
+    {
+      "slug": "XX-net/XX-Net",
+      "grade": "F",
+      "score": 43,
+      "language": "Python",
+      "type": "application",
+      "stars": 33434,
+      "graded": true
+    },
+    {
+      "slug": "alvarotrigo/fullPage.js",
+      "grade": "F",
+      "score": 43,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 35475,
+      "graded": true
+    },
+    {
+      "slug": "binhnguyennus/awesome-scalability",
+      "grade": "N/A",
+      "score": 43,
+      "language": null,
+      "type": "mirror",
+      "stars": 70120,
+      "graded": false
+    },
+    {
+      "slug": "juliangarnier/anime",
+      "grade": "F",
+      "score": 43,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 66987,
+      "graded": true
+    },
+    {
+      "slug": "lizongying/my-tv",
+      "grade": "F",
+      "score": 43,
+      "language": "C",
+      "type": "application",
+      "stars": 32198,
+      "graded": true
+    },
+    {
+      "slug": "mckaywrigley/chatbot-ui",
+      "grade": "F",
+      "score": 43,
+      "language": "TypeScript",
+      "type": "library",
+      "stars": 33137,
+      "graded": true
+    },
+    {
+      "slug": "topjohnwu/Magisk",
+      "grade": "F",
+      "score": 43,
+      "language": "Kotlin",
+      "type": "application",
+      "stars": 59642,
+      "graded": true
+    },
+    {
+      "slug": "AFNetworking/AFNetworking",
+      "grade": "F",
+      "score": 42,
+      "language": "Objective-C",
+      "type": "application",
+      "stars": 33637,
+      "graded": true
+    },
+    {
+      "slug": "DigitalPlatDev/FreeDomain",
+      "grade": "N/A",
+      "score": 42,
+      "language": "HTML",
+      "type": "mirror",
+      "stars": 155467,
+      "graded": false
+    },
+    {
+      "slug": "Lissy93/web-check",
+      "grade": "F",
+      "score": 42,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 32557,
+      "graded": true
+    },
+    {
+      "slug": "awesomedata/awesome-public-datasets",
+      "grade": "N/A",
+      "score": 42,
+      "language": null,
+      "type": "documentation",
+      "stars": 73801,
+      "graded": false
+    },
+    {
+      "slug": "dypsilon/frontend-dev-bookmarks",
+      "grade": "N/A",
+      "score": 42,
+      "language": null,
+      "type": "documentation",
+      "stars": 46349,
+      "graded": false
+    },
+    {
+      "slug": "karpathy/autoresearch",
+      "grade": "F",
+      "score": 42,
+      "language": "Python",
+      "type": "application",
+      "stars": 64445,
+      "graded": true
+    },
+    {
+      "slug": "lllyasviel/Fooocus",
+      "grade": "F",
+      "score": 42,
+      "language": "Python",
+      "type": "application",
+      "stars": 48005,
+      "graded": true
+    },
+    {
+      "slug": "nwjs/nw.js",
+      "grade": "F",
+      "score": 42,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 41533,
+      "graded": true
+    },
+    {
+      "slug": "prakhar1989/awesome-courses",
+      "grade": "N/A",
+      "score": 42,
+      "language": null,
+      "type": "documentation",
+      "stars": 67417,
+      "graded": false
+    },
+    {
+      "slug": "shadowsocks/shadowsocks-windows",
+      "grade": "F",
+      "score": 42,
+      "language": "C#",
+      "type": "application",
+      "stars": 59285,
+      "graded": true
+    },
+    {
+      "slug": "2noise/ChatTTS",
+      "grade": "F",
+      "score": 41,
+      "language": "Python",
+      "type": "application",
+      "stars": 39015,
+      "graded": true
+    },
+    {
+      "slug": "DavidHDev/react-bits",
+      "grade": "F",
+      "score": 41,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 37448,
+      "graded": true
+    },
+    {
+      "slug": "DovAmir/awesome-design-patterns",
+      "grade": "N/A",
+      "score": 41,
+      "language": null,
+      "type": "documentation",
+      "stars": 46674,
+      "graded": false
+    },
+    {
+      "slug": "ValveSoftware/Proton",
+      "grade": "F",
+      "score": 41,
+      "language": "C++",
+      "type": "application",
+      "stars": 30648,
+      "graded": true
+    },
+    {
+      "slug": "chrislgarry/Apollo-11",
+      "grade": "F",
+      "score": 41,
+      "language": "Assembly",
+      "type": "application",
+      "stars": 64730,
+      "graded": true
+    },
+    {
+      "slug": "google/material-design-lite",
+      "grade": "F",
+      "score": 41,
+      "language": "HTML",
+      "type": "application",
+      "stars": 32196,
+      "graded": true
+    },
+    {
+      "slug": "hankcs/HanLP",
+      "grade": "F",
+      "score": 41,
+      "language": "Python",
+      "type": "application",
+      "stars": 36236,
+      "graded": true
+    },
+    {
+      "slug": "hehonghui/awesome-english-ebooks",
+      "grade": "N/A",
+      "score": 41,
+      "language": "CSS",
+      "type": "mirror",
+      "stars": 30287,
+      "graded": false
+    },
+    {
+      "slug": "suno-ai/bark",
+      "grade": "F",
+      "score": 41,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 39068,
+      "graded": true
+    },
+    {
+      "slug": "tonsky/FiraCode",
+      "grade": "F",
+      "score": 41,
+      "language": "Clojure",
+      "type": "application",
+      "stars": 81373,
+      "graded": true
+    },
+    {
+      "slug": "ziglang/zig",
+      "grade": "F",
+      "score": 41,
+      "language": "Zig",
+      "type": "application",
+      "stars": 42808,
+      "graded": true
+    },
+    {
+      "slug": "ashishpatel26/500-AI-Machine-learning-Deep-learning-Computer-vision-NLP-Projects-with-code",
+      "grade": "N/A",
+      "score": 40,
+      "language": null,
+      "type": "documentation",
+      "stars": 32626,
+      "graded": false
+    },
+    {
+      "slug": "eugenp/tutorials",
+      "grade": "F",
+      "score": 40,
+      "language": "Java",
+      "type": "hybrid",
+      "stars": 37352,
+      "graded": true
+    },
+    {
+      "slug": "exelban/stats",
+      "grade": "F",
+      "score": 40,
+      "language": "Swift",
+      "type": "application",
+      "stars": 37563,
+      "graded": true
+    },
+    {
+      "slug": "necolas/normalize.css",
+      "grade": "F",
+      "score": 40,
+      "language": "CSS",
+      "type": "application",
+      "stars": 53730,
+      "graded": true
+    },
+    {
+      "slug": "abi/screenshot-to-code",
+      "grade": "F",
+      "score": 39,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 72131,
+      "graded": true
+    },
+    {
+      "slug": "blueimp/jQuery-File-Upload",
+      "grade": "F",
+      "score": 39,
+      "language": "PHP",
+      "type": "application",
+      "stars": 30794,
+      "graded": true
+    },
+    {
+      "slug": "dair-ai/Prompt-Engineering-Guide",
+      "grade": "F",
+      "score": 39,
+      "language": "MDX",
+      "type": "application",
+      "stars": 72702,
+      "graded": true
+    },
+    {
+      "slug": "twitter/the-algorithm",
+      "grade": "F",
+      "score": 39,
+      "language": "Scala",
+      "type": "application",
+      "stars": 72952,
+      "graded": true
+    },
+    {
+      "slug": "XIU2/TrackersListCollection",
+      "grade": "F",
+      "score": 38,
+      "language": null,
+      "type": "application",
+      "stars": 30909,
+      "graded": true
+    },
+    {
+      "slug": "datawhalechina/hello-agents",
+      "grade": "F",
+      "score": 38,
+      "language": "Python",
+      "type": "application",
+      "stars": 33266,
+      "graded": true
+    },
+    {
+      "slug": "goldbergyoni/nodebestpractices",
+      "grade": "F",
+      "score": 38,
+      "language": "Dockerfile",
+      "type": "application",
+      "stars": 105184,
+      "graded": true
+    },
+    {
+      "slug": "halfrost/LeetCode-Go",
+      "grade": "F",
+      "score": 38,
+      "language": "Go",
+      "type": "application",
+      "stars": 33799,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/Data-Science-For-Beginners",
+      "grade": "F",
+      "score": 38,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 34680,
+      "graded": true
+    },
+    {
+      "slug": "obra/superpowers",
+      "grade": "F",
+      "score": 38,
+      "language": "Shell",
+      "type": "application",
+      "stars": 132410,
+      "graded": true
+    },
+    {
+      "slug": "ruanyf/weekly",
+      "grade": "N/A",
+      "score": 38,
+      "language": null,
+      "type": "documentation",
+      "stars": 87247,
+      "graded": false
+    },
+    {
+      "slug": "swisskyrepo/PayloadsAllTheThings",
+      "grade": "F",
+      "score": 38,
+      "language": "Python",
+      "type": "application",
+      "stars": 76576,
+      "graded": true
+    },
+    {
+      "slug": "alan2207/bulletproof-react",
+      "grade": "F",
+      "score": 37,
+      "language": "TypeScript",
+      "type": "application",
+      "stars": 34752,
+      "graded": true
+    },
+    {
+      "slug": "d2l-ai/d2l-zh",
+      "grade": "F",
+      "score": 36,
+      "language": "Python",
+      "type": "application",
+      "stars": 76730,
+      "graded": true
+    },
+    {
+      "slug": "doocs/advanced-java",
+      "grade": "F",
+      "score": 36,
+      "language": "Java",
+      "type": "application",
+      "stars": 78920,
+      "graded": true
+    },
+    {
+      "slug": "hacksider/Deep-Live-Cam",
+      "grade": "F",
+      "score": 36,
+      "language": "Python",
+      "type": "application",
+      "stars": 87642,
+      "graded": true
+    },
+    {
+      "slug": "herrbischoff/awesome-macos-command-line",
+      "grade": "N/A",
+      "score": 36,
+      "language": null,
+      "type": "mirror",
+      "stars": 30429,
+      "graded": false
+    },
+    {
+      "slug": "wshobson/agents",
+      "grade": "F",
+      "score": 36,
+      "language": "Python",
+      "type": "application",
+      "stars": 32840,
+      "graded": true
+    },
+    {
+      "slug": "QSCTech/zju-icicles",
+      "grade": "F",
+      "score": 35,
+      "language": "HTML",
+      "type": "application",
+      "stars": 40399,
+      "graded": true
+    },
+    {
+      "slug": "Semantic-Org/Semantic-UI",
+      "grade": "F",
+      "score": 35,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 51120,
+      "graded": true
+    },
+    {
+      "slug": "Solido/awesome-flutter",
+      "grade": "N/A",
+      "score": 35,
+      "language": "Dart",
+      "type": "mirror",
+      "stars": 59493,
+      "graded": false
+    },
+    {
+      "slug": "azl397985856/leetcode",
+      "grade": "F",
+      "score": 35,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 55802,
+      "graded": true
+    },
+    {
+      "slug": "bailicangdu/vue2-elm",
+      "grade": "F",
+      "score": 35,
+      "language": "Vue",
+      "type": "application",
+      "stars": 41137,
+      "graded": true
+    },
+    {
+      "slug": "google/material-design-icons",
+      "grade": "F",
+      "score": 35,
+      "language": null,
+      "type": "application",
+      "stars": 53049,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/MS-DOS",
+      "grade": "N/A",
+      "score": 35,
+      "language": "Assembly",
+      "type": "mirror",
+      "stars": 31772,
+      "graded": false
+    },
+    {
+      "slug": "open-guides/og-aws",
+      "grade": "F",
+      "score": 35,
+      "language": "Shell",
+      "type": "application",
+      "stars": 36558,
+      "graded": true
+    },
+    {
+      "slug": "serhii-londar/open-source-mac-os-apps",
+      "grade": "F",
+      "score": 35,
+      "language": null,
+      "type": "application",
+      "stars": 48086,
+      "graded": true
+    },
+    {
+      "slug": "GitHubDaily/GitHubDaily",
+      "grade": "N/A",
+      "score": 34,
+      "language": null,
+      "type": "documentation",
+      "stars": 45888,
+      "graded": false
+    },
+    {
+      "slug": "PhilJay/MPAndroidChart",
+      "grade": "F",
+      "score": 34,
+      "language": "Java",
+      "type": "application",
+      "stars": 38232,
+      "graded": true
+    },
+    {
+      "slug": "Snailclimb/JavaGuide",
+      "grade": "F",
+      "score": 34,
+      "language": "Java",
+      "type": "application",
+      "stars": 154619,
+      "graded": true
+    },
+    {
+      "slug": "adam-p/markdown-here",
+      "grade": "F",
+      "score": 34,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 60171,
+      "graded": true
+    },
+    {
+      "slug": "deepseek-ai/DeepSeek-V3",
+      "grade": "F",
+      "score": 34,
+      "language": "Python",
+      "type": "application",
+      "stars": 102463,
+      "graded": true
+    },
+    {
+      "slug": "facebookresearch/segment-anything",
+      "grade": "F",
+      "score": 34,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 53843,
+      "graded": true
+    },
+    {
+      "slug": "formulahendry/955.WLB",
+      "grade": "N/A",
+      "score": 34,
+      "language": null,
+      "type": "documentation",
+      "stars": 36177,
+      "graded": false
+    },
+    {
+      "slug": "kilimchoi/engineering-blogs",
+      "grade": "F",
+      "score": 34,
+      "language": "Ruby",
+      "type": "application",
+      "stars": 37689,
+      "graded": true
+    },
+    {
+      "slug": "macrozheng/mall",
+      "grade": "F",
+      "score": 34,
+      "language": "Java",
+      "type": "application",
+      "stars": 83289,
+      "graded": true
+    },
+    {
+      "slug": "shadowsocks/ShadowsocksX-NG",
+      "grade": "F",
+      "score": 34,
+      "language": "Swift",
+      "type": "application",
+      "stars": 32911,
+      "graded": true
+    },
+    {
+      "slug": "trimstray/the-book-of-secret-knowledge",
+      "grade": "N/A",
+      "score": 34,
+      "language": null,
+      "type": "mirror",
+      "stars": 213030,
+      "graded": false
+    },
+    {
+      "slug": "AobingJava/JavaFamily",
+      "grade": "N/A",
+      "score": 33,
+      "language": null,
+      "type": "documentation",
+      "stars": 36935,
+      "graded": false
+    },
+    {
+      "slug": "algorithm-visualizer/algorithm-visualizer",
+      "grade": "F",
+      "score": 33,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 48474,
+      "graded": true
+    },
+    {
+      "slug": "asgeirtj/system_prompts_leaks",
+      "grade": "N/A",
+      "score": 33,
+      "language": null,
+      "type": "documentation",
+      "stars": 36565,
+      "graded": false
+    },
+    {
+      "slug": "bilibili/ijkplayer",
+      "grade": "F",
+      "score": 33,
+      "language": "C",
+      "type": "application",
+      "stars": 33132,
+      "graded": true
+    },
+    {
+      "slug": "cursor/cursor",
+      "grade": "N/A",
+      "score": 33,
+      "language": null,
+      "type": "mirror",
+      "stars": 32559,
+      "graded": false
+    },
+    {
+      "slug": "huiyadanli/RevokeMsgPatcher",
+      "grade": "F",
+      "score": 33,
+      "language": "C#",
+      "type": "application",
+      "stars": 37285,
+      "graded": true
+    },
+    {
+      "slug": "jeecgboot/JeecgBoot",
+      "grade": "F",
+      "score": 33,
+      "language": "Java",
+      "type": "application",
+      "stars": 45703,
+      "graded": true
+    },
+    {
+      "slug": "microsoft/BitNet",
+      "grade": "F",
+      "score": 33,
+      "language": "Python",
+      "type": "application",
+      "stars": 37044,
+      "graded": true
+    },
+    {
+      "slug": "sdmg15/Best-websites-a-programmer-should-visit",
+      "grade": "F",
+      "score": 33,
+      "language": null,
+      "type": "application",
+      "stars": 75905,
+      "graded": true
+    },
+    {
+      "slug": "youngyangyang04/leetcode-master",
+      "grade": "N/A",
+      "score": 33,
+      "language": "Shell",
+      "type": "documentation",
+      "stars": 60962,
+      "graded": false
+    },
+    {
+      "slug": "Avik-Jain/100-Days-Of-ML-Code",
+      "grade": "N/A",
+      "score": 32,
+      "language": null,
+      "type": "mirror",
+      "stars": 50255,
+      "graded": false
+    },
+    {
+      "slug": "nodejs/node-v0.x-archive",
+      "grade": "N/A",
+      "score": 32,
+      "language": null,
+      "type": "documentation",
+      "stars": 34329,
+      "graded": false
+    },
+    {
+      "slug": "opentofu/manifesto",
+      "grade": "F",
+      "score": 32,
+      "language": "HTML",
+      "type": "application",
+      "stars": 35848,
+      "graded": true
+    },
+    {
+      "slug": "ByteByteGoHq/system-design-101",
+      "grade": "F",
+      "score": 31,
+      "language": null,
+      "type": "application",
+      "stars": 81609,
+      "graded": true
+    },
+    {
+      "slug": "The-Run-Philosophy-Organization/run",
+      "grade": "F",
+      "score": 31,
+      "language": null,
+      "type": "application",
+      "stars": 32107,
+      "graded": true
+    },
+    {
+      "slug": "babysor/MockingBird",
+      "grade": "F",
+      "score": 31,
+      "language": "Python",
+      "type": "application",
+      "stars": 36902,
+      "graded": true
+    },
+    {
+      "slug": "bregman-arie/devops-exercises",
+      "grade": "F",
+      "score": 31,
+      "language": "Python",
+      "type": "iac",
+      "stars": 81874,
+      "graded": true
+    },
+    {
+      "slug": "chenfei-wu/TaskMatrix",
+      "grade": "F",
+      "score": 31,
+      "language": "Python",
+      "type": "application",
+      "stars": 34189,
+      "graded": true
+    },
+    {
+      "slug": "chinese-poetry/chinese-poetry",
+      "grade": "F",
+      "score": 31,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 51193,
+      "graded": true
+    },
+    {
+      "slug": "enaqx/awesome-react",
+      "grade": "N/A",
+      "score": 31,
+      "language": null,
+      "type": "documentation",
+      "stars": 72652,
+      "graded": false
+    },
+    {
+      "slug": "jingyaogong/minimind",
+      "grade": "F",
+      "score": 31,
+      "language": "Python",
+      "type": "application",
+      "stars": 45438,
+      "graded": true
+    },
+    {
+      "slug": "justjavac/awesome-wechat-weapp",
+      "grade": "N/A",
+      "score": 31,
+      "language": null,
+      "type": "mirror",
+      "stars": 50692,
+      "graded": false
+    },
+    {
+      "slug": "meta-llama/llama",
+      "grade": "F",
+      "score": 31,
+      "language": "Python",
+      "type": "application",
+      "stars": 59292,
+      "graded": true
+    },
+    {
+      "slug": "mli/paper-reading",
+      "grade": "N/A",
+      "score": 31,
+      "language": null,
+      "type": "mirror",
+      "stars": 32813,
+      "graded": false
+    },
+    {
+      "slug": "0voice/interview_internal_reference",
+      "grade": "N/A",
+      "score": 30,
+      "language": "Python",
+      "type": "documentation",
+      "stars": 37214,
+      "graded": false
+    },
+    {
+      "slug": "AMAI-GmbH/AI-Expert-Roadmap",
+      "grade": "F",
+      "score": 30,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 30881,
+      "graded": true
+    },
+    {
+      "slug": "Raphire/Win11Debloat",
+      "grade": "F",
+      "score": 30,
+      "language": "PowerShell",
+      "type": "application",
+      "stars": 43157,
+      "graded": true
+    },
+    {
+      "slug": "alibaba/p3c",
+      "grade": "F",
+      "score": 30,
+      "language": "Kotlin",
+      "type": "application",
+      "stars": 30825,
+      "graded": true
+    },
+    {
+      "slug": "fxsjy/jieba",
+      "grade": "F",
+      "score": 30,
+      "language": "Python",
+      "type": "application",
+      "stars": 34835,
+      "graded": true
+    },
+    {
+      "slug": "XingangPan/DragGAN",
+      "grade": "F",
+      "score": 29,
+      "language": "Python",
+      "type": "application",
+      "stars": 35923,
+      "graded": true
+    },
+    {
+      "slug": "apachecn/ailearning",
+      "grade": "F",
+      "score": 29,
+      "language": "Python",
+      "type": "application",
+      "stars": 42162,
+      "graded": true
+    },
+    {
+      "slug": "dylanaraps/pure-bash-bible",
+      "grade": "F",
+      "score": 29,
+      "language": "Shell",
+      "type": "application",
+      "stars": 41463,
+      "graded": true
+    },
+    {
+      "slug": "linexjlin/GPTs",
+      "grade": "N/A",
+      "score": 29,
+      "language": null,
+      "type": "documentation",
+      "stars": 31962,
+      "graded": false
+    },
+    {
+      "slug": "patchy631/ai-engineering-hub",
+      "grade": "F",
+      "score": 29,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 33096,
+      "graded": true
+    },
+    {
+      "slug": "waydabber/BetterDisplay",
+      "grade": "N/A",
+      "score": 29,
+      "language": null,
+      "type": "documentation",
+      "stars": 30886,
+      "graded": false
+    },
+    {
+      "slug": "DataExpert-io/data-engineer-handbook",
+      "grade": "F",
+      "score": 28,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 40829,
+      "graded": true
+    },
+    {
+      "slug": "PKUanonym/REKCARC-TSC-UHT",
+      "grade": "F",
+      "score": 28,
+      "language": "HTML",
+      "type": "application",
+      "stars": 36904,
+      "graded": true
+    },
+    {
+      "slug": "bradtraversy/design-resources-for-developers",
+      "grade": "F",
+      "score": 28,
+      "language": null,
+      "type": "application",
+      "stars": 65152,
+      "graded": true
+    },
+    {
+      "slug": "codecrafters-io/build-your-own-x",
+      "grade": "N/A",
+      "score": 28,
+      "language": "Markdown",
+      "type": "documentation",
+      "stars": 485710,
+      "graded": false
+    },
+    {
+      "slug": "eriklindernoren/ML-From-Scratch",
+      "grade": "F",
+      "score": 28,
+      "language": "Python",
+      "type": "application",
+      "stars": 31175,
+      "graded": true
+    },
+    {
+      "slug": "lencx/ChatGPT",
+      "grade": "F",
+      "score": 28,
+      "language": "Rust",
+      "type": "application",
+      "stars": 54360,
+      "graded": true
+    },
+    {
+      "slug": "lib-pku/libpku",
+      "grade": "F",
+      "score": 27,
+      "language": "TeX",
+      "type": "library",
+      "stars": 33402,
+      "graded": true
+    },
+    {
+      "slug": "massgravel/Microsoft-Activation-Scripts",
+      "grade": "F",
+      "score": 27,
+      "language": "Batchfile",
+      "type": "application",
+      "stars": 170668,
+      "graded": true
+    },
+    {
+      "slug": "romkatv/powerlevel10k",
+      "grade": "F",
+      "score": 27,
+      "language": "Shell",
+      "type": "application",
+      "stars": 53576,
+      "graded": true
+    },
+    {
+      "slug": "testerSunshine/12306",
+      "grade": "F",
+      "score": 27,
+      "language": "Python",
+      "type": "application",
+      "stars": 34154,
+      "graded": true
+    },
+    {
+      "slug": "MonitorControl/MonitorControl",
+      "grade": "F",
+      "score": 26,
+      "language": "Swift",
+      "type": "application",
+      "stars": 32847,
+      "graded": true
+    },
+    {
+      "slug": "google/styleguide",
+      "grade": "F",
+      "score": 26,
+      "language": "HTML",
+      "type": "application",
+      "stars": 39155,
+      "graded": true
+    },
+    {
+      "slug": "karanpratapsingh/system-design",
+      "grade": "F",
+      "score": 26,
+      "language": null,
+      "type": "application",
+      "stars": 42599,
+      "graded": true
+    },
+    {
+      "slug": "myshell-ai/OpenVoice",
+      "grade": "F",
+      "score": 26,
+      "language": "Python",
+      "type": "application",
+      "stars": 36181,
+      "graded": true
+    },
+    {
+      "slug": "sudheerj/reactjs-interview-questions",
+      "grade": "F",
+      "score": 26,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 44440,
+      "graded": true
+    },
+    {
+      "slug": "anthropics/skills",
+      "grade": "F",
+      "score": 25,
+      "language": "Python",
+      "type": "application",
+      "stars": 109393,
+      "graded": true
+    },
+    {
+      "slug": "charlax/professional-programming",
+      "grade": "F",
+      "score": 25,
+      "language": "Python",
+      "type": "application",
+      "stars": 50713,
+      "graded": true
+    },
+    {
+      "slug": "donnemartin/system-design-primer",
+      "grade": "F",
+      "score": 25,
+      "language": "Python",
+      "type": "application",
+      "stars": 341151,
+      "graded": true
+    },
+    {
+      "slug": "shanraisshan/claude-code-best-practice",
+      "grade": "F",
+      "score": 25,
+      "language": "HTML",
+      "type": "application",
+      "stars": 31104,
+      "graded": true
+    },
+    {
+      "slug": "521xueweihan/HelloGitHub",
+      "grade": "F",
+      "score": 24,
+      "language": "Python",
+      "type": "application",
+      "stars": 148555,
+      "graded": true
+    },
+    {
+      "slug": "SheetJS/sheetjs",
+      "grade": "F",
+      "score": 24,
+      "language": null,
+      "type": "application",
+      "stars": 36232,
+      "graded": true
+    },
+    {
+      "slug": "bannedbook/fanqiang",
+      "grade": "F",
+      "score": 24,
+      "language": "Kotlin",
+      "type": "application",
+      "stars": 43003,
+      "graded": true
+    },
+    {
+      "slug": "iperov/DeepFaceLive",
+      "grade": "F",
+      "score": 24,
+      "language": "Python",
+      "type": "application",
+      "stars": 30697,
+      "graded": true
+    },
+    {
+      "slug": "karan/Projects",
+      "grade": "F",
+      "score": 24,
+      "language": null,
+      "type": "application",
+      "stars": 47554,
+      "graded": true
+    },
+    {
+      "slug": "996icu/996.ICU",
+      "grade": "N/A",
+      "score": 23,
+      "language": null,
+      "type": "mirror",
+      "stars": 275795,
+      "graded": false
+    },
+    {
+      "slug": "CompVis/stable-diffusion",
+      "grade": "F",
+      "score": 23,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 72801,
+      "graded": true
+    },
+    {
+      "slug": "DataTalksClub/data-engineering-zoomcamp",
+      "grade": "F",
+      "score": 23,
+      "language": "Jupyter Notebook",
+      "type": "iac",
+      "stars": 39496,
+      "graded": true
+    },
+    {
+      "slug": "alex/what-happens-when",
+      "grade": "F",
+      "score": 23,
+      "language": null,
+      "type": "application",
+      "stars": 42977,
+      "graded": true
+    },
+    {
+      "slug": "amix/vimrc",
+      "grade": "F",
+      "score": 23,
+      "language": "Vim Script",
+      "type": "application",
+      "stars": 31716,
+      "graded": true
+    },
+    {
+      "slug": "bradtraversy/50projects50days",
+      "grade": "N/A",
+      "score": 23,
+      "language": "CSS",
+      "type": "mirror",
+      "stars": 40493,
+      "graded": false
+    },
+    {
+      "slug": "chatanywhere/GPT_API_free",
+      "grade": "F",
+      "score": 23,
+      "language": "Python",
+      "type": "application",
+      "stars": 37062,
+      "graded": true
+    },
+    {
+      "slug": "freefq/free",
+      "grade": "N/A",
+      "score": 23,
+      "language": null,
+      "type": "documentation",
+      "stars": 39893,
+      "graded": false
+    },
+    {
+      "slug": "ibraheemdev/modern-unix",
+      "grade": "N/A",
+      "score": 23,
+      "language": null,
+      "type": "documentation",
+      "stars": 32861,
+      "graded": false
+    },
+    {
+      "slug": "labmlai/annotated_deep_learning_paper_implementations",
+      "grade": "F",
+      "score": 23,
+      "language": "Python",
+      "type": "application",
+      "stars": 66212,
+      "graded": true
+    },
+    {
+      "slug": "ngosang/trackerslist",
+      "grade": "F",
+      "score": 23,
+      "language": null,
+      "type": "application",
+      "stars": 53377,
+      "graded": true
+    },
+    {
+      "slug": "xingshaocheng/architect-awesome",
+      "grade": "N/A",
+      "score": 23,
+      "language": null,
+      "type": "documentation",
+      "stars": 60827,
+      "graded": false
+    },
+    {
+      "slug": "x1xhlol/system-prompts-and-models-of-ai-tools",
+      "grade": "F",
+      "score": 22,
+      "language": null,
+      "type": "application",
+      "stars": 134157,
+      "graded": true
+    },
+    {
+      "slug": "NaiboWang/EasySpider",
+      "grade": "F",
+      "score": 21,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 44095,
+      "graded": true
+    },
+    {
+      "slug": "byoungd/English-level-up-tips",
+      "grade": "F",
+      "score": 21,
+      "language": null,
+      "type": "application",
+      "stars": 41902,
+      "graded": true
+    },
+    {
+      "slug": "donnemartin/interactive-coding-challenges",
+      "grade": "F",
+      "score": 21,
+      "language": "Python",
+      "type": "application",
+      "stars": 31295,
+      "graded": true
+    },
+    {
+      "slug": "karpathy/LLM101n",
+      "grade": "N/A",
+      "score": 21,
+      "language": null,
+      "type": "mirror",
+      "stars": 36646,
+      "graded": false
+    },
+    {
+      "slug": "unknwon/the-way-to-go_ZH_CN",
+      "grade": "N/A",
+      "score": 21,
+      "language": "Go",
+      "type": "mirror",
+      "stars": 35152,
+      "graded": false
+    },
+    {
+      "slug": "zai-org/ChatGLM-6B",
+      "grade": "F",
+      "score": 21,
+      "language": "Python",
+      "type": "application",
+      "stars": 41193,
+      "graded": true
+    },
+    {
+      "slug": "ascoders/weekly",
+      "grade": "F",
+      "score": 20,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 30925,
+      "graded": true
+    },
+    {
+      "slug": "kelseyhightower/kubernetes-the-hard-way",
+      "grade": "F",
+      "score": 20,
+      "language": null,
+      "type": "application",
+      "stars": 47897,
+      "graded": true
+    },
+    {
+      "slug": "tatsu-lab/stanford_alpaca",
+      "grade": "F",
+      "score": 20,
+      "language": "Python",
+      "type": "application",
+      "stars": 30259,
+      "graded": true
+    },
+    {
+      "slug": "Asabeneh/30-Days-Of-Python",
+      "grade": "F",
+      "score": 19,
+      "language": "Python",
+      "type": "application",
+      "stars": 60429,
+      "graded": true
+    },
+    {
+      "slug": "Light-City/CPlusPlusThings",
+      "grade": "F",
+      "score": 19,
+      "language": "C++",
+      "type": "application",
+      "stars": 43027,
+      "graded": true
+    },
+    {
+      "slug": "google-research/bert",
+      "grade": "F",
+      "score": 19,
+      "language": "Python",
+      "type": "application",
+      "stars": 39948,
+      "graded": true
+    },
+    {
+      "slug": "hiroi-sora/Umi-OCR",
+      "grade": "F",
+      "score": 19,
+      "language": "Python",
+      "type": "application",
+      "stars": 42944,
+      "graded": true
+    },
+    {
+      "slug": "ityouknow/spring-boot-examples",
+      "grade": "F",
+      "score": 19,
+      "language": "Java",
+      "type": "application",
+      "stars": 30626,
+      "graded": true
+    },
+    {
+      "slug": "labuladong/fucking-algorithm",
+      "grade": "F",
+      "score": 19,
+      "language": "Markdown",
+      "type": "application",
+      "stars": 133167,
+      "graded": true
+    },
+    {
+      "slug": "mathiasbynens/dotfiles",
+      "grade": "F",
+      "score": 19,
+      "language": "Shell",
+      "type": "application",
+      "stars": 31291,
+      "graded": true
+    },
+    {
+      "slug": "ryanhanwu/How-To-Ask-Questions-The-Smart-Way",
+      "grade": "F",
+      "score": 19,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 34792,
+      "graded": true
+    },
+    {
+      "slug": "GorvGoyl/Clone-Wars",
+      "grade": "F",
+      "score": 18,
+      "language": null,
+      "type": "application",
+      "stars": 34012,
+      "graded": true
+    },
+    {
+      "slug": "VincentGarreau/particles.js",
+      "grade": "F",
+      "score": 18,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 30361,
+      "graded": true
+    },
+    {
+      "slug": "cfenollosa/os-tutorial",
+      "grade": "F",
+      "score": 18,
+      "language": "C",
+      "type": "application",
+      "stars": 30296,
+      "graded": true
+    },
+    {
+      "slug": "gto76/python-cheatsheet",
+      "grade": "F",
+      "score": 18,
+      "language": "Python",
+      "type": "application",
+      "stars": 38315,
+      "graded": true
+    },
+    {
+      "slug": "kingToolbox/WindTerm",
+      "grade": "F",
+      "score": 18,
+      "language": "C",
+      "type": "application",
+      "stars": 30340,
+      "graded": true
+    },
+    {
+      "slug": "minimaxir/big-list-of-naughty-strings",
+      "grade": "F",
+      "score": 18,
+      "language": "Python",
+      "type": "application",
+      "stars": 47619,
+      "graded": true
+    },
+    {
+      "slug": "mlabonne/llm-course",
+      "grade": "F",
+      "score": 18,
+      "language": null,
+      "type": "application",
+      "stars": 77694,
+      "graded": true
+    },
+    {
+      "slug": "CyC2018/CS-Notes",
+      "grade": "F",
+      "score": 17,
+      "language": null,
+      "type": "application",
+      "stars": 184086,
+      "graded": true
+    },
+    {
+      "slug": "astaxie/build-web-application-with-golang",
+      "grade": "F",
+      "score": 17,
+      "language": "Go",
+      "type": "application",
+      "stars": 44120,
+      "graded": true
+    },
+    {
+      "slug": "aymericdamien/TensorFlow-Examples",
+      "grade": "F",
+      "score": 17,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 43791,
+      "graded": true
+    },
+    {
+      "slug": "exacity/deeplearningbook-chinese",
+      "grade": "F",
+      "score": 17,
+      "language": "TeX",
+      "type": "application",
+      "stars": 37222,
+      "graded": true
+    },
+    {
+      "slug": "kdn251/interviews",
+      "grade": "F",
+      "score": 17,
+      "language": "Java",
+      "type": "application",
+      "stars": 64901,
+      "graded": true
+    },
+    {
+      "slug": "mqyqingfeng/Blog",
+      "grade": "F",
+      "score": 17,
+      "language": null,
+      "type": "application",
+      "stars": 31122,
+      "graded": true
+    },
+    {
+      "slug": "scutan90/DeepLearning-500-questions",
+      "grade": "F",
+      "score": 17,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 57280,
+      "graded": true
+    },
+    {
+      "slug": "huihut/interview",
+      "grade": "F",
+      "score": 16,
+      "language": "C++",
+      "type": "application",
+      "stars": 37687,
+      "graded": true
+    },
+    {
+      "slug": "karpathy/nanoGPT",
+      "grade": "F",
+      "score": 16,
+      "language": "Python",
+      "type": "application",
+      "stars": 55999,
+      "graded": true
+    },
+    {
+      "slug": "lllyasviel/ControlNet",
+      "grade": "F",
+      "score": 16,
+      "language": "Python",
+      "type": "application",
+      "stars": 33790,
+      "graded": true
+    },
+    {
+      "slug": "mouredev/Hello-Python",
+      "grade": "F",
+      "score": 16,
+      "language": "Python",
+      "type": "application",
+      "stars": 35020,
+      "graded": true
+    },
+    {
+      "slug": "yunjey/pytorch-tutorial",
+      "grade": "F",
+      "score": 16,
+      "language": "Python",
+      "type": "application",
+      "stars": 32244,
+      "graded": true
+    },
+    {
+      "slug": "jackfrued/Python-100-Days",
+      "grade": "F",
+      "score": 15,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 180660,
+      "graded": true
+    },
+    {
+      "slug": "GrowingGit/GitHub-Chinese-Top-Charts",
+      "grade": "F",
+      "score": 14,
+      "language": "Java",
+      "type": "application",
+      "stars": 107207,
+      "graded": true
+    },
+    {
+      "slug": "jakevdp/PythonDataScienceHandbook",
+      "grade": "F",
+      "score": 14,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 47186,
+      "graded": true
+    },
+    {
+      "slug": "slatedocs/slate",
+      "grade": "N/A",
+      "score": 14,
+      "language": null,
+      "type": "documentation",
+      "stars": 36149,
+      "graded": false
+    },
+    {
+      "slug": "anthropics/prompt-eng-interactive-tutorial",
+      "grade": "F",
+      "score": 13,
+      "language": "Jupyter Notebook",
+      "type": "application",
+      "stars": 34374,
+      "graded": true
+    },
+    {
+      "slug": "floodsung/Deep-Learning-Papers-Reading-Roadmap",
+      "grade": "F",
+      "score": 13,
+      "language": "Python",
+      "type": "application",
+      "stars": 39475,
+      "graded": true
+    },
+    {
+      "slug": "geekxh/hello-algorithm",
+      "grade": "F",
+      "score": 13,
+      "language": "Java",
+      "type": "application",
+      "stars": 36054,
+      "graded": true
+    },
+    {
+      "slug": "kamranahmedse/design-patterns-for-humans",
+      "grade": "N/A",
+      "score": 13,
+      "language": null,
+      "type": "documentation",
+      "stars": 47667,
+      "graded": false
+    },
+    {
+      "slug": "Binaryify/NeteaseCloudMusicApi",
+      "grade": "N/A",
+      "score": 12,
+      "language": null,
+      "type": "documentation",
+      "stars": 30289,
+      "graded": false
+    },
+    {
+      "slug": "MisterBooo/LeetCodeAnimation",
+      "grade": "F",
+      "score": 12,
+      "language": "Java",
+      "type": "application",
+      "stars": 76677,
+      "graded": true
+    },
+    {
+      "slug": "TapXWorld/ChinaTextbook",
+      "grade": "F",
+      "score": 12,
+      "language": "Roff",
+      "type": "application",
+      "stars": 66207,
+      "graded": true
+    },
+    {
+      "slug": "fengdu78/Coursera-ML-AndrewNg-Notes",
+      "grade": "F",
+      "score": 12,
+      "language": "HTML",
+      "type": "application",
+      "stars": 36617,
+      "graded": true
+    },
+    {
+      "slug": "LC044/WeChatMsg",
+      "grade": "N/A",
+      "score": 11,
+      "language": null,
+      "type": "mirror",
+      "stars": 40781,
+      "graded": false
+    },
+    {
+      "slug": "fighting41love/funNLP",
+      "grade": "F",
+      "score": 11,
+      "language": "Python",
+      "type": "application",
+      "stars": 79768,
+      "graded": true
+    },
+    {
+      "slug": "Asabeneh/30-Days-Of-JavaScript",
+      "grade": "F",
+      "score": 10,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 46211,
+      "graded": true
+    },
+    {
+      "slug": "zbezj/HEU_KMS_Activator",
+      "grade": "N/A",
+      "score": 10,
+      "language": null,
+      "type": "documentation",
+      "stars": 40743,
+      "graded": false
+    },
+    {
+      "slug": "NARKOZ/hacker-scripts",
+      "grade": "F",
+      "score": 9,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 49446,
+      "graded": true
+    },
+    {
+      "slug": "resume/resume.github.com",
+      "grade": "F",
+      "score": 8,
+      "language": "JavaScript",
+      "type": "application",
+      "stars": 62828,
+      "graded": true
+    },
+    {
+      "slug": "shadowsocks/shadowsocks",
+      "grade": "N/A",
+      "score": 3,
+      "language": "Python",
+      "type": "mirror",
+      "stars": 33618,
+      "graded": false
+    }
+  ]
+}

@@ -7,7 +7,7 @@ data/reports/
 data/index.json
 data/aggregate.json
 data/cache/
-data/dashboard/
+data/dashboard/repos/
 site/node_modules/
 site/dist/
 site/.astro/
