@@ -1,0 +1,48 @@
+{
+  "org": "cloud-gov",
+  "analyzedAt": "2026-04-03T12:55:09.108Z",
+  "totalRepos": 118,
+  "gradedRepos": 112,
+  "averageScore": 49,
+  "gradeDistribution": {
+    "A": 0,
+    "B": 4,
+    "C": 9,
+    "D": 11,
+    "F": 88
+  },
+  "dimensionAverages": {
+    "Security": 49,
+    "Testing": 31,
+    "Documentation": 67,
+    "Architecture": 30,
+    "DevOps": 36,
+    "Maintenance": 59
+  },
+  "languageBreakdown": {
+    "Shell": 35,
+    "Python": 15,
+    "Java": 2,
+    "JavaScript": 10,
+    "Perl": 1,
+    "Ruby": 4,
+    "PHP": 1,
+    "Go": 19,
+    "HTML": 8,
+    "Makefile": 1,
+    "HCL": 3,
+    "unknown": 8,
+    "CSS": 1,
+    "TypeScript": 5,
+    "Dockerfile": 2,
+    "Astro": 1,
+    "Kotlin": 2
+  },
+  "typeBreakdown": {
+    "application": 99,
+    "library": 5,
+    "hybrid": 3,
+    "documentation": 6,
+    "iac": 5
+  }
+}

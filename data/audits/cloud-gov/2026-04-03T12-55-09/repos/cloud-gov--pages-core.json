@@ -1,0 +1,304 @@
+{
+  "repo": "cloud-gov/pages-core",
+  "letter": "B",
+  "overall": 83,
+  "graded": true,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 50,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": false,
+          "detail": "No SECURITY.md — add a vulnerability disclosure policy",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": false,
+          "detail": "0/1 action refs pinned to SHA (0%) — pin actions to full commit SHA for supply-chain safety",
+          "weight": 15
+        },
+        {
+          "name": "Token permissions",
+          "passed": false,
+          "detail": "No workflow has an explicit `permissions:` block — defaults to write-all",
+          "weight": 10
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": true,
+          "detail": "Using Dependabot",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": true,
+          "detail": ".gitignore found",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": true,
+          "detail": "GitHub Actions found (likely branch protection in place)",
+          "weight": 10
+        }
+      ],
+      "durationMs": 288.0260070000004
+    },
+    {
+      "name": "Testing",
+      "score": 94,
+      "findings": [
+        {
+          "name": "CI workflows",
+          "passed": true,
+          "detail": "GitHub Actions detected",
+          "weight": 25
+        },
+        {
+          "name": "Test files",
+          "passed": true,
+          "detail": "224 test-related file(s) found",
+          "weight": 25
+        },
+        {
+          "name": "Coverage configuration",
+          "passed": true,
+          "detail": "Coverage/test runner config found",
+          "weight": 20
+        },
+        {
+          "name": "Test runner configured",
+          "passed": true,
+          "detail": "Test runner configuration detected",
+          "weight": 15
+        },
+        {
+          "name": "Pre-commit hooks",
+          "passed": false,
+          "detail": "No pre-commit hooks found",
+          "weight": 5
+        }
+      ],
+      "durationMs": 285.9681130000008
+    },
+    {
+      "name": "Documentation",
+      "score": 100,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": true,
+          "detail": "README.md is 4757 chars",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: NOASSERTION",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": true,
+          "detail": "Changelog or release notes found",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": true,
+          "detail": "Documentation directory or API docs found",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"cloud.gov Pages is a publishing platform for modern 21st Century IDEA websites.\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 304.46949099999983
+    },
+    {
+      "name": "Architecture",
+      "score": 76,
+      "findings": [
+        {
+          "name": "Type safety (tsconfig / jsconfig)",
+          "passed": true,
+          "detail": "Type config found",
+          "weight": 20
+        },
+        {
+          "name": "Linter (ESLint / Biome)",
+          "passed": true,
+          "detail": "Linter config found",
+          "weight": 20
+        },
+        {
+          "name": "Code formatter",
+          "passed": true,
+          "detail": "Formatter config found",
+          "weight": 15
+        },
+        {
+          "name": "Organized source structure",
+          "passed": false,
+          "detail": "No clear source structure",
+          "weight": 20
+        },
+        {
+          "name": "Build configuration",
+          "passed": true,
+          "detail": "Build config found",
+          "weight": 10
+        }
+      ],
+      "durationMs": 1.6687240000010206
+    },
+    {
+      "name": "DevOps",
+      "score": 78,
+      "findings": [
+        {
+          "name": "CI/CD pipeline",
+          "passed": true,
+          "detail": "GitHub Actions, Concourse, CI directory",
+          "weight": 30
+        },
+        {
+          "name": "Container support (Docker)",
+          "passed": true,
+          "detail": "Docker config found (Dockerfile) (Compose)",
+          "weight": 20
+        },
+        {
+          "name": "Release automation",
+          "passed": false,
+          "detail": "No release automation (semantic-release, changesets, etc.)",
+          "weight": 20
+        },
+        {
+          "name": "Issue/PR templates",
+          "passed": true,
+          "detail": "Issue/PR templates found",
+          "weight": 15
+        },
+        {
+          "name": "Deployment/Infrastructure config",
+          "passed": true,
+          "detail": "Deployment or build config found",
+          "weight": 5
+        }
+      ],
+      "durationMs": 5.233093999999255
+    },
+    {
+      "name": "Maintenance",
+      "score": 83,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": true,
+          "detail": "Last commit 0 day(s) ago — actively maintained",
+          "weight": 30
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": false,
+          "detail": "Median open issue age: 1577 day(s) — stale issues accumulating (oldest sampled: 2180 days)",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": true,
+          "detail": "Latest release 1 day(s) ago (5 recent releases)",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": true,
+          "detail": "Bus factor 6 — healthy contributor distribution (amirbey, davemcorwin, apburnes, dependabot-preview[bot], drewbo)",
+          "weight": 20
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": true,
+          "detail": "282 stars — growing community",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 728.9038810000002
+    }
+  ],
+  "totalDurationMs": 1614.2693100000015,
+  "projectType": "library",
+  "sizeTier": "large",
+  "language": "JavaScript",
+  "analyzedAt": "2026-04-03T12:52:27.246Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 5
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 5
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 5
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 73,
+  "topics": [
+    "federalist",
+    "cloud-gov",
+    "pages"
+  ],
+  "has_discussions": false,
+  "has_projects": false,
+  "pushed_at": "2026-04-02T19:55:40Z",
+  "created_at": "2015-05-28T20:09:37Z",
+  "size": 111097
+}

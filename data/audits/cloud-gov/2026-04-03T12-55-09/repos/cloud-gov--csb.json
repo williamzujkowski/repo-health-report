@@ -1,0 +1,306 @@
+{
+  "repo": "cloud-gov/csb",
+  "letter": "F",
+  "overall": 59,
+  "graded": true,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 60,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": true,
+          "detail": "Security policy found with contact info (886 chars)",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": false,
+          "detail": "No workflow files found to check",
+          "weight": 15
+        },
+        {
+          "name": "Token permissions",
+          "passed": false,
+          "detail": "No workflow files found to check",
+          "weight": 10
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": false,
+          "detail": "No Dependabot or Renovate config found",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": true,
+          "detail": ".gitignore found",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": true,
+          "detail": "Concourse found (likely branch protection in place)",
+          "weight": 10
+        }
+      ],
+      "durationMs": 344.6120339999907
+    },
+    {
+      "name": "Testing",
+      "score": 75,
+      "findings": [
+        {
+          "name": "CI pipeline",
+          "passed": true,
+          "detail": "Concourse detected",
+          "weight": 25
+        },
+        {
+          "name": "Terratest / Go tests",
+          "passed": true,
+          "detail": "Go test files found (terratest)",
+          "weight": 30
+        },
+        {
+          "name": "Validation script (terraform validate)",
+          "passed": true,
+          "detail": "Makefile found — likely includes validate target",
+          "weight": 20
+        },
+        {
+          "name": "Compliance testing (kitchen-terraform / inspec)",
+          "passed": false,
+          "detail": "No compliance testing detected (kitchen-terraform, inspec)",
+          "weight": 10
+        },
+        {
+          "name": "Pre-commit hooks",
+          "passed": false,
+          "detail": "No pre-commit hooks — consider hooks for fmt/validate/lint",
+          "weight": 15
+        }
+      ],
+      "durationMs": 17.860018000006676
+    },
+    {
+      "name": "Documentation",
+      "score": 85,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": true,
+          "detail": "README.md is 898 chars",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: NOASSERTION",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": true,
+          "detail": "Documentation directory or API docs found",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"Brokerpaks deployed by the cloud.gov instance of the Cloud Service Broker.\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 309.5076629999967
+    },
+    {
+      "name": "Architecture",
+      "score": 30,
+      "findings": [
+        {
+          "name": "IaC linter (tflint)",
+          "passed": false,
+          "detail": "No tflint config — consider adding .tflint.hcl for Terraform linting",
+          "weight": 20
+        },
+        {
+          "name": "Terraform formatting (terraform fmt)",
+          "passed": false,
+          "detail": "No terraform fmt in CI or pre-commit — code style may drift",
+          "weight": 15
+        },
+        {
+          "name": "Module structure",
+          "passed": false,
+          "detail": "No modules/ directory — consider modularizing Terraform configs",
+          "weight": 20
+        },
+        {
+          "name": "Terraform conventions (variables.tf / outputs.tf)",
+          "passed": true,
+          "detail": "variables.tf and outputs.tf found",
+          "weight": 20
+        },
+        {
+          "name": "Terraform version pinning",
+          "passed": false,
+          "detail": "No version pin — consider .terraform-version or .tool-versions",
+          "weight": 15
+        },
+        {
+          "name": "Build/task runner (Makefile)",
+          "passed": true,
+          "detail": "Makefile found",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.3591909999959171
+    },
+    {
+      "name": "DevOps",
+      "score": 70,
+      "findings": [
+        {
+          "name": "CI/CD pipeline",
+          "passed": true,
+          "detail": "Concourse, CI directory",
+          "weight": 30
+        },
+        {
+          "name": "Task runner (Makefile / scripts)",
+          "passed": true,
+          "detail": "Makefile found",
+          "weight": 25
+        },
+        {
+          "name": "Issue/PR templates",
+          "passed": true,
+          "detail": "Issue/PR templates found",
+          "weight": 15
+        },
+        {
+          "name": "Environment / workspace config",
+          "passed": false,
+          "detail": "No environment config detected (tfvars, envs/, environments/)",
+          "weight": 20
+        },
+        {
+          "name": "Changelog / release tracking",
+          "passed": false,
+          "detail": "No CHANGELOG.md or release workflow",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.5167890000157058
+    },
+    {
+      "name": "Maintenance",
+      "score": 50,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": true,
+          "detail": "Last commit 10 day(s) ago — actively maintained",
+          "weight": 30
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": false,
+          "detail": "Median open issue age: 373 day(s) — stale issues accumulating (oldest sampled: 373 days)",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "No GitHub releases or tags found but repo has recent commits — no release process",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": true,
+          "detail": "Bus factor 2 — moderate (jameshochadel, markdboyd). More contributors would reduce risk.",
+          "weight": 10
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": false,
+          "detail": "2 stars — early stage or niche project",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 1103.886165999982
+    }
+  ],
+  "totalDurationMs": 1776.7418609999877,
+  "projectType": "iac",
+  "sizeTier": "medium",
+  "language": "HCL",
+  "analyzedAt": "2026-04-03T12:54:39.531Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 5
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 6
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 5
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 1,
+  "topics": [],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2026-03-23T15:28:43Z",
+  "created_at": "2024-03-20T14:30:47Z",
+  "size": 2738
+}

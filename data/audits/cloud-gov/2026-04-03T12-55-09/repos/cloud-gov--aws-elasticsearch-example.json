@@ -1,0 +1,300 @@
+{
+  "repo": "cloud-gov/aws-elasticsearch-example",
+  "letter": "F",
+  "overall": 49,
+  "graded": true,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 35,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": false,
+          "detail": "No SECURITY.md — add a vulnerability disclosure policy",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": false,
+          "detail": "0/1 action refs pinned to SHA (0%) — pin actions to full commit SHA for supply-chain safety",
+          "weight": 15
+        },
+        {
+          "name": "Token permissions",
+          "passed": false,
+          "detail": "No workflow has an explicit `permissions:` block — defaults to write-all",
+          "weight": 10
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": false,
+          "detail": "No Dependabot or Renovate config found",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": true,
+          "detail": ".gitignore found",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": true,
+          "detail": "GitHub Actions found (likely branch protection in place)",
+          "weight": 10
+        }
+      ],
+      "durationMs": 312.3573830000096
+    },
+    {
+      "name": "Testing",
+      "score": 28,
+      "findings": [
+        {
+          "name": "CI workflows",
+          "passed": true,
+          "detail": "GitHub Actions detected",
+          "weight": 25
+        },
+        {
+          "name": "Test files",
+          "passed": false,
+          "detail": "No test files detected",
+          "weight": 25
+        },
+        {
+          "name": "Coverage configuration",
+          "passed": false,
+          "detail": "No coverage configuration detected",
+          "weight": 20
+        },
+        {
+          "name": "Test runner configured",
+          "passed": false,
+          "detail": "No test runner found (no test script, pytest, cargo, or go.mod)",
+          "weight": 15
+        },
+        {
+          "name": "Pre-commit hooks",
+          "passed": false,
+          "detail": "No pre-commit hooks found",
+          "weight": 5
+        }
+      ],
+      "durationMs": 301.21120099999825
+    },
+    {
+      "name": "Documentation",
+      "score": 75,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": true,
+          "detail": "README.md is 5072 chars",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: NOASSERTION",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": false,
+          "detail": "No docs/ directory or API.md",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"Examples for migrating your cloud.gov applications to use AWS Elasticsearch services\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 321.0721790000098
+    },
+    {
+      "name": "Architecture",
+      "score": 0,
+      "findings": [
+        {
+          "name": "Type checking (mypy / pyright)",
+          "passed": false,
+          "detail": "No mypy or pyright config — consider adding type checking",
+          "weight": 20
+        },
+        {
+          "name": "Linter (ruff / flake8 / pylint)",
+          "passed": false,
+          "detail": "No linter config",
+          "weight": 20
+        },
+        {
+          "name": "Code formatter (black / ruff / yapf)",
+          "passed": false,
+          "detail": "No formatter config",
+          "weight": 15
+        },
+        {
+          "name": "Package structure (src/ or package layout)",
+          "passed": false,
+          "detail": "No clear package structure",
+          "weight": 20
+        },
+        {
+          "name": "Build configuration (pyproject.toml / setup.py)",
+          "passed": false,
+          "detail": "No build configuration",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.2663789999933215
+    },
+    {
+      "name": "DevOps",
+      "score": 56,
+      "findings": [
+        {
+          "name": "CI/CD pipeline",
+          "passed": true,
+          "detail": "GitHub Actions",
+          "weight": 30
+        },
+        {
+          "name": "Container support (Docker)",
+          "passed": true,
+          "detail": "Docker config found (Dockerfile) (Compose)",
+          "weight": 20
+        },
+        {
+          "name": "Release automation",
+          "passed": false,
+          "detail": "No release automation (semantic-release, changesets, etc.)",
+          "weight": 20
+        },
+        {
+          "name": "Issue/PR templates",
+          "passed": false,
+          "detail": "No issue or PR templates",
+          "weight": 15
+        },
+        {
+          "name": "Deployment/Infrastructure config",
+          "passed": false,
+          "detail": "No deployment configuration detected",
+          "weight": 5
+        }
+      ],
+      "durationMs": 0.06931299999996554
+    },
+    {
+      "name": "Maintenance",
+      "score": 72,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": true,
+          "detail": "Last commit 6 day(s) ago — actively maintained",
+          "weight": 30
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": true,
+          "detail": "No open issues — good or very small project",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "No GitHub releases or tags found but repo has recent commits — no release process",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": true,
+          "detail": "Bus factor 4 — healthy contributor distribution (apburnes, bengerman13, JasonTheMain, soutenniza)",
+          "weight": 20
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": false,
+          "detail": "3 stars — early stage or niche project",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 1420.0934310000011
+    }
+  ],
+  "totalDurationMs": 2355.069886000012,
+  "projectType": "application",
+  "sizeTier": "small",
+  "language": "Python",
+  "analyzedAt": "2026-04-03T12:53:46.497Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 5
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 5
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 5
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 3,
+  "topics": [],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2026-03-27T19:29:51Z",
+  "created_at": "2020-07-08T21:26:39Z",
+  "size": 38
+}

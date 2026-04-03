@@ -69,9 +69,9 @@ function checkPinnedDeps(
   if (workflows.length === 0) {
     return {
       name: "Pinned dependencies (Actions SHA)",
-      passed: false,
-      detail: "No workflow files found to check",
-      weight: 15,
+      passed: true,
+      detail: "No GitHub Actions workflows (check not applicable)",
+      weight: 0,
     };
   }
 
@@ -118,9 +118,9 @@ function checkTokenPermissions(
   if (workflows.length === 0) {
     return {
       name: "Token permissions",
-      passed: false,
-      detail: "No workflow files found to check",
-      weight: 10,
+      passed: true,
+      detail: "No GitHub Actions workflows (check not applicable)",
+      weight: 0,
     };
   }
 

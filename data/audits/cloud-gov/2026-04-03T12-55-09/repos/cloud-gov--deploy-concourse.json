@@ -1,0 +1,306 @@
+{
+  "repo": "cloud-gov/deploy-concourse",
+  "letter": "F",
+  "overall": 37,
+  "graded": true,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 60,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": true,
+          "detail": "Security policy found with contact info (886 chars)",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": false,
+          "detail": "No workflow files found to check",
+          "weight": 15
+        },
+        {
+          "name": "Token permissions",
+          "passed": false,
+          "detail": "No workflow files found to check",
+          "weight": 10
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": false,
+          "detail": "No Dependabot or Renovate config found",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": true,
+          "detail": ".gitignore found",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": true,
+          "detail": "Concourse found (likely branch protection in place)",
+          "weight": 10
+        }
+      ],
+      "durationMs": 352.11907099999735
+    },
+    {
+      "name": "Testing",
+      "score": 25,
+      "findings": [
+        {
+          "name": "CI pipeline",
+          "passed": true,
+          "detail": "Concourse detected",
+          "weight": 25
+        },
+        {
+          "name": "Terratest / Go tests",
+          "passed": false,
+          "detail": "No terratest/Go tests found — consider adding infrastructure tests",
+          "weight": 30
+        },
+        {
+          "name": "Validation script (terraform validate)",
+          "passed": false,
+          "detail": "No validation script found (validate.sh or Makefile)",
+          "weight": 20
+        },
+        {
+          "name": "Compliance testing (kitchen-terraform / inspec)",
+          "passed": false,
+          "detail": "No compliance testing detected (kitchen-terraform, inspec)",
+          "weight": 10
+        },
+        {
+          "name": "Pre-commit hooks",
+          "passed": false,
+          "detail": "No pre-commit hooks — consider hooks for fmt/validate/lint",
+          "weight": 15
+        }
+      ],
+      "durationMs": 16.8651890000001
+    },
+    {
+      "name": "Documentation",
+      "score": 45,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": false,
+          "detail": "README.md is 468 chars (too short — aim for 500+)",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: NOASSERTION",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": false,
+          "detail": "No docs/ directory or API.md",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"Manifests and pipeline for deploying Concourse.ci\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 331.0544060000029
+    },
+    {
+      "name": "Architecture",
+      "score": 0,
+      "findings": [
+        {
+          "name": "IaC linter (tflint)",
+          "passed": false,
+          "detail": "No tflint config — consider adding .tflint.hcl for Terraform linting",
+          "weight": 20
+        },
+        {
+          "name": "Terraform formatting (terraform fmt)",
+          "passed": false,
+          "detail": "No terraform fmt in CI or pre-commit — code style may drift",
+          "weight": 15
+        },
+        {
+          "name": "Module structure",
+          "passed": false,
+          "detail": "No modules/ directory — consider modularizing Terraform configs",
+          "weight": 20
+        },
+        {
+          "name": "Terraform conventions (variables.tf / outputs.tf)",
+          "passed": false,
+          "detail": "Missing: outputs.tf",
+          "weight": 20
+        },
+        {
+          "name": "Terraform version pinning",
+          "passed": false,
+          "detail": "No version pin — consider .terraform-version or .tool-versions",
+          "weight": 15
+        },
+        {
+          "name": "Build/task runner (Makefile)",
+          "passed": false,
+          "detail": "No Makefile — consider adding common targets (init, plan, apply, fmt)",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.12534899999809568
+    },
+    {
+      "name": "DevOps",
+      "score": 45,
+      "findings": [
+        {
+          "name": "CI/CD pipeline",
+          "passed": true,
+          "detail": "Concourse, CI directory",
+          "weight": 30
+        },
+        {
+          "name": "Task runner (Makefile / scripts)",
+          "passed": false,
+          "detail": "No Makefile or scripts/ — consider adding task automation",
+          "weight": 25
+        },
+        {
+          "name": "Issue/PR templates",
+          "passed": true,
+          "detail": "Issue/PR templates found",
+          "weight": 15
+        },
+        {
+          "name": "Environment / workspace config",
+          "passed": false,
+          "detail": "No environment config detected (tfvars, envs/, environments/)",
+          "weight": 20
+        },
+        {
+          "name": "Changelog / release tracking",
+          "passed": false,
+          "detail": "No CHANGELOG.md or release workflow",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.18291300000055344
+    },
+    {
+      "name": "Maintenance",
+      "score": 56,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": true,
+          "detail": "Last commit 7 day(s) ago — actively maintained",
+          "weight": 30
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": false,
+          "detail": "Median open issue age: 1529 day(s) — stale issues accumulating (oldest sampled: 1841 days)",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "Latest tag \"east\" 3401 day(s) ago but repo has recent commits — release hygiene gap",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": true,
+          "detail": "Bus factor 7 — healthy contributor distribution (jmcarp, LinuxBozo, soutenniza, cweibel, jontours)",
+          "weight": 20
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": false,
+          "detail": "8 stars — early stage or niche project",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 1692.9117039999983
+    }
+  ],
+  "totalDurationMs": 2393.2586319999973,
+  "projectType": "iac",
+  "sizeTier": "medium",
+  "language": "Shell",
+  "analyzedAt": "2026-04-03T12:52:40.661Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 5
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 6
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 5
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 6,
+  "topics": [],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2026-03-26T14:02:44Z",
+  "created_at": "2016-02-17T22:54:14Z",
+  "size": 487
+}

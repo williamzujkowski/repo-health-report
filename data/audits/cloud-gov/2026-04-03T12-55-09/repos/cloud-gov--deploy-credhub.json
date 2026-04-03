@@ -1,0 +1,306 @@
+{
+  "repo": "cloud-gov/deploy-credhub",
+  "letter": "F",
+  "overall": 44,
+  "graded": true,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 50,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": true,
+          "detail": "Security policy found with contact info (886 chars)",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": false,
+          "detail": "No workflow files found to check",
+          "weight": 15
+        },
+        {
+          "name": "Token permissions",
+          "passed": false,
+          "detail": "No workflow files found to check",
+          "weight": 10
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": false,
+          "detail": "No Dependabot or Renovate config found",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": false,
+          "detail": "No .gitignore — secrets and build artifacts may be committed",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": true,
+          "detail": "Concourse found (likely branch protection in place)",
+          "weight": 10
+        }
+      ],
+      "durationMs": 346.78888500000176
+    },
+    {
+      "name": "Testing",
+      "score": 25,
+      "findings": [
+        {
+          "name": "CI pipeline",
+          "passed": true,
+          "detail": "Concourse detected",
+          "weight": 25
+        },
+        {
+          "name": "Terratest / Go tests",
+          "passed": false,
+          "detail": "No terratest/Go tests found — consider adding infrastructure tests",
+          "weight": 30
+        },
+        {
+          "name": "Validation script (terraform validate)",
+          "passed": false,
+          "detail": "No validation script found (validate.sh or Makefile)",
+          "weight": 20
+        },
+        {
+          "name": "Compliance testing (kitchen-terraform / inspec)",
+          "passed": false,
+          "detail": "No compliance testing detected (kitchen-terraform, inspec)",
+          "weight": 10
+        },
+        {
+          "name": "Pre-commit hooks",
+          "passed": false,
+          "detail": "No pre-commit hooks — consider hooks for fmt/validate/lint",
+          "weight": 15
+        }
+      ],
+      "durationMs": 48.09218800000963
+    },
+    {
+      "name": "Documentation",
+      "score": 75,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": true,
+          "detail": "README.md is 1329 chars",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: NOASSERTION",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": false,
+          "detail": "No docs/ directory or API.md",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"Concourse pipeline to bosh deploy credhub\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 353.2051470000006
+    },
+    {
+      "name": "Architecture",
+      "score": 0,
+      "findings": [
+        {
+          "name": "IaC linter (tflint)",
+          "passed": false,
+          "detail": "No tflint config — consider adding .tflint.hcl for Terraform linting",
+          "weight": 20
+        },
+        {
+          "name": "Terraform formatting (terraform fmt)",
+          "passed": false,
+          "detail": "No terraform fmt in CI or pre-commit — code style may drift",
+          "weight": 15
+        },
+        {
+          "name": "Module structure",
+          "passed": false,
+          "detail": "No modules/ directory — consider modularizing Terraform configs",
+          "weight": 20
+        },
+        {
+          "name": "Terraform conventions (variables.tf / outputs.tf)",
+          "passed": false,
+          "detail": "Missing: outputs.tf",
+          "weight": 20
+        },
+        {
+          "name": "Terraform version pinning",
+          "passed": false,
+          "detail": "No version pin — consider .terraform-version or .tool-versions",
+          "weight": 15
+        },
+        {
+          "name": "Build/task runner (Makefile)",
+          "passed": false,
+          "detail": "No Makefile — consider adding common targets (init, plan, apply, fmt)",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.1237810000020545
+    },
+    {
+      "name": "DevOps",
+      "score": 30,
+      "findings": [
+        {
+          "name": "CI/CD pipeline",
+          "passed": true,
+          "detail": "Concourse, CI directory",
+          "weight": 30
+        },
+        {
+          "name": "Task runner (Makefile / scripts)",
+          "passed": false,
+          "detail": "No Makefile or scripts/ — consider adding task automation",
+          "weight": 25
+        },
+        {
+          "name": "Issue/PR templates",
+          "passed": false,
+          "detail": "No issue or PR templates",
+          "weight": 15
+        },
+        {
+          "name": "Environment / workspace config",
+          "passed": false,
+          "detail": "No environment config detected (tfvars, envs/, environments/)",
+          "weight": 20
+        },
+        {
+          "name": "Changelog / release tracking",
+          "passed": false,
+          "detail": "No CHANGELOG.md or release workflow",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.1799310000060359
+    },
+    {
+      "name": "Maintenance",
+      "score": 72,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": true,
+          "detail": "Last commit 28 day(s) ago — actively maintained",
+          "weight": 30
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": true,
+          "detail": "No open issues — good or very small project",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "No GitHub releases or tags found but repo has recent commits — no release process",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": true,
+          "detail": "Bus factor 7 — healthy contributor distribution (cweibel, soutenniza, markdboyd, bengerman13, dandersonsw)",
+          "weight": 20
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": false,
+          "detail": "0 stars — early stage or niche project",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 1035.5015949999943
+    }
+  ],
+  "totalDurationMs": 1783.8915270000143,
+  "projectType": "iac",
+  "sizeTier": "small",
+  "language": "HCL",
+  "analyzedAt": "2026-04-03T12:53:50.357Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 5
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 6
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 5
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 2,
+  "topics": [],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2026-03-05T14:57:36Z",
+  "created_at": "2021-02-11T16:17:45Z",
+  "size": 81
+}

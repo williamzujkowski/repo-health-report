@@ -1,0 +1,288 @@
+{
+  "repo": "cloud-gov/ubuntu-mirror",
+  "letter": "N/A",
+  "overall": 79,
+  "graded": false,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 60,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": true,
+          "detail": "Security policy found with contact info (885 chars)",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": false,
+          "detail": "No workflow files found to check",
+          "weight": 15
+        },
+        {
+          "name": "Token permissions",
+          "passed": false,
+          "detail": "No workflow files found to check",
+          "weight": 10
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": false,
+          "detail": "No Dependabot or Renovate config found",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": true,
+          "detail": ".gitignore found",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": true,
+          "detail": "Concourse found (likely branch protection in place)",
+          "weight": 10
+        }
+      ],
+      "durationMs": 327.09845700000005
+    },
+    {
+      "name": "Testing",
+      "score": 30,
+      "findings": [
+        {
+          "name": "CI workflow (for automated checks)",
+          "passed": true,
+          "detail": "Concourse detected",
+          "weight": 30
+        },
+        {
+          "name": "Markdown linting (markdownlint / pymarkdown)",
+          "passed": false,
+          "detail": "No markdownlint config — consider adding for consistent formatting",
+          "weight": 25
+        },
+        {
+          "name": "Link checking (lychee / markdown-link-check)",
+          "passed": false,
+          "detail": "No link checking — broken links erode list quality",
+          "weight": 30
+        },
+        {
+          "name": "Spell check (cspell / aspell / codespell)",
+          "passed": false,
+          "detail": "No spell checker configured",
+          "weight": 15
+        }
+      ],
+      "durationMs": 28.90056199999526
+    },
+    {
+      "name": "Documentation",
+      "score": 75,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": true,
+          "detail": "README.md is 1137 chars",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: NOASSERTION",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": false,
+          "detail": "No docs/ directory or API.md",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"Mirror the docker hub ubuntu image to our private registry.\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 297.606283000001
+    },
+    {
+      "name": "Architecture",
+      "score": 85,
+      "findings": [
+        {
+          "name": "README structure (headings + table of contents)",
+          "passed": true,
+          "detail": "README.md found (consider adding a table of contents)",
+          "weight": 25
+        },
+        {
+          "name": "Organized file structure (category directories)",
+          "passed": true,
+          "detail": "Subdirectories found for category organization",
+          "weight": 20
+        },
+        {
+          "name": "Contributing guidelines (CONTRIBUTING.md)",
+          "passed": true,
+          "detail": "CONTRIBUTING.md found",
+          "weight": 20
+        },
+        {
+          "name": "License (LICENSE file)",
+          "passed": true,
+          "detail": "LICENSE file found",
+          "weight": 20
+        },
+        {
+          "name": "Consistent formatting (.editorconfig / markdownlint)",
+          "passed": false,
+          "detail": "No .editorconfig or markdownlint config — consider adding for consistency",
+          "weight": 15
+        }
+      ],
+      "durationMs": 0.10076000000117347
+    },
+    {
+      "name": "DevOps",
+      "score": 55,
+      "findings": [
+        {
+          "name": "CI/CD pipeline (automated checks)",
+          "passed": true,
+          "detail": "Concourse, CI directory",
+          "weight": 30
+        },
+        {
+          "name": "Issue templates (for contribution requests)",
+          "passed": false,
+          "detail": "No issue templates — contributors lack guidance for submitting new entries",
+          "weight": 25
+        },
+        {
+          "name": "PR template (for new additions)",
+          "passed": true,
+          "detail": "PR template found",
+          "weight": 25
+        },
+        {
+          "name": "Automation tools (awesome-lint / scripts / Makefile)",
+          "passed": false,
+          "detail": "No automation scripts or awesome-lint — consider adding for quality control",
+          "weight": 20
+        }
+      ],
+      "durationMs": 0.1071479999955045
+    },
+    {
+      "name": "Maintenance",
+      "score": 69,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": true,
+          "detail": "Last commit 28 day(s) ago — actively maintained",
+          "weight": 30
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": true,
+          "detail": "No open issues — good or very small project",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "No GitHub releases or tags found but repo has recent commits — no release process",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": true,
+          "detail": "Bus factor 3 — moderate (dandersonsw, jameshochadel, wz-gsa). More contributors would reduce risk.",
+          "weight": 10
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": false,
+          "detail": "0 stars — early stage or niche project",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 1053.7602710000065
+    }
+  ],
+  "totalDurationMs": 1707.5734809999994,
+  "projectType": "documentation",
+  "sizeTier": "small",
+  "language": null,
+  "analyzedAt": "2026-04-03T12:54:10.542Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 4
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 5
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 4
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 1,
+  "topics": [],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2026-03-05T16:53:20Z",
+  "created_at": "2023-08-04T18:07:48Z",
+  "size": 24
+}
