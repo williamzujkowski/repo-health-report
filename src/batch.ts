@@ -20,6 +20,7 @@ import {
   fetchRepoMeta,
   fetchRepoTree,
   detectProjectType,
+  normalizeLanguage,
   type RepoMeta,
 } from "./analyze.js";
 import { analyzeSecurityDimension } from "./dimensions/security.js";
@@ -27,6 +28,7 @@ import { analyzeTestingDimension } from "./dimensions/testing.js";
 import { analyzeDocsDimension } from "./dimensions/docs.js";
 import { analyzeArchitectureDimension } from "./dimensions/architecture.js";
 import { analyzeDevOpsDimension } from "./dimensions/devops.js";
+import { analyzeMaintenanceDimension } from "./dimensions/maintenance.js";
 import { computeGrade, type GradeResult } from "./grader.js";
 import type { ProjectType } from "./analyze.js";
 
@@ -180,14 +182,16 @@ async function analyzeRepo(
   const validSlug = parseRepoSlug(slug);
   const meta = await fetchRepoMeta(validSlug);
   const tree = await fetchRepoTree(validSlug, meta.default_branch);
-  const projectType = detectProjectType(tree);
+  const projectType = detectProjectType(tree, validSlug);
+  const language = normalizeLanguage(meta.language);
 
   const dimensionResults = await Promise.all([
     analyzeSecurityDimension(tree, meta, validSlug),
     analyzeTestingDimension(tree, meta, validSlug, projectType),
     analyzeDocsDimension(tree, meta, validSlug),
-    analyzeArchitectureDimension(tree, meta, validSlug, projectType),
+    analyzeArchitectureDimension(tree, meta, validSlug, projectType, language),
     analyzeDevOpsDimension(tree, meta, validSlug, projectType),
+    analyzeMaintenanceDimension(tree, meta, validSlug),
   ]);
 
   const grade = computeGrade(dimensionResults);
