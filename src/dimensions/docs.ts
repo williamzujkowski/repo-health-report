@@ -15,16 +15,25 @@ export async function analyzeDocsDimension(
   const start = performance.now();
   const findings: Finding[] = [];
 
-  // README.md exists and has meaningful content
-  const readmeContent = await fetchFileContent(slug, "README.md");
+  // README exists and has meaningful content (support .md, .rst, or no extension)
+  let readmeContent = await fetchFileContent(slug, "README.md");
+  let readmeFile = "README.md";
+  if (!readmeContent) {
+    readmeContent = await fetchFileContent(slug, "README.rst");
+    readmeFile = "README.rst";
+  }
+  if (!readmeContent) {
+    readmeContent = await fetchFileContent(slug, "README");
+    readmeFile = "README";
+  }
   const readmeLength = readmeContent?.length ?? 0;
   const hasGoodReadme = readmeLength > 500;
   findings.push({
-    name: "README.md quality",
+    name: "README quality",
     passed: hasGoodReadme,
     detail: readmeContent
-      ? `README.md is ${readmeLength} chars${readmeLength < 500 ? " (too short — aim for 500+)" : ""}`
-      : "No README.md found",
+      ? `${readmeFile} is ${readmeLength} chars${readmeLength < 500 ? " (too short — aim for 500+)" : ""}`
+      : "No README found (.md, .rst, or plain)",
     weight: 30,
   });
 
@@ -43,30 +52,41 @@ export async function analyzeDocsDimension(
     weight: 20,
   });
 
-  // CONTRIBUTING.md
+  // CONTRIBUTING guide (.md or .rst)
   const hasContributing =
     treeHasFile(tree, "CONTRIBUTING.md") ||
+    treeHasFile(tree, "CONTRIBUTING.rst") ||
     treeHasFile(tree, ".github/CONTRIBUTING.md");
   findings.push({
-    name: "CONTRIBUTING.md",
+    name: "CONTRIBUTING guide",
     passed: hasContributing,
     detail: hasContributing
       ? "Contributing guide found"
-      : "No CONTRIBUTING.md — makes it harder for contributors to get started",
+      : "No CONTRIBUTING guide — makes it harder for contributors to get started",
     weight: 15,
   });
 
-  // CHANGELOG
+  // CHANGELOG (many naming conventions across ecosystems)
   const hasChangelog =
     treeHasFile(tree, "CHANGELOG.md") ||
+    treeHasFile(tree, "CHANGELOG.rst") ||
     treeHasFile(tree, "CHANGELOG") ||
+    treeHasFile(tree, "CHANGES.md") ||
+    treeHasFile(tree, "CHANGES.rst") ||
+    treeHasFile(tree, "CHANGES") ||
     treeHasFile(tree, "HISTORY.md") ||
-    treeHasFile(tree, "CHANGES.md");
+    treeHasFile(tree, "HISTORY.rst") ||
+    treeHasFile(tree, "NEWS") ||
+    treeHasFile(tree, "NEWS.md") ||
+    treeHasFile(tree, "NEWS.rst") ||
+    treeHasFile(tree, "release-notes.md") ||
+    treeHasPattern(tree, /^docs\/releases\//) ||
+    treeHasPattern(tree, /^docs\/changelog/i);
   findings.push({
     name: "CHANGELOG",
     passed: hasChangelog,
     detail: hasChangelog
-      ? "Changelog found"
+      ? "Changelog or release notes found"
       : "No CHANGELOG — users can't see what changed between versions",
     weight: 15,
   });

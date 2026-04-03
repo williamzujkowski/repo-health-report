@@ -18,6 +18,22 @@ interface ReleaseInfo {
   published_at: string;
 }
 
+interface TagInfo {
+  name: string;
+  commit: {
+    sha: string;
+    url: string;
+  };
+}
+
+interface TagCommitInfo {
+  commit: {
+    committer: {
+      date: string;
+    };
+  };
+}
+
 interface ContributorInfo {
   contributions: number;
   login: string;
@@ -135,28 +151,60 @@ async function checkRecentReleases(slug: string): Promise<Finding> {
       `/repos/${slug}/releases?per_page=5`,
       { paginate: false }
     );
-    if (!releases || releases.length === 0) {
+
+    // If GitHub Releases exist, use them
+    if (releases && releases.length > 0) {
+      const latestDays = daysSince(releases[0].published_at);
+      if (latestDays <= 180) {
+        return {
+          name: "Recent releases",
+          passed: true,
+          detail: `Latest release ${latestDays} day(s) ago (${releases.length} recent releases)`,
+          weight: 20,
+        };
+      }
       return {
         name: "Recent releases",
         passed: false,
-        detail: "No GitHub releases found — consider publishing releases",
+        detail: `Latest release ${latestDays} day(s) ago — no release in 6 months`,
         weight: 20,
       };
     }
 
-    const latestDays = daysSince(releases[0].published_at);
-    if (latestDays <= 180) {
-      return {
-        name: "Recent releases",
-        passed: true,
-        detail: `Latest release ${latestDays} day(s) ago (${releases.length} recent releases)`,
-        weight: 20,
-      };
+    // Fallback: check tags (many projects like Django use tags instead of GitHub Releases)
+    const tags = await ghApi<TagInfo[]>(
+      `/repos/${slug}/tags?per_page=5`,
+      { paginate: false }
+    );
+    if (tags && tags.length > 0) {
+      // Get the date of the latest tag's commit
+      const tagCommit = await ghApi<TagCommitInfo>(
+        `/repos/${slug}/commits/${tags[0].commit.sha}`,
+        { paginate: false }
+      );
+      if (tagCommit) {
+        const latestDays = daysSince(tagCommit.commit.committer.date);
+        if (latestDays <= 180) {
+          return {
+            name: "Recent releases",
+            passed: true,
+            detail: `Latest tag "${tags[0].name}" ${latestDays} day(s) ago (${tags.length} recent tags)`,
+            weight: 20,
+          };
+        }
+        return {
+          name: "Recent releases",
+          passed: false,
+          detail: `Latest tag "${tags[0].name}" ${latestDays} day(s) ago — no release in 6 months`,
+          weight: 20,
+        };
+      }
     }
+
     return {
       name: "Recent releases",
       passed: false,
-      detail: `Latest release ${latestDays} day(s) ago — no release in 6 months`,
+      detail: "No GitHub releases or tags found — consider publishing releases",
       weight: 20,
     };
   } catch {

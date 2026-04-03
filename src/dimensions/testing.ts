@@ -157,7 +157,9 @@ async function analyzeApplicationTesting(
     treeHasFile(tree, ".codecov.yml") ||
     treeHasPattern(tree, /coveralls/) ||
     treeHasFile(tree, "setup.cfg") ||
-    treeHasFile(tree, "tox.ini");
+    treeHasFile(tree, "tox.ini") ||
+    treeHasFile(tree, "pyproject.toml") ||
+    treeHasFile(tree, "pytest.ini");
   findings.push({
     name: "Coverage configuration",
     passed: hasCoverageConfig,

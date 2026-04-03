@@ -182,6 +182,7 @@ async function checkSecurityMdQuality(
 ): Promise<Finding> {
   const hasSecurityMd =
     treeHasFile(tree, "SECURITY.md") ||
+    treeHasFile(tree, "SECURITY.rst") ||
     treeHasFile(tree, ".github/SECURITY.md");
 
   if (!hasSecurityMd) {
@@ -196,7 +197,9 @@ async function checkSecurityMdQuality(
   // Try to fetch content for quality assessment
   const secPath = treeHasFile(tree, "SECURITY.md")
     ? "SECURITY.md"
-    : ".github/SECURITY.md";
+    : treeHasFile(tree, "SECURITY.rst")
+      ? "SECURITY.rst"
+      : ".github/SECURITY.md";
   const content = await fetchFileContent(slug, secPath);
 
   if (!content || content.length < 200) {
