@@ -47,6 +47,7 @@ function isActive(href: string): boolean {
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <link href={`${base}/pagefind/pagefind-ui.css`} rel="stylesheet" />
   </head>
   <body style="font-family: 'Inter', system-ui, -apple-system, sans-serif; min-height: 100vh;">
     <!-- Accent bar at top -->
@@ -80,6 +81,18 @@ function isActive(href: string): boolean {
               style="margin-left: 8px; padding: 5px 8px; font-size: 16px; line-height: 1; background: none; border: 1px solid var(--color-border); border-radius: 4px; cursor: pointer; color: var(--color-text-secondary);"
             >
               <span id="theme-icon">☀️</span>
+            </button>
+            <button
+              id="search-trigger"
+              aria-label="Search repositories (press /)"
+              title="Search (press /)"
+              style="margin-left: 4px; padding: 5px 10px; font-size: 13px; background: none; border: 1px solid var(--color-border); border-radius: 4px; cursor: pointer; color: var(--color-text-secondary); display: flex; align-items: center; gap: 5px;"
+            >
+              <svg style="width: 13px; height: 13px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              Search
+              <kbd style="font-size: 10px; padding: 1px 4px; border: 1px solid var(--color-border); border-radius: 3px; opacity: 0.6;">/</kbd>
             </button>
           </div>
 
@@ -144,6 +157,19 @@ function isActive(href: string): boolean {
         </div>
       </div>
     </footer>
+    <!-- Pagefind search modal -->
+    <div
+      id="search-modal"
+      style="display:none; position:fixed; inset:0; z-index:100; background: rgba(0,0,0,0.5); align-items: flex-start; justify-content: center;"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Search"
+    >
+      <div style="max-width:640px; width: 90%; margin: 80px auto 0; background: var(--color-surface); border-radius: 12px; padding: 24px; box-shadow: 0 25px 50px rgba(0,0,0,0.25);">
+        <div id="search-container"></div>
+      </div>
+    </div>
+
     <script>
       const toggle = document.getElementById('theme-toggle');
       const icon = document.getElementById('theme-icon');
@@ -162,6 +188,59 @@ function isActive(href: string): boolean {
           icon.textContent = isDark ? '🌙' : '☀️';
         });
       }
+
+      // Pagefind search
+      const searchTrigger = document.getElementById('search-trigger');
+      const searchModal = document.getElementById('search-modal');
+      const searchContainer = document.getElementById('search-container');
+      let searchLoaded = false;
+
+      async function openSearch() {
+        if (!searchModal) return;
+        searchModal.style.display = 'flex';
+        if (!searchLoaded) {
+          try {
+            // Construct URL dynamically so Vite/Rollup does not attempt to bundle
+            // the pagefind module (it is generated after build by pagefind CLI).
+            const pagefindUrl = '/repo-health-report/pagefind/pagefind.js';
+            // @ts-ignore — pagefind is generated at build time, not resolvable at compile time
+            const pagefind = await import(/* @vite-ignore */ pagefindUrl);
+            await pagefind.init();
+            // @ts-ignore
+            new pagefind.PagefindUI({ element: searchContainer, showSubResults: true });
+            searchLoaded = true;
+          } catch (e) {
+            if (searchContainer) {
+              searchContainer.innerHTML = '<p style="color: var(--color-text-muted); font-size: 13px; text-align: center; padding: 16px;">Search index not available. Run <code>pnpm build</code> first.</p>';
+            }
+          }
+        }
+        // Focus search input
+        setTimeout(() => {
+          const input = searchContainer?.querySelector('input');
+          if (input) (input as HTMLInputElement).focus();
+        }, 100);
+      }
+
+      function closeSearch() {
+        if (searchModal) searchModal.style.display = 'none';
+      }
+
+      searchTrigger?.addEventListener('click', openSearch);
+
+      searchModal?.addEventListener('click', (e) => {
+        if (e.target === searchModal) closeSearch();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeSearch();
+        }
+        if (e.key === '/' && !(e.target as Element).matches('input,textarea,select,[contenteditable]')) {
+          e.preventDefault();
+          openSearch();
+        }
+      });
     </script>
   </body>
 </html>

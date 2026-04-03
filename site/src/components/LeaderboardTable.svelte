@@ -31,6 +31,7 @@
   let selectedLanguage = $state('all');
   let selectedType = $state('all');
   let selectedGrades = $state<Set<string>>(new Set(['A', 'B', 'C', 'D', 'F', 'N/A']));
+  let selectedTopic = $state<string | null>(null);
   let currentPage = $state(1);
   const perPage = 50;
 
@@ -40,6 +41,20 @@
   const types = $derived(
     [...new Set(repos.map((r) => r.type))].sort()
   );
+
+  // Top 20 topics by frequency across all repos
+  const topTopics = $derived.by(() => {
+    const counts = new Map<string, number>();
+    for (const repo of repos) {
+      for (const t of repo.topics ?? []) {
+        counts.set(t, (counts.get(t) ?? 0) + 1);
+      }
+    }
+    return [...counts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 20)
+      .map(([topic]) => topic);
+  });
 
   function toggleGrade(grade: string) {
     const next = new Set(selectedGrades);
@@ -77,6 +92,11 @@
     currentPage = 1;
   }
 
+  function toggleTopic(topic: string) {
+    selectedTopic = selectedTopic === topic ? null : topic;
+    currentPage = 1;
+  }
+
   const filtered = $derived.by(() => {
     let result = repos;
 
@@ -97,6 +117,10 @@
 
     if (selectedType !== 'all') {
       result = result.filter((r) => r.type === selectedType);
+    }
+
+    if (selectedTopic !== null) {
+      result = result.filter((r) => r.topics?.includes(selectedTopic as string));
     }
 
     result = result.filter((r) => selectedGrades.has(r.grade));
@@ -219,6 +243,33 @@
 
     <span style="font-size: 12px; color: var(--color-text-muted); margin-left: auto; font-variant-numeric: tabular-nums;">{filtered.length} repos</span>
   </div>
+
+  <!-- Topic chips -->
+  {#if topTopics.length > 0}
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px;">
+      <span style="font-size: 11px; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;">Topics:</span>
+      {#each topTopics as topic}
+        <button
+          class="filter-chip"
+          onclick={() => toggleTopic(topic)}
+          style={selectedTopic === topic
+            ? 'border-color: rgba(59,130,246,0.5); background: rgba(59,130,246,0.12); color: #3b82f6;'
+            : ''}
+        >
+          {topic}
+        </button>
+      {/each}
+      {#if selectedTopic !== null}
+        <button
+          class="filter-chip"
+          onclick={() => { selectedTopic = null; currentPage = 1; }}
+          style="border-color: rgba(153,153,153,0.4); background: rgba(153,153,153,0.08); color: #999;"
+        >
+          clear
+        </button>
+      {/if}
+    </div>
+  {/if}
 
   <!-- Table -->
   <div style="overflow-x: auto; border-radius: 8px; border: 1px solid var(--color-border);">
