@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - run: npm ci && npx tsc && node dist/export.js && cd site && npm ci && npx astro build
+      - run: cd site && npm ci && NODE_OPTIONS='--max-old-space-size=4096' npx astro build
       - uses: actions/upload-pages-artifact@v4
         with: { path: site/dist }
   

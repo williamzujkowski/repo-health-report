@@ -8,7 +8,6 @@ data/index.json
 data/aggregate.json
 data/cache/
 data/dashboard/repos/
-data/dashboard/leaderboard.json
 data/top-50k-repos.txt
 data/top-1000-repos.txt
 site/node_modules/
