@@ -16,6 +16,7 @@ const DIMENSION_WEIGHTS: Record<ProjectType, Record<string, number>> = {
   library: { Security: 0.8, Testing: 1.2, Documentation: 1.5, Architecture: 1, DevOps: 0.5, Maintenance: 1 },
   documentation: { Security: 0.3, Testing: 0.5, Documentation: 2, Architecture: 1.5, DevOps: 0.5, Maintenance: 0.5 },
   runtime: { Security: 0.5, Testing: 0.8, Documentation: 1.5, Architecture: 0.5, DevOps: 0.5, Maintenance: 1.5 },
+  mirror: { Security: 0.3, Testing: 0.5, Documentation: 1.5, Architecture: 0.5, DevOps: 0.2, Maintenance: 1.5 },
 };
 
 export function computeGrade(
@@ -33,7 +34,8 @@ export function computeGrade(
   const overall = Math.round(weightedSum / totalWeight);
   const totalDurationMs = dimensions.reduce((sum, d) => sum + d.durationMs, 0);
 
-  if (projectType === "documentation") {
+  // Documentation and mirror repos are not graded on code metrics
+  if (projectType === "documentation" || projectType === "mirror") {
     return { letter: "N/A", overall, graded: false, dimensions, totalDurationMs };
   }
 

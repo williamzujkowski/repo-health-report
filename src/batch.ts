@@ -205,7 +205,7 @@ async function analyzeRepo(
   const validSlug = parseRepoSlug(slug);
   const meta = await fetchRepoMeta(validSlug);
   const tree = await fetchRepoTree(validSlug, meta.default_branch);
-  const projectType = detectProjectType(tree, validSlug);
+  const projectType = detectProjectType(tree, validSlug, meta);
   const language = normalizeLanguage(meta.language, tree);
 
   const dimensionResults = await Promise.all([

@@ -9,6 +9,7 @@ export interface RepoTree {
 export interface RepoMeta {
   default_branch: string;
   language: string | null;
+  has_issues: boolean;
   has_wiki: boolean;
   has_pages: boolean;
   license: { spdx_id: string } | null;
@@ -163,7 +164,7 @@ export function treeCountPattern(tree: RepoTree, pattern: RegExp): number {
   return tree.tree.filter((entry) => pattern.test(entry.path)).length;
 }
 
-export type ProjectType = "application" | "iac" | "library" | "hybrid" | "documentation" | "runtime";
+export type ProjectType = "application" | "iac" | "library" | "hybrid" | "documentation" | "runtime" | "mirror";
 
 export type RepoLanguage =
   | "typescript"
@@ -282,9 +283,20 @@ const KNOWN_RUNTIMES = new Set([
  * - 'iac': purely Terraform, Ansible, Pulumi, or CloudFormation
  * - 'library': no src/ but has lib/ or root index file
  */
-export function detectProjectType(tree: RepoTree, slug?: string): ProjectType {
+export function detectProjectType(tree: RepoTree, slug?: string, meta?: RepoMeta): ProjectType {
   // Runtime detection — check BEFORE everything else
   if (slug && KNOWN_RUNTIMES.has(slug)) return "runtime";
+
+  // Mirror/external-primary detection — repos developed outside GitHub
+  // Tight heuristic: issues disabled + no GH Actions + high stars (avoids false positives on small repos)
+  if (meta && !meta.has_issues && (meta.stargazers_count ?? 0) > 1000) {
+    const hasGitHubActions = treeHasPattern(tree, /^\.github\/workflows\/.*\.ya?ml$/);
+    const hasGitHubConfig = treeHasFile(tree, ".github/dependabot.yml") ||
+      treeHasFile(tree, "CODEOWNERS") || treeHasFile(tree, ".github/CODEOWNERS");
+    if (!hasGitHubActions && !hasGitHubConfig) {
+      return "mirror";
+    }
+  }
   // Documentation detection — check BEFORE application/IaC
   const repoName = slug?.split("/")[1] ?? "";
   // Match "awesome", "awesome-*", "*-awesome", or "*-awesome-*" patterns
