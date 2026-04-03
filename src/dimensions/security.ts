@@ -5,7 +5,7 @@ import {
   treeHasPattern,
   fetchFileContent,
 } from "../analyze.js";
-import { detectCI, detectDependencyUpdates, detectCodeOwnership, detectSBOM } from "../detectors.js";
+import { detectCI, detectDependencyUpdates, detectCodeOwnership, detectSBOM, detectCodeScanning, detectSecretScanning } from "../detectors.js";
 
 export interface Finding {
   name: string;
@@ -345,6 +345,28 @@ export async function analyzeSecurityDimension(
         : "SBOM generator detected in CI workflow (syft/cdxgen)"
       : "No SBOM — consider generating Software Bill of Materials",
     weight: 5,
+  });
+
+  // Code scanning / SAST
+  const codeScanning = detectCodeScanning(tree);
+  findings.push({
+    name: "Code scanning / SAST",
+    passed: codeScanning.detected,
+    detail: codeScanning.detected
+      ? `CodeQL or code scanning detected (${codeScanning.detail})`
+      : "No SAST/code scanning — consider adding CodeQL or Semgrep",
+    weight: 8,
+  });
+
+  // Secret scanning
+  const secretScanning = detectSecretScanning(tree);
+  findings.push({
+    name: "Secret scanning",
+    passed: secretScanning.detected,
+    detail: secretScanning.detected
+      ? `Secret scanning config found (${secretScanning.detail})`
+      : "No secret scanning configuration",
+    weight: 8,
   });
 
   // Branch protection (heuristic: repo has CI — any provider)

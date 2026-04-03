@@ -115,6 +115,34 @@ export function detectSBOM(tree: RepoTree): DetectorResult {
   return { detected: false, detail: "No SBOM artifact detected" };
 }
 
+// --- Code Scanning / SAST Detectors ---
+export function detectCodeScanning(tree: RepoTree): DetectorResult {
+  const checks: Array<[() => boolean, string]> = [
+    [() => treeHasFile(tree, ".github/codeql/codeql-config.yml"), "CodeQL config"],
+    [() => treeHasPattern(tree, /\.github\/workflows\/.*codeql.*\.ya?ml$/), "CodeQL in workflows"],
+    [() => treeHasPattern(tree, /code-scanning.*\.ya?ml$/), "Code scanning workflow"],
+    [() => treeHasPattern(tree, /codeql.*\.ya?ml$/), "CodeQL workflow"],
+  ];
+  for (const [check, name] of checks) {
+    if (check()) return { detected: true, detail: name };
+  }
+  return { detected: false, detail: "No SAST/code scanning configuration detected" };
+}
+
+// --- Secret Scanning Detectors ---
+export function detectSecretScanning(tree: RepoTree): DetectorResult {
+  const checks: Array<[() => boolean, string]> = [
+    [() => treeHasFile(tree, ".github/secret-scanning.yml"), "Secret scanning config"],
+    [() => treeHasFile(tree, ".gitleaks.toml"), "Gitleaks config"],
+    [() => treeHasFile(tree, ".secrets.baseline"), "detect-secrets baseline"],
+    [() => treeHasFile(tree, ".trufflehogignore"), "TruffleHog config"],
+  ];
+  for (const [check, name] of checks) {
+    if (check()) return { detected: true, detail: name };
+  }
+  return { detected: false, detail: "No secret scanning configuration detected" };
+}
+
 // --- License Detectors ---
 export function detectLicense(tree: RepoTree): DetectorResult {
   const checks: Array<[() => boolean, string]> = [

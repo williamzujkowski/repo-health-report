@@ -413,6 +413,22 @@ ${chalk.bold("Examples:")}
     } else {
       console.log(chalk.gray(`    ${supplyChain.summary}`));
     }
+    // Show code scanning and secret scanning status from security dimension findings
+    const securityDimension = dimensionResults[0];
+    const codeScanningFinding = securityDimension.findings.find(
+      (f) => f.name === "Code scanning / SAST"
+    );
+    const secretScanningFinding = securityDimension.findings.find(
+      (f) => f.name === "Secret scanning"
+    );
+    if (codeScanningFinding !== undefined) {
+      const icon = codeScanningFinding.passed ? chalk.green("✔") : chalk.yellow("?");
+      console.log(chalk.gray(`    ${icon} ${codeScanningFinding.detail}`));
+    }
+    if (secretScanningFinding !== undefined) {
+      const icon = secretScanningFinding.passed ? chalk.green("✔") : chalk.yellow("?");
+      console.log(chalk.gray(`    ${icon} ${secretScanningFinding.detail}`));
+    }
     console.log("");
   }
 

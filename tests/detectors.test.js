@@ -6,6 +6,8 @@ import {
   detectCodeOwnership,
   detectSecurityPolicy,
   detectLicense,
+  detectCodeScanning,
+  detectSecretScanning,
 } from "../dist/detectors.js";
 
 /**
@@ -199,6 +201,95 @@ describe("detectSecurityPolicy", () => {
 
   it("returns false for empty tree", () => {
     const result = detectSecurityPolicy(mockTree([]));
+    assert.equal(result.detected, false);
+  });
+});
+
+// ── Code Scanning / SAST Detection ─────────────────────────────────────────
+
+describe("detectCodeScanning", () => {
+  it("detects CodeQL workflow by filename pattern", () => {
+    const result = detectCodeScanning(
+      mockTree([".github/workflows/codeql-analysis.yml"])
+    );
+    assert.equal(result.detected, true);
+    assert.match(result.detail, /CodeQL/);
+  });
+
+  it("detects CodeQL workflow in workflows directory", () => {
+    const result = detectCodeScanning(
+      mockTree([".github/workflows/codeql.yaml"])
+    );
+    assert.equal(result.detected, true);
+  });
+
+  it("detects code-scanning workflow", () => {
+    const result = detectCodeScanning(
+      mockTree([".github/workflows/code-scanning.yml"])
+    );
+    assert.equal(result.detected, true);
+    assert.match(result.detail, /[Cc]ode.scanning/);
+  });
+
+  it("detects CodeQL config file", () => {
+    const result = detectCodeScanning(
+      mockTree([".github/codeql/codeql-config.yml"])
+    );
+    assert.equal(result.detected, true);
+    assert.match(result.detail, /CodeQL config/);
+  });
+
+  it("returns false when no code scanning present", () => {
+    const result = detectCodeScanning(
+      mockTree(["README.md", ".github/workflows/ci.yml"])
+    );
+    assert.equal(result.detected, false);
+    assert.match(result.detail, /No SAST/);
+  });
+
+  it("returns false for empty tree", () => {
+    const result = detectCodeScanning(mockTree([]));
+    assert.equal(result.detected, false);
+  });
+});
+
+// ── Secret Scanning Detection ───────────────────────────────────────────────
+
+describe("detectSecretScanning", () => {
+  it("detects .github/secret-scanning.yml", () => {
+    const result = detectSecretScanning(
+      mockTree([".github/secret-scanning.yml"])
+    );
+    assert.equal(result.detected, true);
+    assert.match(result.detail, /[Ss]ecret scanning/);
+  });
+
+  it("detects Gitleaks config", () => {
+    const result = detectSecretScanning(mockTree([".gitleaks.toml"]));
+    assert.equal(result.detected, true);
+    assert.match(result.detail, /Gitleaks/);
+  });
+
+  it("detects detect-secrets baseline", () => {
+    const result = detectSecretScanning(mockTree([".secrets.baseline"]));
+    assert.equal(result.detected, true);
+    assert.match(result.detail, /detect-secrets/);
+  });
+
+  it("detects TruffleHog config", () => {
+    const result = detectSecretScanning(mockTree([".trufflehogignore"]));
+    assert.equal(result.detected, true);
+    assert.match(result.detail, /TruffleHog/);
+  });
+
+  it("returns false when no secret scanning present", () => {
+    const result = detectSecretScanning(mockTree(["README.md", ".gitignore"]));
+    assert.equal(result.detected, false);
+    assert.match(result.detail, /No secret scanning/);
+  });
+
+  it("returns false for empty tree", () => {
+    const result = detectSecretScanning(mockTree([]));
     assert.equal(result.detected, false);
   });
 });
