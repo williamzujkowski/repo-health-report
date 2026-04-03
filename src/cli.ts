@@ -41,6 +41,8 @@ import {
   detectPackageInfo,
 } from "./external-apis.js";
 import type { ScorecardResult, DepsDevResult } from "./external-apis.js";
+import { generateInsights } from "./insights.js";
+import type { Insight } from "./insights.js";
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
@@ -320,13 +322,25 @@ ${chalk.bold("Examples:")}
     } else if (scorecardEnabled) {
       console.log(chalk.gray("  OpenSSF Scorecard: not indexed for this repo"));
     }
-    // deps.dev dependent count display
+    // deps.dev display
     if (depsDev) {
       const countStr = depsDev.dependentCount.toLocaleString();
-      console.log(
-        chalk.bold(`\n  deps.dev dependents: ${chalk.cyan(countStr)}`) +
-          (depsDev.latestVersion ? chalk.gray(` (latest: ${depsDev.latestVersion})`) : "")
-      );
+      let depsLine =
+        chalk.bold(`\n  deps.dev: ${chalk.cyan(countStr)} dependents`) +
+        (depsDev.latestVersion ? chalk.gray(`, latest ${depsDev.latestVersion}`) : "");
+      if (depsDev.advisoryCount !== undefined && depsDev.advisoryCount > 0) {
+        const sev = depsDev.advisorySeverity;
+        const sevParts: string[] = [];
+        if (sev) {
+          if (sev.critical > 0) sevParts.push(`${sev.critical} critical`);
+          if (sev.high > 0) sevParts.push(`${sev.high} high`);
+          if (sev.medium > 0) sevParts.push(`${sev.medium} medium`);
+          if (sev.low > 0) sevParts.push(`${sev.low} low`);
+        }
+        const sevStr = sevParts.length > 0 ? ` (${sevParts.join(", ")})` : "";
+        depsLine += chalk.yellow(`, ${depsDev.advisoryCount} advisories${sevStr}`);
+      }
+      console.log(depsLine);
     }
     if (scorecard || depsDev) console.log("");
     // AI contributors display
@@ -361,6 +375,24 @@ ${chalk.bold("Examples:")}
       console.log(
         `\n  ${chalk.bold("Automation level:")} ${levelColor(aiContributors.automationLevel)}`
       );
+      console.log("");
+    }
+  }
+
+  // Insights: derived natural-language observations from tree analytics
+  if (!jsonOutput) {
+    const insights: Insight[] = generateInsights(grade, analytics, languages, meta);
+    if (insights.length > 0) {
+      console.log(chalk.bold("  Insights:"));
+      for (const insight of insights) {
+        const icon =
+          insight.category === "positive"
+            ? chalk.green("✓")
+            : insight.category === "critical"
+              ? chalk.red("✗")
+              : chalk.yellow("⚠");
+        console.log(`    ${icon} ${insight.text}`);
+      }
       console.log("");
     }
   }

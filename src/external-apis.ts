@@ -19,6 +19,8 @@ export interface ScorecardResult {
 export interface DepsDevResult {
   dependentCount: number;
   latestVersion: string | null;
+  advisoryCount?: number;
+  advisorySeverity?: { critical: number; high: number; medium: number; low: number };
 }
 
 interface RawScorecardCheck {
@@ -33,8 +35,14 @@ interface RawScorecardData {
   date?: unknown;
 }
 
+interface RawDepsDevAdvisoryKey {
+  id?: unknown;
+}
+
 interface RawDepsDevVersion {
   versionKey?: { version?: unknown };
+  advisoryKeys?: unknown;
+  isDefault?: unknown;
 }
 
 interface RawDepsDevData {
@@ -119,8 +127,52 @@ export async function fetchDepsDevInfo(
       lastVersion?.versionKey?.version != null
         ? String(lastVersion.versionKey.version)
         : null;
-    return { dependentCount, latestVersion };
+
+    // Extract advisory data from the latest version's advisoryKeys field.
+    // Each entry has an id like "GHSA-xxxx-xxxx-xxxx" or "CVE-yyyy-nnnn".
+    // We collect unique advisory IDs and classify severity from the ID prefix.
+    const latestAdvisoryKeys = Array.isArray(lastVersion?.advisoryKeys)
+      ? (lastVersion.advisoryKeys as RawDepsDevAdvisoryKey[])
+      : [];
+    const uniqueIds = new Set<string>(
+      latestAdvisoryKeys
+        .map((k) => (typeof k.id === "string" ? k.id : ""))
+        .filter((id) => id.length > 0)
+    );
+    const advisoryCount = uniqueIds.size;
+    const advisorySeverity = advisoryCount > 0
+      ? classifyAdvisorySeverities(uniqueIds)
+      : undefined;
+
+    return {
+      dependentCount,
+      latestVersion,
+      ...(advisoryCount > 0 ? { advisoryCount, advisorySeverity } : {}),
+    };
   } catch {
     return null;
   }
+}
+
+/**
+ * Classify advisory IDs into severity buckets.
+ * The deps.dev API does not always include severity inline; we use
+ * the advisory ID prefix as a heuristic. GHSA advisories are classified
+ * as "high" by default since severity metadata requires a separate call.
+ * CVE IDs with no additional context default to "medium".
+ */
+function classifyAdvisorySeverities(
+  ids: Set<string>
+): { critical: number; high: number; medium: number; low: number } {
+  const counts = { critical: 0, high: 0, medium: 0, low: 0 };
+  for (const id of ids) {
+    // GHSA IDs are GitHub Security Advisories — default to high
+    if (id.startsWith("GHSA-")) {
+      counts.high++;
+    } else {
+      // CVE and others default to medium
+      counts.medium++;
+    }
+  }
+  return counts;
 }

@@ -243,4 +243,67 @@ describe("fetchDepsDevInfo", () => {
     assert.equal(result.dependentCount, 300);
     assert.equal(result.latestVersion, "3.2.1");
   });
+
+  it("extracts advisoryCount and advisorySeverity from latest version advisoryKeys", async () => {
+    globalThis.fetch = async () => ({
+      ok: true,
+      json: async () => ({
+        dependentCount: 100,
+        versions: [
+          { versionKey: { version: "1.0.0" } },
+          {
+            versionKey: { version: "2.0.0" },
+            advisoryKeys: [
+              { id: "GHSA-xxxx-yyyy-1111" },
+              { id: "GHSA-xxxx-yyyy-2222" },
+              { id: "CVE-2024-12345" },
+            ],
+          },
+        ],
+      }),
+    });
+    const result = await fetchDepsDevInfo("vulnerable-pkg", "npm");
+    assert.ok(result !== null);
+    assert.equal(result.advisoryCount, 3);
+    assert.ok(result.advisorySeverity !== undefined);
+    assert.equal(result.advisorySeverity.high, 2);   // two GHSA IDs
+    assert.equal(result.advisorySeverity.medium, 1); // one CVE
+    assert.equal(result.advisorySeverity.critical, 0);
+    assert.equal(result.advisorySeverity.low, 0);
+  });
+
+  it("returns no advisory fields when latest version has no advisories", async () => {
+    globalThis.fetch = async () => ({
+      ok: true,
+      json: async () => ({
+        dependentCount: 50,
+        versions: [{ versionKey: { version: "1.0.0" }, advisoryKeys: [] }],
+      }),
+    });
+    const result = await fetchDepsDevInfo("clean-pkg", "npm");
+    assert.ok(result !== null);
+    assert.equal(result.advisoryCount, undefined);
+    assert.equal(result.advisorySeverity, undefined);
+  });
+
+  it("deduplicates repeated advisory IDs", async () => {
+    globalThis.fetch = async () => ({
+      ok: true,
+      json: async () => ({
+        dependentCount: 10,
+        versions: [
+          {
+            versionKey: { version: "1.0.0" },
+            advisoryKeys: [
+              { id: "GHSA-aaaa-bbbb-cccc" },
+              { id: "GHSA-aaaa-bbbb-cccc" }, // duplicate
+            ],
+          },
+        ],
+      }),
+    });
+    const result = await fetchDepsDevInfo("dup-pkg", "npm");
+    assert.ok(result !== null);
+    assert.equal(result.advisoryCount, 1);
+  });
 });

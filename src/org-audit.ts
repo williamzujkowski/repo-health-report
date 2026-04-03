@@ -51,6 +51,17 @@ interface OrgTreeAnalyticsSummary {
   monorepoCount: number;
 }
 
+interface OrgInsightsSummary {
+  totalInsights: number;
+  criticalCount: number;
+  warningCount: number;
+  positiveCount: number;
+  /** Top critical insight texts across all repos (deduplicated, up to 10) */
+  topCritical: string[];
+  /** Top warning insight texts across all repos (deduplicated, up to 10) */
+  topWarnings: string[];
+}
+
 interface OrgLanguageDetail {
   primaryCount: number;
   totalFileCount: number;
@@ -70,6 +81,7 @@ interface OrgSummary {
   multiLanguageBreakdown: Record<string, OrgLanguageDetail>;
   typeBreakdown: Record<string, number>;
   treeAnalytics?: OrgTreeAnalyticsSummary;
+  insightsSummary?: OrgInsightsSummary;
 }
 
 export interface RiskEntry {
@@ -404,6 +416,50 @@ function buildSummary(org: string, reports: BatchReport[], analyzedAt: string): 
     };
   }
 
+  // Aggregate insights across all reports
+  let insightsSummary: OrgInsightsSummary | undefined;
+  const reportsWithInsights = reports.filter((r) => r.insights && r.insights.length > 0);
+  if (reportsWithInsights.length > 0) {
+    let criticalCount = 0;
+    let warningCount = 0;
+    let positiveCount = 0;
+    const criticalTexts: Map<string, number> = new Map();
+    const warningTexts: Map<string, number> = new Map();
+
+    for (const report of reportsWithInsights) {
+      for (const insight of report.insights!) {
+        if (insight.category === "critical") {
+          criticalCount++;
+          criticalTexts.set(insight.text, (criticalTexts.get(insight.text) ?? 0) + 1);
+        } else if (insight.category === "warning") {
+          warningCount++;
+          warningTexts.set(insight.text, (warningTexts.get(insight.text) ?? 0) + 1);
+        } else {
+          positiveCount++;
+        }
+      }
+    }
+
+    // Sort by frequency descending, take top 10
+    const topCritical = [...criticalTexts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([text]) => text);
+    const topWarnings = [...warningTexts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([text]) => text);
+
+    insightsSummary = {
+      totalInsights: criticalCount + warningCount + positiveCount,
+      criticalCount,
+      warningCount,
+      positiveCount,
+      topCritical,
+      topWarnings,
+    };
+  }
+
   return {
     org,
     analyzedAt,
@@ -416,6 +472,7 @@ function buildSummary(org: string, reports: BatchReport[], analyzedAt: string): 
     multiLanguageBreakdown: multiLang,
     typeBreakdown: typeCounts,
     ...(treeAnalyticsSummary ? { treeAnalytics: treeAnalyticsSummary } : {}),
+    ...(insightsSummary ? { insightsSummary } : {}),
   };
 }
 
@@ -517,6 +574,36 @@ export function generateOrgMarkdown(summary: OrgSummary, risks: RisksReport, rep
       lines.push(`| .env committed | ${ta.reposWithDotEnvCommitted.join(", ")} |`);
     }
     lines.push("");
+  }
+
+  // Insights Summary
+  if (summary.insightsSummary) {
+    const ins = summary.insightsSummary;
+    lines.push("### Insights Summary");
+    lines.push("");
+    lines.push("| Metric | Count |");
+    lines.push("|--------|-------|");
+    lines.push(`| Total insights | ${ins.totalInsights} |`);
+    lines.push(`| Critical | ${ins.criticalCount} |`);
+    lines.push(`| Warnings | ${ins.warningCount} |`);
+    lines.push(`| Positive | ${ins.positiveCount} |`);
+    lines.push("");
+    if (ins.topCritical.length > 0) {
+      lines.push("**Top Critical Issues:**");
+      lines.push("");
+      for (const text of ins.topCritical) {
+        lines.push(`- ✗ ${text}`);
+      }
+      lines.push("");
+    }
+    if (ins.topWarnings.length > 0) {
+      lines.push("**Top Warnings:**");
+      lines.push("");
+      for (const text of ins.topWarnings) {
+        lines.push(`- ⚠ ${text}`);
+      }
+      lines.push("");
+    }
   }
 
   // Top Risks
@@ -724,6 +811,10 @@ async function main(): Promise<void> {
   if (summary.treeAnalytics) {
     const ta = summary.treeAnalytics;
     console.log(`  Avg test ratio: ${chalk.cyan(String(ta.avgTestToSourceRatio))}, monorepos: ${chalk.cyan(String(ta.monorepoCount))}, anti-pattern repos: ${chalk.cyan(String(ta.reposWithAntiPatterns.length))}`);
+  }
+  if (summary.insightsSummary) {
+    const ins = summary.insightsSummary;
+    console.log(`  Insights: ${chalk.green(String(ins.positiveCount))} positive, ${chalk.yellow(String(ins.warningCount))} warnings, ${chalk.red(String(ins.criticalCount))} critical`);
   }
   console.log(chalk.gray(`\n  Output: ${auditDir}/`));
   console.log(chalk.gray(`    summary.json  risks.json  report.md  repos/\n`));
