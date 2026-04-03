@@ -20,12 +20,19 @@ export interface LanguageBreakdownEntry {
   percentage: number;
 }
 
+export interface Insight {
+  category: 'positive' | 'warning' | 'critical';
+  text: string;
+}
+
 export interface TreeAnalytics {
   testToSourceRatio?: number;
   configScore?: number;
   antiPatternCount?: number;
   sizeCategory?: string;
   fileCount?: number;
+  directoryCount?: number;
+  maxDepth?: number;
   sourceFileCount?: number;
   testFileCount?: number;
   isMonorepo?: boolean;
@@ -46,6 +53,7 @@ export interface RepoDetail {
   size?: number;
   languages?: { primary: string; all: LanguageBreakdownEntry[] };
   treeAnalytics?: TreeAnalytics;
+  insights?: Insight[];
 }
 
 export function loadRepoDetail(slug: string): RepoDetail | null {

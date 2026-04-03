@@ -19,6 +19,8 @@ const gc = ({ A: 'grade-A', B: 'grade-B', C: 'grade-C', D: 'grade-D', F: 'grade-
 const typeMap: Record<string, string> = { application: 'type-application', library: 'type-library', framework: 'type-framework', documentation: 'type-documentation', tool: 'type-tool' };
 const tc = 'type-badge ' + (typeMap[repo.type] ?? 'type-default');
 const showFindings = dims.some((d) => d.findings && d.findings.length > 0);
+const insights = detail?.insights ?? [];
+const treeAnalytics = detail?.treeAnalytics;
 
 function dimColor(s: number): string {
   if (s >= 70) return 'var(--color-grade-a)';
@@ -87,7 +89,10 @@ const sizeBadgeColors: Record<string, string> = {
 const langColors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'];
 ---
 
-<BaseLayout title={repo.slug}>
+<BaseLayout
+  title={`${repo.slug} — ${repo.grade} (${repo.score}/100)`}
+  description={description ?? `Health analysis of ${repo.slug}: grade ${repo.grade}, score ${repo.score}/100.`}
+>
   <nav style="font-size: 13px; color: var(--color-text-muted); margin-bottom: 24px;">
     <a href={`${base}/leaderboard/`} style="color: var(--color-accent); text-decoration: none;">Leaderboard</a>
     <span style="margin: 0 6px;">/</span>
@@ -202,6 +207,65 @@ const langColors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4
       <h2 class="section-heading">Dimension Scores</h2>
       <p class="section-subheading">Individual health dimension scores for this repository</p>
       <LollipopChart data={dimLollipop} maxValue={100} />
+    </section>
+  )}
+
+  <!-- Tree analytics stats row -->
+  {treeAnalytics && (
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px;">
+      {treeAnalytics.fileCount !== undefined && (
+        <div class="card" style="padding: 10px 16px; text-align: center; flex: 1; min-width: 90px;">
+          <div style="font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{treeAnalytics.fileCount.toLocaleString()}</div>
+          <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 2px;">files</div>
+        </div>
+      )}
+      {treeAnalytics.directoryCount !== undefined && (
+        <div class="card" style="padding: 10px 16px; text-align: center; flex: 1; min-width: 90px;">
+          <div style="font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{treeAnalytics.directoryCount.toLocaleString()}</div>
+          <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 2px;">dirs</div>
+        </div>
+      )}
+      {treeAnalytics.maxDepth !== undefined && (
+        <div class="card" style="padding: 10px 16px; text-align: center; flex: 1; min-width: 90px;">
+          <div style="font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{treeAnalytics.maxDepth}</div>
+          <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 2px;">depth</div>
+        </div>
+      )}
+      {treeAnalytics.testToSourceRatio !== undefined && (
+        <div class="card" style="padding: 10px 16px; text-align: center; flex: 1; min-width: 90px;">
+          <div style="font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{treeAnalytics.testToSourceRatio.toFixed(2)}</div>
+          <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 2px;">test ratio</div>
+        </div>
+      )}
+      {treeAnalytics.configScore !== undefined && (
+        <div class="card" style="padding: 10px 16px; text-align: center; flex: 1; min-width: 90px;">
+          <div style="font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{treeAnalytics.configScore}/10</div>
+          <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 2px;">config</div>
+        </div>
+      )}
+      {treeAnalytics.antiPatternCount !== undefined && (
+        <div class="card" style="padding: 10px 16px; text-align: center; flex: 1; min-width: 90px;">
+          <div style={`font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; color: ${treeAnalytics.antiPatternCount > 0 ? 'var(--color-grade-f)' : 'var(--color-grade-a)'};`}>{treeAnalytics.antiPatternCount}</div>
+          <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 2px;">anti-patterns</div>
+        </div>
+      )}
+    </div>
+  )}
+
+  <!-- Insights -->
+  {insights.length > 0 && (
+    <section class="card" style="margin-bottom: 24px;">
+      <h2 class="section-heading">Insights</h2>
+      <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;">
+        {insights.map((i) => (
+          <div style="display: flex; align-items: start; gap: 10px; font-size: 13px; padding: 6px 0; border-bottom: 1px solid var(--color-border);">
+            <span style={`font-size: 14px; font-weight: 700; min-width: 16px; color: ${i.category === 'positive' ? 'var(--color-grade-a)' : i.category === 'warning' ? 'var(--color-grade-b)' : 'var(--color-grade-f)'};`}>
+              {i.category === 'positive' ? '\u2713' : i.category === 'warning' ? '\u26a0' : '\u2717'}
+            </span>
+            <span style="color: var(--color-text); line-height: 1.4;">{i.text}</span>
+          </div>
+        ))}
+      </div>
     </section>
   )}
 
