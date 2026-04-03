@@ -1,11 +1,17 @@
 {
   "name": "repo-health-report",
   "version": "2.0.0",
-  "description": "Analyze any GitHub repo and generate a health report using static analysis via the GitHub API",
+  "description": "Analyze GitHub repository health across 6 dimensions with pluggable detectors",
   "type": "module",
   "bin": {
-    "repo-health-report": "dist/cli.js"
+    "repo-health-report": "./dist/cli.js"
   },
+  "files": [
+    "dist/",
+    "SCORING.md",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "start": "node dist/cli.js",
@@ -14,15 +20,28 @@
     "aggregate": "node dist/aggregate.js",
     "debrief": "node dist/debrief.js",
     "export": "node dist/export.js",
-    "org-audit": "node dist/org-audit.js"
+    "org-audit": "node dist/org-audit.js",
+    "prepublishOnly": "npx tsc"
   },
   "keywords": [
     "github",
-    "repo",
+    "repository",
     "health",
+    "security",
+    "scorecard",
+    "opensf",
     "analysis",
-    "cli"
+    "cli",
+    "devops",
+    "testing"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/williamzujkowski/repo-health-report.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
   "author": "William Zujkowski",
   "license": "MIT",
   "dependencies": {

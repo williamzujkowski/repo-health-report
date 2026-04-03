@@ -412,7 +412,7 @@ body {
   margin-bottom: 20px;
 }
 
-/* Dark mode overrides — activated by prefers-color-scheme */
+/* Dark mode overrides — activated by prefers-color-scheme OR .dark class (manual toggle) */
 @media (prefers-color-scheme: dark) {
   :root {
     --color-text: #e8e8e8;
@@ -451,4 +451,43 @@ body {
   .chart-bar-track {
     background-color: #2a2a2e;
   }
+}
+
+/* Manual dark mode — .dark class on <html> overrides OS preference */
+:root.dark {
+  --color-text: #e8e8e8;
+  --color-text-secondary: #aaa;
+  --color-text-muted: #888;
+  --color-border: #333;
+  --color-surface: #1a1a1e;
+  --color-surface-alt: #222226;
+  --color-bg: #111114;
+  --color-accent-light: rgba(29,129,162,0.2);
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.2);
+  --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.dark .lollipop-track {
+  background: #444;
+}
+.dark .lollipop-dot {
+  border-color: var(--color-surface);
+}
+.dark .lollipop-row {
+  border-bottom-color: #2a2a2e;
+}
+
+.dark .grade-A { background-color: rgba(45,157,120,0.18); }
+.dark .grade-B { background-color: rgba(29,129,162,0.18); }
+.dark .grade-C { background-color: rgba(196,160,53,0.18); }
+.dark .grade-D { background-color: rgba(212,118,44,0.18); }
+.dark .grade-F { background-color: rgba(201,70,62,0.18); }
+.dark .grade-NA { background-color: rgba(153,153,153,0.18); }
+
+.dark .spark-bar {
+  background-color: #333;
+}
+
+.dark .chart-bar-track {
+  background-color: #2a2a2e;
 }
