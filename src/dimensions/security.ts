@@ -5,6 +5,7 @@ import {
   treeHasPattern,
   fetchFileContent,
 } from "../analyze.js";
+import { detectCI, detectDependencyUpdates, detectCodeOwnership } from "../detectors.js";
 
 export interface Finding {
   name: string;
@@ -271,36 +272,22 @@ export async function analyzeSecurityDimension(
   findings.push(checkTokenPermissions(workflows));
 
   // Dependabot or Renovate
-  const hasDependabot =
-    treeHasFile(tree, ".github/dependabot.yml") ||
-    treeHasFile(tree, ".github/dependabot.yaml");
-  const hasRenovate =
-    treeHasFile(tree, "renovate.json") ||
-    treeHasFile(tree, ".github/renovate.json") ||
-    treeHasFile(tree, "renovate.json5");
-  const hasDepUpdater = hasDependabot || hasRenovate;
+  const depUpdates = detectDependencyUpdates(tree);
   findings.push({
     name: "Dependency update automation",
-    passed: hasDepUpdater,
-    detail: hasDepUpdater
-      ? `Using ${hasDependabot ? "Dependabot" : "Renovate"}`
-      : "No Dependabot or Renovate config found",
+    passed: depUpdates.detected,
+    detail: depUpdates.detail,
     weight: 15,
   });
 
-  // CODEOWNERS (or OWNERS — used in kubernetes/Go ecosystem)
-  const hasCodeowners =
-    treeHasFile(tree, "CODEOWNERS") ||
-    treeHasFile(tree, ".github/CODEOWNERS") ||
-    treeHasFile(tree, "docs/CODEOWNERS") ||
-    treeHasFile(tree, "OWNERS") ||
-    treeHasFile(tree, "OWNERS_ALIASES");
+  // Code ownership (CODEOWNERS, OWNERS, MAINTAINERS)
+  const ownership = detectCodeOwnership(tree);
   findings.push({
-    name: "CODEOWNERS file",
-    passed: hasCodeowners,
-    detail: hasCodeowners
-      ? "CODEOWNERS or OWNERS file found"
-      : "No CODEOWNERS or OWNERS file — add ownership for review enforcement",
+    name: "Code ownership",
+    passed: ownership.detected,
+    detail: ownership.detected
+      ? ownership.detail
+      : "No code ownership file — add CODEOWNERS or OWNERS for review enforcement",
     weight: 5,
   });
 
@@ -329,14 +316,14 @@ export async function analyzeSecurityDimension(
     weight: 10,
   });
 
-  // Branch protection (heuristic: repo has required status checks visible via default branch)
-  const hasCi = treeHasPattern(tree, /^\.github\/workflows\/.*\.ya?ml$/);
+  // Branch protection (heuristic: repo has CI — any provider)
+  const ci = detectCI(tree);
   findings.push({
     name: "CI workflows (branch protection proxy)",
-    passed: hasCi,
-    detail: hasCi
-      ? "CI workflows found (likely branch protection in place)"
-      : "No CI workflows — branch protection is unlikely",
+    passed: ci.detected,
+    detail: ci.detected
+      ? `${ci.detail} found (likely branch protection in place)`
+      : "No CI system detected — branch protection is unlikely",
     weight: 10,
   });
 

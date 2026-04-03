@@ -7,6 +7,7 @@ import {
   treeHasFile,
   fetchFileContent,
 } from "../analyze.js";
+import { detectCI } from "../detectors.js";
 import type { DimensionResult, Finding } from "./security.js";
 
 async function analyzeIacTesting(
@@ -15,21 +16,14 @@ async function analyzeIacTesting(
 ): Promise<Finding[]> {
   const findings: Finding[] = [];
 
-  // CI: GitHub Actions or Concourse ci/ directory
-  const ciWorkflowCount = treeCountPattern(
-    tree,
-    /^\.github\/workflows\/.*\.ya?ml$/
-  );
-  const hasCiDir = treeHasPattern(tree, /^ci\//);
-  const hasAnyCi = ciWorkflowCount > 0 || hasCiDir;
+  // CI pipeline detection (any CI system)
+  const ci = detectCI(tree);
   findings.push({
     name: "CI pipeline",
-    passed: hasAnyCi,
-    detail: hasAnyCi
-      ? ciWorkflowCount > 0
-        ? `${ciWorkflowCount} GitHub Actions workflow(s) found`
-        : "ci/ directory found (Concourse or similar)"
-      : "No CI pipeline detected (.github/workflows/ or ci/)",
+    passed: ci.detected,
+    detail: ci.detected
+      ? `${ci.detail} detected`
+      : "No CI pipeline detected",
     weight: 25,
   });
 
@@ -111,18 +105,14 @@ async function analyzeApplicationTesting(
 ): Promise<Finding[]> {
   const findings: Finding[] = [];
 
-  // CI workflows
-  const ciWorkflowCount = treeCountPattern(
-    tree,
-    /^\.github\/workflows\/.*\.ya?ml$/
-  );
+  // CI workflows (any CI system)
+  const ci = detectCI(tree);
   findings.push({
     name: "CI workflows",
-    passed: ciWorkflowCount > 0,
-    detail:
-      ciWorkflowCount > 0
-        ? `${ciWorkflowCount} workflow file(s) found`
-        : "No GitHub Actions workflows found",
+    passed: ci.detected,
+    detail: ci.detected
+      ? `${ci.detail} detected`
+      : "No CI system detected",
     weight: 25,
   });
 
@@ -223,18 +213,14 @@ async function analyzeDocumentationTesting(
 ): Promise<Finding[]> {
   const findings: Finding[] = [];
 
-  // CI workflow for automated checks (link checking, markdown linting)
-  const ciWorkflowCount = treeCountPattern(
-    tree,
-    /^\.github\/workflows\/.*\.ya?ml$/
-  );
+  // CI workflow for automated checks (any CI system)
+  const ci = detectCI(tree);
   findings.push({
     name: "CI workflow (for automated checks)",
-    passed: ciWorkflowCount > 0,
-    detail:
-      ciWorkflowCount > 0
-        ? `${ciWorkflowCount} GitHub Actions workflow(s) found`
-        : "No CI workflows — consider adding link checking and markdown linting",
+    passed: ci.detected,
+    detail: ci.detected
+      ? `${ci.detail} detected`
+      : "No CI system detected — consider adding link checking and markdown linting",
     weight: 30,
   });
 

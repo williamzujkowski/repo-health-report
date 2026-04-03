@@ -4,52 +4,21 @@ import {
   type ProjectType,
   treeHasFile,
   treeHasPattern,
-  treeCountPattern,
 } from "../analyze.js";
+import { detectAllCI } from "../detectors.js";
 import type { DimensionResult, Finding } from "./security.js";
 
 function analyzeIacDevOps(tree: RepoTree): Finding[] {
   const findings: Finding[] = [];
 
-  // CI/CD: GitHub Actions, Concourse (ci/ directory or pipeline.yml)
-  const workflowCount = treeCountPattern(
-    tree,
-    /^\.github\/workflows\/.*\.ya?ml$/
-  );
-  const hasCiDir = treeHasPattern(tree, /^ci\//);
-  const hasConcourse =
-    treeHasFile(tree, "pipeline.yml") ||
-    treeHasFile(tree, "ci/pipeline.yml") ||
-    treeHasPattern(tree, /^ci\/.*pipeline.*\.ya?ml$/);
-  const hasTravis = treeHasFile(tree, ".travis.yml");
-  const hasCircle = treeHasFile(tree, ".circleci/config.yml");
-  const hasJenkins = treeHasFile(tree, "Jenkinsfile");
-  const hasGitlabCi = treeHasFile(tree, ".gitlab-ci.yml");
-  const hasAnyCi =
-    workflowCount > 0 ||
-    hasCiDir ||
-    hasConcourse ||
-    hasTravis ||
-    hasCircle ||
-    hasJenkins ||
-    hasGitlabCi;
+  // CI/CD pipeline detection (all ecosystems)
+  const ci = detectAllCI(tree);
   findings.push({
     name: "CI/CD pipeline",
-    passed: hasAnyCi,
-    detail: hasAnyCi
-      ? [
-          workflowCount > 0
-            ? `${workflowCount} GitHub Actions workflow(s)`
-            : "",
-          hasConcourse ? "Concourse pipeline" : hasCiDir ? "ci/ directory" : "",
-          hasTravis ? "Travis" : "",
-          hasCircle ? "CircleCI" : "",
-          hasJenkins ? "Jenkins" : "",
-          hasGitlabCi ? "GitLab CI" : "",
-        ]
-          .filter(Boolean)
-          .join(", ")
-      : "No CI/CD pipeline detected (.github/workflows/, ci/, pipeline.yml)",
+    passed: ci.detected,
+    detail: ci.detected
+      ? ci.detail
+      : "No CI/CD pipeline detected",
     weight: 30,
   });
 
@@ -118,23 +87,13 @@ function analyzeIacDevOps(tree: RepoTree): Finding[] {
 function analyzeApplicationDevOps(tree: RepoTree): Finding[] {
   const findings: Finding[] = [];
 
-  // CI/CD workflows
-  const workflowCount = treeCountPattern(
-    tree,
-    /^\.github\/workflows\/.*\.ya?ml$/
-  );
-  const hasCi = workflowCount > 0;
-  const hasTravis = treeHasFile(tree, ".travis.yml");
-  const hasCircle = treeHasFile(tree, ".circleci/config.yml");
-  const hasJenkins = treeHasFile(tree, "Jenkinsfile");
-  const hasGitlabCi = treeHasFile(tree, ".gitlab-ci.yml");
-  const hasAnyCi =
-    hasCi || hasTravis || hasCircle || hasJenkins || hasGitlabCi;
+  // CI/CD pipeline detection (all ecosystems)
+  const ci = detectAllCI(tree);
   findings.push({
     name: "CI/CD pipeline",
-    passed: hasAnyCi,
-    detail: hasAnyCi
-      ? `CI found: ${hasCi ? `${workflowCount} GitHub Actions workflow(s)` : ""}${hasTravis ? " Travis" : ""}${hasCircle ? " CircleCI" : ""}${hasJenkins ? " Jenkins" : ""}${hasGitlabCi ? " GitLab CI" : ""}`.trim()
+    passed: ci.detected,
+    detail: ci.detected
+      ? ci.detail
       : "No CI/CD pipeline detected",
     weight: 30,
   });
@@ -220,17 +179,13 @@ function analyzeApplicationDevOps(tree: RepoTree): Finding[] {
 function analyzeDocumentationDevOps(tree: RepoTree): Finding[] {
   const findings: Finding[] = [];
 
-  // CI/CD pipeline for automated checks
-  const workflowCount = treeCountPattern(
-    tree,
-    /^\.github\/workflows\/.*\.ya?ml$/
-  );
-  const hasAnyCi = workflowCount > 0;
+  // CI/CD pipeline for automated checks (all ecosystems)
+  const ci = detectAllCI(tree);
   findings.push({
     name: "CI/CD pipeline (automated checks)",
-    passed: hasAnyCi,
-    detail: hasAnyCi
-      ? `${workflowCount} GitHub Actions workflow(s) found`
+    passed: ci.detected,
+    detail: ci.detected
+      ? ci.detail
       : "No CI pipeline — consider automating link checks and linting",
     weight: 30,
   });
