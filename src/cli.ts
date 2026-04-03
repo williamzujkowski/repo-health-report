@@ -10,6 +10,14 @@ import {
   detectRepoSize,
   normalizeLanguage,
 } from "./analyze.js";
+import { detectPlatform } from "./platforms.js";
+import type { PlatformConfig } from "./platforms.js";
+import {
+  fetchGitLabMeta,
+  fetchGitLabTree,
+  fetchCodebergMeta,
+  fetchCodebergTree,
+} from "./platform-apis.js";
 import { analyzeSecurityDimension } from "./dimensions/security.js";
 import { analyzeTestingDimension } from "./dimensions/testing.js";
 import { analyzeDocsDimension } from "./dimensions/docs.js";
@@ -34,11 +42,13 @@ async function main(): Promise<void> {
 
   if (args.length === 0 || args.includes("--help") || args.includes("-h")) {
     console.log(`
-${chalk.bold("repo-health-report")} — Analyze any GitHub repo's health
+${chalk.bold("repo-health-report")} — Analyze any GitHub, GitLab, or Codeberg repo's health
 
 ${chalk.bold("Usage:")}
   repo-health-report <owner/repo>
   repo-health-report <https://github.com/owner/repo>
+  repo-health-report <https://gitlab.com/owner/repo>
+  repo-health-report <https://codeberg.org/owner/repo>
 
 ${chalk.bold("Options:")}
   --output, -o <file>   Write markdown report to file (default: health-report.md)
@@ -52,6 +62,8 @@ ${chalk.bold("Options:")}
 ${chalk.bold("Examples:")}
   repo-health-report williamzujkowski/nexus-agents
   repo-health-report https://github.com/facebook/react --output react-report.md
+  repo-health-report https://gitlab.com/inkscape/inkscape
+  repo-health-report https://codeberg.org/forgejo/forgejo
   repo-health-report williamzujkowski/nexus-agents --ai
   repo-health-report williamzujkowski/nexus-agents --scorecard
 `);
@@ -91,34 +103,59 @@ ${chalk.bold("Examples:")}
     process.exit(1);
   }
 
-  // Validate input
+  // Detect platform and validate input
+  let platformConfig: PlatformConfig;
   let slug: string;
   try {
-    slug = parseRepoSlug(repoArg);
+    platformConfig = detectPlatform(repoArg);
+    slug = platformConfig.slug;
   } catch (err) {
-    console.error(
-      chalk.red((err as Error).message)
-    );
+    console.error(chalk.red((err as Error).message));
     process.exit(1);
   }
 
+  if (platformConfig.platform !== "github") {
+    console.log(
+      chalk.gray(`  Platform: ${platformConfig.platform}`)
+    );
+  }
   console.log(chalk.gray(`  Analyzing ${slug}...`));
 
   // Fetch repo metadata, then tree (tree needs the default branch name)
   let meta;
   let tree;
   try {
-    meta = await fetchRepoMeta(slug);
-    tree = await fetchRepoTree(slug, meta.default_branch);
+    if (platformConfig.platform === "gitlab") {
+      meta = await fetchGitLabMeta(platformConfig.apiBase, slug);
+      tree = await fetchGitLabTree(
+        platformConfig.apiBase,
+        slug,
+        meta.default_branch
+      );
+    } else if (platformConfig.platform === "codeberg") {
+      meta = await fetchCodebergMeta(platformConfig.apiBase, slug);
+      tree = await fetchCodebergTree(
+        platformConfig.apiBase,
+        slug,
+        meta.default_branch
+      );
+    } else {
+      // GitHub — use existing gh CLI flow
+      const ghSlug = parseRepoSlug(repoArg);
+      meta = await fetchRepoMeta(ghSlug);
+      tree = await fetchRepoTree(ghSlug, meta.default_branch);
+    }
   } catch (err) {
     console.error(
       chalk.red(`Failed to fetch repo data: ${(err as Error).message}`)
     );
-    console.error(
-      chalk.gray(
-        "Make sure 'gh' CLI is installed and authenticated (gh auth login)."
-      )
-    );
+    if (platformConfig.platform === "github") {
+      console.error(
+        chalk.gray(
+          "Make sure 'gh' CLI is installed and authenticated (gh auth login)."
+        )
+      );
+    }
     process.exit(1);
   }
 
@@ -213,6 +250,7 @@ ${chalk.bold("Examples:")}
   if (jsonOutput) {
     const output = {
       repo: slug,
+      platform: platformConfig.platform,
       ...grade,
       ...(ai ? { ai } : {}),
       ...(scorecard ? { scorecard } : {}),
