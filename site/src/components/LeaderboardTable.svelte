@@ -7,6 +7,15 @@
     type: string;
     stars: number;
     graded: boolean;
+    description?: string;
+    topics?: string[];
+    pushedAt?: string;
+    createdAt?: string;
+    forks?: number;
+    testRatio?: number;
+    configScore?: number;
+    antiPatterns?: number;
+    sizeCategory?: string;
   }
 
   interface Props {
@@ -73,7 +82,11 @@
 
     if (search) {
       const q = search.toLowerCase();
-      result = result.filter((r) => r.slug.toLowerCase().includes(q));
+      result = result.filter((r) =>
+        r.slug.toLowerCase().includes(q) ||
+        (r.description && r.description.toLowerCase().includes(q)) ||
+        (r.topics && r.topics.some((t) => t.toLowerCase().includes(q)))
+      );
     }
 
     if (selectedLanguage !== 'all') {
@@ -163,7 +176,7 @@
   <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
     <input
       type="text"
-      placeholder="Search repos..."
+      placeholder="Search repos, descriptions, topics..."
       value={search}
       oninput={handleSearchInput}
       style="padding: 6px 12px; font-size: 13px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; outline: none; width: 240px; color: var(--color-text);"

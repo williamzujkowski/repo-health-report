@@ -32,6 +32,59 @@ const dimLollipop = dims.map(d => ({
   value: d.score,
   color: dimColor(d.score),
 }));
+
+// Enriched data from leaderboard entry and detail
+const description = repo.description ?? detail?.description;
+const topics = repo.topics ?? detail?.topics ?? [];
+const createdAt = repo.createdAt ?? detail?.created_at;
+const pushedAt = repo.pushedAt ?? detail?.pushed_at;
+const forks = repo.forks ?? detail?.forks_count;
+const testRatio = repo.testRatio ?? detail?.treeAnalytics?.testToSourceRatio;
+const configScore = repo.configScore ?? detail?.treeAnalytics?.configScore;
+const antiPatterns = repo.antiPatterns ?? detail?.treeAnalytics?.antiPatternCount;
+const sizeCategory = repo.sizeCategory ?? detail?.treeAnalytics?.sizeCategory;
+const languageBreakdown = detail?.languages?.all ?? [];
+
+function formatDate(iso: string | undefined): string {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+
+function timeAgo(iso: string | undefined): string {
+  if (!iso) return '';
+  const now = Date.now();
+  const then = new Date(iso).getTime();
+  const diffMs = now - then;
+  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if (days < 1) return 'today';
+  if (days === 1) return '1 day ago';
+  if (days < 30) return `${days} days ago`;
+  const months = Math.floor(days / 30);
+  if (months === 1) return '1 month ago';
+  if (months < 12) return `${months} months ago`;
+  const years = Math.floor(months / 12);
+  if (years === 1) return '1 year ago';
+  return `${years} years ago`;
+}
+
+function testRatioLabel(ratio: number): { text: string; color: string } {
+  if (ratio >= 1.0) return { text: 'excellent', color: 'var(--color-grade-a)' };
+  if (ratio >= 0.5) return { text: 'good', color: 'var(--color-grade-b)' };
+  if (ratio >= 0.2) return { text: 'moderate', color: 'var(--color-grade-c)' };
+  return { text: 'low', color: 'var(--color-grade-f)' };
+}
+
+const sizeBadgeColors: Record<string, string> = {
+  tiny: 'background: rgba(45,157,120,0.12); color: #2d9d78;',
+  small: 'background: rgba(29,129,162,0.12); color: #1d81a2;',
+  medium: 'background: rgba(196,160,53,0.12); color: #a68a2a;',
+  large: 'background: rgba(212,118,44,0.12); color: #d4762c;',
+  massive: 'background: rgba(201,70,62,0.12); color: #c9463e;',
+};
+
+// Language bar colors (rotating palette)
+const langColors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'];
 ---
 
 <BaseLayout title={repo.slug}>
@@ -45,14 +98,39 @@ const dimLollipop = dims.map(d => ({
   <div class="card" style="margin-bottom: 24px;">
     <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
       <div>
-        <h1 style="font-size: 22px; font-weight: 700; margin: 0 0 8px; color: var(--color-text);">{repo.slug}</h1>
+        <h1 style="font-size: 22px; font-weight: 700; margin: 0 0 4px; color: var(--color-text);">{repo.slug}</h1>
+        {description && (
+          <p style="font-size: 14px; color: var(--color-text-secondary); margin: 0 0 10px; max-width: 600px; line-height: 1.4;">{description}</p>
+        )}
         <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 13px;">
           <span class={tc}>{repo.type}</span>
+          {sizeCategory && (
+            <span style={`padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; ${sizeBadgeColors[sizeCategory] ?? ''}`}>{sizeCategory}</span>
+          )}
           {repo.language && <span style="color: var(--color-text-secondary);">{repo.language}</span>}
           <span style="color: var(--color-text-muted); font-variant-numeric: tabular-nums;">
             {repo.stars >= 1000 ? (repo.stars / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : repo.stars} stars
           </span>
+          {forks !== undefined && (
+            <span style="color: var(--color-text-muted); font-variant-numeric: tabular-nums;">
+              {forks >= 1000 ? (forks / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : forks} forks
+            </span>
+          )}
         </div>
+        {(createdAt || pushedAt) && (
+          <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 6px;">
+            {createdAt && <span>Created {formatDate(createdAt)}</span>}
+            {createdAt && pushedAt && <span style="margin: 0 4px;">&middot;</span>}
+            {pushedAt && <span>last pushed {timeAgo(pushedAt)}</span>}
+          </div>
+        )}
+        {topics.length > 0 && (
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
+            {topics.map((t) => (
+              <span style="padding: 2px 8px; border-radius: 12px; font-size: 11px; background: rgba(59,130,246,0.1); color: #3b82f6; border: 1px solid rgba(59,130,246,0.2);">{t}</span>
+            ))}
+          </div>
+        )}
       </div>
       <div style="display: flex; align-items: center; gap: 16px;">
         {repo.graded && <div class:list={['grade-pill', gc]} style="font-size: 28px; padding: 8px 16px;">{repo.grade}</div>}
@@ -63,6 +141,60 @@ const dimLollipop = dims.map(d => ({
       </div>
     </div>
   </div>
+
+  <!-- Analytics cards row -->
+  {(testRatio !== undefined || configScore !== undefined || antiPatterns !== undefined || languageBreakdown.length > 1) && (
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+      {testRatio !== undefined && (
+        <div class="card" style="padding: 16px;">
+          <div style="font-size: 11px; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Test Ratio</div>
+          <div style="display: flex; align-items: baseline; gap: 8px;">
+            <span style="font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{testRatio.toFixed(2)}</span>
+            <span style={`font-size: 13px; font-weight: 500; color: ${testRatioLabel(testRatio).color};`}>{testRatioLabel(testRatio).text}</span>
+          </div>
+        </div>
+      )}
+      {configScore !== undefined && (
+        <div class="card" style="padding: 16px;">
+          <div style="font-size: 11px; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Config Maturity</div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{configScore}</span>
+            <span style="font-size: 12px; color: var(--color-text-muted);">/ 10</span>
+          </div>
+          <div style="height: 4px; background: #eee; border-radius: 9999px; overflow: hidden; margin-top: 8px;">
+            <div style={`height: 100%; border-radius: 9999px; width: ${configScore * 10}%; background: ${configScore >= 7 ? 'var(--color-grade-a)' : configScore >= 4 ? 'var(--color-grade-b)' : 'var(--color-grade-f)'};`}></div>
+          </div>
+        </div>
+      )}
+      {antiPatterns !== undefined && antiPatterns > 0 && (
+        <div class="card" style="padding: 16px; border-left: 3px solid var(--color-grade-f);">
+          <div style="font-size: 11px; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Anti-Patterns</div>
+          <div style="display: flex; align-items: baseline; gap: 8px;">
+            <span style="font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-grade-f);">{antiPatterns}</span>
+            <span style="font-size: 13px; color: var(--color-text-muted);">detected</span>
+          </div>
+        </div>
+      )}
+      {languageBreakdown.length > 1 && (
+        <div class="card" style="padding: 16px;">
+          <div style="font-size: 11px; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Languages</div>
+          <div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 8px;">
+            {languageBreakdown.slice(0, 8).map((lang, i) => (
+              <div style={`width: ${lang.percentage}%; background: ${langColors[i % langColors.length]}; min-width: 2px;`} title={`${lang.language}: ${lang.percentage.toFixed(1)}%`}></div>
+            ))}
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            {languageBreakdown.slice(0, 5).map((lang, i) => (
+              <span style="font-size: 11px; color: var(--color-text-secondary); display: flex; align-items: center; gap: 3px;">
+                <span style={`width: 8px; height: 8px; border-radius: 50%; background: ${langColors[i % langColors.length]};`}></span>
+                {lang.language} {lang.percentage.toFixed(0)}%
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )}
 
   <!-- Dimension scores as lollipop chart -->
   {dims.length > 0 && (

@@ -54,6 +54,19 @@ interface LanguageBreakdownStored {
   all: LanguageBreakdownEntry[];
 }
 
+interface TreeAnalyticsStored {
+  testToSourceRatio?: number;
+  configScore?: number;
+  antiPatternCount?: number;
+  sizeCategory?: string;
+  fileCount?: number;
+  directoryCount?: number;
+  maxDepth?: number;
+  testFileCount?: number;
+  sourceFileCount?: number;
+  isMonorepo?: boolean;
+}
+
 interface StoredReport {
   repo: string;
   letter: string;
@@ -66,6 +79,16 @@ interface StoredReport {
   languages?: LanguageBreakdownStored;
   analyzedAt: string;
   toolVersion: string;
+  // Enriched metadata
+  description?: string;
+  topics?: string[];
+  pushed_at?: string;
+  created_at?: string;
+  forks_count?: number;
+  size?: number;
+  has_discussions?: boolean;
+  // Tree analytics
+  treeAnalytics?: TreeAnalyticsStored;
 }
 
 interface GradeDistribution {
@@ -178,6 +201,16 @@ interface LeaderboardEntry {
   type: string;
   stars: number | null;
   graded: boolean;
+  // Enriched fields
+  description?: string;
+  topics?: string[];
+  pushedAt?: string;
+  createdAt?: string;
+  forks?: number;
+  testRatio?: number;
+  configScore?: number;
+  antiPatterns?: number;
+  sizeCategory?: string;
 }
 
 interface LanguageStat {
@@ -242,16 +275,32 @@ function buildSummary(reports: StoredReport[]): SummaryOutput {
 }
 
 function buildLeaderboard(reports: StoredReport[]): { repos: LeaderboardEntry[] } {
-  const entries: LeaderboardEntry[] = reports.map((report) => ({
-    slug: report.repo,
-    grade: report.letter,
-    score: report.overall,
-    language: report.language,
-    languages: report.languages?.all ?? null,
-    type: report.projectType,
-    stars: extractStars(report),
-    graded: isGraded(report),
-  }));
+  const entries: LeaderboardEntry[] = reports.map((report) => {
+    const entry: LeaderboardEntry = {
+      slug: report.repo,
+      grade: report.letter,
+      score: report.overall,
+      language: report.language,
+      languages: report.languages?.all ?? null,
+      type: report.projectType,
+      stars: extractStars(report),
+      graded: isGraded(report),
+    };
+    // Enriched metadata
+    if (report.description) entry.description = report.description;
+    if (report.topics && report.topics.length > 0) entry.topics = report.topics;
+    if (report.pushed_at) entry.pushedAt = report.pushed_at;
+    if (report.created_at) entry.createdAt = report.created_at;
+    if (report.forks_count !== undefined) entry.forks = report.forks_count;
+    // Tree analytics
+    if (report.treeAnalytics) {
+      if (report.treeAnalytics.testToSourceRatio !== undefined) entry.testRatio = report.treeAnalytics.testToSourceRatio;
+      if (report.treeAnalytics.configScore !== undefined) entry.configScore = report.treeAnalytics.configScore;
+      if (report.treeAnalytics.antiPatternCount !== undefined) entry.antiPatterns = report.treeAnalytics.antiPatternCount;
+      if (report.treeAnalytics.sizeCategory) entry.sizeCategory = report.treeAnalytics.sizeCategory;
+    }
+    return entry;
+  });
 
   entries.sort((a, b) => b.score - a.score);
   return { repos: entries };

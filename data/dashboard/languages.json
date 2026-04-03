@@ -2,266 +2,266 @@
   "languages": [
     {
       "name": "Python",
-      "count": 1289,
-      "averageScore": 42,
+      "count": 1453,
+      "averageScore": 41,
       "gradeDistribution": {
         "A": 20,
-        "B": 71,
-        "C": 89,
-        "D": 176,
-        "F": 899
+        "B": 77,
+        "C": 103,
+        "D": 191,
+        "F": 1027
       }
     },
     {
       "name": "JavaScript",
-      "count": 907,
+      "count": 1073,
       "averageScore": 38,
       "gradeDistribution": {
-        "A": 3,
-        "B": 14,
-        "C": 39,
-        "D": 68,
-        "F": 747
+        "A": 4,
+        "B": 15,
+        "C": 41,
+        "D": 82,
+        "F": 887
       }
     },
     {
       "name": "TypeScript",
-      "count": 708,
+      "count": 856,
       "averageScore": 56,
       "gradeDistribution": {
-        "A": 6,
-        "B": 58,
-        "C": 99,
-        "D": 150,
-        "F": 387
+        "A": 7,
+        "B": 66,
+        "C": 116,
+        "D": 182,
+        "F": 476
       }
     },
     {
       "name": "unknown",
-      "count": 644,
-      "averageScore": 16,
+      "count": 737,
+      "averageScore": 15,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 0,
         "D": 0,
-        "F": 195
+        "F": 223
       }
     },
     {
       "name": "Java",
-      "count": 421,
+      "count": 472,
       "averageScore": 35,
       "gradeDistribution": {
         "A": 0,
         "B": 1,
         "C": 10,
-        "D": 38,
-        "F": 354
+        "D": 41,
+        "F": 402
       }
     },
     {
       "name": "C++",
-      "count": 400,
+      "count": 459,
       "averageScore": 44,
       "gradeDistribution": {
         "A": 2,
         "B": 8,
-        "C": 31,
-        "D": 43,
-        "F": 308
+        "C": 35,
+        "D": 50,
+        "F": 356
       }
     },
     {
       "name": "Go",
-      "count": 384,
+      "count": 454,
       "averageScore": 53,
       "gradeDistribution": {
         "A": 4,
-        "B": 30,
-        "C": 54,
-        "D": 54,
-        "F": 234
+        "B": 34,
+        "C": 60,
+        "D": 72,
+        "F": 276
       }
     },
     {
       "name": "C",
-      "count": 245,
+      "count": 293,
       "averageScore": 41,
       "gradeDistribution": {
         "A": 0,
         "B": 3,
-        "C": 13,
-        "D": 19,
-        "F": 193
+        "C": 14,
+        "D": 29,
+        "F": 230
       }
     },
     {
       "name": "Rust",
-      "count": 230,
-      "averageScore": 62,
+      "count": 285,
+      "averageScore": 61,
       "gradeDistribution": {
         "A": 1,
-        "B": 22,
-        "C": 47,
-        "D": 58,
-        "F": 98
+        "B": 24,
+        "C": 55,
+        "D": 70,
+        "F": 131
       }
     },
     {
       "name": "C#",
-      "count": 230,
+      "count": 253,
       "averageScore": 32,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 3,
         "D": 6,
-        "F": 214
+        "F": 236
+      }
+    },
+    {
+      "name": "PHP",
+      "count": 219,
+      "averageScore": 38,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 1,
+        "C": 2,
+        "D": 14,
+        "F": 187
       }
     },
     {
       "name": "Shell",
-      "count": 177,
+      "count": 204,
       "averageScore": 34,
       "gradeDistribution": {
         "A": 0,
         "B": 1,
-        "C": 3,
+        "C": 6,
         "D": 9,
-        "F": 139
-      }
-    },
-    {
-      "name": "Jupyter Notebook",
-      "count": 176,
-      "averageScore": 28,
-      "gradeDistribution": {
-        "A": 1,
-        "B": 1,
-        "C": 8,
-        "D": 6,
         "F": 157
       }
     },
     {
-      "name": "Swift",
-      "count": 166,
+      "name": "Jupyter Notebook",
+      "count": 199,
+      "averageScore": 27,
+      "gradeDistribution": {
+        "A": 1,
+        "B": 1,
+        "C": 9,
+        "D": 6,
+        "F": 179
+      }
+    },
+    {
+      "name": "HTML",
+      "count": 199,
       "averageScore": 26,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 3,
+        "D": 7,
+        "F": 170
+      }
+    },
+    {
+      "name": "Swift",
+      "count": 198,
+      "averageScore": 27,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 0,
         "D": 0,
-        "F": 158
-      }
-    },
-    {
-      "name": "HTML",
-      "count": 155,
-      "averageScore": 26,
-      "gradeDistribution": {
-        "A": 0,
-        "B": 0,
-        "C": 2,
-        "D": 6,
-        "F": 133
+        "F": 190
       }
     },
     {
       "name": "Objective-C",
-      "count": 126,
+      "count": 153,
       "averageScore": 18,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 0,
         "D": 0,
-        "F": 118
-      }
-    },
-    {
-      "name": "PHP",
-      "count": 121,
-      "averageScore": 39,
-      "gradeDistribution": {
-        "A": 0,
-        "B": 1,
-        "C": 2,
-        "D": 10,
-        "F": 107
+        "F": 141
       }
     },
     {
       "name": "Ruby",
-      "count": 109,
+      "count": 128,
       "averageScore": 48,
       "gradeDistribution": {
         "A": 0,
         "B": 4,
         "C": 15,
-        "D": 15,
-        "F": 71
+        "D": 18,
+        "F": 85
       }
     },
     {
       "name": "Kotlin",
-      "count": 103,
+      "count": 116,
       "averageScore": 40,
       "gradeDistribution": {
         "A": 0,
         "B": 1,
         "C": 0,
-        "D": 6,
-        "F": 93
+        "D": 7,
+        "F": 105
       }
     },
     {
       "name": "Vue",
-      "count": 66,
-      "averageScore": 41,
+      "count": 76,
+      "averageScore": 40,
       "gradeDistribution": {
         "A": 0,
         "B": 1,
         "C": 3,
-        "D": 6,
-        "F": 55
+        "D": 7,
+        "F": 64
       }
     },
     {
       "name": "CSS",
-      "count": 63,
+      "count": 75,
       "averageScore": 28,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 3,
         "D": 0,
-        "F": 56
+        "F": 68
       }
     },
     {
       "name": "Dart",
-      "count": 55,
-      "averageScore": 37,
+      "count": 58,
+      "averageScore": 36,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 0,
         "D": 1,
-        "F": 50
+        "F": 52
       }
     },
     {
       "name": "Lua",
-      "count": 48,
-      "averageScore": 40,
+      "count": 57,
+      "averageScore": 41,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 1,
         "D": 2,
-        "F": 45
+        "F": 53
       }
     },
     {
@@ -290,8 +290,44 @@
     },
     {
       "name": "TeX",
-      "count": 19,
+      "count": 20,
       "averageScore": 20,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 18
+      }
+    },
+    {
+      "name": "Dockerfile",
+      "count": 19,
+      "averageScore": 40,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 1,
+        "F": 13
+      }
+    },
+    {
+      "name": "Clojure",
+      "count": 18,
+      "averageScore": 37,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 1,
+        "D": 2,
+        "F": 15
+      }
+    },
+    {
+      "name": "SCSS",
+      "count": 18,
+      "averageScore": 31,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
@@ -301,86 +337,86 @@
       }
     },
     {
-      "name": "SCSS",
-      "count": 17,
-      "averageScore": 30,
-      "gradeDistribution": {
-        "A": 0,
-        "B": 0,
-        "C": 0,
-        "D": 0,
-        "F": 16
-      }
-    },
-    {
-      "name": "Dockerfile",
-      "count": 17,
-      "averageScore": 41,
-      "gradeDistribution": {
-        "A": 0,
-        "B": 0,
-        "C": 0,
-        "D": 1,
-        "F": 11
-      }
-    },
-    {
       "name": "Haskell",
-      "count": 16,
-      "averageScore": 47,
+      "count": 17,
+      "averageScore": 46,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 2,
         "D": 0,
-        "F": 14
+        "F": 15
       }
     },
     {
       "name": "Scala",
-      "count": 15,
-      "averageScore": 36,
+      "count": 16,
+      "averageScore": 35,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 1,
+        "D": 1,
+        "F": 14
+      }
+    },
+    {
+      "name": "Svelte",
+      "count": 15,
+      "averageScore": 48,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
         "D": 1,
         "F": 13
       }
     },
     {
       "name": "Perl",
-      "count": 12,
-      "averageScore": 37,
+      "count": 14,
+      "averageScore": 39,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 0,
         "D": 1,
-        "F": 11
+        "F": 13
       }
     },
     {
-      "name": "Clojure",
-      "count": 12,
-      "averageScore": 40,
+      "name": "Elixir",
+      "count": 14,
+      "averageScore": 43,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
-        "C": 1,
+        "C": 0,
         "D": 2,
-        "F": 9
+        "F": 12
       }
     },
     {
       "name": "Nix",
-      "count": 11,
+      "count": 12,
       "averageScore": 49,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 0,
         "D": 3,
+        "F": 9
+      }
+    },
+    {
+      "name": "Markdown",
+      "count": 12,
+      "averageScore": 39,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 1,
         "F": 8
       }
     },
@@ -397,39 +433,51 @@
       }
     },
     {
-      "name": "Markdown",
-      "count": 10,
-      "averageScore": 41,
+      "name": "Makefile",
+      "count": 11,
+      "averageScore": 35,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 0,
         "D": 1,
-        "F": 7
+        "F": 6
       }
     },
     {
-      "name": "Makefile",
+      "name": "CMake",
+      "count": 10,
+      "averageScore": 38,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 2,
+        "F": 8
+      }
+    },
+    {
+      "name": "CoffeeScript",
       "count": 10,
       "averageScore": 36,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 0,
-        "D": 1,
-        "F": 5
+        "D": 0,
+        "F": 10
       }
     },
     {
-      "name": "Elixir",
-      "count": 9,
-      "averageScore": 40,
+      "name": "MDX",
+      "count": 10,
+      "averageScore": 54,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
-        "C": 0,
-        "D": 0,
-        "F": 9
+        "C": 2,
+        "D": 2,
+        "F": 5
       }
     },
     {
@@ -457,51 +505,15 @@
       }
     },
     {
-      "name": "MDX",
-      "count": 9,
-      "averageScore": 52,
-      "gradeDistribution": {
-        "A": 0,
-        "B": 0,
-        "C": 2,
-        "D": 1,
-        "F": 5
-      }
-    },
-    {
-      "name": "Svelte",
-      "count": 9,
-      "averageScore": 54,
-      "gradeDistribution": {
-        "A": 0,
-        "B": 0,
-        "C": 0,
-        "D": 1,
-        "F": 7
-      }
-    },
-    {
-      "name": "CMake",
-      "count": 8,
-      "averageScore": 45,
-      "gradeDistribution": {
-        "A": 0,
-        "B": 0,
-        "C": 0,
-        "D": 2,
-        "F": 6
-      }
-    },
-    {
-      "name": "CoffeeScript",
-      "count": 8,
+      "name": "HCL",
+      "count": 7,
       "averageScore": 33,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 0,
         "D": 0,
-        "F": 8
+        "F": 7
       }
     },
     {
@@ -529,6 +541,18 @@
       }
     },
     {
+      "name": "Emacs Lisp",
+      "count": 6,
+      "averageScore": 29,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 6
+      }
+    },
+    {
       "name": "OCaml",
       "count": 6,
       "averageScore": 57,
@@ -541,21 +565,21 @@
       }
     },
     {
-      "name": "HCL",
-      "count": 5,
-      "averageScore": 34,
+      "name": "PLpgSQL",
+      "count": 6,
+      "averageScore": 40,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 0,
         "D": 0,
-        "F": 5
+        "F": 6
       }
     },
     {
-      "name": "Emacs Lisp",
+      "name": "Less",
       "count": 5,
-      "averageScore": 27,
+      "averageScore": 21,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
@@ -625,18 +649,6 @@
       }
     },
     {
-      "name": "PLpgSQL",
-      "count": 5,
-      "averageScore": 39,
-      "gradeDistribution": {
-        "A": 0,
-        "B": 0,
-        "C": 0,
-        "D": 0,
-        "F": 5
-      }
-    },
-    {
       "name": "Zig",
       "count": 5,
       "averageScore": 53,
@@ -649,9 +661,21 @@
       }
     },
     {
-      "name": "Less",
+      "name": "Erlang",
       "count": 4,
-      "averageScore": 23,
+      "averageScore": 38,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 4
+      }
+    },
+    {
+      "name": "R",
+      "count": 4,
+      "averageScore": 18,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
@@ -673,21 +697,21 @@
       }
     },
     {
-      "name": "Adblock Filter List",
-      "count": 3,
-      "averageScore": 35,
+      "name": "Nunjucks",
+      "count": 4,
+      "averageScore": 54,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
         "C": 0,
         "D": 0,
-        "F": 3
+        "F": 4
       }
     },
     {
-      "name": "Erlang",
+      "name": "Adblock Filter List",
       "count": 3,
-      "averageScore": 40,
+      "averageScore": 35,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
@@ -721,9 +745,21 @@
       }
     },
     {
-      "name": "Nunjucks",
+      "name": "Cython",
       "count": 3,
-      "averageScore": 54,
+      "averageScore": 62,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 1,
+        "C": 0,
+        "D": 1,
+        "F": 1
+      }
+    },
+    {
+      "name": "Pascal",
+      "count": 3,
+      "averageScore": 11,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
@@ -733,9 +769,33 @@
       }
     },
     {
+      "name": "Astro",
+      "count": 3,
+      "averageScore": 40,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 2
+      }
+    },
+    {
       "name": "Roff",
       "count": 2,
       "averageScore": 19,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 2
+      }
+    },
+    {
+      "name": "Visual Basic .NET",
+      "count": 2,
+      "averageScore": 33,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
@@ -805,18 +865,6 @@
       }
     },
     {
-      "name": "R",
-      "count": 2,
-      "averageScore": 26,
-      "gradeDistribution": {
-        "A": 0,
-        "B": 0,
-        "C": 0,
-        "D": 0,
-        "F": 2
-      }
-    },
-    {
       "name": "Liquid",
       "count": 2,
       "averageScore": 38,
@@ -841,15 +889,15 @@
       }
     },
     {
-      "name": "Cython",
+      "name": "AutoHotkey",
       "count": 2,
-      "averageScore": 74,
+      "averageScore": 13,
       "gradeDistribution": {
         "A": 0,
-        "B": 1,
+        "B": 0,
         "C": 0,
-        "D": 1,
-        "F": 0
+        "D": 0,
+        "F": 2
       }
     },
     {
@@ -937,18 +985,6 @@
       }
     },
     {
-      "name": "Pascal",
-      "count": 2,
-      "averageScore": 9,
-      "gradeDistribution": {
-        "A": 0,
-        "B": 0,
-        "C": 0,
-        "D": 0,
-        "F": 2
-      }
-    },
-    {
       "name": "Nushell",
       "count": 2,
       "averageScore": 22,
@@ -985,33 +1021,9 @@
       }
     },
     {
-      "name": "Astro",
-      "count": 2,
-      "averageScore": 58,
-      "gradeDistribution": {
-        "A": 0,
-        "B": 0,
-        "C": 0,
-        "D": 0,
-        "F": 1
-      }
-    },
-    {
       "name": "BlitzBasic",
       "count": 1,
       "averageScore": 12,
-      "gradeDistribution": {
-        "A": 0,
-        "B": 0,
-        "C": 0,
-        "D": 0,
-        "F": 1
-      }
-    },
-    {
-      "name": "Visual Basic .NET",
-      "count": 1,
-      "averageScore": 32,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
@@ -1168,18 +1180,6 @@
       "name": "Classic ASP",
       "count": 1,
       "averageScore": 15,
-      "gradeDistribution": {
-        "A": 0,
-        "B": 0,
-        "C": 0,
-        "D": 0,
-        "F": 1
-      }
-    },
-    {
-      "name": "AutoHotkey",
-      "count": 1,
-      "averageScore": 6,
       "gradeDistribution": {
         "A": 0,
         "B": 0,
@@ -1420,6 +1420,150 @@
       "name": "Haml",
       "count": 1,
       "averageScore": 38,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 1
+      }
+    },
+    {
+      "name": "Stylus",
+      "count": 1,
+      "averageScore": 54,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 1
+      }
+    },
+    {
+      "name": "Move",
+      "count": 1,
+      "averageScore": 49,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 1
+      }
+    },
+    {
+      "name": "Mustache",
+      "count": 1,
+      "averageScore": 54,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 1
+      }
+    },
+    {
+      "name": "Twig",
+      "count": 1,
+      "averageScore": 35,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 1
+      }
+    },
+    {
+      "name": "SVG",
+      "count": 1,
+      "averageScore": 32,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 1
+      }
+    },
+    {
+      "name": "Visual Basic 6.0",
+      "count": 1,
+      "averageScore": 31,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 1
+      }
+    },
+    {
+      "name": "Org",
+      "count": 1,
+      "averageScore": 36,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 1
+      }
+    },
+    {
+      "name": "Vala",
+      "count": 1,
+      "averageScore": 20,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 1
+      }
+    },
+    {
+      "name": "Protocol Buffer",
+      "count": 1,
+      "averageScore": 31,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 1
+      }
+    },
+    {
+      "name": "templ",
+      "count": 1,
+      "averageScore": 55,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 1
+      }
+    },
+    {
+      "name": "Lean",
+      "count": 1,
+      "averageScore": 36,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "F": 1
+      }
+    },
+    {
+      "name": "Prolog",
+      "count": 1,
+      "averageScore": 48,
       "gradeDistribution": {
         "A": 0,
         "B": 0,

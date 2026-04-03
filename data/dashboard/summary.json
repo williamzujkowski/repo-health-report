@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-04-03T10:00:57.430Z",
-  "totalRepos": 7263,
-  "codeRepos": 6571,
-  "documentationRepos": 692,
-  "averageScore": 41,
+  "generatedAt": "2026-04-03T13:51:55.369Z",
+  "totalRepos": 8517,
+  "codeRepos": 7715,
+  "documentationRepos": 802,
+  "averageScore": 40,
   "gradeDistribution": {
-    "A": 37,
-    "B": 217,
-    "C": 436,
-    "D": 704,
-    "F": 5177
+    "A": 39,
+    "B": 238,
+    "C": 493,
+    "D": 828,
+    "F": 6117
   },
   "dimensionAverages": {
     "Security": 30,

@@ -102,7 +102,8 @@ export interface BatchReport {
   toolVersion: string;
   detectorVersion: string;
   checkCounts: DimensionCheckCount[];
-  // Enriched metadata fields from GraphQL (present when GraphQL fetch succeeds)
+  // Enriched metadata fields from RepoMeta (already fetched)
+  description?: string;
   forks_count?: number;
   topics?: string[];
   has_discussions?: boolean;
@@ -342,6 +343,7 @@ export async function analyzeRepo(
     checkCounts,
     languages,
     // Enriched fields — present when GraphQL fetch succeeded
+    ...(meta.description !== undefined && meta.description !== null ? { description: meta.description } : {}),
     ...(meta.forks_count !== undefined ? { forks_count: meta.forks_count } : {}),
     ...(meta.topics !== undefined ? { topics: meta.topics } : {}),
     ...(meta.has_discussions !== undefined ? { has_discussions: meta.has_discussions } : {}),
