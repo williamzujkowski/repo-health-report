@@ -1,4 +1,4 @@
-import { type RepoTree, type RepoMeta, ghApi } from "../analyze.js";
+import { type RepoTree, type RepoMeta, ghApi, treeHasFile } from "../analyze.js";
 import type { DimensionResult, Finding } from "./security.js";
 
 interface CommitInfo {
@@ -144,9 +144,26 @@ async function checkIssueStaleness(slug: string): Promise<Finding> {
 
 /**
  * Check #3c: Recent releases.
+ * Enhanced with version outdatedness gap detection (#17):
+ * - If latest release/tag is >1 year old AND there are recent commits: "release hygiene gap"
+ * - If commits exist but zero releases/tags ever: "no release process"
  */
 async function checkRecentReleases(slug: string): Promise<Finding> {
   try {
+    // Fetch last commit date for gap detection
+    let hasRecentCommits = false;
+    try {
+      const commits = await ghApi<CommitInfo[]>(
+        `/repos/${slug}/commits?per_page=1`,
+        { paginate: false }
+      );
+      if (commits && commits.length > 0) {
+        hasRecentCommits = daysSince(commits[0].commit.committer.date) <= 90;
+      }
+    } catch {
+      // If commit fetch fails, proceed without gap detection
+    }
+
     const releases = await ghApi<ReleaseInfo[]>(
       `/repos/${slug}/releases?per_page=5`,
       { paginate: false }
@@ -160,6 +177,15 @@ async function checkRecentReleases(slug: string): Promise<Finding> {
           name: "Recent releases",
           passed: true,
           detail: `Latest release ${latestDays} day(s) ago (${releases.length} recent releases)`,
+          weight: 20,
+        };
+      }
+      // Release hygiene gap: old release but active commits
+      if (latestDays > 365 && hasRecentCommits) {
+        return {
+          name: "Recent releases",
+          passed: false,
+          detail: `Latest release ${latestDays} day(s) ago but repo has recent commits — release hygiene gap`,
           weight: 20,
         };
       }
@@ -192,6 +218,15 @@ async function checkRecentReleases(slug: string): Promise<Finding> {
             weight: 20,
           };
         }
+        // Release hygiene gap: old tag but active commits
+        if (latestDays > 365 && hasRecentCommits) {
+          return {
+            name: "Recent releases",
+            passed: false,
+            detail: `Latest tag "${tags[0].name}" ${latestDays} day(s) ago but repo has recent commits — release hygiene gap`,
+            weight: 20,
+          };
+        }
         return {
           name: "Recent releases",
           passed: false,
@@ -199,6 +234,16 @@ async function checkRecentReleases(slug: string): Promise<Finding> {
           weight: 20,
         };
       }
+    }
+
+    // No releases or tags at all
+    if (hasRecentCommits) {
+      return {
+        name: "Recent releases",
+        passed: false,
+        detail: "No GitHub releases or tags found but repo has recent commits — no release process",
+        weight: 20,
+      };
     }
 
     return {
@@ -302,10 +347,31 @@ async function checkBusFactor(slug: string): Promise<Finding> {
   }
 }
 
+/**
+ * Check: Maintainer funding/sustainability signal (#16).
+ * Checks for .github/FUNDING.yml or FUNDING.yml.
+ * Does not penalize absence — weight is 0 when not found.
+ */
+function checkFunding(tree: RepoTree): Finding {
+  const hasFundingGithub = treeHasFile(tree, ".github/FUNDING.yml");
+  const hasFundingRoot = treeHasFile(tree, "FUNDING.yml");
+  const found = hasFundingGithub || hasFundingRoot;
+  const location = hasFundingGithub ? ".github/FUNDING.yml" : "FUNDING.yml";
+
+  return {
+    name: "Maintainer funding",
+    passed: found,
+    detail: found
+      ? `Funding file found (${location}) — sustainability signal`
+      : "No FUNDING.yml found (not penalized)",
+    weight: found ? 10 : 0,
+  };
+}
+
 export async function analyzeMaintenanceDimension(
-  _tree: RepoTree,
+  tree: RepoTree,
   meta: RepoMeta,
-  slug: string
+  slug: string,
 ): Promise<DimensionResult> {
   const start = performance.now();
 
@@ -319,6 +385,7 @@ export async function analyzeMaintenanceDimension(
     ]);
 
   const stars = checkStars(meta);
+  const funding = checkFunding(tree);
 
   const findings: Finding[] = [
     lastCommit,
@@ -326,6 +393,7 @@ export async function analyzeMaintenanceDimension(
     recentReleases,
     busFactor,
     stars,
+    funding,
   ];
 
   const totalWeight = findings.reduce((sum, f) => sum + f.weight, 0);

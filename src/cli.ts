@@ -20,6 +20,7 @@ import { renderTerminal } from "./render.js";
 import { generateMarkdown } from "./report.js";
 import { getUnavailableResult, buildVoteProposal } from "./ai-analysis.js";
 import type { AiAnalysisResult } from "./ai-analysis.js";
+import { explainScore } from "./explain.js";
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
@@ -37,6 +38,7 @@ ${chalk.bold("Options:")}
   --no-file             Skip writing markdown file
   --json                Output JSON instead of terminal rendering
   --ai                  Include AI vote proposal for nexus-agents MCP tools
+  --explain             Show detailed scoring breakdown (weights, contributions, grade scale)
   --help, -h            Show this help
 
 ${chalk.bold("Examples:")}
@@ -52,6 +54,7 @@ ${chalk.bold("Examples:")}
   let writeMarkdown = true;
   let jsonOutput = false;
   let aiEnabled = false;
+  let explainEnabled = false;
   let repoArg: string | undefined;
 
   for (let i = 0; i < args.length; i++) {
@@ -64,6 +67,8 @@ ${chalk.bold("Examples:")}
       jsonOutput = true;
     } else if (arg === "--ai") {
       aiEnabled = true;
+    } else if (arg === "--explain") {
+      explainEnabled = true;
     } else if (!arg.startsWith("-")) {
       repoArg = arg;
     }
@@ -159,6 +164,11 @@ ${chalk.bold("Examples:")}
     console.log(JSON.stringify(output, null, 2));
   } else {
     renderTerminal(slug, grade, ai);
+  }
+
+  // Explain scoring breakdown
+  if (explainEnabled && !jsonOutput) {
+    console.log(explainScore(grade, projectType));
   }
 
   // Write markdown
