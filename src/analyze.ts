@@ -25,6 +25,13 @@ export interface RepoMeta {
   pushed_at?: string;
   created_at?: string;
   size?: number;
+  // CI status from GraphQL statusCheckRollup (#27)
+  ciStatus?: "SUCCESS" | "FAILURE" | "PENDING" | "EXPECTED" | null;
+  // Community responsiveness from GraphQL (#28)
+  openIssueCount?: number;
+  oldestOpenIssues?: Array<{ createdAt: string; updatedAt: string }>;
+  openPrCount?: number;
+  oldestOpenPrs?: Array<{ createdAt: string; updatedAt: string }>;
 }
 
 export interface WorkflowFile {
@@ -98,7 +105,12 @@ export async function ghApi<T>(
 interface GraphQLRepoResponse {
   data: {
     repository: {
-      defaultBranchRef: { name: string } | null;
+      defaultBranchRef: {
+        name: string;
+        target: {
+          statusCheckRollup: { state: string } | null;
+        } | null;
+      } | null;
       description: string | null;
       isArchived: boolean;
       stargazerCount: number;
@@ -114,6 +126,14 @@ interface GraphQLRepoResponse {
       licenseInfo: { spdxId: string } | null;
       repositoryTopics: { nodes: Array<{ topic: { name: string } }> };
       openIssues: { totalCount: number };
+      issues: {
+        totalCount: number;
+        nodes: Array<{ createdAt: string; updatedAt: string }>;
+      };
+      pullRequests: {
+        totalCount: number;
+        nodes: Array<{ createdAt: string; updatedAt: string }>;
+      };
     };
   };
   errors?: Array<{ message: string }>;
@@ -165,7 +185,16 @@ export async function fetchRepoMetaGraphQL(slug: string): Promise<RepoMeta> {
   const query = `
     query($owner: String!, $name: String!) {
       repository(owner: $owner, name: $name) {
-        defaultBranchRef { name }
+        defaultBranchRef {
+          name
+          target {
+            ... on Commit {
+              statusCheckRollup {
+                state
+              }
+            }
+          }
+        }
         description
         isArchived
         stargazerCount
@@ -181,6 +210,14 @@ export async function fetchRepoMetaGraphQL(slug: string): Promise<RepoMeta> {
         licenseInfo { spdxId }
         repositoryTopics(first: 20) { nodes { topic { name } } }
         openIssues: issues(states: OPEN) { totalCount }
+        issues(states: OPEN, first: 5, orderBy: {field: UPDATED_AT, direction: ASC}) {
+          totalCount
+          nodes { createdAt updatedAt }
+        }
+        pullRequests(states: OPEN, first: 5, orderBy: {field: UPDATED_AT, direction: ASC}) {
+          totalCount
+          nodes { createdAt updatedAt }
+        }
       }
     }
   `;
@@ -195,6 +232,16 @@ export async function fetchRepoMetaGraphQL(slug: string): Promise<RepoMeta> {
   }
 
   const repo = result.data.repository;
+
+  // Extract CI status from statusCheckRollup
+  const rollupState = repo.defaultBranchRef?.target?.statusCheckRollup?.state;
+  const ciStatus = (rollupState === "SUCCESS" ||
+    rollupState === "FAILURE" ||
+    rollupState === "PENDING" ||
+    rollupState === "EXPECTED")
+    ? rollupState
+    : null;
+
   return {
     default_branch: repo.defaultBranchRef?.name ?? "main",
     language: repo.primaryLanguage?.name ?? null,
@@ -213,6 +260,11 @@ export async function fetchRepoMetaGraphQL(slug: string): Promise<RepoMeta> {
     pushed_at: repo.pushedAt ?? undefined,
     created_at: repo.createdAt,
     size: repo.diskUsage ?? undefined,
+    ciStatus,
+    openIssueCount: repo.issues.totalCount,
+    oldestOpenIssues: repo.issues.nodes,
+    openPrCount: repo.pullRequests.totalCount,
+    oldestOpenPrs: repo.pullRequests.nodes,
   };
 }
 

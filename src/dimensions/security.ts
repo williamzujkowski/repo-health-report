@@ -358,6 +358,40 @@ export async function analyzeSecurityDimension(
     weight: 10,
   });
 
+  // CI status on default branch (#27)
+  if (meta.ciStatus !== undefined) {
+    if (meta.ciStatus === "SUCCESS") {
+      findings.push({
+        name: "CI status (default branch)",
+        passed: true,
+        detail: "CI passing on default branch",
+        weight: 10,
+      });
+    } else if (meta.ciStatus === "FAILURE") {
+      findings.push({
+        name: "CI status (default branch)",
+        passed: false,
+        detail: "CI FAILING on default branch — needs attention",
+        weight: 10,
+      });
+    } else if (meta.ciStatus === "PENDING") {
+      findings.push({
+        name: "CI status (default branch)",
+        passed: true,
+        detail: "CI pending on default branch",
+        weight: 10,
+      });
+    } else if (meta.ciStatus === "EXPECTED") {
+      findings.push({
+        name: "CI status (default branch)",
+        passed: true,
+        detail: "CI expected on default branch",
+        weight: 10,
+      });
+    }
+    // null means no status check rollup — skip (weight 0 via omission)
+  }
+
   const totalWeight = findings.reduce((sum, f) => sum + f.weight, 0);
   const earnedWeight = findings
     .filter((f) => f.passed)

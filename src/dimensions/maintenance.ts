@@ -9,11 +9,6 @@ interface CommitInfo {
   };
 }
 
-interface IssueInfo {
-  created_at: string;
-  updated_at: string;
-}
-
 interface ReleaseInfo {
   published_at: string;
 }
@@ -97,49 +92,72 @@ async function checkLastCommit(slug: string): Promise<Finding> {
 
 /**
  * Check #3b: Open issue staleness.
+ * Uses GraphQL data from meta.oldestOpenIssues (saves 1 REST call).
  */
-async function checkIssueStaleness(slug: string): Promise<Finding> {
-  try {
-    const issues = await ghApi<IssueInfo[]>(
-      `/repos/${slug}/issues?state=open&per_page=5&sort=updated&direction=asc`,
-      { paginate: false }
-    );
-    if (!issues || issues.length === 0) {
-      return {
-        name: "Open issue freshness",
-        passed: true,
-        detail: "No open issues — good or very small project",
-        weight: 15,
-      };
-    }
-
-    const ages = issues.map((i) => daysSince(i.created_at));
-    const sorted = [...ages].sort((a, b) => a - b);
-    const median = sorted[Math.floor(sorted.length / 2)];
-    const oldest = Math.max(...ages);
-
-    if (median < 90) {
-      return {
-        name: "Open issue freshness",
-        passed: true,
-        detail: `Median open issue age: ${median} day(s) (oldest sampled: ${oldest} days)`,
-        weight: 15,
-      };
-    }
+function checkIssueStaleness(meta: RepoMeta): Finding {
+  const issues = meta.oldestOpenIssues;
+  if (!issues || issues.length === 0) {
     return {
       name: "Open issue freshness",
-      passed: false,
-      detail: `Median open issue age: ${median} day(s) — stale issues accumulating (oldest sampled: ${oldest} days)`,
-      weight: 15,
-    };
-  } catch {
-    return {
-      name: "Open issue freshness",
-      passed: false,
-      detail: "Failed to fetch issue data",
+      passed: true,
+      detail: "No open issues — good or very small project",
       weight: 15,
     };
   }
+
+  const ages = issues.map((i) => daysSince(i.createdAt));
+  const sorted = [...ages].sort((a, b) => a - b);
+  const median = sorted[Math.floor(sorted.length / 2)];
+  const oldest = Math.max(...ages);
+
+  if (median < 90) {
+    return {
+      name: "Open issue freshness",
+      passed: true,
+      detail: `Median open issue age: ${median} day(s) (oldest sampled: ${oldest} days)`,
+      weight: 15,
+    };
+  }
+  return {
+    name: "Open issue freshness",
+    passed: false,
+    detail: `Median open issue age: ${median} day(s) — stale issues accumulating (oldest sampled: ${oldest} days)`,
+    weight: 15,
+  };
+}
+
+/**
+ * Check #3e: PR responsiveness (#28).
+ * Uses GraphQL data from meta.oldestOpenPrs (no extra API call).
+ */
+function checkPrResponsiveness(meta: RepoMeta): Finding {
+  const prs = meta.oldestOpenPrs;
+  if (!prs || prs.length === 0) {
+    return {
+      name: "PR responsiveness",
+      passed: true,
+      detail: "No open PRs",
+      weight: 10,
+    };
+  }
+
+  const ages = prs.map((p) => daysSince(p.createdAt));
+  const oldest = Math.max(...ages);
+
+  if (oldest > 90) {
+    return {
+      name: "PR responsiveness",
+      passed: false,
+      detail: `Review bottleneck detected — oldest open PR is ${oldest} day(s) old`,
+      weight: 10,
+    };
+  }
+  return {
+    name: "PR responsiveness",
+    passed: true,
+    detail: `Oldest open PR is ${oldest} day(s) old — PR review is timely`,
+    weight: 10,
+  };
 }
 
 /**
@@ -376,20 +394,23 @@ export async function analyzeMaintenanceDimension(
   const start = performance.now();
 
   // Run API-dependent checks in parallel
-  const [lastCommit, issueStaleness, recentReleases, busFactor] =
+  // Note: issueStaleness now uses GraphQL data from meta — no REST call needed
+  const [lastCommit, recentReleases, busFactor] =
     await Promise.all([
       checkLastCommit(slug),
-      checkIssueStaleness(slug),
       checkRecentReleases(slug),
       checkBusFactor(slug),
     ]);
 
+  const issueStaleness = checkIssueStaleness(meta);
+  const prResponsiveness = checkPrResponsiveness(meta);
   const stars = checkStars(meta);
   const funding = checkFunding(tree);
 
   const findings: Finding[] = [
     lastCommit,
     issueStaleness,
+    prResponsiveness,
     recentReleases,
     busFactor,
     stars,
