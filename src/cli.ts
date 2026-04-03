@@ -5,6 +5,7 @@ import chalk from "chalk";
 import {
   parseRepoSlug,
   fetchRepoMeta,
+  fetchRepoMetaGraphQL,
   fetchRepoTree,
   detectProjectType,
   detectRepoSize,
@@ -140,9 +141,13 @@ ${chalk.bold("Examples:")}
         meta.default_branch
       );
     } else {
-      // GitHub — use existing gh CLI flow
+      // GitHub — try GraphQL first (richer metadata, one request), fall back to REST
       const ghSlug = parseRepoSlug(repoArg);
-      meta = await fetchRepoMeta(ghSlug);
+      try {
+        meta = await fetchRepoMetaGraphQL(ghSlug);
+      } catch {
+        meta = await fetchRepoMeta(ghSlug);
+      }
       tree = await fetchRepoTree(ghSlug, meta.default_branch);
     }
   } catch (err) {

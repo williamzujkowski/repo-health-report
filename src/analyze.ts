@@ -17,6 +17,14 @@ export interface RepoMeta {
   archived: boolean;
   description: string | null;
   stargazers_count?: number;
+  // Additional fields — already in REST /repos/{slug} response, zero extra cost
+  forks_count?: number;
+  topics?: string[];
+  has_discussions?: boolean;
+  has_projects?: boolean;
+  pushed_at?: string;
+  created_at?: string;
+  size?: number;
 }
 
 export interface WorkflowFile {
@@ -84,6 +92,128 @@ export async function ghApi<T>(
       }
     );
   });
+}
+
+/** GraphQL response shape for the repository metadata query. */
+interface GraphQLRepoResponse {
+  data: {
+    repository: {
+      defaultBranchRef: { name: string } | null;
+      description: string | null;
+      isArchived: boolean;
+      stargazerCount: number;
+      forkCount: number;
+      hasIssuesEnabled: boolean;
+      hasWikiEnabled: boolean;
+      hasDiscussionsEnabled: boolean;
+      hasProjectsEnabled: boolean;
+      pushedAt: string | null;
+      createdAt: string;
+      diskUsage: number | null;
+      primaryLanguage: { name: string } | null;
+      licenseInfo: { spdxId: string } | null;
+      repositoryTopics: { nodes: Array<{ topic: { name: string } }> };
+      openIssues: { totalCount: number };
+    };
+  };
+  errors?: Array<{ message: string }>;
+}
+
+/**
+ * Run a GraphQL query via `gh api graphql` and return the parsed response.
+ */
+export async function ghGraphQL<T>(
+  query: string,
+  variables: Record<string, string>
+): Promise<T> {
+  const variableArgs: string[] = [];
+  for (const [key, value] of Object.entries(variables)) {
+    variableArgs.push("-f", `${key}=${value}`);
+  }
+  const args = ["api", "graphql", "-f", `query=${query}`, ...variableArgs];
+  return new Promise((resolve, reject) => {
+    execFile(
+      "gh",
+      args,
+      { timeout: GH_TIMEOUT_MS, maxBuffer: 10 * 1024 * 1024 },
+      (error, stdout, stderr) => {
+        if (error) {
+          const msg = stderr.trim() || error.message;
+          reject(new Error(`gh api graphql failed: ${msg}`));
+          return;
+        }
+        try {
+          resolve(JSON.parse(stdout) as T);
+        } catch {
+          reject(new Error("Failed to parse JSON from gh api graphql"));
+        }
+      }
+    );
+  });
+}
+
+/**
+ * Fetch repo metadata via GraphQL.
+ * Replaces the REST /repos/{slug} call and additionally provides
+ * topics, discussions, projects, pushed_at, created_at, and disk size
+ * in a single request with no extra API cost.
+ *
+ * Throws on GraphQL errors so callers can fall back to REST.
+ */
+export async function fetchRepoMetaGraphQL(slug: string): Promise<RepoMeta> {
+  const [owner, name] = slug.split("/");
+  const query = `
+    query($owner: String!, $name: String!) {
+      repository(owner: $owner, name: $name) {
+        defaultBranchRef { name }
+        description
+        isArchived
+        stargazerCount
+        forkCount
+        hasIssuesEnabled
+        hasWikiEnabled
+        hasDiscussionsEnabled
+        hasProjectsEnabled
+        pushedAt
+        createdAt
+        diskUsage
+        primaryLanguage { name }
+        licenseInfo { spdxId }
+        repositoryTopics(first: 20) { nodes { topic { name } } }
+        openIssues: issues(states: OPEN) { totalCount }
+      }
+    }
+  `;
+
+  const result = await ghGraphQL<GraphQLRepoResponse>(query, {
+    owner: owner ?? "",
+    name: name ?? "",
+  });
+
+  if (result.errors && result.errors.length > 0) {
+    throw new Error(`GraphQL error: ${result.errors[0].message}`);
+  }
+
+  const repo = result.data.repository;
+  return {
+    default_branch: repo.defaultBranchRef?.name ?? "main",
+    language: repo.primaryLanguage?.name ?? null,
+    has_issues: repo.hasIssuesEnabled,
+    has_wiki: repo.hasWikiEnabled,
+    has_pages: false, // not available via GraphQL — REST-only field
+    license: repo.licenseInfo ? { spdx_id: repo.licenseInfo.spdxId } : null,
+    open_issues_count: repo.openIssues.totalCount,
+    archived: repo.isArchived,
+    description: repo.description,
+    stargazers_count: repo.stargazerCount,
+    forks_count: repo.forkCount,
+    topics: repo.repositoryTopics.nodes.map((n) => n.topic.name),
+    has_discussions: repo.hasDiscussionsEnabled,
+    has_projects: repo.hasProjectsEnabled,
+    pushed_at: repo.pushedAt ?? undefined,
+    created_at: repo.createdAt,
+    size: repo.diskUsage ?? undefined,
+  };
 }
 
 /**

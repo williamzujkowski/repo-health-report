@@ -19,6 +19,7 @@ import chalk from "chalk";
 import {
   parseRepoSlug,
   fetchRepoMeta,
+  fetchRepoMetaGraphQL,
   fetchRepoTree,
   detectProjectType,
   detectRepoSize,
@@ -88,6 +89,14 @@ interface BatchReport {
   toolVersion: string;
   detectorVersion: string;
   checkCounts: DimensionCheckCount[];
+  // Enriched metadata fields from GraphQL (present when GraphQL fetch succeeds)
+  forks_count?: number;
+  topics?: string[];
+  has_discussions?: boolean;
+  has_projects?: boolean;
+  pushed_at?: string;
+  created_at?: string;
+  size?: number;
 }
 
 function parseArgs(argv: string[]): BatchArgs {
@@ -205,7 +214,13 @@ async function analyzeRepo(
   slug: string
 ): Promise<{ report: BatchReport; meta: RepoMeta; type: ProjectType }> {
   const validSlug = parseRepoSlug(slug);
-  const meta = await fetchRepoMeta(validSlug);
+  // Try GraphQL first (enriched metadata in one request), fall back to REST
+  let meta: RepoMeta;
+  try {
+    meta = await fetchRepoMetaGraphQL(validSlug);
+  } catch {
+    meta = await fetchRepoMeta(validSlug);
+  }
   const tree = await fetchRepoTree(validSlug, meta.default_branch);
   const projectType = detectProjectType(tree, validSlug, meta);
   const sizeTier = detectRepoSize(tree);
@@ -243,6 +258,14 @@ async function analyzeRepo(
     toolVersion: TOOL_VERSION,
     detectorVersion,
     checkCounts,
+    // Enriched fields — present when GraphQL fetch succeeded
+    ...(meta.forks_count !== undefined ? { forks_count: meta.forks_count } : {}),
+    ...(meta.topics !== undefined ? { topics: meta.topics } : {}),
+    ...(meta.has_discussions !== undefined ? { has_discussions: meta.has_discussions } : {}),
+    ...(meta.has_projects !== undefined ? { has_projects: meta.has_projects } : {}),
+    ...(meta.pushed_at !== undefined ? { pushed_at: meta.pushed_at } : {}),
+    ...(meta.created_at !== undefined ? { created_at: meta.created_at } : {}),
+    ...(meta.size !== undefined ? { size: meta.size } : {}),
   };
 
   return { report, meta, type: projectType };
