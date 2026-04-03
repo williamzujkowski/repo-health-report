@@ -1,0 +1,9 @@
+---
+interface Props { value: number; max?: number; color?: string; width?: string }
+const { value, max = 100, color, width = '80px' } = Astro.props;
+const pct = Math.min(100, (value / max) * 100);
+const barColor = color ?? (value >= 90 ? 'var(--color-grade-a)' : value >= 80 ? 'var(--color-grade-b)' : value >= 70 ? 'var(--color-grade-c)' : value >= 60 ? 'var(--color-grade-d)' : 'var(--color-grade-f)');
+---
+<div class="spark-bar" style={`width: ${width}`}>
+  <div class="spark-bar-fill" style={`width: ${pct}%; background: ${barColor}`} />
+</div>

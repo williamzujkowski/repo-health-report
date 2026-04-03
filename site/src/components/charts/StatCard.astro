@@ -1,0 +1,10 @@
+---
+interface Props { value: string | number; label: string; sublabel?: string; color?: string; icon?: string }
+const { value, label, sublabel, color, icon } = Astro.props;
+---
+<div class="stat-card">
+  {icon && <span class="stat-icon">{icon}</span>}
+  <div class="stat-value" style={color ? `color: ${color}` : ''}>{value}</div>
+  <div class="stat-label">{label}</div>
+  {sublabel && <div class="stat-sublabel">{sublabel}</div>}
+</div>

@@ -1,7 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import GradeBar from '../components/GradeBar.astro';
-import ScoreBar from '../components/ScoreBar.astro';
+import DonutChart from '../components/charts/DonutChart.astro';
+import BarChart from '../components/charts/BarChart.astro';
+import StatCard from '../components/charts/StatCard.astro';
+import SparkBar from '../components/charts/SparkBar.astro';
 
 import summary from '../../../data/dashboard/summary.json';
 import leaderboard from '../../../data/dashboard/leaderboard.json';
@@ -30,17 +32,14 @@ const langCount = knownLangs.length;
 const topLang = [...knownLangs].sort((a, b) => (b.averageScore ?? 0) - (a.averageScore ?? 0))[0];
 
 // Compute findings-based stats by scanning leaderboard data
-// We compute what we can from leaderboard (grades, scores, types, languages)
 const fPct = Math.round((summary.gradeDistribution.F / codeRepos) * 100);
-const aPct = Math.round((summary.gradeDistribution.A / codeRepos) * 100);
 const abPct = Math.round(((summary.gradeDistribution.A + summary.gradeDistribution.B) / codeRepos) * 100);
 
 // Dimension stats
 const dimensions = Object.entries(summary.dimensionAverages).sort(([, a], [, b]) => b - a);
 const lowestDim = dimensions[dimensions.length - 1];
-const highestDim = dimensions[0];
 
-// Grade distribution for segmented bar
+// Grade distribution for donut chart
 const gradeColors: Record<string, string> = {
   A: '#22c55e',
   B: '#14b8a6',
@@ -49,6 +48,25 @@ const gradeColors: Record<string, string> = {
   F: '#ef4444',
 };
 const gradeOrder = ['A', 'B', 'C', 'D', 'F'] as const;
+const donutSegments = gradeOrder.map(grade => ({
+  label: grade,
+  value: summary.gradeDistribution[grade] ?? 0,
+  color: gradeColors[grade],
+}));
+
+// Dimension bar data with score-based coloring
+function dimColor(s: number): string {
+  if (s >= 80) return 'var(--color-grade-a)';
+  if (s >= 60) return 'var(--color-grade-b)';
+  if (s >= 40) return 'var(--color-grade-c)';
+  if (s >= 20) return 'var(--color-grade-d)';
+  return 'var(--color-grade-f)';
+}
+const dimensionBars = dimensions.map(([dim, score]) => ({
+  label: dim,
+  value: score,
+  color: dimColor(score),
+}));
 
 function gradeClass(grade: string): string {
   const map: Record<string, string> = {
@@ -99,7 +117,7 @@ function formatStars(n: number): string {
   </div>
 
   <div class="grid lg:grid-cols-2 gap-6 mb-10">
-    <!-- Grade Distribution with segmented bar -->
+    <!-- Grade Distribution with donut chart -->
     <section class="card p-6">
       <h2 class="text-lg font-semibold mb-2">Grade Distribution</h2>
       <p class="text-sm text-stone-500 dark:text-stone-400 mb-5">
@@ -107,7 +125,7 @@ function formatStars(n: number): string {
       </p>
 
       <!-- Segmented bar (GitHub language bar style) -->
-      <div class="segmented-bar mb-4">
+      <div class="segmented-bar mb-6">
         {gradeOrder.map((grade) => {
           const count = summary.gradeDistribution[grade] ?? 0;
           const pct = (count / codeRepos) * 100;
@@ -120,24 +138,15 @@ function formatStars(n: number): string {
         })}
       </div>
 
-      <!-- Legend -->
-      <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm mb-5">
-        {gradeOrder.map((grade) => {
-          const count = summary.gradeDistribution[grade] ?? 0;
-          const pct = Math.round((count / codeRepos) * 100);
-          return (
-            <div class="flex items-center gap-1.5">
-              <span class="w-2.5 h-2.5 rounded-sm" style={`background-color: ${gradeColors[grade]}`} />
-              <span class="text-stone-400">{grade}</span>
-              <span class="tabular-nums font-medium">{pct}%</span>
-              <span class="text-stone-500 text-xs">({count})</span>
-            </div>
-          );
-        })}
+      <div class="flex justify-center">
+        <DonutChart
+          segments={donutSegments}
+          size={180}
+          thickness={22}
+          centerValue={String(codeRepos)}
+          centerLabel="repos"
+        />
       </div>
-
-      <!-- Detailed bars -->
-      <GradeBar distribution={summary.gradeDistribution} total={codeRepos} />
     </section>
 
     <!-- Dimension Averages -->
@@ -146,36 +155,16 @@ function formatStars(n: number): string {
       <p class="text-sm text-stone-500 dark:text-stone-400 mb-5">
         Average scores across all graded repositories
       </p>
-      <div class="flex flex-col gap-3">
-        {dimensions.map(([dim, score]) => (
-          <ScoreBar label={dim} score={score} />
-        ))}
-      </div>
+      <BarChart data={dimensionBars} maxValue={100} height={24} />
     </section>
   </div>
 
   <!-- Key Insights — 4 stat cards -->
   <section class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-    <div class="stat-card">
-      <span class="text-xs text-stone-400 uppercase tracking-wider">F-Grade Rate</span>
-      <span class="stat-value text-red-500">{fPct}%</span>
-      <span class="stat-label">{summary.gradeDistribution.F} of {codeRepos} repos</span>
-    </div>
-    <div class="stat-card">
-      <span class="text-xs text-stone-400 uppercase tracking-wider">A+B Rate</span>
-      <span class="stat-value text-green-500">{abPct}%</span>
-      <span class="stat-label">{summary.gradeDistribution.A + summary.gradeDistribution.B} repos with strong health</span>
-    </div>
-    <div class="stat-card">
-      <span class="text-xs text-stone-400 uppercase tracking-wider">Weakest Dimension</span>
-      <span class="stat-value text-orange-500">{lowestDim[1]}</span>
-      <span class="stat-label">{lowestDim[0]} average score</span>
-    </div>
-    <div class="stat-card">
-      <span class="text-xs text-stone-400 uppercase tracking-wider">Top Language</span>
-      <span class="stat-value text-teal-500">{topLang?.averageScore}</span>
-      <span class="stat-label">{topLang?.name} avg across {topLang?.count} repos</span>
-    </div>
+    <StatCard value={`${fPct}%`} label={`${summary.gradeDistribution.F} of ${codeRepos} repos`} sublabel="F-Grade Rate" color="#ef4444" icon="🔴" />
+    <StatCard value={`${abPct}%`} label={`${summary.gradeDistribution.A + summary.gradeDistribution.B} repos with strong health`} sublabel="A+B Rate" color="#22c55e" icon="🟢" />
+    <StatCard value={String(lowestDim[1])} label={`${lowestDim[0]} average score`} sublabel="Weakest Dimension" color="#f97316" icon="⚠️" />
+    <StatCard value={String(topLang?.averageScore)} label={`${topLang?.name} avg across ${topLang?.count} repos`} sublabel="Top Language" color="#14b8a6" icon="🏆" />
   </section>
 
   <!-- Top 10 -->
@@ -194,6 +183,7 @@ function formatStars(n: number): string {
             <th class="pb-2 font-medium">Repository</th>
             <th class="pb-2 font-medium text-center">Grade</th>
             <th class="pb-2 font-medium text-right">Score</th>
+            <th class="pb-2 font-medium text-center w-24">Health</th>
             <th class="pb-2 font-medium pl-4">Language</th>
             <th class="pb-2 font-medium text-right">Stars</th>
           </tr>
@@ -215,16 +205,9 @@ function formatStars(n: number): string {
                   {repo.grade}
                 </span>
               </td>
-              <td class="py-2.5 text-right">
-                <div class="flex items-center justify-end gap-2">
-                  <div class="w-16 h-1.5 bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden">
-                    <div
-                      class="h-full rounded-full bg-teal-500 animate-bar"
-                      style={`width: ${repo.score}%`}
-                    />
-                  </div>
-                  <span class="tabular-nums font-medium w-7 text-right">{repo.score}</span>
-                </div>
+              <td class="py-2.5 text-right tabular-nums font-medium">{repo.score}</td>
+              <td class="py-2.5 text-center">
+                <SparkBar value={repo.score} max={100} width="100%" />
               </td>
               <td class="py-2.5 pl-4 text-stone-600 dark:text-stone-400">{repo.language ?? 'unknown'}</td>
               <td class="py-2.5 text-right tabular-nums text-stone-600 dark:text-stone-400">
