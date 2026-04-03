@@ -41,6 +41,16 @@ interface OrgAuditArgs {
   skipDocs: boolean;
 }
 
+interface OrgTreeAnalyticsSummary {
+  totalFileCount: number;
+  avgFileCount: number;
+  reposWithAntiPatterns: string[];
+  reposWithVendorCommitted: string[];
+  reposWithDotEnvCommitted: string[];
+  avgTestToSourceRatio: number;
+  monorepoCount: number;
+}
+
 interface OrgLanguageDetail {
   primaryCount: number;
   totalFileCount: number;
@@ -59,6 +69,7 @@ interface OrgSummary {
   languageBreakdown: Record<string, number>;
   multiLanguageBreakdown: Record<string, OrgLanguageDetail>;
   typeBreakdown: Record<string, number>;
+  treeAnalytics?: OrgTreeAnalyticsSummary;
 }
 
 export interface RiskEntry {
@@ -358,6 +369,41 @@ function buildSummary(org: string, reports: BatchReport[], analyzedAt: string): 
   const totalScore = gradedReports.reduce((sum, r) => sum + r.overall, 0);
   const averageScore = gradedReports.length > 0 ? Math.round(totalScore / gradedReports.length) : 0;
 
+  // Aggregate tree analytics
+  let treeAnalyticsSummary: OrgTreeAnalyticsSummary | undefined;
+  const reportsWithAnalytics = reports.filter((r) => r.treeAnalytics);
+  if (reportsWithAnalytics.length > 0) {
+    let totalFiles = 0;
+    let totalTestRatio = 0;
+    let monorepoCount = 0;
+    const reposWithAntiPatterns: string[] = [];
+    const reposWithVendorCommitted: string[] = [];
+    const reposWithDotEnvCommitted: string[] = [];
+
+    for (const report of reportsWithAnalytics) {
+      const ta = report.treeAnalytics!;
+      totalFiles += ta.fileCount;
+      totalTestRatio += ta.testToSourceRatio;
+      if (ta.isMonorepo) monorepoCount++;
+      if (ta.antiPatternCount > 0) reposWithAntiPatterns.push(report.repo);
+      if (ta.hasVendorCommitted) reposWithVendorCommitted.push(report.repo);
+      if (ta.hasDotEnvCommitted) reposWithDotEnvCommitted.push(report.repo);
+    }
+
+    treeAnalyticsSummary = {
+      totalFileCount: totalFiles,
+      avgFileCount: Math.round(totalFiles / reportsWithAnalytics.length),
+      reposWithAntiPatterns,
+      reposWithVendorCommitted,
+      reposWithDotEnvCommitted,
+      avgTestToSourceRatio:
+        Math.round(
+          (totalTestRatio / reportsWithAnalytics.length) * 100
+        ) / 100,
+      monorepoCount,
+    };
+  }
+
   return {
     org,
     analyzedAt,
@@ -369,6 +415,7 @@ function buildSummary(org: string, reports: BatchReport[], analyzedAt: string): 
     languageBreakdown: languageCounts,
     multiLanguageBreakdown: multiLang,
     typeBreakdown: typeCounts,
+    ...(treeAnalyticsSummary ? { treeAnalytics: treeAnalyticsSummary } : {}),
   };
 }
 
@@ -447,6 +494,27 @@ export function generateOrgMarkdown(summary: OrgSummary, risks: RisksReport, rep
     lines.push("|-----------|--------------|");
     for (const [name, avg] of Object.entries(summary.dimensionAverages)) {
       lines.push(`| ${name} | ${avg}/100 |`);
+    }
+    lines.push("");
+  }
+
+  // Tree Analytics Summary
+  if (summary.treeAnalytics) {
+    const ta = summary.treeAnalytics;
+    lines.push("### Tree Analytics");
+    lines.push("");
+    lines.push("| Metric | Value |");
+    lines.push("|--------|-------|");
+    lines.push(`| Total files | ${ta.totalFileCount.toLocaleString()} |`);
+    lines.push(`| Avg files/repo | ${ta.avgFileCount} |`);
+    lines.push(`| Avg test-to-source ratio | ${ta.avgTestToSourceRatio} |`);
+    lines.push(`| Monorepos | ${ta.monorepoCount} |`);
+    lines.push(`| Repos with anti-patterns | ${ta.reposWithAntiPatterns.length} |`);
+    if (ta.reposWithVendorCommitted.length > 0) {
+      lines.push(`| Vendor committed | ${ta.reposWithVendorCommitted.join(", ")} |`);
+    }
+    if (ta.reposWithDotEnvCommitted.length > 0) {
+      lines.push(`| .env committed | ${ta.reposWithDotEnvCommitted.join(", ")} |`);
     }
     lines.push("");
   }
@@ -653,6 +721,10 @@ async function main(): Promise<void> {
   if (failed > 0) console.log(`  Failed: ${chalk.red(String(failed))}`);
   console.log(`  Average score: ${chalk.bold(String(summary.averageScore) + "/100")}`);
   console.log(`  Grade distribution: A:${summary.gradeDistribution.A} B:${summary.gradeDistribution.B} C:${summary.gradeDistribution.C} D:${summary.gradeDistribution.D} F:${summary.gradeDistribution.F}`);
+  if (summary.treeAnalytics) {
+    const ta = summary.treeAnalytics;
+    console.log(`  Avg test ratio: ${chalk.cyan(String(ta.avgTestToSourceRatio))}, monorepos: ${chalk.cyan(String(ta.monorepoCount))}, anti-pattern repos: ${chalk.cyan(String(ta.reposWithAntiPatterns.length))}`);
+  }
   console.log(chalk.gray(`\n  Output: ${auditDir}/`));
   console.log(chalk.gray(`    summary.json  risks.json  report.md  repos/\n`));
 }

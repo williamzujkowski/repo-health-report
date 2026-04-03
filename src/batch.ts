@@ -40,6 +40,8 @@ import { RepoCache } from "./cache.js";
 import type { ProjectType, RepoSizeTier } from "./analyze.js";
 import { detectAiContributors } from "./ai-contributors.js";
 import type { AiContributorResult } from "./ai-contributors.js";
+import { computeTreeAnalytics } from "./tree-analytics.js";
+import type { TreeAnalytics } from "./tree-analytics.js";
 
 const TOOL_VERSION = "1.0.0";
 const DATA_DIR = join(process.cwd(), "data");
@@ -112,6 +114,8 @@ export interface BatchReport {
   languages?: LanguageBreakdown;
   // AI contributor detection (present when --detect-ai is used)
   aiContributors?: AiContributorResult;
+  // Zero-cost tree analytics (always present)
+  treeAnalytics?: TreeAnalytics;
 }
 
 interface BatchStats {
@@ -292,6 +296,7 @@ export async function analyzeRepo(
   const sizeTier = detectRepoSize(tree);
   const language = normalizeLanguage(meta.language, tree);
   const languages = detectAllLanguages(tree, meta.language);
+  const treeAnalytics = computeTreeAnalytics(tree);
 
   const dimensionResults = await Promise.all([
     analyzeSecurityDimension(tree, meta, validSlug),
@@ -346,6 +351,8 @@ export async function analyzeRepo(
     ...(meta.size !== undefined ? { size: meta.size } : {}),
     // AI contributor detection (present when --detect-ai is used)
     ...(aiContributors !== undefined ? { aiContributors } : {}),
+    // Zero-cost tree analytics
+    treeAnalytics,
   };
 
   return { report, meta, type: projectType };

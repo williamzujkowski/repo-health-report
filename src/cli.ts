@@ -12,6 +12,7 @@ import {
   normalizeLanguage,
   detectAllLanguages,
 } from "./analyze.js";
+import { computeTreeAnalytics } from "./tree-analytics.js";
 import { detectPlatform } from "./platforms.js";
 import type { PlatformConfig } from "./platforms.js";
 import {
@@ -193,6 +194,14 @@ ${chalk.bold("Examples:")}
   } else if (language !== "other") {
     console.log(chalk.gray(`  Detected language: ${language}`));
   }
+
+  // Zero-cost tree analytics
+  const analytics = computeTreeAnalytics(tree);
+  console.log(
+    chalk.gray(
+      `  Analytics: ${analytics.fileCount} files, ${analytics.directoryCount} dirs, depth ${analytics.maxDepth}, test ratio ${analytics.testToSourceRatio}, config ${analytics.configScore}/10, ${analytics.antiPatternCount} anti-patterns`
+    )
+  );
 
   // Run all 6 dimensions in parallel
   const dimensionResults = await Promise.all([
