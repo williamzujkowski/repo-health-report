@@ -7,6 +7,7 @@ import leaderboard from '../../../data/dashboard/leaderboard.json';
 import languagesData from '../../../data/dashboard/languages.json';
 import typesData from '../../../data/dashboard/types.json';
 
+const base = import.meta.env.BASE_URL;
 const gradedRepos = leaderboard.repos.filter((r) => r.graded);
 const totalGraded = gradedRepos.length;
 const totalRepos = summary.totalRepos;
@@ -204,11 +205,11 @@ const typeLollipop = gradedTypes.map(t => ({
       </p>
       <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px;">
         {topStarRepos.slice(0, 8).map((r) => (
-          <div style="background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: 6px; padding: 12px; text-align: center;">
+          <a href={`${base}/repo/${r.slug.replace('/', '--')}/`} style="background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: 6px; padding: 12px; text-align: center; text-decoration: none;">
             <div style="font-size: 11px; color: var(--color-text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 4px;" title={r.slug}>{r.slug.split('/')[1]}</div>
             <div style="font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{r.score ?? '--'}</div>
             <div style="font-size: 11px; color: var(--color-text-muted); font-variant-numeric: tabular-nums;">{(r.stars / 1000).toFixed(0)}k stars</div>
-          </div>
+          </a>
         ))}
       </div>
     </section>

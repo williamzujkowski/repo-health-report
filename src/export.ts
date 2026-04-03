@@ -211,6 +211,17 @@ interface LeaderboardEntry {
   configScore?: number;
   antiPatterns?: number;
   sizeCategory?: string;
+  // Detail fields (embedded so repo pages don't need per-repo JSONs)
+  analyzedAt?: string;
+  dimensions?: Array<{
+    name: string;
+    score: number;
+    findings: Array<{
+      name: string;
+      passed: boolean;
+      detail: string;
+    }>;
+  }>;
 }
 
 interface LanguageStat {
@@ -298,6 +309,19 @@ function buildLeaderboard(reports: StoredReport[]): { repos: LeaderboardEntry[] 
       if (report.treeAnalytics.configScore !== undefined) entry.configScore = report.treeAnalytics.configScore;
       if (report.treeAnalytics.antiPatternCount !== undefined) entry.antiPatterns = report.treeAnalytics.antiPatternCount;
       if (report.treeAnalytics.sizeCategory) entry.sizeCategory = report.treeAnalytics.sizeCategory;
+    }
+    // Detail fields for repo pages
+    if (report.analyzedAt) entry.analyzedAt = report.analyzedAt;
+    if (report.dimensions && report.dimensions.length > 0) {
+      entry.dimensions = report.dimensions.map((dim) => ({
+        name: dim.name,
+        score: dim.score,
+        findings: dim.findings.map((f) => ({
+          name: f.name,
+          passed: f.passed,
+          detail: f.detail,
+        })),
+      }));
     }
     return entry;
   });
@@ -434,12 +458,23 @@ async function main(): Promise<void> {
     "utf-8"
   );
 
-  // leaderboard.json
-  console.log("Generating leaderboard.json...");
+  // leaderboard.json (full — with dimensions/findings, used by Astro build)
+  console.log("Generating leaderboard.json (full)...");
   const leaderboard = buildLeaderboard(reports);
   await writeFile(
     join(DASHBOARD_DIR, "leaderboard.json"),
-    JSON.stringify(leaderboard, null, 2),
+    JSON.stringify(leaderboard),  // no pretty-print to save space
+    "utf-8"
+  );
+
+  // leaderboard-slim.json (without dimensions — small enough to commit)
+  console.log("Generating leaderboard-slim.json...");
+  const slim = {
+    repos: leaderboard.repos.map(({ dimensions, ...rest }) => rest),
+  };
+  await writeFile(
+    join(DASHBOARD_DIR, "leaderboard-slim.json"),
+    JSON.stringify(slim, null, 2),
     "utf-8"
   );
 

@@ -2,7 +2,6 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import LollipopChart from '../../components/charts/LollipopChart.astro';
 import leaderboard from '../../../../data/dashboard/leaderboard.json';
-import { loadRepoDetail } from '../../lib/repo-data';
 
 export function getStaticPaths() {
   return leaderboard.repos.map((repo) => ({
@@ -13,14 +12,11 @@ export function getStaticPaths() {
 
 const { repo } = Astro.props;
 const base = import.meta.env.BASE_URL;
-const detail = loadRepoDetail(repo.slug);
-const dims = detail?.dimensions ?? [];
+const dims = repo.dimensions ?? [];
 const gc = ({ A: 'grade-A', B: 'grade-B', C: 'grade-C', D: 'grade-D', F: 'grade-F' } as Record<string, string>)[repo.grade] ?? 'grade-NA';
 const typeMap: Record<string, string> = { application: 'type-application', library: 'type-library', framework: 'type-framework', documentation: 'type-documentation', tool: 'type-tool' };
 const tc = 'type-badge ' + (typeMap[repo.type] ?? 'type-default');
 const showFindings = dims.some((d) => d.findings && d.findings.length > 0);
-const insights = detail?.insights ?? [];
-const treeAnalytics = detail?.treeAnalytics;
 
 function dimColor(s: number): string {
   if (s >= 70) return 'var(--color-grade-a)';
@@ -35,19 +31,26 @@ const dimLollipop = dims.map(d => ({
   color: dimColor(d.score),
 }));
 
-// Enriched data from leaderboard entry and detail
-const description = repo.description ?? detail?.description;
-const topics = repo.topics ?? detail?.topics ?? [];
-const createdAt = repo.createdAt ?? detail?.created_at;
-const pushedAt = repo.pushedAt ?? detail?.pushed_at;
-const forks = repo.forks ?? detail?.forks_count;
-const testRatio = repo.testRatio ?? detail?.treeAnalytics?.testToSourceRatio;
-const configScore = repo.configScore ?? detail?.treeAnalytics?.configScore;
-const antiPatterns = repo.antiPatterns ?? detail?.treeAnalytics?.antiPatternCount;
-const sizeCategory = repo.sizeCategory ?? detail?.treeAnalytics?.sizeCategory;
-const languageBreakdown = detail?.languages?.all ?? [];
+// All data from leaderboard entry
+const description = repo.description;
+const topics = repo.topics ?? [];
+const createdAt = repo.createdAt;
+const pushedAt = repo.pushedAt;
+const forks = repo.forks;
+const testRatio = repo.testRatio;
+const configScore = repo.configScore;
+const antiPatterns = repo.antiPatterns;
+const sizeCategory = repo.sizeCategory;
+const languageBreakdown = repo.languages ?? [];
+const analyzedAt = repo.analyzedAt;
 
 function formatDate(iso: string | undefined): string {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+function formatShortDate(iso: string | undefined): string {
   if (!iso) return '';
   const d = new Date(iso);
   return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
@@ -123,9 +126,11 @@ const langColors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4
             <span style={`padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; ${sizeBadgeColors[sizeCategory] ?? ''}`}>{sizeCategory}</span>
           )}
           {repo.language && <span style="color: var(--color-text-secondary);">{repo.language}</span>}
-          <span style="color: var(--color-text-muted); font-variant-numeric: tabular-nums;">
-            {repo.stars >= 1000 ? (repo.stars / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : repo.stars} stars
-          </span>
+          {repo.stars !== null && repo.stars !== undefined && (
+            <span style="color: var(--color-text-muted); font-variant-numeric: tabular-nums;">
+              {repo.stars >= 1000 ? (repo.stars / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : repo.stars} stars
+            </span>
+          )}
           {forks !== undefined && (
             <span style="color: var(--color-text-muted); font-variant-numeric: tabular-nums;">
               {forks >= 1000 ? (forks / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : forks} forks
@@ -134,7 +139,7 @@ const langColors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4
         </div>
         {(createdAt || pushedAt) && (
           <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 6px;">
-            {createdAt && <span>Created {formatDate(createdAt)}</span>}
+            {createdAt && <span>Created {formatShortDate(createdAt)}</span>}
             {createdAt && pushedAt && <span style="margin: 0 4px;">&middot;</span>}
             {pushedAt && <span>last pushed {timeAgo(pushedAt)}</span>}
           </div>
@@ -156,6 +161,22 @@ const langColors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4
       </div>
     </div>
   </div>
+
+  <!-- Scan date -->
+  {analyzedAt && (
+    <div style="font-size: 13px; color: var(--color-text-muted); margin-bottom: 16px;">
+      Last analyzed: {formatDate(analyzedAt)}
+    </div>
+  )}
+
+  <!-- Metadata row -->
+  {(createdAt || pushedAt || sizeCategory) && (
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--color-text-secondary); margin-bottom: 24px;">
+      {createdAt && <span>Created: {formatDate(createdAt)}</span>}
+      {pushedAt && <span>Last pushed: {formatDate(pushedAt)}</span>}
+      {sizeCategory && <span>Size: {sizeCategory}</span>}
+    </div>
+  )}
 
   <!-- Analytics cards row -->
   {(testRatio !== undefined || configScore !== undefined || antiPatterns !== undefined || languageBreakdown.length > 1) && (
@@ -220,88 +241,35 @@ const langColors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4
     </section>
   )}
 
-  <!-- Tree analytics stats row -->
-  {treeAnalytics && (
-    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px;">
-      {treeAnalytics.fileCount !== undefined && (
-        <div class="card" style="padding: 10px 16px; text-align: center; flex: 1; min-width: 90px;">
-          <div style="font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{treeAnalytics.fileCount.toLocaleString()}</div>
-          <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 2px;">files</div>
-        </div>
-      )}
-      {treeAnalytics.directoryCount !== undefined && (
-        <div class="card" style="padding: 10px 16px; text-align: center; flex: 1; min-width: 90px;">
-          <div style="font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{treeAnalytics.directoryCount.toLocaleString()}</div>
-          <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 2px;">dirs</div>
-        </div>
-      )}
-      {treeAnalytics.maxDepth !== undefined && (
-        <div class="card" style="padding: 10px 16px; text-align: center; flex: 1; min-width: 90px;">
-          <div style="font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{treeAnalytics.maxDepth}</div>
-          <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 2px;">depth</div>
-        </div>
-      )}
-      {treeAnalytics.testToSourceRatio !== undefined && (
-        <div class="card" style="padding: 10px 16px; text-align: center; flex: 1; min-width: 90px;">
-          <div style="font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{treeAnalytics.testToSourceRatio.toFixed(2)}</div>
-          <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 2px;">test ratio</div>
-        </div>
-      )}
-      {treeAnalytics.configScore !== undefined && (
-        <div class="card" style="padding: 10px 16px; text-align: center; flex: 1; min-width: 90px;">
-          <div style="font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{treeAnalytics.configScore}/10</div>
-          <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 2px;">config</div>
-        </div>
-      )}
-      {treeAnalytics.antiPatternCount !== undefined && (
-        <div class="card" style="padding: 10px 16px; text-align: center; flex: 1; min-width: 90px;">
-          <div style={`font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; color: ${treeAnalytics.antiPatternCount > 0 ? 'var(--color-grade-f)' : 'var(--color-grade-a)'};`}>{treeAnalytics.antiPatternCount}</div>
-          <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 2px;">anti-patterns</div>
-        </div>
-      )}
-    </div>
-  )}
-
-  <!-- Insights -->
-  {insights.length > 0 && (
-    <section class="card" style="margin-bottom: 24px;">
-      <h2 class="section-heading">Insights</h2>
-      <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;">
-        {insights.map((i) => (
-          <div style="display: flex; align-items: start; gap: 10px; font-size: 13px; padding: 6px 0; border-bottom: 1px solid var(--color-border);">
-            <span style={`font-size: 14px; font-weight: 700; min-width: 16px; color: ${i.category === 'positive' ? 'var(--color-grade-a)' : i.category === 'warning' ? 'var(--color-grade-b)' : 'var(--color-grade-f)'};`}>
-              {i.category === 'positive' ? '\u2713' : i.category === 'warning' ? '\u26a0' : '\u2717'}
-            </span>
-            <span style="color: var(--color-text); line-height: 1.4;">{i.text}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-  )}
-
-  <!-- Findings -->
+  <!-- Detailed findings -->
   {showFindings && (
     <section class="card" style="margin-bottom: 24px;">
-      <h2 class="section-heading">Findings</h2>
+      <h2 class="section-heading">Detailed Findings</h2>
       <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 16px;">
         {dims.map((dim) => (
-          <div>
-            <h3 style="font-size: 12px; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px;">{dim.name}</h3>
-            {(dim.findings ?? []).map((f) => (
-              <div style="display: flex; align-items: start; gap: 8px; font-size: 13px; padding: 4px 0;">
-                <span style={`font-size: 11px; color: ${f.passed ? 'var(--color-grade-a)' : 'var(--color-grade-f)'};`}>
-                  {f.passed ? '\u2713' : '\u2717'}
-                </span>
-                <span style="font-weight: 500; color: var(--color-text);">{f.name}</span>
-                <span style="color: var(--color-text-muted); font-size: 12px;">{f.detail}</span>
-              </div>
-            ))}
-          </div>
+          <details>
+            <summary style="cursor: pointer; font-size: 13px; font-weight: 600; color: var(--color-text); padding: 4px 0; display: flex; align-items: center; gap: 8px;">
+              <span>{dim.name}</span>
+              <span style={`font-size: 12px; font-weight: 500; color: ${dimColor(dim.score)};`}>{dim.score}/100</span>
+            </summary>
+            <div style="padding: 8px 0 0 16px;">
+              {(dim.findings ?? []).map((f) => (
+                <div style="display: flex; align-items: start; gap: 8px; font-size: 13px; padding: 4px 0;">
+                  <span style={`font-size: 11px; color: ${f.passed ? 'var(--color-grade-a)' : 'var(--color-grade-f)'};`}>
+                    {f.passed ? '\u2713' : '\u2717'}
+                  </span>
+                  <span style="font-weight: 500; color: var(--color-text);">{f.name}</span>
+                  <span style="color: var(--color-text-muted); font-size: 12px;">{f.detail}</span>
+                </div>
+              ))}
+            </div>
+          </details>
         ))}
       </div>
     </section>
   )}
 
+  <!-- External links -->
   <div style="display: flex; flex-wrap: wrap; gap: 12px;">
     <a href={`https://github.com/${repo.slug}`} target="_blank" rel="noopener noreferrer" class="card" style="padding: 10px 16px; font-size: 13px; display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--color-text);">View on GitHub</a>
     <a href={`https://scorecard.dev/viewer/?uri=github.com/${repo.slug}`} target="_blank" rel="noopener noreferrer" class="card" style="padding: 10px 16px; font-size: 13px; display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--color-text);">OpenSSF Scorecard</a>
