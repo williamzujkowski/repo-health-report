@@ -1,0 +1,670 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LollipopChart from '../components/charts/LollipopChart.astro';
+
+import summary from '../../../data/dashboard/summary.json';
+
+const dimAverages = summary.dimensionAverages as Record<string, number>;
+
+function dimColor(s: number): string {
+  if (s >= 70) return 'var(--color-grade-a)';
+  if (s >= 55) return 'var(--color-grade-b)';
+  if (s >= 40) return 'var(--color-grade-c)';
+  return 'var(--color-grade-f)';
+}
+
+const dimLollipop = Object.entries(dimAverages)
+  .sort(([, a], [, b]) => a - b)
+  .map(([dim, score]) => ({
+    label: dim,
+    value: score,
+    color: dimColor(score),
+  }));
+---
+
+<BaseLayout title="Methodology" description="How we measure repository health: scoring formula, dimensions, weights, and limitations">
+  <!-- Header -->
+  <div style="margin-bottom: 32px;">
+    <h1 style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 8px; color: var(--color-text);">
+      Methodology
+    </h1>
+    <p style="font-size: 14px; color: var(--color-text-muted); margin: 0;">
+      How we compute health scores for {summary.totalRepos.toLocaleString()} repositories, and why.
+    </p>
+  </div>
+
+  <!-- Dimension averages lollipop -->
+  <section class="card" style="margin-bottom: 32px;">
+    <h2 style="font-size: 16px; font-weight: 600; margin: 0 0 4px; color: var(--color-text);">
+      Current dimension averages
+    </h2>
+    <p class="chart-annotation" style="margin-bottom: 16px;">
+      Across {summary.totalRepos.toLocaleString()} repositories. Security and Maintenance are consistently the weakest areas.
+    </p>
+    <LollipopChart data={dimLollipop} maxValue={100} />
+  </section>
+
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+
+    <!-- 1. Philosophy -->
+    <section class="card" id="philosophy">
+      <h2 style="font-size: 18px; font-weight: 600; margin: 0 0 12px; color: var(--color-text);">
+        1. Philosophy
+      </h2>
+      <p class="chart-annotation" style="margin-bottom: 12px;">
+        We measure repository health <strong>practices</strong>, not code quality.
+      </p>
+      <p class="chart-annotation" style="margin-bottom: 12px;">
+        A repo with excellent code but no CI, no security policy, and no tests scores poorly.
+        A repo with boilerplate code but proper CI, documentation, and security practices scores well.
+        This is intentional. Practices are observable, automatable, and actionable. Code quality is subjective,
+        requires deep analysis, and varies by domain.
+      </p>
+      <div style="background: var(--color-surface-alt); border: 1px solid var(--color-border); border-left: 3px solid var(--color-grade-c); border-radius: 4px; padding: 16px 20px; margin-top: 12px;">
+        <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.6;">
+          <strong style="color: var(--color-text);">Important disclaimer:</strong>
+          Presence of a file does not guarantee quality. An empty SECURITY.md passes the security policy check.
+          A CI workflow that never runs green still counts as "CI detected." We measure whether the practice
+          <em>exists</em>, not how well it is implemented. This is a known limitation we accept in exchange for
+          being able to score thousands of repos without cloning them.
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. The Six Dimensions -->
+    <section class="card" id="dimensions">
+      <h2 style="font-size: 18px; font-weight: 600; margin: 0 0 16px; color: var(--color-text);">
+        2. The six dimensions
+      </h2>
+
+      <!-- Security -->
+      <div style="border: 1px solid var(--color-border); border-radius: 8px; padding: 20px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <h3 style="font-size: 16px; font-weight: 600; margin: 0; color: var(--color-text);">
+            Security
+          </h3>
+          <span style="font-size: 13px; font-weight: 600; color: var(--color-grade-f); font-variant-numeric: tabular-nums;">
+            avg {dimAverages['Security']}/100
+          </span>
+        </div>
+        <p class="chart-annotation" style="margin-bottom: 12px;">
+          <strong>Why it matters:</strong> Software supply chain attacks increased 742% between 2019 and 2022
+          (<a href="https://www.sonatype.com/state-of-the-software-supply-chain/introduction" style="color: var(--color-accent);">Sonatype State of the Software Supply Chain</a>).
+          A security policy and pinned dependencies are baseline defenses that cost minutes to implement but
+          signal that maintainers take vulnerability disclosure seriously.
+        </p>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--color-border);">
+                <th style="text-align: left; padding: 6px 12px 6px 0; color: var(--color-text-muted); font-weight: 500;">Check</th>
+                <th style="text-align: right; padding: 6px 0 6px 12px; color: var(--color-text-muted); font-weight: 500; width: 60px;">Weight</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">SECURITY.md with contact info and disclosure process</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">25</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">GitHub Actions pinned to full commit SHAs</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">15</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Dependency update automation (Dependabot/Renovate)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">15</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Explicit token permissions in workflows</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">10</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">No committed .env files</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">10</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">.gitignore present</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">10</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">CI workflows detected (branch protection proxy)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">10</td></tr>
+              <tr><td style="padding: 6px 12px 6px 0;">CODEOWNERS / OWNERS / MAINTAINERS file</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">5</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Testing -->
+      <div style="border: 1px solid var(--color-border); border-radius: 8px; padding: 20px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <h3 style="font-size: 16px; font-weight: 600; margin: 0; color: var(--color-text);">
+            Testing
+          </h3>
+          <span style="font-size: 13px; font-weight: 600; color: var(--color-grade-f); font-variant-numeric: tabular-nums;">
+            avg {dimAverages['Testing']}/100
+          </span>
+        </div>
+        <p class="chart-annotation" style="margin-bottom: 12px;">
+          <strong>Why it matters:</strong> Google's DORA research shows teams with robust testing deploy 46x more frequently
+          with 7x lower change failure rates
+          (<a href="https://dora.dev/research/" style="color: var(--color-accent);">Accelerate: State of DevOps</a>).
+          Testing infrastructure is the foundation of deployment confidence.
+        </p>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--color-border);">
+                <th style="text-align: left; padding: 6px 12px 6px 0; color: var(--color-text-muted); font-weight: 500;">Check</th>
+                <th style="text-align: right; padding: 6px 0 6px 12px; color: var(--color-text-muted); font-weight: 500; width: 60px;">Weight</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">CI workflows detected</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">25</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Test files present (__tests__, .test., .spec., tests/)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">25</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Coverage configuration (nyc, jest, vitest, codecov)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">20</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Test runner configured (package.json scripts, pytest, cargo)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">15</td></tr>
+              <tr><td style="padding: 6px 12px 6px 0;">Pre-commit hooks (Husky, pre-commit-config)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">5</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 12px; color: var(--color-text-muted); margin: 8px 0 0; line-height: 1.5;">
+          IaC projects check for Terratest, kitchen-terraform, and InSpec instead. Documentation projects check for markdown linting and link checking.
+        </p>
+      </div>
+
+      <!-- Documentation -->
+      <div style="border: 1px solid var(--color-border); border-radius: 8px; padding: 20px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <h3 style="font-size: 16px; font-weight: 600; margin: 0; color: var(--color-text);">
+            Documentation
+          </h3>
+          <span style="font-size: 13px; font-weight: 600; color: var(--color-grade-c); font-variant-numeric: tabular-nums;">
+            avg {dimAverages['Documentation']}/100
+          </span>
+        </div>
+        <p class="chart-annotation" style="margin-bottom: 12px;">
+          <strong>Why it matters:</strong> A project without documentation is a project without users.
+          GitHub's 2023 Open Source Survey found that incomplete or confusing documentation is the single
+          largest barrier to open source participation. README quality directly correlates with adoption and contribution rates.
+        </p>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--color-border);">
+                <th style="text-align: left; padding: 6px 12px 6px 0; color: var(--color-text-muted); font-weight: 500;">Check</th>
+                <th style="text-align: right; padding: 6px 0 6px 12px; color: var(--color-text-muted); font-weight: 500; width: 60px;">Weight</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">README exists and is &gt;500 characters</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">30</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">LICENSE file present</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">20</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">CONTRIBUTING guide</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">15</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">CHANGELOG / CHANGES / HISTORY</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">15</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Documentation directory (docs/) or API docs</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">10</td></tr>
+              <tr><td style="padding: 6px 12px 6px 0;">Repository description set</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">10</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Architecture -->
+      <div style="border: 1px solid var(--color-border); border-radius: 8px; padding: 20px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <h3 style="font-size: 16px; font-weight: 600; margin: 0; color: var(--color-text);">
+            Architecture
+          </h3>
+          <span style="font-size: 13px; font-weight: 600; color: var(--color-grade-c); font-variant-numeric: tabular-nums;">
+            avg {dimAverages['Architecture']}/100
+          </span>
+        </div>
+        <p class="chart-annotation" style="margin-bottom: 12px;">
+          <strong>Why it matters:</strong> Consistent tooling (linters, formatters, type checkers) reduces defect introduction rates.
+          A 2022 study in IEEE TSE found that projects using static analysis tools had 20-30% fewer post-release defects.
+          We check for language-appropriate tooling across 9 language profiles.
+        </p>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--color-border);">
+                <th style="text-align: left; padding: 6px 12px 6px 0; color: var(--color-text-muted); font-weight: 500;">Check</th>
+                <th style="text-align: right; padding: 6px 0 6px 12px; color: var(--color-text-muted); font-weight: 500; width: 60px;">Weight</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Type safety (tsconfig, mypy, built-in type system)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">20</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Linter (ESLint, Biome, ruff, golangci-lint, Clippy)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">20</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Organized source structure (src/, lib/, cmd/)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">20</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Code formatter (Prettier, black, gofmt, rustfmt)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">15</td></tr>
+              <tr><td style="padding: 6px 12px 6px 0;">Build configuration (tsconfig, Cargo.toml, Makefile)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">10</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 12px; color: var(--color-text-muted); margin: 8px 0 0; line-height: 1.5;">
+          Language profiles: TypeScript, JavaScript, Python, Go, Rust, Java, Shell, C/C++, Ruby, plus a generic fallback. IaC projects check tflint, terraform fmt, and module conventions instead.
+        </p>
+      </div>
+
+      <!-- DevOps -->
+      <div style="border: 1px solid var(--color-border); border-radius: 8px; padding: 20px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <h3 style="font-size: 16px; font-weight: 600; margin: 0; color: var(--color-text);">
+            DevOps
+          </h3>
+          <span style="font-size: 13px; font-weight: 600; color: var(--color-grade-f); font-variant-numeric: tabular-nums;">
+            avg {dimAverages['DevOps']}/100
+          </span>
+        </div>
+        <p class="chart-annotation" style="margin-bottom: 12px;">
+          <strong>Why it matters:</strong> CI/CD automation is the foundation of reliable software delivery. DORA metrics
+          consistently show that elite-performing teams have fully automated deployment pipelines. We detect 12 CI/CD systems
+          to avoid penalizing projects that use non-GitHub CI.
+        </p>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--color-border);">
+                <th style="text-align: left; padding: 6px 12px 6px 0; color: var(--color-text-muted); font-weight: 500;">Check</th>
+                <th style="text-align: right; padding: 6px 0 6px 12px; color: var(--color-text-muted); font-weight: 500; width: 60px;">Weight</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">CI/CD pipeline (GitHub Actions, GitLab CI, CircleCI, Jenkins, etc.)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">30</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Container support (Dockerfile, docker-compose)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">20</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Release automation (semantic-release, changesets)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">20</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Issue/PR templates</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">15</td></tr>
+              <tr><td style="padding: 6px 12px 6px 0;">Deployment/infrastructure config (Terraform, k8s, Helm)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">5</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Maintenance -->
+      <div style="border: 1px solid var(--color-border); border-radius: 8px; padding: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <h3 style="font-size: 16px; font-weight: 600; margin: 0; color: var(--color-text);">
+            Maintenance
+          </h3>
+          <span style="font-size: 13px; font-weight: 600; color: var(--color-grade-f); font-variant-numeric: tabular-nums;">
+            avg {dimAverages['Maintenance']}/100
+          </span>
+        </div>
+        <p class="chart-annotation" style="margin-bottom: 12px;">
+          <strong>Why it matters:</strong> An unmaintained dependency is a ticking time bomb. The Heartbleed
+          vulnerability persisted for 2 years in OpenSSL partly because of insufficient maintenance resources.
+          Bus factor and funding signal whether a project can sustain itself beyond a single contributor.
+        </p>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--color-border);">
+                <th style="text-align: left; padding: 6px 12px 6px 0; color: var(--color-text-muted); font-weight: 500;">Check</th>
+                <th style="text-align: right; padding: 6px 0 6px 12px; color: var(--color-text-muted); font-weight: 500; width: 60px;">Weight</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Last commit within 30 days (full) or 90 days (partial)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">30</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Latest release/tag within 180 days</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">20</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Bus factor (4+ contributors with &gt;5% of commits)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">20</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Median open issue age under 90 days</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">15</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">FUNDING.yml present (not penalized if absent)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">10*</td></tr>
+              <tr><td style="padding: 6px 12px 6px 0;">10+ stars (community interest signal)</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">5</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 12px; color: var(--color-text-muted); margin: 8px 0 0; line-height: 1.5;">
+          *Funding weight is 0 if absent -- repos are not penalized for missing FUNDING.yml.
+          The "Recent releases" check also detects release hygiene gaps (old releases + recent commits) and repos that have never published a release.
+        </p>
+      </div>
+    </section>
+
+    <!-- 3. How Scoring Works -->
+    <section class="card" id="scoring">
+      <h2 style="font-size: 18px; font-weight: 600; margin: 0 0 12px; color: var(--color-text);">
+        3. How scoring works
+      </h2>
+      <p class="chart-annotation" style="margin-bottom: 12px;">
+        Each dimension score is the percentage of check weights earned. The overall score is a weighted average across dimensions,
+        with weights determined by the detected project type.
+      </p>
+      <div style="background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: 8px; padding: 20px; margin-bottom: 16px; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.8; color: var(--color-text); overflow-x: auto;">
+        <div>dimension_score = earned_weight / total_weight * 100</div>
+        <div style="margin-top: 4px;">overall = sum(dimension_score * type_weight) / sum(type_weight)</div>
+      </div>
+      <p class="chart-annotation" style="margin-bottom: 12px;">
+        <strong>Worked example</strong> -- a hypothetical application-type repo with equal weights:
+      </p>
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--color-border);">
+              <th style="text-align: left; padding: 6px 12px 6px 0; color: var(--color-text-muted); font-weight: 500;">Dimension</th>
+              <th style="text-align: right; padding: 6px 12px; color: var(--color-text-muted); font-weight: 500;">Score</th>
+              <th style="text-align: right; padding: 6px 12px; color: var(--color-text-muted); font-weight: 500;">Weight</th>
+              <th style="text-align: right; padding: 6px 0 6px 12px; color: var(--color-text-muted); font-weight: 500;">Contribution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Security</td><td style="text-align: right; padding: 6px 12px; font-variant-numeric: tabular-nums;">70</td><td style="text-align: right; padding: 6px 12px; font-variant-numeric: tabular-nums;">1.0</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums;">70</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Testing</td><td style="text-align: right; padding: 6px 12px; font-variant-numeric: tabular-nums;">100</td><td style="text-align: right; padding: 6px 12px; font-variant-numeric: tabular-nums;">1.0</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums;">100</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Documentation</td><td style="text-align: right; padding: 6px 12px; font-variant-numeric: tabular-nums;">85</td><td style="text-align: right; padding: 6px 12px; font-variant-numeric: tabular-nums;">1.0</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums;">85</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Architecture</td><td style="text-align: right; padding: 6px 12px; font-variant-numeric: tabular-nums;">100</td><td style="text-align: right; padding: 6px 12px; font-variant-numeric: tabular-nums;">1.0</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums;">100</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">DevOps</td><td style="text-align: right; padding: 6px 12px; font-variant-numeric: tabular-nums;">50</td><td style="text-align: right; padding: 6px 12px; font-variant-numeric: tabular-nums;">1.0</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums;">50</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 6px 12px 6px 0;">Maintenance</td><td style="text-align: right; padding: 6px 12px; font-variant-numeric: tabular-nums;">83</td><td style="text-align: right; padding: 6px 12px; font-variant-numeric: tabular-nums;">1.0</td><td style="text-align: right; padding: 6px 0 6px 12px; font-variant-numeric: tabular-nums;">83</td></tr>
+          </tbody>
+          <tfoot>
+            <tr style="border-top: 2px solid var(--color-border);">
+              <td style="padding: 8px 12px 6px 0; font-weight: 600;">Total</td>
+              <td colspan="2" style="text-align: right; padding: 8px 12px; font-variant-numeric: tabular-nums; font-weight: 600;">488 / 6.0</td>
+              <td style="text-align: right; padding: 8px 0 6px 12px; font-variant-numeric: tabular-nums; font-weight: 700; color: var(--color-grade-b);">= 81 (B)</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div style="margin-top: 16px;">
+        <p class="chart-annotation" style="margin-bottom: 8px;"><strong>Grade scale:</strong></p>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <span class="grade-pill grade-A">A: 90+</span>
+          <span class="grade-pill grade-B">B: 80-89</span>
+          <span class="grade-pill grade-C">C: 70-79</span>
+          <span class="grade-pill grade-D">D: 60-69</span>
+          <span class="grade-pill grade-F">F: &lt;60</span>
+          <span class="grade-pill grade-NA">N/A: docs &amp; mirrors</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Project Type Weights -->
+    <section class="card" id="weights">
+      <h2 style="font-size: 18px; font-weight: 600; margin: 0 0 12px; color: var(--color-text);">
+        4. Project type weights
+      </h2>
+      <p class="chart-annotation" style="margin-bottom: 16px;">
+        Different project types have different priorities. An IaC repo needs strong security practices (1.5x weight) because misconfigurations
+        deploy directly to production. A library needs excellent documentation (1.5x) because adoption depends on it. A mirror repo
+        has minimal expectations across the board.
+      </p>
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--color-border);">
+              <th style="text-align: left; padding: 6px 8px 6px 0; color: var(--color-text-muted); font-weight: 500;">Dimension</th>
+              <th style="text-align: right; padding: 6px 8px; color: var(--color-text-muted); font-weight: 500;">App</th>
+              <th style="text-align: right; padding: 6px 8px; color: var(--color-text-muted); font-weight: 500;">Library</th>
+              <th style="text-align: right; padding: 6px 8px; color: var(--color-text-muted); font-weight: 500;">IaC</th>
+              <th style="text-align: right; padding: 6px 8px; color: var(--color-text-muted); font-weight: 500;">Hybrid</th>
+              <th style="text-align: right; padding: 6px 8px; color: var(--color-text-muted); font-weight: 500;">Docs</th>
+              <th style="text-align: right; padding: 6px 8px; color: var(--color-text-muted); font-weight: 500;">Runtime</th>
+              <th style="text-align: right; padding: 6px 0 6px 8px; color: var(--color-text-muted); font-weight: 500;">Mirror</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--color-border);">
+              <td style="padding: 6px 8px 6px 0; font-weight: 500;">Security</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">1.0</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">0.8</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--color-accent);">1.5</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">1.2</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; color: var(--color-text-muted);">0.3</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">0.5</td>
+              <td style="text-align: right; padding: 6px 0 6px 8px; font-variant-numeric: tabular-nums; color: var(--color-text-muted);">0.3</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-border);">
+              <td style="padding: 6px 8px 6px 0; font-weight: 500;">Testing</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">1.0</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--color-accent);">1.2</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">0.8</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">1.0</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; color: var(--color-text-muted);">0.5</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">0.8</td>
+              <td style="text-align: right; padding: 6px 0 6px 8px; font-variant-numeric: tabular-nums; color: var(--color-text-muted);">0.5</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-border);">
+              <td style="padding: 6px 8px 6px 0; font-weight: 500;">Documentation</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">1.0</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--color-accent);">1.5</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">1.0</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">1.0</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--color-accent);">2.0</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--color-accent);">1.5</td>
+              <td style="text-align: right; padding: 6px 0 6px 8px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--color-accent);">1.5</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-border);">
+              <td style="padding: 6px 8px 6px 0; font-weight: 500;">Architecture</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">1.0</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">1.0</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--color-accent);">1.5</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">1.2</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--color-accent);">1.5</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; color: var(--color-text-muted);">0.5</td>
+              <td style="text-align: right; padding: 6px 0 6px 8px; font-variant-numeric: tabular-nums; color: var(--color-text-muted);">0.5</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-border);">
+              <td style="padding: 6px 8px 6px 0; font-weight: 500;">DevOps</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">1.0</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; color: var(--color-text-muted);">0.5</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">0.8</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">1.0</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; color: var(--color-text-muted);">0.5</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; color: var(--color-text-muted);">0.5</td>
+              <td style="text-align: right; padding: 6px 0 6px 8px; font-variant-numeric: tabular-nums; color: var(--color-text-muted);">0.2</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 8px 6px 0; font-weight: 500;">Maintenance</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">1.0</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">1.0</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">0.8</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums;">0.8</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; color: var(--color-text-muted);">0.5</td>
+              <td style="text-align: right; padding: 6px 8px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--color-accent);">1.5</td>
+              <td style="text-align: right; padding: 6px 0 6px 8px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--color-accent);">1.5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 12px; color: var(--color-text-muted); margin: 12px 0 0; line-height: 1.5;">
+        Highlighted values (accented) indicate the most influential weight for that project type. Documentation and mirror repos receive numeric scores but are not assigned letter grades (shown as N/A).
+      </p>
+    </section>
+
+    <!-- 5. What We Don't Measure -->
+    <section class="card" id="limitations">
+      <h2 style="font-size: 18px; font-weight: 600; margin: 0 0 12px; color: var(--color-text);">
+        5. What we don't measure
+      </h2>
+      <p class="chart-annotation" style="margin-bottom: 16px;">
+        Transparency about limitations is more useful than pretending they don't exist. Here is what this report cannot tell you.
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="border-left: 3px solid var(--color-grade-c); padding: 8px 16px;">
+          <p style="font-size: 13px; color: var(--color-text); margin: 0 0 2px; font-weight: 500;">Code quality</p>
+          <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">Cyclomatic complexity, code duplication, and tech debt require cloning the repository. We only use the GitHub API and tree endpoints.</p>
+        </div>
+        <div style="border-left: 3px solid var(--color-grade-c); padding: 8px 16px;">
+          <p style="font-size: 13px; color: var(--color-text); margin: 0 0 2px; font-weight: 500;">CI pass rate</p>
+          <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">We detect whether CI exists, not whether it consistently passes. A repo with a perpetually red CI pipeline scores the same as one with all-green checks.</p>
+        </div>
+        <div style="border-left: 3px solid var(--color-grade-c); padding: 8px 16px;">
+          <p style="font-size: 13px; color: var(--color-text); margin: 0 0 2px; font-weight: 500;">Dependency vulnerability depth</p>
+          <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">We check deps.dev for the main package but do not perform transitive dependency vulnerability analysis.</p>
+        </div>
+        <div style="border-left: 3px solid var(--color-grade-c); padding: 8px 16px;">
+          <p style="font-size: 13px; color: var(--color-text); margin: 0 0 2px; font-weight: 500;">Community health beyond metrics</p>
+          <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">We measure issue age and PR responsiveness, not response quality, maintainer tone, or contributor sentiment.</p>
+        </div>
+        <div style="border-left: 3px solid var(--color-grade-c); padding: 8px 16px;">
+          <p style="font-size: 13px; color: var(--color-text); margin: 0 0 2px; font-weight: 500;">GitHub-centric bias</p>
+          <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">Repos using Concourse, Buildkite, or other non-standard CI systems may score lower on some DevOps checks. We detect 12 CI systems, but the long tail is vast.</p>
+        </div>
+        <div style="border-left: 3px solid var(--color-grade-c); padding: 8px 16px;">
+          <p style="font-size: 13px; color: var(--color-text); margin: 0 0 2px; font-weight: 500;">File quality vs. file presence</p>
+          <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">An empty SECURITY.md passes the security policy check. A one-line CONTRIBUTING.md passes the contribution guide check. We verify existence, not substance.</p>
+        </div>
+        <div style="border-left: 3px solid var(--color-grade-c); padding: 8px 16px;">
+          <p style="font-size: 13px; color: var(--color-text); margin: 0 0 2px; font-weight: 500;">Popularity</p>
+          <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">Stars carry only 5 points in the maintenance dimension. A project with 100k stars and no CI scores lower than a 10-star project with proper practices. This is intentional.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Comparison to Other Frameworks -->
+    <section class="card" id="comparison">
+      <h2 style="font-size: 18px; font-weight: 600; margin: 0 0 12px; color: var(--color-text);">
+        6. Comparison to other frameworks
+      </h2>
+      <p class="chart-annotation" style="margin-bottom: 16px;">
+        Several frameworks measure open source project health. We overlap with each but differ in scope and approach.
+      </p>
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--color-border);">
+              <th style="text-align: left; padding: 6px 12px 6px 0; color: var(--color-text-muted); font-weight: 500;">Framework</th>
+              <th style="text-align: left; padding: 6px 12px; color: var(--color-text-muted); font-weight: 500;">Focus</th>
+              <th style="text-align: left; padding: 6px 0 6px 12px; color: var(--color-text-muted); font-weight: 500;">Our overlap</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--color-border);">
+              <td style="padding: 8px 12px 8px 0; font-weight: 500;"><a href="https://securityscorecards.dev/" style="color: var(--color-accent);">OpenSSF Scorecard</a></td>
+              <td style="padding: 8px 12px; color: var(--color-text-secondary);">Security (20 checks)</td>
+              <td style="padding: 8px 0 8px 12px; color: var(--color-text-secondary);">We implement 5 Scorecard-inspired checks: pinned deps, token permissions, branch protection (proxy), dependency updates, and security policy.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-border);">
+              <td style="padding: 8px 12px 8px 0; font-weight: 500;"><a href="https://chaoss.community/" style="color: var(--color-accent);">CHAOSS</a></td>
+              <td style="padding: 8px 12px; color: var(--color-text-secondary);">Community (89 metrics)</td>
+              <td style="padding: 8px 0 8px 12px; color: var(--color-text-secondary);">We implement bus factor, issue freshness, and PR responsiveness. CHAOSS covers contributor diversity, event attendance, and organizational participation that we do not attempt.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-border);">
+              <td style="padding: 8px 12px 8px 0; font-weight: 500;"><a href="https://www.bestpractices.dev/" style="color: var(--color-accent);">CII Best Practices</a></td>
+              <td style="padding: 8px 12px; color: var(--color-text-secondary);">Maturity (67 criteria)</td>
+              <td style="padding: 8px 0 8px 12px; color: var(--color-text-secondary);">We check roughly 30 of the Passing-level criteria. CII requires self-attestation; we infer from repo metadata.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 12px 8px 0; font-weight: 500;"><a href="https://libraries.io/sourcerank" style="color: var(--color-accent);">Libraries.io SourceRank</a></td>
+              <td style="padding: 8px 12px; color: var(--color-text-secondary);">Adoption (15 factors)</td>
+              <td style="padding: 8px 0 8px 12px; color: var(--color-text-secondary);">We check dependent count via deps.dev and stars. SourceRank also factors in download counts, reverse dependencies, and package manager presence.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 7. How to Improve Your Score -->
+    <section class="card" id="improve">
+      <h2 style="font-size: 18px; font-weight: 600; margin: 0 0 12px; color: var(--color-text);">
+        7. How to improve your score
+      </h2>
+      <p class="chart-annotation" style="margin-bottom: 16px;">
+        Quick wins per dimension, ranked roughly by effort (lowest first).
+      </p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+        <div style="border: 1px solid var(--color-border); border-radius: 8px; padding: 16px;">
+          <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 8px; color: var(--color-text);">Security</h3>
+          <ul style="margin: 0; padding: 0 0 0 16px; font-size: 13px; color: var(--color-text-secondary); line-height: 1.8;">
+            <li>Add a SECURITY.md with a disclosure email</li>
+            <li>Enable Dependabot or Renovate</li>
+            <li>Pin GitHub Actions to full SHA hashes</li>
+            <li>Add <code style="font-size: 12px; background: var(--color-surface-alt); padding: 1px 4px; border-radius: 3px;">permissions: read-all</code> to workflows</li>
+          </ul>
+        </div>
+        <div style="border: 1px solid var(--color-border); border-radius: 8px; padding: 16px;">
+          <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 8px; color: var(--color-text);">Testing</h3>
+          <ul style="margin: 0; padding: 0 0 0 16px; font-size: 13px; color: var(--color-text-secondary); line-height: 1.8;">
+            <li>Add a CI workflow that runs on push/PR</li>
+            <li>Add at least one test file in a <code style="font-size: 12px; background: var(--color-surface-alt); padding: 1px 4px; border-radius: 3px;">tests/</code> directory</li>
+            <li>Configure a coverage tool (codecov, coveralls)</li>
+            <li>Add a test script to package.json / Makefile</li>
+          </ul>
+        </div>
+        <div style="border: 1px solid var(--color-border); border-radius: 8px; padding: 16px;">
+          <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 8px; color: var(--color-text);">Documentation</h3>
+          <ul style="margin: 0; padding: 0 0 0 16px; font-size: 13px; color: var(--color-text-secondary); line-height: 1.8;">
+            <li>Write a README longer than 500 characters</li>
+            <li>Add a LICENSE file</li>
+            <li>Add a CONTRIBUTING.md with setup instructions</li>
+            <li>Set a repository description on GitHub</li>
+          </ul>
+        </div>
+        <div style="border: 1px solid var(--color-border); border-radius: 8px; padding: 16px;">
+          <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 8px; color: var(--color-text);">Architecture</h3>
+          <ul style="margin: 0; padding: 0 0 0 16px; font-size: 13px; color: var(--color-text-secondary); line-height: 1.8;">
+            <li>Add a linter config for your language</li>
+            <li>Add a code formatter (Prettier, black, rustfmt)</li>
+            <li>Organize source code into <code style="font-size: 12px; background: var(--color-surface-alt); padding: 1px 4px; border-radius: 3px;">src/</code> or <code style="font-size: 12px; background: var(--color-surface-alt); padding: 1px 4px; border-radius: 3px;">lib/</code></li>
+            <li>Enable type checking (tsconfig strict, mypy)</li>
+          </ul>
+        </div>
+        <div style="border: 1px solid var(--color-border); border-radius: 8px; padding: 16px;">
+          <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 8px; color: var(--color-text);">DevOps</h3>
+          <ul style="margin: 0; padding: 0 0 0 16px; font-size: 13px; color: var(--color-text-secondary); line-height: 1.8;">
+            <li>Add a GitHub Actions CI workflow</li>
+            <li>Add issue and PR templates</li>
+            <li>Set up release automation (semantic-release, changesets)</li>
+            <li>Add a Dockerfile if the project is deployable</li>
+          </ul>
+        </div>
+        <div style="border: 1px solid var(--color-border); border-radius: 8px; padding: 16px;">
+          <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 8px; color: var(--color-text);">Maintenance</h3>
+          <ul style="margin: 0; padding: 0 0 0 16px; font-size: 13px; color: var(--color-text-secondary); line-height: 1.8;">
+            <li>Commit at least once every 90 days</li>
+            <li>Triage open issues (close stale ones)</li>
+            <li>Tag a release at least every 6 months</li>
+            <li>Diversify commit access (reduce bus factor risk)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. FAQ -->
+    <section class="card" id="faq">
+      <h2 style="font-size: 18px; font-weight: 600; margin: 0 0 16px; color: var(--color-text);">
+        8. FAQ
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div>
+          <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 4px; color: var(--color-text);">
+            "Why does my well-maintained repo score poorly?"
+          </h3>
+          <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.6;">
+            Probably missing security practices. Most developers focus on code quality and testing but skip SECURITY.md,
+            dependency pinning, and token permissions. These three checks alone account for 50 points in the Security dimension.
+            If your project uses non-GitHub CI (Jenkins, Buildkite, Concourse), it may also miss DevOps checks
+            even though your pipeline is solid.
+          </p>
+        </div>
+        <div style="border-top: 1px solid var(--color-border); padding-top: 16px;">
+          <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 4px; color: var(--color-text);">
+            "Why do awesome-lists and docs repos get N/A?"
+          </h3>
+          <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.6;">
+            Documentation-only repositories are not graded on code-centric metrics because the comparison would be meaningless.
+            They still receive dimension scores for the checks that apply, but no overall letter grade. Mirror repos are treated
+            the same way.
+          </p>
+        </div>
+        <div style="border-top: 1px solid var(--color-border); padding-top: 16px;">
+          <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 4px; color: var(--color-text);">
+            "Can I customize the weights?"
+          </h3>
+          <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.6;">
+            Not yet on the website. The CLI supports <code style="font-size: 12px; background: var(--color-surface-alt); padding: 1px 4px; border-radius: 3px;">--explain</code> to show the full scoring breakdown for any repository, including which weight profile was applied and how each check contributed. Custom weight profiles are on the roadmap.
+          </p>
+        </div>
+        <div style="border-top: 1px solid var(--color-border); padding-top: 16px;">
+          <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 4px; color: var(--color-text);">
+            "How often is the data updated?"
+          </h3>
+          <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.6;">
+            The site is regenerated periodically from fresh GitHub API data. Individual repo scores can shift between runs
+            based on recent commits, issue activity, and release cadence. The "last commit" and "issue freshness" checks
+            are time-sensitive by design.
+          </p>
+        </div>
+        <div style="border-top: 1px solid var(--color-border); padding-top: 16px;">
+          <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 4px; color: var(--color-text);">
+            "A check is wrong for my repo. What do I do?"
+          </h3>
+          <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.6;">
+            <a href="https://github.com/williamzujkowski/repo-health-report/issues" style="color: var(--color-accent);">Open an issue</a> with the repo name and the check you believe is incorrect. We regularly refine detection heuristics based on false positive and false negative reports.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About / source -->
+    <section style="background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: 8px; padding: 24px;">
+      <h2 style="font-size: 16px; font-weight: 600; margin: 0 0 8px; color: var(--color-text);">Source and reproduction</h2>
+      <p style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin: 0;">
+        The scoring logic is open source at
+        <a href="https://github.com/williamzujkowski/repo-health-report" style="color: var(--color-accent);">github.com/williamzujkowski/repo-health-report</a>.
+        Run <code style="font-size: 12px; background: var(--color-surface); padding: 1px 4px; border-radius: 3px;">repo-health-report owner/repo --explain</code>
+        to reproduce any score shown on this site. The <code style="font-size: 12px; background: var(--color-surface); padding: 1px 4px; border-radius: 3px;">SCORING.md</code> file in the repo root
+        is the canonical reference and is kept in sync with the scoring implementation.
+      </p>
+    </section>
+
+  </div>
+</BaseLayout>
