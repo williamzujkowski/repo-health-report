@@ -4,7 +4,7 @@
 [![npm version](https://img.shields.io/npm/v/repo-health-report)](https://www.npmjs.com/package/repo-health-report)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Analyze any GitHub repository's health across 5 dimensions and generate a color-coded terminal report with a markdown file.
+Analyze any GitHub repository's health across 6 dimensions and generate a color-coded terminal report with a markdown file.
 
 **Pure static analysis via the GitHub API. No AI APIs, no cloning, no secrets required.**
 
@@ -97,7 +97,7 @@ A markdown report (`health-report.md`) is also written with a full findings tabl
 
 1. **Fetch metadata** — pulls repo info (description, default branch, license) via `gh api`.
 2. **Fetch file tree** — gets a flat list of all paths in the repo in a single API call.
-3. **Run 5 dimensions in parallel** — each dimension pattern-matches on the file tree and fetches specific file contents only when needed (e.g., README length, package.json scripts).
+3. **Run 6 dimensions in parallel** — each dimension pattern-matches on the file tree and fetches specific file contents only when needed (e.g., README length, package.json scripts).
 4. **Score and grade** — weighted scores per dimension are averaged into an overall 0–100 score and converted to a letter grade (A/B/C/D/F).
 5. **Render output** — color-coded terminal output via chalk, plus a markdown report with a findings table and prioritized recommendations.
 
@@ -165,18 +165,15 @@ Options:
   --help, -h            Show help
 ```
 
-## The `--ai` Flag (Phase 2)
+### The `--ai` Flag
 
-A future `--ai` flag will layer AI-powered analysis on top of the static scores:
+The `--ai` flag generates a structured vote proposal for [nexus-agents](https://github.com/williamzujkowski/nexus-agents) MCP tools:
 
 ```bash
-# Coming in Phase 2
-repo-health-report williamzujkowski/nexus-agents --ai
+repo-health-report owner/repo --json --ai
 ```
 
-When enabled, the tool will delegate to [nexus-agents](https://github.com/williamzujkowski/nexus-agents) — a multi-agent orchestration system — to run deeper analysis: reading actual code quality, evaluating documentation coherence, reviewing CI pipeline logic, and generating prioritized improvement recommendations grounded in the repo's actual content (not just file existence).
-
-Phase 2 will use nexus-agents' 24 MCP tools to coordinate Claude, Gemini, Codex, and OpenCode for consensus-based scoring, making the health report substantially more meaningful for complex codebases.
+This outputs a JSON payload with dimension scores and a `voteProposal` field that can be fed to nexus-agents `consensus_vote` for AI-powered health grading.
 
 ## Requirements
 

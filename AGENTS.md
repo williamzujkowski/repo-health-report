@@ -4,25 +4,44 @@ This document provides guidance for AI agents (Claude Code, Codex, Gemini CLI, e
 
 ## Project Overview
 
-`repo-health-report` is a zero-dependency CLI that analyzes GitHub repository health across 5 dimensions using pure static analysis via the GitHub API. No AI, no cloning, no secrets beyond `gh auth`.
+`repo-health-report` is a CLI (runtime dep: chalk) that analyzes GitHub repository health across 6 dimensions using pure static analysis via the GitHub API. Optional `--ai` flag generates a nexus-agents vote proposal. No cloning, no secrets beyond `gh auth`.
 
 ## Repository Structure
 
 ```
 src/
-  cli.ts            — Entry point, argument parsing, orchestration
+  aggregate.ts      — Batch result aggregation
+  ai-analysis.ts    — --ai flag: vote proposal generation for nexus-agents
+  ai-contributors.ts — AI-generated contributor analysis
   analyze.ts        — GitHub API calls (fetchRepoMeta, fetchRepoTree)
+  batch.ts          — Parallel batch processing with caching
+  cache.ts          — File-based caching layer
+  cli.ts            — Entry point, argument parsing, orchestration
+  debrief.ts        — Lessons-learned debrief command
+  detectors.ts      — Multi-ecosystem file/pattern detectors
+  explain.ts        — --explain flag: per-finding score breakdown
+  export.ts         — Dashboard JSON export
+  external-apis.ts  — OpenSSF Scorecard + deps.dev integration
   grader.ts         — Score → letter grade computation
+  platform-apis.ts  — Multi-platform API abstraction
+  platforms.ts      — Platform detection (GitHub, GitLab, Codeberg)
   render.ts         — Terminal color output
   report.ts         — Markdown report generation
   dimensions/
-    security.ts     — Security checks (SECURITY.md, Dependabot, CODEOWNERS, etc.)
-    testing.ts      — Testing checks (CI, test files, coverage, pre-commit)
-    docs.ts         — Documentation checks (README, LICENSE, CONTRIBUTING, etc.)
     architecture.ts — Architecture checks (types, linting, formatting, structure)
     devops.ts       — DevOps checks (CI/CD, Docker, releases, templates)
+    docs.ts         — Documentation checks (README, LICENSE, CONTRIBUTING, etc.)
+    maintenance.ts  — Maintenance checks (bus factor, funding, release cadence)
+    security.ts     — Security checks (SECURITY.md, Dependabot, CODEOWNERS, etc.)
+    testing.ts      — Testing checks (CI, test files, coverage, pre-commit)
 tests/
-  grader.test.js    — Tests for grading logic (node:test, no framework)
+  ai-contributors.test.js — Tests for AI contributor analysis
+  cache.test.js           — Tests for caching layer
+  detectors.test.js       — Tests for multi-ecosystem detectors
+  explain.test.js         — Tests for explain output
+  external-apis.test.js   — Tests for OpenSSF/deps.dev integration
+  grader.test.js          — Tests for grading logic (node:test, no framework)
+  platforms.test.js       — Tests for platform detection
 dist/               — Compiled JS output (from tsc)
 ```
 

@@ -5,7 +5,7 @@
 ```bash
 npm install
 npx tsc          # Build
-npm test         # Run tests (120)
+npm test         # Run tests (143)
 npm run batch    # Run batch analysis
 npm run debrief  # Run lessons-learned debrief
 npm run export   # Generate dashboard JSON

@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Parallel batch processing with caching
 - Dashboard data export (JSON API format)
 - Debrief command for lessons-learned analysis
-- 120 unit tests
+- 143 unit tests
 
 ### Changed
 - GraphQL metadata fetching (3x efficiency vs REST)
