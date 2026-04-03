@@ -399,6 +399,30 @@ body {
   font-weight: 600;
 }
 
+/* Details/summary — expand cue */
+details summary {
+  cursor: pointer;
+  user-select: none;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+details summary::before {
+  content: "▸";
+  display: inline-block;
+  transition: transform 0.2s;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+details summary:hover {
+  color: var(--color-accent);
+}
+
 /* Section heading — editorial style */
 .section-heading {
   font-size: 18px;
