@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-04-03T04:04:03.521Z",
-  "totalRepos": 1000,
-  "codeRepos": 890,
-  "documentationRepos": 110,
-  "averageScore": 62,
+  "generatedAt": "2026-04-03T10:00:57.430Z",
+  "totalRepos": 7263,
+  "codeRepos": 6571,
+  "documentationRepos": 692,
+  "averageScore": 41,
   "gradeDistribution": {
-    "A": 28,
-    "B": 150,
-    "C": 208,
-    "D": 163,
-    "F": 341
+    "A": 37,
+    "B": 217,
+    "C": 436,
+    "D": 704,
+    "F": 5177
   },
   "dimensionAverages": {
-    "Security": 46,
-    "Testing": 57,
-    "Documentation": 75,
-    "Architecture": 55,
-    "DevOps": 57,
-    "Maintenance": 60
+    "Security": 30,
+    "Testing": 39,
+    "Documentation": 53,
+    "Architecture": 40,
+    "DevOps": 35,
+    "Maintenance": 33
   }
 }

@@ -2,20 +2,20 @@
   "types": [
     {
       "name": "application",
-      "count": 807,
-      "averageScore": 62,
+      "count": 6049,
+      "averageScore": 40,
       "graded": true,
       "gradeDistribution": {
-        "A": 26,
-        "B": 133,
-        "C": 191,
-        "D": 142,
-        "F": 315
+        "A": 35,
+        "B": 195,
+        "C": 401,
+        "D": 640,
+        "F": 4778
       }
     },
     {
       "name": "documentation",
-      "count": 86,
+      "count": 515,
       "averageScore": null,
       "graded": false,
       "gradeDistribution": {
@@ -28,20 +28,20 @@
     },
     {
       "name": "library",
-      "count": 52,
-      "averageScore": 67,
+      "count": 447,
+      "averageScore": 46,
       "graded": true,
       "gradeDistribution": {
         "A": 1,
-        "B": 12,
-        "C": 9,
-        "D": 13,
-        "F": 17
+        "B": 17,
+        "C": 25,
+        "D": 51,
+        "F": 353
       }
     },
     {
       "name": "mirror",
-      "count": 24,
+      "count": 177,
       "averageScore": null,
       "graded": false,
       "gradeDistribution": {
@@ -54,15 +54,28 @@
     },
     {
       "name": "hybrid",
-      "count": 20,
-      "averageScore": 70,
+      "count": 43,
+      "averageScore": 60,
       "graded": true,
       "gradeDistribution": {
         "A": 0,
         "B": 5,
-        "C": 5,
-        "D": 6,
-        "F": 4
+        "C": 7,
+        "D": 10,
+        "F": 21
+      }
+    },
+    {
+      "name": "iac",
+      "count": 25,
+      "averageScore": 35,
+      "graded": true,
+      "gradeDistribution": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "D": 2,
+        "F": 23
       }
     },
     {
@@ -76,19 +89,6 @@
         "C": 3,
         "D": 1,
         "F": 2
-      }
-    },
-    {
-      "name": "iac",
-      "count": 4,
-      "averageScore": 44,
-      "graded": true,
-      "gradeDistribution": {
-        "A": 0,
-        "B": 0,
-        "C": 0,
-        "D": 1,
-        "F": 3
       }
     }
   ]
