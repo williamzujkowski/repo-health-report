@@ -44,6 +44,8 @@ import { computeTreeAnalytics } from "./tree-analytics.js";
 import type { TreeAnalytics } from "./tree-analytics.js";
 import { generateInsights } from "./insights.js";
 import type { Insight } from "./insights.js";
+import { analyzeSupplyChain } from "./supply-chain.js";
+import type { SupplyChainAnalysis } from "./supply-chain.js";
 
 const TOOL_VERSION = "1.0.0";
 const DATA_DIR = join(process.cwd(), "data");
@@ -121,6 +123,8 @@ export interface BatchReport {
   treeAnalytics?: TreeAnalytics;
   // Derived natural-language insights (always present)
   insights?: Insight[];
+  // Supply chain risk analysis (always present)
+  supplyChain?: SupplyChainAnalysis;
 }
 
 interface BatchStats {
@@ -314,6 +318,7 @@ export async function analyzeRepo(
 
   const grade = computeGrade(dimensionResults, projectType, sizeTier);
   const insights = generateInsights(grade, treeAnalytics, languages, meta);
+  const supplyChain = analyzeSupplyChain(treeAnalytics, meta);
   const analyzedAt = new Date().toISOString();
   const detectorVersion = await computeDetectorVersion();
 
@@ -362,6 +367,8 @@ export async function analyzeRepo(
     treeAnalytics,
     // Derived natural-language insights
     insights,
+    // Supply chain risk analysis
+    supplyChain,
   };
 
   return { report, meta, type: projectType };

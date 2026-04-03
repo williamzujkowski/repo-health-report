@@ -43,6 +43,7 @@ import {
 import type { ScorecardResult, DepsDevResult } from "./external-apis.js";
 import { generateInsights } from "./insights.js";
 import type { Insight } from "./insights.js";
+import { analyzeSupplyChain } from "./supply-chain.js";
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
@@ -377,6 +378,42 @@ ${chalk.bold("Examples:")}
       );
       console.log("");
     }
+  }
+
+  // Supply Chain Risk Analysis (#39)
+  if (!jsonOutput) {
+    const supplyChain = analyzeSupplyChain(analytics, meta);
+    const riskColor =
+      supplyChain.risk === "critical"
+        ? chalk.red
+        : supplyChain.risk === "high"
+          ? chalk.hex("#FFA500")
+          : supplyChain.risk === "medium"
+            ? chalk.yellow
+            : supplyChain.risk === "low"
+              ? chalk.green
+              : chalk.gray;
+    const riskLabel = riskColor(supplyChain.risk + " risk");
+    const warningIcon =
+      supplyChain.risk === "critical" || supplyChain.risk === "high" ? " ⚠" : "";
+    console.log(chalk.bold(`  Supply Chain: `) + riskLabel + warningIcon);
+    const lockStr = supplyChain.lockfilePresent ? "lockfile present" : "no lockfile";
+    console.log(
+      chalk.gray(
+        `    ${supplyChain.manifestCount} dependency manifest${supplyChain.manifestCount !== 1 ? "s" : ""}, ${lockStr}`
+      )
+    );
+    if (supplyChain.dependabotAlerts) {
+      const da = supplyChain.dependabotAlerts;
+      if (da.total > 0) {
+        console.log(chalk.yellow(`    ${supplyChain.summary}`));
+      } else {
+        console.log(chalk.gray(`    ${supplyChain.summary} (Dependabot: 0 open alerts)`));
+      }
+    } else {
+      console.log(chalk.gray(`    ${supplyChain.summary}`));
+    }
+    console.log("");
   }
 
   // Insights: derived natural-language observations from tree analytics

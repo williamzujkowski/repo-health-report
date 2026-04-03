@@ -25,6 +25,10 @@ describe("computeTreeAnalytics", () => {
     assert.equal(result.docFileCount, 0);
     assert.equal(result.dependencyFileCount, 0);
     assert.equal(result.isMonorepo, false);
+    assert.equal(result.hasLockfile, false);
+    assert.equal(result.lockfileCount, 0);
+    assert.equal(result.manifestCount, 0);
+    assert.equal(result.estimatedDependencyCount, 0);
     assert.equal(result.configScore, 0);
     assert.equal(result.antiPatternCount, 0);
     assert.equal(result.sizeCategory, "tiny");
@@ -281,5 +285,84 @@ describe("computeTreeAnalytics", () => {
 
     // 4 files, 3 dirs (., src, lib) => avgFilesPerDir = round(4/3) = 1
     assert.equal(result.avgFilesPerDir, 1);
+  });
+
+  // ── Supply chain: lockfile and manifest detection ──────────────────────
+
+  it("detects lockfiles and manifests separately", () => {
+    const tree = makeTree([
+      "package.json",         // manifest
+      "package-lock.json",    // lockfile
+      "src/index.ts",
+    ]);
+
+    const result = computeTreeAnalytics(tree);
+
+    assert.equal(result.hasLockfile, true);
+    assert.equal(result.lockfileCount, 1);
+    assert.equal(result.manifestCount, 1);
+    assert.equal(result.dependencyFileCount, 2);
+    assert.equal(result.estimatedDependencyCount, 25); // 1 manifest * 25
+  });
+
+  it("detects multiple lockfiles across ecosystems", () => {
+    const tree = makeTree([
+      "package.json",
+      "yarn.lock",
+      "go.mod",
+      "go.sum",
+      "Cargo.toml",
+      "Cargo.lock",
+    ]);
+
+    const result = computeTreeAnalytics(tree);
+
+    assert.equal(result.hasLockfile, true);
+    assert.equal(result.lockfileCount, 3); // yarn.lock, go.sum, Cargo.lock
+    assert.equal(result.manifestCount, 3); // package.json, go.mod, Cargo.toml
+    assert.equal(result.estimatedDependencyCount, 75); // 3 * 25
+  });
+
+  it("reports no lockfile when only manifests present", () => {
+    const tree = makeTree([
+      "requirements.txt",
+      "setup.py",
+    ]);
+
+    const result = computeTreeAnalytics(tree);
+
+    assert.equal(result.hasLockfile, false);
+    assert.equal(result.lockfileCount, 0);
+    assert.equal(result.manifestCount, 2);
+  });
+
+  it("detects Python lockfiles", () => {
+    const tree = makeTree([
+      "Pipfile",
+      "Pipfile.lock",
+      "pyproject.toml",
+      "poetry.lock",
+    ]);
+
+    const result = computeTreeAnalytics(tree);
+
+    assert.equal(result.hasLockfile, true);
+    assert.equal(result.lockfileCount, 2); // Pipfile.lock, poetry.lock
+    assert.equal(result.manifestCount, 2); // Pipfile, pyproject.toml
+  });
+
+  it("handles monorepo with multiple lockfiles", () => {
+    const tree = makeTree([
+      "package.json",
+      "package-lock.json",
+      "packages/core/package.json",
+      "packages/cli/package.json",
+    ]);
+
+    const result = computeTreeAnalytics(tree);
+
+    assert.equal(result.lockfileCount, 1);
+    assert.equal(result.manifestCount, 3); // all three package.json
+    assert.equal(result.isMonorepo, true);
   });
 });

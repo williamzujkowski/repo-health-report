@@ -32,6 +32,15 @@ export interface RepoMeta {
   oldestOpenIssues?: Array<{ createdAt: string; updatedAt: string }>;
   openPrCount?: number;
   oldestOpenPrs?: Array<{ createdAt: string; updatedAt: string }>;
+  // Dependabot vulnerability alerts from GraphQL (#39)
+  dependabotAlerts?: {
+    totalCount: number;
+    critical: number;
+    high: number;
+    medium: number;
+    low: number;
+    packages: string[];
+  } | null; // null = not available (permissions or feature not enabled)
 }
 
 export interface WorkflowFile {
@@ -134,6 +143,15 @@ interface GraphQLRepoResponse {
         totalCount: number;
         nodes: Array<{ createdAt: string; updatedAt: string }>;
       };
+      vulnerabilityAlerts: {
+        totalCount: number;
+        nodes: Array<{
+          securityVulnerability: {
+            severity: string;
+            package: { name: string; ecosystem: string };
+          };
+        }>;
+      } | null;
     };
   };
   errors?: Array<{ message: string }>;
@@ -218,6 +236,15 @@ export async function fetchRepoMetaGraphQL(slug: string): Promise<RepoMeta> {
           totalCount
           nodes { createdAt updatedAt }
         }
+        vulnerabilityAlerts(first: 10, states: OPEN) {
+          totalCount
+          nodes {
+            securityVulnerability {
+              severity
+              package { name ecosystem }
+            }
+          }
+        }
       }
     }
   `;
@@ -242,6 +269,37 @@ export async function fetchRepoMetaGraphQL(slug: string): Promise<RepoMeta> {
     ? rollupState
     : null;
 
+  // Parse Dependabot vulnerability alerts (null if not available)
+  let dependabotAlerts: RepoMeta["dependabotAlerts"] = null;
+  if (repo.vulnerabilityAlerts) {
+    const nodes = repo.vulnerabilityAlerts.nodes;
+    let critical = 0;
+    let high = 0;
+    let medium = 0;
+    let low = 0;
+    const packages: string[] = [];
+
+    for (const node of nodes) {
+      const sev = node.securityVulnerability.severity.toUpperCase();
+      if (sev === "CRITICAL") critical++;
+      else if (sev === "HIGH") high++;
+      else if (sev === "MODERATE" || sev === "MEDIUM") medium++;
+      else low++;
+
+      const pkgName = node.securityVulnerability.package.name;
+      if (!packages.includes(pkgName)) packages.push(pkgName);
+    }
+
+    dependabotAlerts = {
+      totalCount: repo.vulnerabilityAlerts.totalCount,
+      critical,
+      high,
+      medium,
+      low,
+      packages,
+    };
+  }
+
   return {
     default_branch: repo.defaultBranchRef?.name ?? "main",
     language: repo.primaryLanguage?.name ?? null,
@@ -265,6 +323,7 @@ export async function fetchRepoMetaGraphQL(slug: string): Promise<RepoMeta> {
     oldestOpenIssues: repo.issues.nodes,
     openPrCount: repo.pullRequests.totalCount,
     oldestOpenPrs: repo.pullRequests.nodes,
+    dependabotAlerts,
   };
 }
 

@@ -21,6 +21,12 @@ export interface TreeAnalytics {
   dependencyFileCount: number;
   isMonorepo: boolean; // multiple package.json or go.mod at different paths
 
+  // Supply chain (Phase 1)
+  hasLockfile: boolean; // package-lock.json, yarn.lock, go.sum, Cargo.lock, etc.
+  lockfileCount: number;
+  manifestCount: number; // package.json, go.mod, requirements.txt, etc.
+  estimatedDependencyCount: number; // rough estimate from manifest count
+
   // Config maturity
   configFiles: string[];
   configScore: number; // 0-10 based on how many operational configs exist
@@ -60,6 +66,37 @@ const DEP_FILES = new Set([
   "build.gradle.kts",
   "composer.json",
   "composer.lock",
+  "mix.exs",
+]);
+
+// Lockfiles (subset of DEP_FILES) — indicate pinned dependency versions
+const LOCKFILES = new Set([
+  "package-lock.json",
+  "yarn.lock",
+  "pnpm-lock.yaml",
+  "go.sum",
+  "Pipfile.lock",
+  "poetry.lock",
+  "uv.lock",
+  "Cargo.lock",
+  "Gemfile.lock",
+  "composer.lock",
+]);
+
+// Manifests (subset of DEP_FILES) — declare dependencies
+const MANIFESTS = new Set([
+  "package.json",
+  "go.mod",
+  "requirements.txt",
+  "Pipfile",
+  "pyproject.toml",
+  "setup.py",
+  "Cargo.toml",
+  "Gemfile",
+  "pom.xml",
+  "build.gradle",
+  "build.gradle.kts",
+  "composer.json",
   "mix.exs",
 ]);
 
@@ -145,6 +182,8 @@ export function computeTreeAnalytics(tree: RepoTree): TreeAnalytics {
   const dirFileCounts = new Map<string, number>();
   const dependencyFiles: string[] = [];
   const configFiles: string[] = [];
+  let lockfileCount = 0;
+  let manifestCount = 0;
   let hasVendorCommitted = false;
   let hasDistCommitted = false;
   let hasMinifiedFiles = false;
@@ -196,6 +235,8 @@ export function computeTreeAnalytics(tree: RepoTree): TreeAnalytics {
     // Dependency files
     if (DEP_FILES.has(filename)) {
       dependencyFiles.push(entry.path);
+      if (LOCKFILES.has(filename)) lockfileCount++;
+      if (MANIFESTS.has(filename)) manifestCount++;
     }
 
     // Config files (exact name match or CI directory patterns)
@@ -282,6 +323,10 @@ export function computeTreeAnalytics(tree: RepoTree): TreeAnalytics {
     dependencyFiles,
     dependencyFileCount: dependencyFiles.length,
     isMonorepo,
+    hasLockfile: lockfileCount > 0,
+    lockfileCount,
+    manifestCount,
+    estimatedDependencyCount: manifestCount * 25, // rough estimate: ~25 deps per manifest
     configFiles,
     configScore,
     hasVendorCommitted,

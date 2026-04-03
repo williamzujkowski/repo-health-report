@@ -51,6 +51,13 @@ interface OrgTreeAnalyticsSummary {
   monorepoCount: number;
 }
 
+interface OrgSupplyChainSummary {
+  riskDistribution: Record<string, number>; // critical, high, medium, low, unknown
+  reposWithCriticalAlerts: string[];
+  reposWithoutLockfile: string[];
+  totalOpenAlerts: number;
+}
+
 interface OrgInsightsSummary {
   totalInsights: number;
   criticalCount: number;
@@ -82,6 +89,7 @@ interface OrgSummary {
   typeBreakdown: Record<string, number>;
   treeAnalytics?: OrgTreeAnalyticsSummary;
   insightsSummary?: OrgInsightsSummary;
+  supplyChainSummary?: OrgSupplyChainSummary;
 }
 
 export interface RiskEntry {
@@ -460,6 +468,37 @@ function buildSummary(org: string, reports: BatchReport[], analyzedAt: string): 
     };
   }
 
+  // Aggregate supply chain risk across all reports
+  let supplyChainSummary: OrgSupplyChainSummary | undefined;
+  const reportsWithSupplyChain = reports.filter((r) => r.supplyChain);
+  if (reportsWithSupplyChain.length > 0) {
+    const riskDistribution: Record<string, number> = {
+      critical: 0,
+      high: 0,
+      medium: 0,
+      low: 0,
+      unknown: 0,
+    };
+    const reposWithCriticalAlerts: string[] = [];
+    const reposWithoutLockfile: string[] = [];
+    let totalOpenAlerts = 0;
+
+    for (const report of reportsWithSupplyChain) {
+      const sc = report.supplyChain!;
+      riskDistribution[sc.risk] = (riskDistribution[sc.risk] ?? 0) + 1;
+      if (sc.risk === "critical") reposWithCriticalAlerts.push(report.repo);
+      if (!sc.lockfilePresent) reposWithoutLockfile.push(report.repo);
+      if (sc.dependabotAlerts) totalOpenAlerts += sc.dependabotAlerts.total;
+    }
+
+    supplyChainSummary = {
+      riskDistribution,
+      reposWithCriticalAlerts,
+      reposWithoutLockfile,
+      totalOpenAlerts,
+    };
+  }
+
   return {
     org,
     analyzedAt,
@@ -473,6 +512,7 @@ function buildSummary(org: string, reports: BatchReport[], analyzedAt: string): 
     typeBreakdown: typeCounts,
     ...(treeAnalyticsSummary ? { treeAnalytics: treeAnalyticsSummary } : {}),
     ...(insightsSummary ? { insightsSummary } : {}),
+    ...(supplyChainSummary ? { supplyChainSummary } : {}),
   };
 }
 
@@ -602,6 +642,28 @@ export function generateOrgMarkdown(summary: OrgSummary, risks: RisksReport, rep
       for (const text of ins.topWarnings) {
         lines.push(`- ⚠ ${text}`);
       }
+      lines.push("");
+    }
+  }
+
+  // Supply Chain Summary
+  if (summary.supplyChainSummary) {
+    const sc = summary.supplyChainSummary;
+    lines.push("### Supply Chain Risk");
+    lines.push("");
+    lines.push("| Risk Tier | Repos |");
+    lines.push("|-----------|-------|");
+    for (const [tier, count] of Object.entries(sc.riskDistribution)) {
+      if (count > 0) lines.push(`| ${tier} | ${count} |`);
+    }
+    lines.push(`| **Total open alerts** | **${sc.totalOpenAlerts}** |`);
+    lines.push("");
+    if (sc.reposWithCriticalAlerts.length > 0) {
+      lines.push(`**Repos with critical supply chain risk:** ${sc.reposWithCriticalAlerts.join(", ")}`);
+      lines.push("");
+    }
+    if (sc.reposWithoutLockfile.length > 0) {
+      lines.push(`**Repos without lockfile:** ${sc.reposWithoutLockfile.join(", ")}`);
       lines.push("");
     }
   }
@@ -815,6 +877,17 @@ async function main(): Promise<void> {
   if (summary.insightsSummary) {
     const ins = summary.insightsSummary;
     console.log(`  Insights: ${chalk.green(String(ins.positiveCount))} positive, ${chalk.yellow(String(ins.warningCount))} warnings, ${chalk.red(String(ins.criticalCount))} critical`);
+  }
+  if (summary.supplyChainSummary) {
+    const sc = summary.supplyChainSummary;
+    const parts: string[] = [];
+    for (const [tier, count] of Object.entries(sc.riskDistribution)) {
+      if (count > 0) parts.push(`${tier}:${count}`);
+    }
+    console.log(`  Supply chain risk: ${parts.join(", ")}, ${chalk.yellow(String(sc.totalOpenAlerts))} total open alerts`);
+    if (sc.reposWithCriticalAlerts.length > 0) {
+      console.log(chalk.red(`  Critical supply chain: ${sc.reposWithCriticalAlerts.join(", ")}`));
+    }
   }
   console.log(chalk.gray(`\n  Output: ${auditDir}/`));
   console.log(chalk.gray(`    summary.json  risks.json  report.md  repos/\n`));
