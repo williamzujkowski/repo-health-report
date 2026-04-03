@@ -59,7 +59,7 @@ async function computeDetectorVersion(): Promise<string> {
   }
 }
 
-interface BatchArgs {
+export interface BatchArgs {
   count: number;
   delay: number;
   file: string | null;
@@ -84,7 +84,7 @@ interface DimensionCheckCount {
   checkCount: number;
 }
 
-interface BatchReport {
+export interface BatchReport {
   repo: string;
   letter: string;
   overall: number;
@@ -271,7 +271,7 @@ async function fetchPushedAt(slug: string): Promise<string | undefined> {
 /**
  * Analyze a single repo and return the structured report.
  */
-async function analyzeRepo(
+export async function analyzeRepo(
   slug: string,
   detectAi = false
 ): Promise<{ report: BatchReport; meta: RepoMeta; type: ProjectType }> {
@@ -345,7 +345,7 @@ async function analyzeRepo(
   return { report, meta, type: projectType };
 }
 
-function sleep(ms: number): Promise<void> {
+export function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
@@ -566,7 +566,14 @@ function mergeIndex(
   );
 }
 
-main().catch((err: unknown) => {
-  console.error(chalk.red(`Fatal: ${(err as Error).message}`));
-  process.exit(1);
-});
+// Only run main when executed directly (not when imported)
+const isDirectRun =
+  process.argv[1] &&
+  (process.argv[1].endsWith("batch.js") || process.argv[1].endsWith("batch.ts"));
+
+if (isDirectRun) {
+  main().catch((err: unknown) => {
+    console.error(chalk.red(`Fatal: ${(err as Error).message}`));
+    process.exit(1);
+  });
+}

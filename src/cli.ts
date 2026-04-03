@@ -63,6 +63,10 @@ ${chalk.bold("Options:")}
   --ai-contributors     Detect AI agent and automation bot contributors (extra API calls)
   --help, -h            Show this help
 
+${chalk.bold("Batch & Org Commands:")}
+  npm run batch -- --file repos.txt    Batch-analyze repos from a file
+  npm run org-audit -- --org cloud-gov Audit all repos in a GitHub organization
+
 ${chalk.bold("Examples:")}
   repo-health-report williamzujkowski/nexus-agents
   repo-health-report https://github.com/facebook/react --output react-report.md

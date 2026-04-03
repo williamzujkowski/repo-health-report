@@ -175,6 +175,24 @@ repo-health-report owner/repo --json --ai
 
 This outputs a JSON payload with dimension scores and a `voteProposal` field that can be fed to nexus-agents `consensus_vote` for AI-powered health grading.
 
+### Org Audit
+
+Analyze all public repos in a GitHub organization and produce an aggregate audit report:
+
+```bash
+# Audit an entire org
+npm run org-audit -- --org cloud-gov
+
+# With parallel analysis and rate limiting
+npm run org-audit -- --org cloud-gov --parallel 3 --delay 2000 --skip-docs
+```
+
+Outputs to `data/audits/{org}/{timestamp}/`:
+- `summary.json` — org-level aggregate scores, grade distribution, dimension averages
+- `risks.json` — org-wide risks ranked by frequency and severity
+- `report.md` — human-readable markdown with executive summary, top risks, quick wins, and per-repo grades
+- `repos/` — individual repo JSON reports
+
 ## Requirements
 
 - **[GitHub CLI (`gh`)](https://cli.github.com/)** installed and authenticated (`gh auth login`)

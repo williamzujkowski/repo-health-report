@@ -13,7 +13,8 @@
     "batch": "node dist/batch.js",
     "aggregate": "node dist/aggregate.js",
     "debrief": "node dist/debrief.js",
-    "export": "node dist/export.js"
+    "export": "node dist/export.js",
+    "org-audit": "node dist/org-audit.js"
   },
   "keywords": [
     "github",
