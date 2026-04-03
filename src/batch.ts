@@ -13,6 +13,7 @@
  */
 
 import { readFile, mkdir, writeFile, access } from "node:fs/promises";
+import { createHash } from "node:crypto";
 import { join, dirname } from "node:path";
 import chalk from "chalk";
 import {
@@ -37,6 +38,20 @@ const DATA_DIR = join(process.cwd(), "data");
 const REPORTS_DIR = join(DATA_DIR, "reports");
 const INDEX_PATH = join(DATA_DIR, "index.json");
 
+/**
+ * Compute a short SHA-256 hash of detectors.ts source for audit trail.
+ * Tracks when detection logic changes between batch runs.
+ */
+async function computeDetectorVersion(): Promise<string> {
+  try {
+    const detectorsPath = join(dirname(new URL(import.meta.url).pathname), "detectors.js");
+    const source = await readFile(detectorsPath, "utf-8");
+    return createHash("sha256").update(source).digest("hex").slice(0, 12);
+  } catch {
+    return "unknown";
+  }
+}
+
 interface BatchArgs {
   count: number;
   delay: number;
@@ -53,6 +68,11 @@ interface IndexEntry {
   analyzedAt: string;
 }
 
+interface DimensionCheckCount {
+  name: string;
+  checkCount: number;
+}
+
 interface BatchReport {
   repo: string;
   letter: string;
@@ -63,6 +83,8 @@ interface BatchReport {
   language: string | null;
   analyzedAt: string;
   toolVersion: string;
+  detectorVersion: string;
+  checkCounts: DimensionCheckCount[];
 }
 
 function parseArgs(argv: string[]): BatchArgs {
@@ -196,6 +218,12 @@ async function analyzeRepo(
 
   const grade = computeGrade(dimensionResults);
   const analyzedAt = new Date().toISOString();
+  const detectorVersion = await computeDetectorVersion();
+
+  const checkCounts: DimensionCheckCount[] = dimensionResults.map((d) => ({
+    name: d.name,
+    checkCount: d.findings.length,
+  }));
 
   const report: BatchReport = {
     repo: validSlug,
@@ -207,6 +235,8 @@ async function analyzeRepo(
     language: meta.language,
     analyzedAt,
     toolVersion: TOOL_VERSION,
+    detectorVersion,
+    checkCounts,
   };
 
   return { report, meta, type: projectType };
