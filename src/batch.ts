@@ -206,7 +206,7 @@ async function analyzeRepo(
   const meta = await fetchRepoMeta(validSlug);
   const tree = await fetchRepoTree(validSlug, meta.default_branch);
   const projectType = detectProjectType(tree, validSlug);
-  const language = normalizeLanguage(meta.language);
+  const language = normalizeLanguage(meta.language, tree);
 
   const dimensionResults = await Promise.all([
     analyzeSecurityDimension(tree, meta, validSlug),

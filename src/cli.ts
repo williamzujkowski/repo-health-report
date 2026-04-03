@@ -106,7 +106,7 @@ ${chalk.bold("Examples:")}
   }
 
   const projectType = detectProjectType(tree, slug);
-  const language = normalizeLanguage(meta.language);
+  const language = normalizeLanguage(meta.language, tree);
   if (projectType !== "application") {
     console.log(chalk.gray(`  Detected project type: ${projectType}`));
   }

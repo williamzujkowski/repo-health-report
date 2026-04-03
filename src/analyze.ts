@@ -163,7 +163,7 @@ export function treeCountPattern(tree: RepoTree, pattern: RegExp): number {
   return tree.tree.filter((entry) => pattern.test(entry.path)).length;
 }
 
-export type ProjectType = "application" | "iac" | "library" | "hybrid" | "documentation";
+export type ProjectType = "application" | "iac" | "library" | "hybrid" | "documentation" | "runtime";
 
 export type RepoLanguage =
   | "typescript"
@@ -186,24 +186,96 @@ const LANGUAGE_MAP: Record<string, RepoLanguage> = {
   java: "java",
   kotlin: "java",
   scala: "java",
+  "c#": "java",
+  dart: "java",
+  swift: "java",
+  clojure: "java",
+  groovy: "java",
   shell: "shell",
   bash: "shell",
+  lua: "shell",
+  powershell: "shell",
+  dockerfile: "shell",
+  makefile: "shell",
+  nix: "shell",
   c: "c",
   "c++": "c",
   "objective-c": "c",
+  zig: "c",
   ruby: "ruby",
+  php: "ruby",
+  perl: "ruby",
+  elixir: "ruby",
+  erlang: "ruby",
+  vue: "javascript",
+  svelte: "javascript",
+  scss: "javascript",
+  css: "javascript",
+  html: "javascript",
+  r: "python",
+  julia: "python",
+  "jupyter notebook": "python",
+  hcl: "other",
+  haskell: "other",
 };
 
-export function normalizeLanguage(ghLanguage: string | null): RepoLanguage {
-  const lower = (ghLanguage ?? "").toLowerCase();
-  return LANGUAGE_MAP[lower] ?? "other";
+/**
+ * Detect language from file extensions in the repo tree.
+ * Used as a fallback when GitHub returns null for the language field.
+ */
+export function detectLanguageFromTree(tree: RepoTree): RepoLanguage {
+  const extCounts: Record<string, number> = {};
+  for (const entry of tree.tree) {
+    if (entry.type !== "blob") continue;
+    const ext = entry.path.split(".").pop()?.toLowerCase();
+    if (ext) extCounts[ext] = (extCounts[ext] ?? 0) + 1;
+  }
+
+  const extMap: Record<string, RepoLanguage> = {
+    ts: "typescript", tsx: "typescript",
+    js: "javascript", jsx: "javascript", mjs: "javascript",
+    py: "python", pyx: "python",
+    go: "go",
+    rs: "rust",
+    java: "java", kt: "java", scala: "java",
+    sh: "shell", bash: "shell",
+    c: "c", cpp: "c", h: "c", hpp: "c",
+    rb: "ruby",
+  };
+
+  let bestLang: RepoLanguage = "other";
+  let bestCount = 0;
+  for (const [ext, count] of Object.entries(extCounts)) {
+    const lang = extMap[ext];
+    if (lang && count > bestCount) {
+      bestLang = lang;
+      bestCount = count;
+    }
+  }
+  return bestLang;
 }
+
+export function normalizeLanguage(ghLanguage: string | null, tree?: RepoTree): RepoLanguage {
+  const lower = (ghLanguage ?? "").toLowerCase();
+  const mapped = LANGUAGE_MAP[lower];
+  if (mapped) return mapped;
+  if (tree) return detectLanguageFromTree(tree);
+  return "other";
+}
+
+const KNOWN_RUNTIMES = new Set([
+  "golang/go", "rust-lang/rust", "python/cpython", "ruby/ruby",
+  "nodejs/node", "openjdk/jdk", "dotnet/runtime", "apple/swift",
+  "llvm/llvm-project", "gcc-mirror/gcc", "torvalds/linux",
+  "denoland/deno",
+]);
 
 /**
  * Detect the project type based on the file tree and repo slug.
- * Checks documentation repos FIRST, then application entry points to avoid misclassifying
- * Go/Node/Python apps that also contain Terraform configs.
+ * Checks runtime and documentation repos FIRST, then application entry points
+ * to avoid misclassifying Go/Node/Python apps that also contain Terraform configs.
  *
+ * - 'runtime': language runtimes, compilers, kernels (known slugs)
  * - 'documentation': awesome lists, educational repos, book repos (>80% markdown, no source)
  * - 'hybrid': has both application code AND IaC configs (e.g., Go + Terraform)
  * - 'application': Go, Node, Python, Rust, Java, etc.
@@ -211,6 +283,8 @@ export function normalizeLanguage(ghLanguage: string | null): RepoLanguage {
  * - 'library': no src/ but has lib/ or root index file
  */
 export function detectProjectType(tree: RepoTree, slug?: string): ProjectType {
+  // Runtime detection — check BEFORE everything else
+  if (slug && KNOWN_RUNTIMES.has(slug)) return "runtime";
   // Documentation detection — check BEFORE application/IaC
   const repoName = slug?.split("/")[1] ?? "";
   // Match "awesome", "awesome-*", "*-awesome", or "*-awesome-*" patterns
