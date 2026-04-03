@@ -175,3 +175,57 @@ describe("computeGrade — graded field", () => {
     assert.equal(result.dimensions, dims);
   });
 });
+
+describe("computeGrade — size-adjusted scoring", () => {
+  it("applies no adjustment for medium repos (default)", () => {
+    // medium is the default — no change
+    const result = computeGrade(makeDimensions(70), "application", "medium");
+    assert.equal(result.overall, 70);
+    assert.equal(result.letter, "C");
+  });
+
+  it("applies no adjustment for large repos", () => {
+    const result = computeGrade(makeDimensions(70), "application", "large");
+    assert.equal(result.overall, 70);
+    assert.equal(result.letter, "C");
+  });
+
+  it("applies up to +10 bonus for small repos scoring above 40", () => {
+    // score=70 → bonus = min(10, 100-70) = 10 → adjusted=80
+    const result = computeGrade(makeDimensions(70), "application", "small");
+    assert.equal(result.overall, 80);
+    assert.equal(result.letter, "B");
+  });
+
+  it("caps the bonus so score never exceeds 100", () => {
+    // score=95 → bonus = min(10, 100-95) = 5 → adjusted=100
+    const result = computeGrade(makeDimensions(95), "application", "small");
+    assert.equal(result.overall, 100);
+    assert.equal(result.letter, "A");
+  });
+
+  it("does not boost small repos scoring 40 or below (no basics passing)", () => {
+    const result = computeGrade(makeDimensions(40), "application", "small");
+    assert.equal(result.overall, 40);
+    assert.equal(result.letter, "F");
+  });
+
+  it("does not boost small repos scoring 0", () => {
+    const result = computeGrade(makeDimensions(0), "application", "small");
+    assert.equal(result.overall, 0);
+    assert.equal(result.letter, "F");
+  });
+
+  it("applies boost per-dimension before averaging", () => {
+    // Two dims: 50 and 70, both small → adjusted 60 and 80 → avg 70
+    const result = computeGrade(makeDimensionsAvg(50, 70), "application", "small");
+    assert.equal(result.overall, 70);
+    assert.equal(result.letter, "C");
+  });
+
+  it("omitting sizeTier defaults to medium (no adjustment)", () => {
+    const withDefault = computeGrade(makeDimensions(75), "application");
+    const withMedium = computeGrade(makeDimensions(75), "application", "medium");
+    assert.equal(withDefault.overall, withMedium.overall);
+  });
+});

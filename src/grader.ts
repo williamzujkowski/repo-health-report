@@ -1,5 +1,5 @@
 import type { DimensionResult } from "./dimensions/security.js";
-import type { ProjectType } from "./analyze.js";
+import type { ProjectType, RepoSizeTier } from "./analyze.js";
 
 export interface GradeResult {
   letter: string;
@@ -19,16 +19,35 @@ const DIMENSION_WEIGHTS: Record<ProjectType, Record<string, number>> = {
   mirror: { Security: 0.3, Testing: 0.5, Documentation: 1.5, Architecture: 0.5, DevOps: 0.2, Maintenance: 1.5 },
 };
 
+/**
+ * Apply a size-based score adjustment for small repos.
+ *
+ * Small repos (< 50 files) naturally miss enterprise-scale checks like
+ * release automation, SAST, and Docker configs. To avoid unfairly penalising
+ * them, each dimension score above 40 receives up to +10 bonus points.
+ * Medium and large repos receive no adjustment (baseline).
+ */
+function applySizeAdjustment(score: number, sizeTier: RepoSizeTier): number {
+  if (sizeTier !== "small") return score;
+  // Only boost if the repo has some passing basics (score > 40)
+  if (score <= 40) return score;
+  const bonus = Math.min(10, 100 - score);
+  return score + bonus;
+}
+
 export function computeGrade(
   dimensions: DimensionResult[],
-  projectType?: ProjectType
+  projectType?: ProjectType,
+  sizeTier?: RepoSizeTier
 ): GradeResult {
   const weights = DIMENSION_WEIGHTS[projectType ?? "application"] ?? DIMENSION_WEIGHTS.application;
+  const tier = sizeTier ?? "medium";
   let totalWeight = 0;
   let weightedSum = 0;
   for (const dim of dimensions) {
     const w = weights[dim.name] ?? 1;
-    weightedSum += dim.score * w;
+    const adjustedScore = applySizeAdjustment(dim.score, tier);
+    weightedSum += adjustedScore * w;
     totalWeight += w;
   }
   const overall = Math.round(weightedSum / totalWeight);

@@ -7,6 +7,7 @@ import {
   fetchRepoMeta,
   fetchRepoTree,
   detectProjectType,
+  detectRepoSize,
   normalizeLanguage,
 } from "./analyze.js";
 import { analyzeSecurityDimension } from "./dimensions/security.js";
@@ -111,9 +112,13 @@ ${chalk.bold("Examples:")}
   }
 
   const projectType = detectProjectType(tree, slug, meta);
+  const sizeTier = detectRepoSize(tree);
   const language = normalizeLanguage(meta.language, tree);
   if (projectType !== "application") {
     console.log(chalk.gray(`  Detected project type: ${projectType}`));
+  }
+  if (sizeTier !== "medium") {
+    console.log(chalk.gray(`  Detected repo size: ${sizeTier}`));
   }
   if (language !== "other") {
     console.log(chalk.gray(`  Detected language: ${language}`));
@@ -130,7 +135,7 @@ ${chalk.bold("Examples:")}
   ]);
 
   // Compute grade
-  const grade = computeGrade(dimensionResults, projectType);
+  const grade = computeGrade(dimensionResults, projectType, sizeTier);
 
   // AI analysis: when --ai is used, output a vote proposal for nexus-agents MCP
   let ai: AiAnalysisResult | undefined;

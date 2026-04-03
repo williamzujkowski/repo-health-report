@@ -166,6 +166,21 @@ export function treeCountPattern(tree: RepoTree, pattern: RegExp): number {
 
 export type ProjectType = "application" | "iac" | "library" | "hybrid" | "documentation" | "runtime" | "mirror";
 
+export type RepoSizeTier = "small" | "medium" | "large";
+
+/**
+ * Detect repo size tier from the file tree.
+ * - small: fewer than 50 files (README-only utilities, personal scripts)
+ * - medium: 50–499 files (typical open-source projects)
+ * - large: 500+ files (enterprise-scale, monorepos)
+ */
+export function detectRepoSize(tree: RepoTree): RepoSizeTier {
+  const fileCount = tree.tree.filter((e) => e.type === "blob").length;
+  if (fileCount < 50) return "small";
+  if (fileCount < 500) return "medium";
+  return "large";
+}
+
 export type RepoLanguage =
   | "typescript"
   | "javascript"

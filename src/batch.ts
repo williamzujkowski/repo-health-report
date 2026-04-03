@@ -21,6 +21,7 @@ import {
   fetchRepoMeta,
   fetchRepoTree,
   detectProjectType,
+  detectRepoSize,
   normalizeLanguage,
   type RepoMeta,
 } from "./analyze.js";
@@ -31,7 +32,7 @@ import { analyzeArchitectureDimension } from "./dimensions/architecture.js";
 import { analyzeDevOpsDimension } from "./dimensions/devops.js";
 import { analyzeMaintenanceDimension } from "./dimensions/maintenance.js";
 import { computeGrade, type GradeResult } from "./grader.js";
-import type { ProjectType } from "./analyze.js";
+import type { ProjectType, RepoSizeTier } from "./analyze.js";
 
 const TOOL_VERSION = "1.0.0";
 const DATA_DIR = join(process.cwd(), "data");
@@ -81,6 +82,7 @@ interface BatchReport {
   dimensions: GradeResult["dimensions"];
   totalDurationMs: number;
   projectType: ProjectType;
+  sizeTier: RepoSizeTier;
   language: string | null;
   analyzedAt: string;
   toolVersion: string;
@@ -206,6 +208,7 @@ async function analyzeRepo(
   const meta = await fetchRepoMeta(validSlug);
   const tree = await fetchRepoTree(validSlug, meta.default_branch);
   const projectType = detectProjectType(tree, validSlug, meta);
+  const sizeTier = detectRepoSize(tree);
   const language = normalizeLanguage(meta.language, tree);
 
   const dimensionResults = await Promise.all([
@@ -217,7 +220,7 @@ async function analyzeRepo(
     analyzeMaintenanceDimension(tree, meta, validSlug),
   ]);
 
-  const grade = computeGrade(dimensionResults, projectType);
+  const grade = computeGrade(dimensionResults, projectType, sizeTier);
   const analyzedAt = new Date().toISOString();
   const detectorVersion = await computeDetectorVersion();
 
@@ -234,6 +237,7 @@ async function analyzeRepo(
     dimensions: grade.dimensions,
     totalDurationMs: grade.totalDurationMs,
     projectType,
+    sizeTier,
     language: meta.language,
     analyzedAt,
     toolVersion: TOOL_VERSION,
