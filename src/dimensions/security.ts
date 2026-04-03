@@ -5,7 +5,7 @@ import {
   treeHasPattern,
   fetchFileContent,
 } from "../analyze.js";
-import { detectCI, detectDependencyUpdates, detectCodeOwnership } from "../detectors.js";
+import { detectCI, detectDependencyUpdates, detectCodeOwnership, detectSBOM } from "../detectors.js";
 
 export interface Finding {
   name: string;
@@ -314,6 +314,37 @@ export async function analyzeSecurityDimension(
       ? ".gitignore found"
       : "No .gitignore — secrets and build artifacts may be committed",
     weight: 10,
+  });
+
+  // .gitattributes (LFS, export-ignore, line ending normalization)
+  const hasGitattributes = treeHasFile(tree, ".gitattributes");
+  findings.push({
+    name: ".gitattributes present",
+    passed: hasGitattributes,
+    detail: hasGitattributes
+      ? ".gitattributes found (LFS/export-ignore configured)"
+      : "No .gitattributes",
+    weight: 3,
+  });
+
+  // SBOM presence (emerging best practice)
+  const sbom = detectSBOM(tree);
+  const hasWorkflowSBOM =
+    workflows.length > 0 &&
+    workflows.some(
+      (wf) =>
+        /syft|cdxgen|sbom/i.test(wf.content)
+    );
+  const hasSBOM = sbom.detected || hasWorkflowSBOM;
+  findings.push({
+    name: "SBOM (Software Bill of Materials)",
+    passed: hasSBOM,
+    detail: hasSBOM
+      ? sbom.detected
+        ? `SBOM artifact or generator detected (${sbom.detail})`
+        : "SBOM generator detected in CI workflow (syft/cdxgen)"
+      : "No SBOM — consider generating Software Bill of Materials",
+    weight: 5,
   });
 
   // Branch protection (heuristic: repo has CI — any provider)

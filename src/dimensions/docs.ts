@@ -111,6 +111,20 @@ export async function analyzeDocsDimension(
     weight: 10,
   });
 
+  // Code of Conduct
+  const hasCodeOfConduct =
+    treeHasFile(tree, "CODE_OF_CONDUCT.md") ||
+    treeHasFile(tree, ".github/CODE_OF_CONDUCT.md") ||
+    treeHasFile(tree, "code-of-conduct.md");
+  findings.push({
+    name: "Code of Conduct",
+    passed: hasCodeOfConduct,
+    detail: hasCodeOfConduct
+      ? "Code of Conduct found"
+      : "No Code of Conduct — consider adding for community governance",
+    weight: 5,
+  });
+
   // Description set
   const hasDescription = Boolean(meta.description);
   findings.push({

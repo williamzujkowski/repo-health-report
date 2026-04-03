@@ -117,16 +117,17 @@ function analyzeApplicationDevOps(tree: RepoTree): Finding[] {
   });
 
   // Release automation
-  const hasReleaseWorkflow = treeHasPattern(
-    tree,
-    /^\.github\/workflows\/.*release.*\.ya?ml$/i
-  );
+  const hasReleaseWorkflow =
+    treeHasPattern(tree, /^\.github\/workflows\/.*release.*\.ya?ml$/i) ||
+    treeHasFile(tree, ".github/release.yml");
   const hasReleaseConfig =
     treeHasFile(tree, ".releaserc") ||
     treeHasFile(tree, ".releaserc.json") ||
     treeHasFile(tree, ".releaserc.yml") ||
     treeHasFile(tree, "release.config.js") ||
-    treeHasFile(tree, ".changeset/config.json");
+    treeHasFile(tree, "release.config.cjs") ||
+    treeHasFile(tree, ".changeset/config.json") ||
+    treeHasPattern(tree, /^\.changeset\//);
   const hasRelease = hasReleaseWorkflow || hasReleaseConfig;
   findings.push({
     name: "Release automation",

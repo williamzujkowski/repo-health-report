@@ -100,6 +100,21 @@ export function detectSecurityPolicy(tree: RepoTree): DetectorResult {
   return { detected: false, detail: "No security policy" };
 }
 
+// --- SBOM Detectors ---
+export function detectSBOM(tree: RepoTree): DetectorResult {
+  const checks: Array<[() => boolean, string]> = [
+    [() => treeHasFile(tree, "sbom.json"), "sbom.json"],
+    [() => treeHasFile(tree, "bom.xml"), "CycloneDX BOM (bom.xml)"],
+    [() => treeHasPattern(tree, /sbom\.spdx/), "SPDX SBOM"],
+    [() => treeHasPattern(tree, /\.cdx\.json$/), "CycloneDX JSON"],
+    [() => treeHasPattern(tree, /^\.github\/sbom/), ".github/sbom"],
+  ];
+  for (const [check, name] of checks) {
+    if (check()) return { detected: true, detail: name };
+  }
+  return { detected: false, detail: "No SBOM artifact detected" };
+}
+
 // --- License Detectors ---
 export function detectLicense(tree: RepoTree): DetectorResult {
   const checks: Array<[() => boolean, string]> = [
