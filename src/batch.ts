@@ -25,7 +25,9 @@ import {
   detectProjectType,
   detectRepoSize,
   normalizeLanguage,
+  detectAllLanguages,
   type RepoMeta,
+  type LanguageBreakdown,
 } from "./analyze.js";
 import { analyzeSecurityDimension } from "./dimensions/security.js";
 import { analyzeTestingDimension } from "./dimensions/testing.js";
@@ -106,6 +108,8 @@ export interface BatchReport {
   pushed_at?: string;
   created_at?: string;
   size?: number;
+  // Multi-language breakdown (always present)
+  languages?: LanguageBreakdown;
   // AI contributor detection (present when --detect-ai is used)
   aiContributors?: AiContributorResult;
 }
@@ -287,6 +291,7 @@ export async function analyzeRepo(
   const projectType = detectProjectType(tree, validSlug, meta);
   const sizeTier = detectRepoSize(tree);
   const language = normalizeLanguage(meta.language, tree);
+  const languages = detectAllLanguages(tree, meta.language);
 
   const dimensionResults = await Promise.all([
     analyzeSecurityDimension(tree, meta, validSlug),
@@ -330,6 +335,7 @@ export async function analyzeRepo(
     toolVersion: TOOL_VERSION,
     detectorVersion,
     checkCounts,
+    languages,
     // Enriched fields — present when GraphQL fetch succeeded
     ...(meta.forks_count !== undefined ? { forks_count: meta.forks_count } : {}),
     ...(meta.topics !== undefined ? { topics: meta.topics } : {}),

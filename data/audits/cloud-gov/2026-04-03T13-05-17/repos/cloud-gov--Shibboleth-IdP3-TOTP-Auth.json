@@ -1,0 +1,300 @@
+{
+  "repo": "cloud-gov/Shibboleth-IdP3-TOTP-Auth",
+  "letter": "F",
+  "overall": 59,
+  "graded": true,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 47,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": false,
+          "detail": "No SECURITY.md — add a vulnerability disclosure policy",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Token permissions",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": false,
+          "detail": "No Dependabot or Renovate config found",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": true,
+          "detail": ".gitignore found",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": true,
+          "detail": "Travis CI found (likely branch protection in place)",
+          "weight": 10
+        }
+      ],
+      "durationMs": 23.01636700000381
+    },
+    {
+      "name": "Testing",
+      "score": 56,
+      "findings": [
+        {
+          "name": "CI workflows",
+          "passed": true,
+          "detail": "Travis CI detected",
+          "weight": 25
+        },
+        {
+          "name": "Test files",
+          "passed": true,
+          "detail": "11 test-related file(s) found",
+          "weight": 25
+        },
+        {
+          "name": "Coverage configuration",
+          "passed": false,
+          "detail": "No coverage configuration detected",
+          "weight": 20
+        },
+        {
+          "name": "Test runner configured",
+          "passed": false,
+          "detail": "No test runner found (no test script, pytest, cargo, or go.mod)",
+          "weight": 15
+        },
+        {
+          "name": "Pre-commit hooks",
+          "passed": false,
+          "detail": "No pre-commit hooks found",
+          "weight": 5
+        }
+      ],
+      "durationMs": 356.52182999999786
+    },
+    {
+      "name": "Documentation",
+      "score": 60,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": true,
+          "detail": "README.md is 4959 chars",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: NOASSERTION",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": false,
+          "detail": "No CONTRIBUTING guide — makes it harder for contributors to get started",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": false,
+          "detail": "No docs/ directory or API.md",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"Google authenticator authentication module for Shibboleth IdP v3.\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 405.3195729999934
+    },
+    {
+      "name": "Architecture",
+      "score": 35,
+      "findings": [
+        {
+          "name": "Type safety (built-in + build tool)",
+          "passed": true,
+          "detail": "Gradle found — Java has built-in type safety",
+          "weight": 20
+        },
+        {
+          "name": "Linter (Checkstyle / PMD / SpotBugs)",
+          "passed": false,
+          "detail": "No Checkstyle, PMD, or SpotBugs config",
+          "weight": 20
+        },
+        {
+          "name": "Code formatter (google-java-format / Spotless)",
+          "passed": false,
+          "detail": "No formatter config",
+          "weight": 15
+        },
+        {
+          "name": "Standard Maven layout (src/main/java)",
+          "passed": false,
+          "detail": "No standard Maven/Gradle layout",
+          "weight": 20
+        },
+        {
+          "name": "Build configuration",
+          "passed": true,
+          "detail": "build.gradle found",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.677811000001384
+    },
+    {
+      "name": "DevOps",
+      "score": 50,
+      "findings": [
+        {
+          "name": "CI/CD pipeline",
+          "passed": true,
+          "detail": "Travis CI",
+          "weight": 30
+        },
+        {
+          "name": "Container support (Docker)",
+          "passed": false,
+          "detail": "No Docker configuration",
+          "weight": 20
+        },
+        {
+          "name": "Release automation",
+          "passed": false,
+          "detail": "No release automation (semantic-release, changesets, etc.)",
+          "weight": 20
+        },
+        {
+          "name": "Issue/PR templates",
+          "passed": true,
+          "detail": "Issue/PR templates found",
+          "weight": 15
+        },
+        {
+          "name": "Deployment/Infrastructure config",
+          "passed": false,
+          "detail": "No deployment configuration detected",
+          "weight": 5
+        }
+      ],
+      "durationMs": 0.6187710000012885
+    },
+    {
+      "name": "Maintenance",
+      "score": 56,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": true,
+          "detail": "Last commit 28 day(s) ago — actively maintained",
+          "weight": 30
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": false,
+          "detail": "Median open issue age: 534 day(s) — stale issues accumulating (oldest sampled: 534 days)",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "Latest tag \"0.5.1.1\" 3754 day(s) ago but repo has recent commits — release hygiene gap",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": true,
+          "detail": "Bus factor 7 — healthy contributor distribution (ccostino, korteke, rogeruiz, jbarnicle, spgreenberg)",
+          "weight": 20
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": false,
+          "detail": "2 stars — early stage or niche project",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 1441.2824039999978
+    }
+  ],
+  "totalDurationMs": 2227.4367559999955,
+  "projectType": "application",
+  "sizeTier": "small",
+  "language": "Java",
+  "analyzedAt": "2026-04-03T13:03:17.692Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 5
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 5
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 5
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 3,
+  "topics": [],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2026-03-05T14:26:40Z",
+  "created_at": "2016-10-24T15:33:30Z",
+  "size": 323
+}

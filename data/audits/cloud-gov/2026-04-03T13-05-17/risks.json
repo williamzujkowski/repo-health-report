@@ -1,0 +1,820 @@
+{
+  "risks": [
+    {
+      "finding": "Pre-commit hooks",
+      "failCount": 107,
+      "failRate": 96,
+      "severity": "high",
+      "category": "ci-testing",
+      "recommendation": "Add pre-commit hooks (husky, pre-commit, lefthook)"
+    },
+    {
+      "finding": "Release automation",
+      "failCount": 106,
+      "failRate": 99,
+      "severity": "high",
+      "category": "ci-testing",
+      "recommendation": "Set up automated releases (semantic-release, changesets)"
+    },
+    {
+      "finding": "Deployment/Infrastructure config",
+      "failCount": 99,
+      "failRate": 93,
+      "severity": "high",
+      "category": "ci-testing",
+      "recommendation": "Add deployment or infrastructure configuration"
+    },
+    {
+      "finding": "Coverage configuration",
+      "failCount": 95,
+      "failRate": 89,
+      "severity": "high",
+      "category": "ci-testing",
+      "recommendation": "Configure test coverage reporting"
+    },
+    {
+      "finding": "Test files",
+      "failCount": 73,
+      "failRate": 68,
+      "severity": "high",
+      "category": "ci-testing",
+      "recommendation": "Add test files for the project"
+    },
+    {
+      "finding": "Test runner configured",
+      "failCount": 72,
+      "failRate": 67,
+      "severity": "high",
+      "category": "ci-testing",
+      "recommendation": "Configure a test runner in the build scripts"
+    },
+    {
+      "finding": "Container support (Docker)",
+      "failCount": 71,
+      "failRate": 66,
+      "severity": "high",
+      "category": "ci-testing",
+      "recommendation": "Add a Dockerfile for containerized builds"
+    },
+    {
+      "finding": "Dependency update automation",
+      "failCount": 109,
+      "failRate": 92,
+      "severity": "medium",
+      "category": "supply-chain",
+      "recommendation": "Enable Dependabot or Renovate for automated dependency updates"
+    },
+    {
+      "finding": "CHANGELOG",
+      "failCount": 107,
+      "failRate": 91,
+      "severity": "medium",
+      "category": "documentation",
+      "recommendation": "Add a CHANGELOG to track releases"
+    },
+    {
+      "finding": "Documentation directory or API docs",
+      "failCount": 101,
+      "failRate": 86,
+      "severity": "medium",
+      "category": "documentation",
+      "recommendation": "Add a docs/ directory or API documentation"
+    },
+    {
+      "finding": "CI workflows (branch protection proxy)",
+      "failCount": 57,
+      "failRate": 48,
+      "severity": "medium",
+      "category": "ci-testing",
+      "recommendation": "Add CI workflows to enable branch protection"
+    },
+    {
+      "finding": "CI workflows",
+      "failCount": 53,
+      "failRate": 50,
+      "severity": "medium",
+      "category": "ci-testing",
+      "recommendation": "Add CI workflow files (.github/workflows/)"
+    },
+    {
+      "finding": "Issue/PR templates",
+      "failCount": 50,
+      "failRate": 45,
+      "severity": "medium",
+      "category": "ci-testing",
+      "recommendation": "Add issue and PR templates"
+    },
+    {
+      "finding": "CI/CD pipeline",
+      "failCount": 49,
+      "failRate": 44,
+      "severity": "medium",
+      "category": "ci-testing",
+      "recommendation": "Set up a CI/CD pipeline (GitHub Actions recommended)"
+    },
+    {
+      "finding": "Code formatter (shfmt / editorconfig)",
+      "failCount": 33,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Code formatter (shfmt / editorconfig)"
+    },
+    {
+      "finding": "Linter (ShellCheck)",
+      "failCount": 32,
+      "failRate": 97,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Linter (ShellCheck)"
+    },
+    {
+      "finding": "Build runner (Makefile)",
+      "failCount": 31,
+      "failRate": 94,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Build runner (Makefile)"
+    },
+    {
+      "finding": "Test framework (bats / shunit2)",
+      "failCount": 30,
+      "failRate": 91,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Test framework (bats / shunit2)"
+    },
+    {
+      "finding": "Code formatter",
+      "failCount": 21,
+      "failRate": 91,
+      "severity": "medium",
+      "category": "architecture",
+      "recommendation": "Add a code formatter configuration"
+    },
+    {
+      "finding": "Modular script structure (lib/ or src/)",
+      "failCount": 20,
+      "failRate": 61,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Modular script structure (lib/ or src/)"
+    },
+    {
+      "finding": "Linter (golangci-lint)",
+      "failCount": 20,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Linter (golangci-lint)"
+    },
+    {
+      "finding": "Go version pinning (.go-version / go.work)",
+      "failCount": 20,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Go version pinning (.go-version / go.work)"
+    },
+    {
+      "finding": "Linter (ESLint / Biome)",
+      "failCount": 19,
+      "failRate": 79,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Linter (ESLint / Biome)"
+    },
+    {
+      "finding": "Type safety (tsconfig / jsconfig)",
+      "failCount": 17,
+      "failRate": 94,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Type safety (tsconfig / jsconfig)"
+    },
+    {
+      "finding": "Build runner (Makefile / Taskfile)",
+      "failCount": 17,
+      "failRate": 85,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Build runner (Makefile / Taskfile)"
+    },
+    {
+      "finding": "Build configuration",
+      "failCount": 14,
+      "failRate": 42,
+      "severity": "medium",
+      "category": "architecture",
+      "recommendation": "Add a build configuration file"
+    },
+    {
+      "finding": "Organized source structure",
+      "failCount": 13,
+      "failRate": 45,
+      "severity": "medium",
+      "category": "architecture",
+      "recommendation": "Organize code into src/, lib/, or packages/ structure"
+    },
+    {
+      "finding": "Type checking (mypy / pyright)",
+      "failCount": 11,
+      "failRate": 73,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Type checking (mypy / pyright)"
+    },
+    {
+      "finding": "Code formatter (black / ruff / yapf)",
+      "failCount": 11,
+      "failRate": 73,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Code formatter (black / ruff / yapf)"
+    },
+    {
+      "finding": "Linter (ruff / flake8 / pylint)",
+      "failCount": 10,
+      "failRate": 67,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Linter (ruff / flake8 / pylint)"
+    },
+    {
+      "finding": "Package structure (cmd/, pkg/, internal/)",
+      "failCount": 9,
+      "failRate": 45,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Package structure (cmd/, pkg/, internal/)"
+    },
+    {
+      "finding": "Build configuration (pyproject.toml / setup.py)",
+      "failCount": 8,
+      "failRate": 53,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Build configuration (pyproject.toml / setup.py)"
+    },
+    {
+      "finding": "Type safety (Sorbet / RBS)",
+      "failCount": 6,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Type safety (Sorbet / RBS)"
+    },
+    {
+      "finding": "Linter (RuboCop)",
+      "failCount": 6,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Linter (RuboCop)"
+    },
+    {
+      "finding": "Code formatter (RuboCop / editorconfig)",
+      "failCount": 6,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Code formatter (RuboCop / editorconfig)"
+    },
+    {
+      "finding": "Source structure (lib/ or app/)",
+      "failCount": 6,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Source structure (lib/ or app/)"
+    },
+    {
+      "finding": "Markdown linting (markdownlint / pymarkdown)",
+      "failCount": 6,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Markdown linting (markdownlint / pymarkdown)"
+    },
+    {
+      "finding": "Link checking (lychee / markdown-link-check)",
+      "failCount": 6,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Link checking (lychee / markdown-link-check)"
+    },
+    {
+      "finding": "Spell check (cspell / aspell / codespell)",
+      "failCount": 6,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Spell check (cspell / aspell / codespell)"
+    },
+    {
+      "finding": "Consistent formatting (.editorconfig / markdownlint)",
+      "failCount": 6,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Consistent formatting (.editorconfig / markdownlint)"
+    },
+    {
+      "finding": "Compliance testing (kitchen-terraform / inspec)",
+      "failCount": 5,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Compliance testing (kitchen-terraform / inspec)"
+    },
+    {
+      "finding": "IaC linter (tflint)",
+      "failCount": 5,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: IaC linter (tflint)"
+    },
+    {
+      "finding": "Module structure",
+      "failCount": 5,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Module structure"
+    },
+    {
+      "finding": "Terraform version pinning",
+      "failCount": 5,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Terraform version pinning"
+    },
+    {
+      "finding": "Environment / workspace config",
+      "failCount": 5,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Environment / workspace config"
+    },
+    {
+      "finding": "Changelog / release tracking",
+      "failCount": 5,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Changelog / release tracking"
+    },
+    {
+      "finding": "Type safety",
+      "failCount": 5,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "architecture",
+      "recommendation": "Add type checking (TypeScript, mypy, etc.)"
+    },
+    {
+      "finding": "Linter configuration",
+      "failCount": 5,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "architecture",
+      "recommendation": "Add a linter configuration file"
+    },
+    {
+      "finding": "Linter (Checkstyle / PMD / SpotBugs)",
+      "failCount": 4,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Linter (Checkstyle / PMD / SpotBugs)"
+    },
+    {
+      "finding": "Standard Maven layout (src/main/java)",
+      "failCount": 4,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Standard Maven layout (src/main/java)"
+    },
+    {
+      "finding": "CI workflow (for automated checks)",
+      "failCount": 4,
+      "failRate": 67,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: CI workflow (for automated checks)"
+    },
+    {
+      "finding": "CI/CD pipeline (automated checks)",
+      "failCount": 4,
+      "failRate": 67,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: CI/CD pipeline (automated checks)"
+    },
+    {
+      "finding": "Issue templates (for contribution requests)",
+      "failCount": 4,
+      "failRate": 67,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Issue templates (for contribution requests)"
+    },
+    {
+      "finding": "Automation tools (awesome-lint / scripts / Makefile)",
+      "failCount": 4,
+      "failRate": 67,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Automation tools (awesome-lint / scripts / Makefile)"
+    },
+    {
+      "finding": "Terratest / Go tests",
+      "failCount": 4,
+      "failRate": 80,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Terratest / Go tests"
+    },
+    {
+      "finding": "Terraform formatting (terraform fmt)",
+      "failCount": 4,
+      "failRate": 80,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Terraform formatting (terraform fmt)"
+    },
+    {
+      "finding": "Build/task runner (Makefile)",
+      "failCount": 4,
+      "failRate": 80,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Build/task runner (Makefile)"
+    },
+    {
+      "finding": "Code formatter (google-java-format / Spotless)",
+      "failCount": 3,
+      "failRate": 75,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Code formatter (google-java-format / Spotless)"
+    },
+    {
+      "finding": "Build configuration (Gemfile / Rakefile)",
+      "failCount": 3,
+      "failRate": 50,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Build configuration (Gemfile / Rakefile)"
+    },
+    {
+      "finding": "[IaC] Compliance testing (kitchen-terraform / inspec)",
+      "failCount": 3,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: [IaC] Compliance testing (kitchen-terraform / inspec)"
+    },
+    {
+      "finding": "[IaC] Pre-commit hooks",
+      "failCount": 3,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: [IaC] Pre-commit hooks"
+    },
+    {
+      "finding": "[IaC] IaC linter (tflint)",
+      "failCount": 3,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: [IaC] IaC linter (tflint)"
+    },
+    {
+      "finding": "[IaC] Terraform formatting (terraform fmt)",
+      "failCount": 3,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: [IaC] Terraform formatting (terraform fmt)"
+    },
+    {
+      "finding": "[IaC] Module structure",
+      "failCount": 3,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: [IaC] Module structure"
+    },
+    {
+      "finding": "[IaC] Terraform version pinning",
+      "failCount": 3,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: [IaC] Terraform version pinning"
+    },
+    {
+      "finding": "[IaC] Environment / workspace config",
+      "failCount": 3,
+      "failRate": 100,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: [IaC] Environment / workspace config"
+    },
+    {
+      "finding": "PR template (for new additions)",
+      "failCount": 3,
+      "failRate": 50,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: PR template (for new additions)"
+    },
+    {
+      "finding": "Validation script (terraform validate)",
+      "failCount": 3,
+      "failRate": 60,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Validation script (terraform validate)"
+    },
+    {
+      "finding": "Terraform conventions (variables.tf / outputs.tf)",
+      "failCount": 3,
+      "failRate": 60,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Terraform conventions (variables.tf / outputs.tf)"
+    },
+    {
+      "finding": "Task runner (Makefile / scripts)",
+      "failCount": 3,
+      "failRate": 60,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Task runner (Makefile / scripts)"
+    },
+    {
+      "finding": "Type safety (built-in + build tool)",
+      "failCount": 2,
+      "failRate": 50,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: Type safety (built-in + build tool)"
+    },
+    {
+      "finding": "[IaC] Validation script (terraform validate)",
+      "failCount": 2,
+      "failRate": 67,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: [IaC] Validation script (terraform validate)"
+    },
+    {
+      "finding": "[IaC] Build/task runner (Makefile)",
+      "failCount": 2,
+      "failRate": 67,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: [IaC] Build/task runner (Makefile)"
+    },
+    {
+      "finding": "[IaC] Task runner (Makefile / scripts)",
+      "failCount": 2,
+      "failRate": 67,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: [IaC] Task runner (Makefile / scripts)"
+    },
+    {
+      "finding": "[IaC] Changelog / release tracking",
+      "failCount": 2,
+      "failRate": 67,
+      "severity": "medium",
+      "category": "other",
+      "recommendation": "Address: [IaC] Changelog / release tracking"
+    },
+    {
+      "finding": "Maintainer funding",
+      "failCount": 118,
+      "failRate": 100,
+      "severity": "low",
+      "category": "maintenance",
+      "recommendation": "Address: Maintainer funding"
+    },
+    {
+      "finding": "Recent releases",
+      "failCount": 108,
+      "failRate": 92,
+      "severity": "low",
+      "category": "maintenance",
+      "recommendation": "Address: Recent releases"
+    },
+    {
+      "finding": "Community adoption (stars)",
+      "failCount": 101,
+      "failRate": 86,
+      "severity": "low",
+      "category": "maintenance",
+      "recommendation": "Address: Community adoption (stars)"
+    },
+    {
+      "finding": "Open issue freshness",
+      "failCount": 60,
+      "failRate": 51,
+      "severity": "low",
+      "category": "maintenance",
+      "recommendation": "Address: Open issue freshness"
+    },
+    {
+      "finding": "Security policy (SECURITY.md)",
+      "failCount": 29,
+      "failRate": 25,
+      "severity": "low",
+      "category": "security-policy",
+      "recommendation": "Add a SECURITY.md with vulnerability disclosure instructions"
+    },
+    {
+      "finding": "README quality",
+      "failCount": 19,
+      "failRate": 16,
+      "severity": "low",
+      "category": "documentation",
+      "recommendation": "Improve README.md with description, install steps, and usage examples"
+    },
+    {
+      "finding": "CONTRIBUTING guide",
+      "failCount": 19,
+      "failRate": 16,
+      "severity": "low",
+      "category": "documentation",
+      "recommendation": "Add a CONTRIBUTING.md guide"
+    },
+    {
+      "finding": ".gitignore present",
+      "failCount": 18,
+      "failRate": 15,
+      "severity": "low",
+      "category": "security-policy",
+      "recommendation": "Add a .gitignore file appropriate for the project language"
+    },
+    {
+      "finding": "Repository description",
+      "failCount": 18,
+      "failRate": 15,
+      "severity": "low",
+      "category": "documentation",
+      "recommendation": "Set the repository description on GitHub"
+    },
+    {
+      "finding": "Last commit recency",
+      "failCount": 15,
+      "failRate": 13,
+      "severity": "low",
+      "category": "maintenance",
+      "recommendation": "Address: Last commit recency"
+    },
+    {
+      "finding": "Pinned dependencies (Actions SHA)",
+      "failCount": 12,
+      "failRate": 10,
+      "severity": "low",
+      "category": "supply-chain",
+      "recommendation": "Pin all GitHub Actions to full commit SHA"
+    },
+    {
+      "finding": "LICENSE file",
+      "failCount": 10,
+      "failRate": 8,
+      "severity": "low",
+      "category": "documentation",
+      "recommendation": "Add a LICENSE file"
+    },
+    {
+      "finding": "Token permissions",
+      "failCount": 9,
+      "failRate": 8,
+      "severity": "low",
+      "category": "supply-chain",
+      "recommendation": "Add explicit permissions block to GitHub Actions workflows"
+    },
+    {
+      "finding": "Bus factor",
+      "failCount": 6,
+      "failRate": 5,
+      "severity": "low",
+      "category": "maintenance",
+      "recommendation": "Address: Bus factor"
+    },
+    {
+      "finding": "Package structure (src/ or package layout)",
+      "failCount": 4,
+      "failRate": 27,
+      "severity": "low",
+      "category": "other",
+      "recommendation": "Address: Package structure (src/ or package layout)"
+    },
+    {
+      "finding": "No committed .env files",
+      "failCount": 3,
+      "failRate": 3,
+      "severity": "low",
+      "category": "security-policy",
+      "recommendation": "Remove committed .env files and add to .gitignore"
+    },
+    {
+      "finding": "Organized file structure (category directories)",
+      "failCount": 2,
+      "failRate": 33,
+      "severity": "low",
+      "category": "other",
+      "recommendation": "Address: Organized file structure (category directories)"
+    },
+    {
+      "finding": "Code ownership",
+      "failCount": 1,
+      "failRate": 1,
+      "severity": "low",
+      "category": "security-policy",
+      "recommendation": "Add a CODEOWNERS file to enforce review requirements"
+    },
+    {
+      "finding": "[IaC] CI pipeline",
+      "failCount": 1,
+      "failRate": 33,
+      "severity": "low",
+      "category": "other",
+      "recommendation": "Address: [IaC] CI pipeline"
+    },
+    {
+      "finding": "[IaC] Terratest / Go tests",
+      "failCount": 1,
+      "failRate": 33,
+      "severity": "low",
+      "category": "other",
+      "recommendation": "Address: [IaC] Terratest / Go tests"
+    },
+    {
+      "finding": "Type safety (built-in + go.mod)",
+      "failCount": 1,
+      "failRate": 5,
+      "severity": "low",
+      "category": "other",
+      "recommendation": "Address: Type safety (built-in + go.mod)"
+    },
+    {
+      "finding": "Code formatter (gofmt — built-in)",
+      "failCount": 1,
+      "failRate": 5,
+      "severity": "low",
+      "category": "other",
+      "recommendation": "Address: Code formatter (gofmt — built-in)"
+    },
+    {
+      "finding": "[IaC] Terraform conventions (variables.tf / outputs.tf)",
+      "failCount": 1,
+      "failRate": 33,
+      "severity": "low",
+      "category": "other",
+      "recommendation": "Address: [IaC] Terraform conventions (variables.tf / outputs.tf)"
+    },
+    {
+      "finding": "[IaC] CI/CD pipeline",
+      "failCount": 1,
+      "failRate": 33,
+      "severity": "low",
+      "category": "other",
+      "recommendation": "Address: [IaC] CI/CD pipeline"
+    },
+    {
+      "finding": "[IaC] Issue/PR templates",
+      "failCount": 1,
+      "failRate": 33,
+      "severity": "low",
+      "category": "other",
+      "recommendation": "Address: [IaC] Issue/PR templates"
+    },
+    {
+      "finding": "License (LICENSE file)",
+      "failCount": 1,
+      "failRate": 17,
+      "severity": "low",
+      "category": "other",
+      "recommendation": "Address: License (LICENSE file)"
+    },
+    {
+      "finding": "Code formatter (Prettier / Biome)",
+      "failCount": 1,
+      "failRate": 17,
+      "severity": "low",
+      "category": "other",
+      "recommendation": "Address: Code formatter (Prettier / Biome)"
+    }
+  ]
+}

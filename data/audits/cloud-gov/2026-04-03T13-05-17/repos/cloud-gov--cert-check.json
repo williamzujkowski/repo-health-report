@@ -1,0 +1,300 @@
+{
+  "repo": "cloud-gov/cert-check",
+  "letter": "F",
+  "overall": 59,
+  "graded": true,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 80,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": true,
+          "detail": "Security policy found with contact info (886 chars)",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Token permissions",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": false,
+          "detail": "No Dependabot or Renovate config found",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": true,
+          "detail": ".gitignore found",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": true,
+          "detail": "Concourse found (likely branch protection in place)",
+          "weight": 10
+        }
+      ],
+      "durationMs": 413.80939699999726
+    },
+    {
+      "name": "Testing",
+      "score": 50,
+      "findings": [
+        {
+          "name": "CI workflows",
+          "passed": true,
+          "detail": "Concourse detected",
+          "weight": 25
+        },
+        {
+          "name": "Test files",
+          "passed": false,
+          "detail": "No test files detected",
+          "weight": 25
+        },
+        {
+          "name": "Coverage configuration",
+          "passed": true,
+          "detail": "Coverage/test runner config found",
+          "weight": 20
+        },
+        {
+          "name": "Test runner configured",
+          "passed": false,
+          "detail": "No test runner found (no test script, pytest, cargo, or go.mod)",
+          "weight": 15
+        },
+        {
+          "name": "Pre-commit hooks",
+          "passed": false,
+          "detail": "No pre-commit hooks found",
+          "weight": 5
+        }
+      ],
+      "durationMs": 375.9400069999974
+    },
+    {
+      "name": "Documentation",
+      "score": 75,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": true,
+          "detail": "README.md is 2398 chars",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: NOASSERTION",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": false,
+          "detail": "No docs/ directory or API.md",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"Notify a slack channel when certificates in bosh manifests or used by ELBs are about to expire.\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 387.83665000000474
+    },
+    {
+      "name": "Architecture",
+      "score": 35,
+      "findings": [
+        {
+          "name": "Type checking (mypy / pyright)",
+          "passed": false,
+          "detail": "No mypy or pyright config — consider adding type checking",
+          "weight": 20
+        },
+        {
+          "name": "Linter (ruff / flake8 / pylint)",
+          "passed": false,
+          "detail": "No linter config",
+          "weight": 20
+        },
+        {
+          "name": "Code formatter (black / ruff / yapf)",
+          "passed": false,
+          "detail": "No formatter config",
+          "weight": 15
+        },
+        {
+          "name": "Package structure (src/ or package layout)",
+          "passed": true,
+          "detail": "Python package structure found",
+          "weight": 20
+        },
+        {
+          "name": "Build configuration (pyproject.toml / setup.py)",
+          "passed": true,
+          "detail": "Build config found",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.16236199999548262
+    },
+    {
+      "name": "DevOps",
+      "score": 50,
+      "findings": [
+        {
+          "name": "CI/CD pipeline",
+          "passed": true,
+          "detail": "Concourse, CI directory",
+          "weight": 30
+        },
+        {
+          "name": "Container support (Docker)",
+          "passed": false,
+          "detail": "No Docker configuration",
+          "weight": 20
+        },
+        {
+          "name": "Release automation",
+          "passed": false,
+          "detail": "No release automation (semantic-release, changesets, etc.)",
+          "weight": 20
+        },
+        {
+          "name": "Issue/PR templates",
+          "passed": true,
+          "detail": "Issue/PR templates found",
+          "weight": 15
+        },
+        {
+          "name": "Deployment/Infrastructure config",
+          "passed": false,
+          "detail": "No deployment configuration detected",
+          "weight": 5
+        }
+      ],
+      "durationMs": 0.1329089999999269
+    },
+    {
+      "name": "Maintenance",
+      "score": 22,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": false,
+          "detail": "Last commit 183 day(s) ago — may be unmaintained",
+          "weight": 30
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": false,
+          "detail": "Median open issue age: 2409 day(s) — stale issues accumulating (oldest sampled: 2409 days)",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "No GitHub releases or tags found — consider publishing releases",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": true,
+          "detail": "Bus factor 7 — healthy contributor distribution (dandersonsw, bengerman13, jmcarp, markdboyd, cnelson)",
+          "weight": 20
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": false,
+          "detail": "1 stars — early stage or niche project",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 1017.1907070000016
+    }
+  ],
+  "totalDurationMs": 2195.0720319999964,
+  "projectType": "application",
+  "sizeTier": "small",
+  "language": "Python",
+  "analyzedAt": "2026-04-03T13:03:33.835Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 5
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 5
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 5
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 1,
+  "topics": [],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2025-10-01T16:26:08Z",
+  "created_at": "2017-05-11T22:00:06Z",
+  "size": 58
+}

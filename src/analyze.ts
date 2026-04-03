@@ -401,6 +401,68 @@ export function detectLanguageFromTree(tree: RepoTree): RepoLanguage {
   return bestLang;
 }
 
+// ── Multi-language detection ────────────────────────────────────────────────
+
+export interface LanguageBreakdownEntry {
+  language: RepoLanguage;
+  fileCount: number;
+  percentage: number;
+}
+
+export interface LanguageBreakdown {
+  primary: RepoLanguage;
+  all: LanguageBreakdownEntry[];
+}
+
+/**
+ * Extension-to-language map for multi-language detection.
+ * Shared with detectLanguageFromTree but includes additional extensions.
+ */
+const EXT_TO_LANGUAGE: Record<string, RepoLanguage> = {
+  ts: "typescript", tsx: "typescript",
+  js: "javascript", jsx: "javascript", mjs: "javascript",
+  py: "python", pyx: "python",
+  go: "go",
+  rs: "rust",
+  java: "java", kt: "java", scala: "java",
+  sh: "shell", bash: "shell",
+  c: "c", cpp: "c", h: "c", hpp: "c",
+  rb: "ruby",
+};
+
+/**
+ * Detect ALL languages present in the repo tree with file counts and percentages.
+ * Returns a breakdown with the primary language (from GitHub or highest-count)
+ * and all detected languages sorted by file count descending.
+ */
+export function detectAllLanguages(tree: RepoTree, ghLanguage: string | null): LanguageBreakdown {
+  const langCounts = new Map<RepoLanguage, number>();
+  let totalSourceFiles = 0;
+
+  for (const entry of tree.tree) {
+    if (entry.type !== "blob") continue;
+    const ext = entry.path.split(".").pop()?.toLowerCase();
+    if (!ext) continue;
+    const lang = EXT_TO_LANGUAGE[ext];
+    if (lang) {
+      langCounts.set(lang, (langCounts.get(lang) ?? 0) + 1);
+      totalSourceFiles++;
+    }
+  }
+
+  const sorted = [...langCounts.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .map(([language, fileCount]) => ({
+      language,
+      fileCount,
+      percentage: totalSourceFiles > 0 ? Math.round((fileCount / totalSourceFiles) * 100) : 0,
+    }));
+
+  const primary = normalizeLanguage(ghLanguage, tree);
+
+  return { primary, all: sorted };
+}
+
 export function normalizeLanguage(ghLanguage: string | null, tree?: RepoTree): RepoLanguage {
   const lower = (ghLanguage ?? "").toLowerCase();
   const mapped = LANGUAGE_MAP[lower];

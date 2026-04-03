@@ -1,0 +1,300 @@
+{
+  "repo": "cloud-gov/pages-example-website-api",
+  "letter": "F",
+  "overall": 39,
+  "graded": true,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 87,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": true,
+          "detail": "Security policy found with contact info (886 chars)",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Token permissions",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": true,
+          "detail": "Using Dependabot",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": true,
+          "detail": ".gitignore found",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": false,
+          "detail": "No CI system detected — branch protection is unlikely",
+          "weight": 10
+        }
+      ],
+      "durationMs": 383.65818699999363
+    },
+    {
+      "name": "Testing",
+      "score": 0,
+      "findings": [
+        {
+          "name": "CI workflows",
+          "passed": false,
+          "detail": "No CI system detected",
+          "weight": 25
+        },
+        {
+          "name": "Test files",
+          "passed": false,
+          "detail": "No test files detected",
+          "weight": 25
+        },
+        {
+          "name": "Coverage configuration",
+          "passed": false,
+          "detail": "No coverage configuration detected",
+          "weight": 20
+        },
+        {
+          "name": "Test runner configured",
+          "passed": false,
+          "detail": "No test runner found (no test script, pytest, cargo, or go.mod)",
+          "weight": 15
+        },
+        {
+          "name": "Pre-commit hooks",
+          "passed": false,
+          "detail": "No pre-commit hooks found",
+          "weight": 5
+        }
+      ],
+      "durationMs": 349.5706780000037
+    },
+    {
+      "name": "Documentation",
+      "score": 65,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": true,
+          "detail": "README.md is 5447 chars",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: NOASSERTION",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": false,
+          "detail": "No docs/ directory or API.md",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": false,
+          "detail": "No repo description set on GitHub",
+          "weight": 10
+        }
+      ],
+      "durationMs": 378.48248500000045
+    },
+    {
+      "name": "Architecture",
+      "score": 0,
+      "findings": [
+        {
+          "name": "Type checking (mypy / pyright)",
+          "passed": false,
+          "detail": "No mypy or pyright config — consider adding type checking",
+          "weight": 20
+        },
+        {
+          "name": "Linter (ruff / flake8 / pylint)",
+          "passed": false,
+          "detail": "No linter config",
+          "weight": 20
+        },
+        {
+          "name": "Code formatter (black / ruff / yapf)",
+          "passed": false,
+          "detail": "No formatter config",
+          "weight": 15
+        },
+        {
+          "name": "Package structure (src/ or package layout)",
+          "passed": false,
+          "detail": "No clear package structure",
+          "weight": 20
+        },
+        {
+          "name": "Build configuration (pyproject.toml / setup.py)",
+          "passed": false,
+          "detail": "No build configuration",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.06809299999440555
+    },
+    {
+      "name": "DevOps",
+      "score": 22,
+      "findings": [
+        {
+          "name": "CI/CD pipeline",
+          "passed": false,
+          "detail": "No CI/CD pipeline detected",
+          "weight": 30
+        },
+        {
+          "name": "Container support (Docker)",
+          "passed": true,
+          "detail": "Docker config found (Dockerfile) (Compose)",
+          "weight": 20
+        },
+        {
+          "name": "Release automation",
+          "passed": false,
+          "detail": "No release automation (semantic-release, changesets, etc.)",
+          "weight": 20
+        },
+        {
+          "name": "Issue/PR templates",
+          "passed": false,
+          "detail": "No issue or PR templates",
+          "weight": 15
+        },
+        {
+          "name": "Deployment/Infrastructure config",
+          "passed": false,
+          "detail": "No deployment configuration detected",
+          "weight": 5
+        }
+      ],
+      "durationMs": 0.16525399999227375
+    },
+    {
+      "name": "Maintenance",
+      "score": 40,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": true,
+          "detail": "Last commit 51 day(s) ago — moderately active",
+          "weight": 15
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": true,
+          "detail": "Median open issue age: 84 day(s) (oldest sampled: 730 days)",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "No GitHub releases or tags found but repo has recent commits — no release process",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": false,
+          "detail": "Bus factor 1 — single point of failure risk (Ephraim-G)",
+          "weight": 20
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": false,
+          "detail": "1 stars — early stage or niche project",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 953.2665370000032
+    }
+  ],
+  "totalDurationMs": 2065.2112339999876,
+  "projectType": "application",
+  "sizeTier": "small",
+  "language": "Python",
+  "analyzedAt": "2026-04-03T13:04:33.950Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 5
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 5
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 5
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 1,
+  "topics": [],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2026-03-26T14:37:26Z",
+  "created_at": "2023-12-05T18:24:55Z",
+  "size": 89
+}

@@ -43,6 +43,17 @@ interface DimensionResult {
   durationMs?: number;
 }
 
+interface LanguageBreakdownEntry {
+  language: string;
+  fileCount: number;
+  percentage: number;
+}
+
+interface LanguageBreakdownStored {
+  primary: string;
+  all: LanguageBreakdownEntry[];
+}
+
 interface StoredReport {
   repo: string;
   letter: string;
@@ -52,6 +63,7 @@ interface StoredReport {
   totalDurationMs: number;
   projectType: string;
   language: string | null;
+  languages?: LanguageBreakdownStored;
   analyzedAt: string;
   toolVersion: string;
 }
@@ -162,6 +174,7 @@ interface LeaderboardEntry {
   grade: string;
   score: number;
   language: string | null;
+  languages: LanguageBreakdownEntry[] | null;
   type: string;
   stars: number | null;
   graded: boolean;
@@ -234,6 +247,7 @@ function buildLeaderboard(reports: StoredReport[]): { repos: LeaderboardEntry[] 
     grade: report.letter,
     score: report.overall,
     language: report.language,
+    languages: report.languages?.all ?? null,
     type: report.projectType,
     stars: extractStars(report),
     graded: isGraded(report),

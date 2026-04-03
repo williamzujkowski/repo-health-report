@@ -10,6 +10,7 @@ import {
   detectProjectType,
   detectRepoSize,
   normalizeLanguage,
+  detectAllLanguages,
 } from "./analyze.js";
 import { detectPlatform } from "./platforms.js";
 import type { PlatformConfig } from "./platforms.js";
@@ -177,13 +178,19 @@ ${chalk.bold("Examples:")}
   const projectType = detectProjectType(tree, slug, meta);
   const sizeTier = detectRepoSize(tree);
   const language = normalizeLanguage(meta.language, tree);
+  const languages = detectAllLanguages(tree, meta.language);
   if (projectType !== "application") {
     console.log(chalk.gray(`  Detected project type: ${projectType}`));
   }
   if (sizeTier !== "medium") {
     console.log(chalk.gray(`  Detected repo size: ${sizeTier}`));
   }
-  if (language !== "other") {
+  if (languages.all.length > 1) {
+    const langStr = languages.all
+      .map((l) => `${l.language} (${l.percentage}%)`)
+      .join(", ");
+    console.log(chalk.gray(`  Languages: ${langStr}`));
+  } else if (language !== "other") {
     console.log(chalk.gray(`  Detected language: ${language}`));
   }
 

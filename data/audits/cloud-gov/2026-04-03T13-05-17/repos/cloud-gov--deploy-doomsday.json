@@ -1,0 +1,300 @@
+{
+  "repo": "cloud-gov/deploy-doomsday",
+  "letter": "F",
+  "overall": 48,
+  "graded": true,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 80,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": true,
+          "detail": "Security policy found with contact info (886 chars)",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Token permissions",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": false,
+          "detail": "No Dependabot or Renovate config found",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": true,
+          "detail": ".gitignore found",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": true,
+          "detail": "Concourse found (likely branch protection in place)",
+          "weight": 10
+        }
+      ],
+      "durationMs": 395.988016000003
+    },
+    {
+      "name": "Testing",
+      "score": 28,
+      "findings": [
+        {
+          "name": "CI workflows",
+          "passed": true,
+          "detail": "Concourse detected",
+          "weight": 25
+        },
+        {
+          "name": "Test files",
+          "passed": false,
+          "detail": "No test files detected",
+          "weight": 25
+        },
+        {
+          "name": "Coverage configuration",
+          "passed": false,
+          "detail": "No coverage configuration detected",
+          "weight": 20
+        },
+        {
+          "name": "Test runner configured",
+          "passed": false,
+          "detail": "No test runner found (no test script, pytest, cargo, or go.mod)",
+          "weight": 15
+        },
+        {
+          "name": "Pre-commit hooks",
+          "passed": false,
+          "detail": "No pre-commit hooks found",
+          "weight": 5
+        }
+      ],
+      "durationMs": 401.3875209999969
+    },
+    {
+      "name": "Documentation",
+      "score": 45,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": false,
+          "detail": "README.md is 286 chars (too short — aim for 500+)",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: NOASSERTION",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": false,
+          "detail": "No docs/ directory or API.md",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"Certificate check using Project Doomsday\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 387.5460640000092
+    },
+    {
+      "name": "Architecture",
+      "score": 0,
+      "findings": [
+        {
+          "name": "Type safety",
+          "passed": false,
+          "detail": "No type checking config found (consider TypeScript, mypy, etc.)",
+          "weight": 20
+        },
+        {
+          "name": "Linter configuration",
+          "passed": false,
+          "detail": "No linter config — code quality may vary",
+          "weight": 20
+        },
+        {
+          "name": "Code formatter",
+          "passed": false,
+          "detail": "No formatter config — inconsistent style is likely",
+          "weight": 15
+        },
+        {
+          "name": "Organized source structure",
+          "passed": false,
+          "detail": "No clear source directory (src/, lib/, or packages/)",
+          "weight": 20
+        },
+        {
+          "name": "Build configuration",
+          "passed": false,
+          "detail": "No build configuration detected",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.1366800000105286
+    },
+    {
+      "name": "DevOps",
+      "score": 33,
+      "findings": [
+        {
+          "name": "CI/CD pipeline",
+          "passed": true,
+          "detail": "Concourse, CI directory",
+          "weight": 30
+        },
+        {
+          "name": "Container support (Docker)",
+          "passed": false,
+          "detail": "No Docker configuration",
+          "weight": 20
+        },
+        {
+          "name": "Release automation",
+          "passed": false,
+          "detail": "No release automation (semantic-release, changesets, etc.)",
+          "weight": 20
+        },
+        {
+          "name": "Issue/PR templates",
+          "passed": false,
+          "detail": "No issue or PR templates",
+          "weight": 15
+        },
+        {
+          "name": "Deployment/Infrastructure config",
+          "passed": false,
+          "detail": "No deployment configuration detected",
+          "weight": 5
+        }
+      ],
+      "durationMs": 0.1392070000001695
+    },
+    {
+      "name": "Maintenance",
+      "score": 72,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": true,
+          "detail": "Last commit 28 day(s) ago — actively maintained",
+          "weight": 30
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": true,
+          "detail": "No open issues — good or very small project",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "No GitHub releases or tags found but repo has recent commits — no release process",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": true,
+          "detail": "Bus factor 9 — healthy contributor distribution (siennathesane, wz-gsa, markdboyd, ChrisMcGowan, JasonTheMain)",
+          "weight": 20
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": false,
+          "detail": "0 stars — early stage or niche project",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 1052.783077
+    }
+  ],
+  "totalDurationMs": 2237.98056500002,
+  "projectType": "application",
+  "sizeTier": "small",
+  "language": null,
+  "analyzedAt": "2026-04-03T13:03:50.566Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 5
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 5
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 5
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 1,
+  "topics": [],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2026-03-05T14:58:41Z",
+  "created_at": "2019-10-08T17:11:09Z",
+  "size": 76
+}

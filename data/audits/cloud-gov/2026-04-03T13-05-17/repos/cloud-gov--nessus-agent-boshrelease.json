@@ -1,0 +1,300 @@
+{
+  "repo": "cloud-gov/nessus-agent-boshrelease",
+  "letter": "F",
+  "overall": 44,
+  "graded": true,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 67,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": true,
+          "detail": "Security policy found with contact info (886 chars)",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Token permissions",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": false,
+          "detail": "No Dependabot or Renovate config found",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": true,
+          "detail": ".gitignore found",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": false,
+          "detail": "No CI system detected — branch protection is unlikely",
+          "weight": 10
+        }
+      ],
+      "durationMs": 377.1098889999994
+    },
+    {
+      "name": "Testing",
+      "score": 0,
+      "findings": [
+        {
+          "name": "CI workflows",
+          "passed": false,
+          "detail": "No CI system detected",
+          "weight": 25
+        },
+        {
+          "name": "Test files",
+          "passed": false,
+          "detail": "No test files detected",
+          "weight": 25
+        },
+        {
+          "name": "Coverage configuration",
+          "passed": false,
+          "detail": "No coverage configuration detected",
+          "weight": 20
+        },
+        {
+          "name": "Test runner configured",
+          "passed": false,
+          "detail": "No test runner found (no test script, pytest, cargo, or go.mod)",
+          "weight": 15
+        },
+        {
+          "name": "Pre-commit hooks",
+          "passed": false,
+          "detail": "No pre-commit hooks found",
+          "weight": 5
+        }
+      ],
+      "durationMs": 365.7576829999998
+    },
+    {
+      "name": "Documentation",
+      "score": 75,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": true,
+          "detail": "README.md is 851 chars",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: NOASSERTION",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": false,
+          "detail": "No docs/ directory or API.md",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"Bosh release for the nessus agent\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 370.8140200000016
+    },
+    {
+      "name": "Architecture",
+      "score": 20,
+      "findings": [
+        {
+          "name": "Linter (ShellCheck)",
+          "passed": false,
+          "detail": "No ShellCheck configuration",
+          "weight": 25
+        },
+        {
+          "name": "Code formatter (shfmt / editorconfig)",
+          "passed": false,
+          "detail": "No .editorconfig for shfmt",
+          "weight": 15
+        },
+        {
+          "name": "Build runner (Makefile)",
+          "passed": false,
+          "detail": "No Makefile",
+          "weight": 20
+        },
+        {
+          "name": "Modular script structure (lib/ or src/)",
+          "passed": true,
+          "detail": "Modular structure found",
+          "weight": 20
+        },
+        {
+          "name": "Test framework (bats / shunit2)",
+          "passed": false,
+          "detail": "No bats or shunit2 tests",
+          "weight": 20
+        }
+      ],
+      "durationMs": 0.14662899999893853
+    },
+    {
+      "name": "DevOps",
+      "score": 17,
+      "findings": [
+        {
+          "name": "CI/CD pipeline",
+          "passed": false,
+          "detail": "No CI/CD pipeline detected",
+          "weight": 30
+        },
+        {
+          "name": "Container support (Docker)",
+          "passed": false,
+          "detail": "No Docker configuration",
+          "weight": 20
+        },
+        {
+          "name": "Release automation",
+          "passed": false,
+          "detail": "No release automation (semantic-release, changesets, etc.)",
+          "weight": 20
+        },
+        {
+          "name": "Issue/PR templates",
+          "passed": true,
+          "detail": "Issue/PR templates found",
+          "weight": 15
+        },
+        {
+          "name": "Deployment/Infrastructure config",
+          "passed": false,
+          "detail": "No deployment configuration detected",
+          "weight": 5
+        }
+      ],
+      "durationMs": 0.4562030000015511
+    },
+    {
+      "name": "Maintenance",
+      "score": 56,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": true,
+          "detail": "Last commit 28 day(s) ago — actively maintained",
+          "weight": 30
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": false,
+          "detail": "Median open issue age: 3123 day(s) — stale issues accumulating (oldest sampled: 3123 days)",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "No GitHub releases or tags found but repo has recent commits — no release process",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": true,
+          "detail": "Bus factor 8 — healthy contributor distribution (bengerman13, dlapiduz, cnelson, sharms, jmcarp)",
+          "weight": 20
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": false,
+          "detail": "6 stars — early stage or niche project",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 1105.1723610000008
+    }
+  ],
+  "totalDurationMs": 2219.456785000002,
+  "projectType": "application",
+  "sizeTier": "small",
+  "language": "Shell",
+  "analyzedAt": "2026-04-03T13:03:04.619Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 5
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 5
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 5
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 6,
+  "topics": [],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2026-03-05T15:32:29Z",
+  "created_at": "2016-03-23T02:26:09Z",
+  "size": 74
+}

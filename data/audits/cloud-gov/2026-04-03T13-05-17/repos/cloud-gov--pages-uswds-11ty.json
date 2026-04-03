@@ -1,0 +1,300 @@
+{
+  "repo": "cloud-gov/pages-uswds-11ty",
+  "letter": "F",
+  "overall": 46,
+  "graded": true,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 60,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": true,
+          "detail": "Security policy found with contact info (886 chars)",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": false,
+          "detail": "0/1 action refs pinned to SHA (0%) — pin actions to full commit SHA for supply-chain safety",
+          "weight": 15
+        },
+        {
+          "name": "Token permissions",
+          "passed": false,
+          "detail": "No workflow has an explicit `permissions:` block — defaults to write-all",
+          "weight": 10
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": false,
+          "detail": "No Dependabot or Renovate config found",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": true,
+          "detail": ".gitignore found",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": true,
+          "detail": "GitHub Actions found (likely branch protection in place)",
+          "weight": 10
+        }
+      ],
+      "durationMs": 801.6982940000016
+    },
+    {
+      "name": "Testing",
+      "score": 28,
+      "findings": [
+        {
+          "name": "CI workflows",
+          "passed": true,
+          "detail": "GitHub Actions detected",
+          "weight": 25
+        },
+        {
+          "name": "Test files",
+          "passed": false,
+          "detail": "No test files detected",
+          "weight": 25
+        },
+        {
+          "name": "Coverage configuration",
+          "passed": false,
+          "detail": "No coverage configuration detected",
+          "weight": 20
+        },
+        {
+          "name": "Test runner configured",
+          "passed": false,
+          "detail": "No test runner found (no test script, pytest, cargo, or go.mod)",
+          "weight": 15
+        },
+        {
+          "name": "Pre-commit hooks",
+          "passed": false,
+          "detail": "No pre-commit hooks found",
+          "weight": 5
+        }
+      ],
+      "durationMs": 526.0134120000002
+    },
+    {
+      "name": "Documentation",
+      "score": 75,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": true,
+          "detail": "README.md is 7876 chars",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: NOASSERTION",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": false,
+          "detail": "No docs/ directory or API.md",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"An 11ty SSG template using USWDS\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 529.7460839999985
+    },
+    {
+      "name": "Architecture",
+      "score": 12,
+      "findings": [
+        {
+          "name": "Type safety (tsconfig / jsconfig)",
+          "passed": false,
+          "detail": "No type checking config — consider jsconfig.json or TypeScript",
+          "weight": 20
+        },
+        {
+          "name": "Linter (ESLint / Biome)",
+          "passed": false,
+          "detail": "No ESLint or Biome config",
+          "weight": 20
+        },
+        {
+          "name": "Code formatter",
+          "passed": false,
+          "detail": "No formatter config",
+          "weight": 15
+        },
+        {
+          "name": "Organized source structure",
+          "passed": false,
+          "detail": "No clear source structure",
+          "weight": 20
+        },
+        {
+          "name": "Build configuration",
+          "passed": true,
+          "detail": "Build config found",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.15602699998999014
+    },
+    {
+      "name": "DevOps",
+      "score": 50,
+      "findings": [
+        {
+          "name": "CI/CD pipeline",
+          "passed": true,
+          "detail": "GitHub Actions",
+          "weight": 30
+        },
+        {
+          "name": "Container support (Docker)",
+          "passed": false,
+          "detail": "No Docker configuration",
+          "weight": 20
+        },
+        {
+          "name": "Release automation",
+          "passed": false,
+          "detail": "No release automation (semantic-release, changesets, etc.)",
+          "weight": 20
+        },
+        {
+          "name": "Issue/PR templates",
+          "passed": true,
+          "detail": "Issue/PR templates found",
+          "weight": 15
+        },
+        {
+          "name": "Deployment/Infrastructure config",
+          "passed": false,
+          "detail": "No deployment configuration detected",
+          "weight": 5
+        }
+      ],
+      "durationMs": 0.25206499999330845
+    },
+    {
+      "name": "Maintenance",
+      "score": 53,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": true,
+          "detail": "Last commit 37 day(s) ago — moderately active",
+          "weight": 15
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": false,
+          "detail": "Median open issue age: 812 day(s) — stale issues accumulating (oldest sampled: 1015 days)",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "No GitHub releases or tags found but repo has recent commits — no release process",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": true,
+          "detail": "Bus factor 5 — healthy contributor distribution (apburnes, Ephraim-G, dependabot[bot], hursey013, drewbo)",
+          "weight": 20
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": true,
+          "detail": "21 stars — small but active community",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 1097.446849999993
+    }
+  ],
+  "totalDurationMs": 2955.3127319999767,
+  "projectType": "application",
+  "sizeTier": "medium",
+  "language": "HTML",
+  "analyzedAt": "2026-04-03T13:04:06.354Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 5
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 5
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 5
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 13,
+  "topics": [],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2026-02-24T15:59:05Z",
+  "created_at": "2022-03-18T19:46:19Z",
+  "size": 2369
+}

@@ -1,0 +1,300 @@
+{
+  "repo": "cloud-gov/opensearch-alerting",
+  "letter": "F",
+  "overall": 52,
+  "graded": true,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 67,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": true,
+          "detail": "Security policy found with contact info (325 chars)",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Token permissions",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": false,
+          "detail": "No Dependabot or Renovate config found",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": true,
+          "detail": ".gitignore found",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": false,
+          "detail": "No CI system detected — branch protection is unlikely",
+          "weight": 10
+        }
+      ],
+      "durationMs": 372.1225160000031
+    },
+    {
+      "name": "Testing",
+      "score": 50,
+      "findings": [
+        {
+          "name": "CI workflows",
+          "passed": false,
+          "detail": "No CI system detected",
+          "weight": 25
+        },
+        {
+          "name": "Test files",
+          "passed": true,
+          "detail": "102 test-related file(s) found",
+          "weight": 25
+        },
+        {
+          "name": "Coverage configuration",
+          "passed": true,
+          "detail": "Coverage/test runner config found",
+          "weight": 20
+        },
+        {
+          "name": "Test runner configured",
+          "passed": false,
+          "detail": "No test runner found (no test script, pytest, cargo, or go.mod)",
+          "weight": 15
+        },
+        {
+          "name": "Pre-commit hooks",
+          "passed": false,
+          "detail": "No pre-commit hooks found",
+          "weight": 5
+        }
+      ],
+      "durationMs": 323.86421800000244
+    },
+    {
+      "name": "Documentation",
+      "score": 85,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": true,
+          "detail": "README.md is 2986 chars",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: Apache-2.0",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": true,
+          "detail": "Documentation directory or API docs found",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"📟 Get notified when your data meets certain conditions by setting up monitors, alerts, and notifications\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 389.2325239999918
+    },
+    {
+      "name": "Architecture",
+      "score": 53,
+      "findings": [
+        {
+          "name": "Type safety (built-in + build tool)",
+          "passed": true,
+          "detail": "Gradle found — Java has built-in type safety",
+          "weight": 20
+        },
+        {
+          "name": "Linter (Checkstyle / PMD / SpotBugs)",
+          "passed": false,
+          "detail": "No Checkstyle, PMD, or SpotBugs config",
+          "weight": 20
+        },
+        {
+          "name": "Code formatter (google-java-format / Spotless)",
+          "passed": true,
+          "detail": "Formatter config found",
+          "weight": 15
+        },
+        {
+          "name": "Standard Maven layout (src/main/java)",
+          "passed": false,
+          "detail": "No standard Maven/Gradle layout",
+          "weight": 20
+        },
+        {
+          "name": "Build configuration",
+          "passed": true,
+          "detail": "build.gradle found",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.8623239999869838
+    },
+    {
+      "name": "DevOps",
+      "score": 17,
+      "findings": [
+        {
+          "name": "CI/CD pipeline",
+          "passed": false,
+          "detail": "No CI/CD pipeline detected",
+          "weight": 30
+        },
+        {
+          "name": "Container support (Docker)",
+          "passed": false,
+          "detail": "No Docker configuration",
+          "weight": 20
+        },
+        {
+          "name": "Release automation",
+          "passed": false,
+          "detail": "No release automation (semantic-release, changesets, etc.)",
+          "weight": 20
+        },
+        {
+          "name": "Issue/PR templates",
+          "passed": true,
+          "detail": "Issue/PR templates found",
+          "weight": 15
+        },
+        {
+          "name": "Deployment/Infrastructure config",
+          "passed": false,
+          "detail": "No deployment configuration detected",
+          "weight": 5
+        }
+      ],
+      "durationMs": 2.3509130000020377
+    },
+    {
+      "name": "Maintenance",
+      "score": 39,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": false,
+          "detail": "Last commit 177 day(s) ago — may be unmaintained",
+          "weight": 30
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": true,
+          "detail": "No open issues — good or very small project",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "No GitHub releases or tags found — consider publishing releases",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": true,
+          "detail": "Bus factor 6 — healthy contributor distribution (lezzago, qreshi, AWSHurneyt, eirsep, sbcd90)",
+          "weight": 20
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": false,
+          "detail": "0 stars — early stage or niche project",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 1029.4087399999844
+    }
+  ],
+  "totalDurationMs": 2117.8412349999708,
+  "projectType": "application",
+  "sizeTier": "medium",
+  "language": "Kotlin",
+  "analyzedAt": "2026-04-03T13:05:06.438Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 5
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 5
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 5
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 1,
+  "topics": [],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2026-03-31T20:21:40Z",
+  "created_at": "2025-04-10T19:27:27Z",
+  "size": 38732
+}

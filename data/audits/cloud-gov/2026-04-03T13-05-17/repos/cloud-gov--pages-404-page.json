@@ -1,0 +1,290 @@
+{
+  "repo": "cloud-gov/pages-404-page",
+  "letter": "N/A",
+  "overall": 30,
+  "graded": false,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 20,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": false,
+          "detail": "No SECURITY.md — add a vulnerability disclosure policy",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Token permissions",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": false,
+          "detail": "No Dependabot or Renovate config found",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": false,
+          "detail": "No .gitignore — secrets and build artifacts may be committed",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": false,
+          "detail": "No CI system detected — branch protection is unlikely",
+          "weight": 10
+        }
+      ],
+      "durationMs": 15.550411000003805
+    },
+    {
+      "name": "Testing",
+      "score": 0,
+      "findings": [
+        {
+          "name": "CI workflow (for automated checks)",
+          "passed": false,
+          "detail": "No CI system detected — consider adding link checking and markdown linting",
+          "weight": 30
+        },
+        {
+          "name": "Markdown linting (markdownlint / pymarkdown)",
+          "passed": false,
+          "detail": "No markdownlint config — consider adding for consistent formatting",
+          "weight": 25
+        },
+        {
+          "name": "Link checking (lychee / markdown-link-check)",
+          "passed": false,
+          "detail": "No link checking — broken links erode list quality",
+          "weight": 30
+        },
+        {
+          "name": "Spell check (cspell / aspell / codespell)",
+          "passed": false,
+          "detail": "No spell checker configured",
+          "weight": 15
+        }
+      ],
+      "durationMs": 15.459040999994613
+    },
+    {
+      "name": "Documentation",
+      "score": 25,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": false,
+          "detail": "README.md is 407 chars (too short — aim for 500+)",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": false,
+          "detail": "No LICENSE file — projects without a license are not legally usable",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": false,
+          "detail": "No docs/ directory or API.md",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"Default 404 page for Federalist client websites\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 351.63435399999435
+    },
+    {
+      "name": "Architecture",
+      "score": 45,
+      "findings": [
+        {
+          "name": "README structure (headings + table of contents)",
+          "passed": true,
+          "detail": "README.md found (consider adding a table of contents)",
+          "weight": 25
+        },
+        {
+          "name": "Organized file structure (category directories)",
+          "passed": false,
+          "detail": "No subdirectories — consider organizing content into category folders",
+          "weight": 20
+        },
+        {
+          "name": "Contributing guidelines (CONTRIBUTING.md)",
+          "passed": true,
+          "detail": "CONTRIBUTING.md found",
+          "weight": 20
+        },
+        {
+          "name": "License (LICENSE file)",
+          "passed": false,
+          "detail": "No LICENSE file",
+          "weight": 20
+        },
+        {
+          "name": "Consistent formatting (.editorconfig / markdownlint)",
+          "passed": false,
+          "detail": "No .editorconfig or markdownlint config — consider adding for consistency",
+          "weight": 15
+        }
+      ],
+      "durationMs": 0.21424600000318605
+    },
+    {
+      "name": "DevOps",
+      "score": 0,
+      "findings": [
+        {
+          "name": "CI/CD pipeline (automated checks)",
+          "passed": false,
+          "detail": "No CI pipeline — consider automating link checks and linting",
+          "weight": 30
+        },
+        {
+          "name": "Issue templates (for contribution requests)",
+          "passed": false,
+          "detail": "No issue templates — contributors lack guidance for submitting new entries",
+          "weight": 25
+        },
+        {
+          "name": "PR template (for new additions)",
+          "passed": false,
+          "detail": "No PR template — contributors lack a checklist for new entries",
+          "weight": 25
+        },
+        {
+          "name": "Automation tools (awesome-lint / scripts / Makefile)",
+          "passed": false,
+          "detail": "No automation scripts or awesome-lint — consider adding for quality control",
+          "weight": 20
+        }
+      ],
+      "durationMs": 0.3637860000017099
+    },
+    {
+      "name": "Maintenance",
+      "score": 39,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": false,
+          "detail": "Last commit 182 day(s) ago — may be unmaintained",
+          "weight": 30
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": true,
+          "detail": "No open issues — good or very small project",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "No GitHub releases or tags found — consider publishing releases",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": true,
+          "detail": "Bus factor 4 — healthy contributor distribution (alexsobledotgov, amirbey, drewbo, apburnes)",
+          "weight": 20
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": false,
+          "detail": "0 stars — early stage or niche project",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 964.9971220000007
+    }
+  ],
+  "totalDurationMs": 1348.2189599999983,
+  "projectType": "documentation",
+  "sizeTier": "small",
+  "language": "HTML",
+  "analyzedAt": "2026-04-03T13:03:46.204Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 4
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 5
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 4
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 2,
+  "topics": [
+    "federalist"
+  ],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2025-10-02T18:25:22Z",
+  "created_at": "2019-01-31T20:02:46Z",
+  "size": 17
+}

@@ -1,0 +1,300 @@
+{
+  "repo": "cloud-gov/login-migrator-bot",
+  "letter": "F",
+  "overall": 58,
+  "graded": true,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 80,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": true,
+          "detail": "Security policy found with contact info (886 chars)",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Token permissions",
+          "passed": true,
+          "detail": "No GitHub Actions workflows (check not applicable)",
+          "weight": 0
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": false,
+          "detail": "No Dependabot or Renovate config found",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": true,
+          "detail": ".gitignore found",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": true,
+          "detail": "Concourse found (likely branch protection in place)",
+          "weight": 10
+        }
+      ],
+      "durationMs": 329.13901199999964
+    },
+    {
+      "name": "Testing",
+      "score": 56,
+      "findings": [
+        {
+          "name": "CI workflows",
+          "passed": true,
+          "detail": "Concourse detected",
+          "weight": 25
+        },
+        {
+          "name": "Test files",
+          "passed": true,
+          "detail": "3 test-related file(s) found",
+          "weight": 25
+        },
+        {
+          "name": "Coverage configuration",
+          "passed": false,
+          "detail": "No coverage configuration detected",
+          "weight": 20
+        },
+        {
+          "name": "Test runner configured",
+          "passed": false,
+          "detail": "No test runner found (no test script, pytest, cargo, or go.mod)",
+          "weight": 15
+        },
+        {
+          "name": "Pre-commit hooks",
+          "passed": false,
+          "detail": "No pre-commit hooks found",
+          "weight": 5
+        }
+      ],
+      "durationMs": 325.93619800001034
+    },
+    {
+      "name": "Documentation",
+      "score": 75,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": true,
+          "detail": "README.md is 4448 chars",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: NOASSERTION",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": false,
+          "detail": "No docs/ directory or API.md",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"Bot to migrate Cloud.gov Shibboleth users to Login.gov\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 340.43026900000405
+    },
+    {
+      "name": "Architecture",
+      "score": 12,
+      "findings": [
+        {
+          "name": "Type safety (Sorbet / RBS)",
+          "passed": false,
+          "detail": "No Sorbet or RBS — consider adding type checking",
+          "weight": 20
+        },
+        {
+          "name": "Linter (RuboCop)",
+          "passed": false,
+          "detail": "No RuboCop config",
+          "weight": 20
+        },
+        {
+          "name": "Code formatter (RuboCop / editorconfig)",
+          "passed": false,
+          "detail": "No formatter config",
+          "weight": 15
+        },
+        {
+          "name": "Source structure (lib/ or app/)",
+          "passed": false,
+          "detail": "No lib/ or app/ directory",
+          "weight": 20
+        },
+        {
+          "name": "Build configuration (Gemfile / Rakefile)",
+          "passed": true,
+          "detail": "Build config found",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.08534600000712089
+    },
+    {
+      "name": "DevOps",
+      "score": 33,
+      "findings": [
+        {
+          "name": "CI/CD pipeline",
+          "passed": true,
+          "detail": "Concourse, CI directory",
+          "weight": 30
+        },
+        {
+          "name": "Container support (Docker)",
+          "passed": false,
+          "detail": "No Docker configuration",
+          "weight": 20
+        },
+        {
+          "name": "Release automation",
+          "passed": false,
+          "detail": "No release automation (semantic-release, changesets, etc.)",
+          "weight": 20
+        },
+        {
+          "name": "Issue/PR templates",
+          "passed": false,
+          "detail": "No issue or PR templates",
+          "weight": 15
+        },
+        {
+          "name": "Deployment/Infrastructure config",
+          "passed": false,
+          "detail": "No deployment configuration detected",
+          "weight": 5
+        }
+      ],
+      "durationMs": 0.1256649999995716
+    },
+    {
+      "name": "Maintenance",
+      "score": 50,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": true,
+          "detail": "Last commit 10 day(s) ago — actively maintained",
+          "weight": 30
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": true,
+          "detail": "Median open issue age: 14 day(s) (oldest sampled: 14 days)",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "No GitHub releases or tags found but repo has recent commits — no release process",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": false,
+          "detail": "Bus factor 1 — single point of failure risk (cweibel)",
+          "weight": 20
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": false,
+          "detail": "0 stars — early stage or niche project",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 1018.8982489999908
+    }
+  ],
+  "totalDurationMs": 2014.6147390000115,
+  "projectType": "application",
+  "sizeTier": "small",
+  "language": "Ruby",
+  "analyzedAt": "2026-04-03T13:05:17.804Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 5
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 5
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 5
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 0,
+  "topics": [],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2026-03-24T12:24:17Z",
+  "created_at": "2026-03-18T16:18:55Z",
+  "size": 52
+}

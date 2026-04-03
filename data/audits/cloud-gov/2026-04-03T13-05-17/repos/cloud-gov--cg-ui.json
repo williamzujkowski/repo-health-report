@@ -1,0 +1,300 @@
+{
+  "repo": "cloud-gov/cg-ui",
+  "letter": "B",
+  "overall": 80,
+  "graded": true,
+  "dimensions": [
+    {
+      "name": "Security",
+      "score": 75,
+      "findings": [
+        {
+          "name": "Security policy (SECURITY.md)",
+          "passed": true,
+          "detail": "Security policy found with contact info (885 chars)",
+          "weight": 25
+        },
+        {
+          "name": "Pinned dependencies (Actions SHA)",
+          "passed": false,
+          "detail": "0/6 action refs pinned to SHA (0%) — pin actions to full commit SHA for supply-chain safety",
+          "weight": 15
+        },
+        {
+          "name": "Token permissions",
+          "passed": false,
+          "detail": "No workflow has an explicit `permissions:` block — defaults to write-all",
+          "weight": 10
+        },
+        {
+          "name": "Dependency update automation",
+          "passed": true,
+          "detail": "Using Dependabot",
+          "weight": 15
+        },
+        {
+          "name": "Code ownership",
+          "passed": true,
+          "detail": "CODEOWNERS file found",
+          "weight": 5
+        },
+        {
+          "name": "No committed .env files",
+          "passed": true,
+          "detail": "No .env files committed",
+          "weight": 10
+        },
+        {
+          "name": ".gitignore present",
+          "passed": true,
+          "detail": ".gitignore found",
+          "weight": 10
+        },
+        {
+          "name": "CI workflows (branch protection proxy)",
+          "passed": true,
+          "detail": "GitHub Actions found (likely branch protection in place)",
+          "weight": 10
+        }
+      ],
+      "durationMs": 561.0447350000031
+    },
+    {
+      "name": "Testing",
+      "score": 94,
+      "findings": [
+        {
+          "name": "CI workflows",
+          "passed": true,
+          "detail": "GitHub Actions detected",
+          "weight": 25
+        },
+        {
+          "name": "Test files",
+          "passed": true,
+          "detail": "106 test-related file(s) found",
+          "weight": 25
+        },
+        {
+          "name": "Coverage configuration",
+          "passed": true,
+          "detail": "Coverage/test runner config found",
+          "weight": 20
+        },
+        {
+          "name": "Test runner configured",
+          "passed": true,
+          "detail": "Test runner configuration detected",
+          "weight": 15
+        },
+        {
+          "name": "Pre-commit hooks",
+          "passed": false,
+          "detail": "No pre-commit hooks found",
+          "weight": 5
+        }
+      ],
+      "durationMs": 311.189830000003
+    },
+    {
+      "name": "Documentation",
+      "score": 85,
+      "findings": [
+        {
+          "name": "README quality",
+          "passed": true,
+          "detail": "README.md is 10977 chars",
+          "weight": 30
+        },
+        {
+          "name": "LICENSE file",
+          "passed": true,
+          "detail": "License: NOASSERTION",
+          "weight": 20
+        },
+        {
+          "name": "CONTRIBUTING guide",
+          "passed": true,
+          "detail": "Contributing guide found",
+          "weight": 15
+        },
+        {
+          "name": "CHANGELOG",
+          "passed": false,
+          "detail": "No CHANGELOG — users can't see what changed between versions",
+          "weight": 15
+        },
+        {
+          "name": "Documentation directory or API docs",
+          "passed": true,
+          "detail": "Documentation directory or API docs found",
+          "weight": 10
+        },
+        {
+          "name": "Repository description",
+          "passed": true,
+          "detail": "Description: \"New UI for cloud.gov customers to manage their CF apps.\"",
+          "weight": 10
+        }
+      ],
+      "durationMs": 325.69703499999014
+    },
+    {
+      "name": "Architecture",
+      "score": 100,
+      "findings": [
+        {
+          "name": "Type safety (tsconfig.json)",
+          "passed": true,
+          "detail": "tsconfig.json found",
+          "weight": 20
+        },
+        {
+          "name": "Linter (ESLint / Biome)",
+          "passed": true,
+          "detail": "Linter config found",
+          "weight": 20
+        },
+        {
+          "name": "Code formatter (Prettier / Biome)",
+          "passed": true,
+          "detail": "Formatter config found",
+          "weight": 15
+        },
+        {
+          "name": "Organized source structure",
+          "passed": true,
+          "detail": "src/ or packages/ directory found",
+          "weight": 20
+        },
+        {
+          "name": "Build configuration",
+          "passed": true,
+          "detail": "Build config found",
+          "weight": 10
+        }
+      ],
+      "durationMs": 0.3963430000003427
+    },
+    {
+      "name": "DevOps",
+      "score": 72,
+      "findings": [
+        {
+          "name": "CI/CD pipeline",
+          "passed": true,
+          "detail": "GitHub Actions, Concourse, CI directory",
+          "weight": 30
+        },
+        {
+          "name": "Container support (Docker)",
+          "passed": true,
+          "detail": "Docker config found (Dockerfile)",
+          "weight": 20
+        },
+        {
+          "name": "Release automation",
+          "passed": false,
+          "detail": "No release automation (semantic-release, changesets, etc.)",
+          "weight": 20
+        },
+        {
+          "name": "Issue/PR templates",
+          "passed": true,
+          "detail": "Issue/PR templates found",
+          "weight": 15
+        },
+        {
+          "name": "Deployment/Infrastructure config",
+          "passed": false,
+          "detail": "No deployment configuration detected",
+          "weight": 5
+        }
+      ],
+      "durationMs": 2.827058999988367
+    },
+    {
+      "name": "Maintenance",
+      "score": 56,
+      "findings": [
+        {
+          "name": "Last commit recency",
+          "passed": true,
+          "detail": "Last commit 15 day(s) ago — actively maintained",
+          "weight": 30
+        },
+        {
+          "name": "Open issue freshness",
+          "passed": false,
+          "detail": "Median open issue age: 745 day(s) — stale issues accumulating (oldest sampled: 759 days)",
+          "weight": 15
+        },
+        {
+          "name": "Recent releases",
+          "passed": false,
+          "detail": "Latest release 283 day(s) ago — no release in 6 months",
+          "weight": 20
+        },
+        {
+          "name": "Bus factor",
+          "passed": true,
+          "detail": "Bus factor 4 — healthy contributor distribution (echappen, jduss4, dependabot[bot], hursey013)",
+          "weight": 20
+        },
+        {
+          "name": "Community adoption (stars)",
+          "passed": false,
+          "detail": "4 stars — early stage or niche project",
+          "weight": 5
+        },
+        {
+          "name": "Maintainer funding",
+          "passed": false,
+          "detail": "No FUNDING.yml found (not penalized)",
+          "weight": 0
+        }
+      ],
+      "durationMs": 722.196437999999
+    }
+  ],
+  "totalDurationMs": 1923.351439999984,
+  "projectType": "application",
+  "sizeTier": "medium",
+  "language": "TypeScript",
+  "analyzedAt": "2026-04-03T13:04:37.601Z",
+  "toolVersion": "1.0.0",
+  "detectorVersion": "c7c92d9aacf4",
+  "checkCounts": [
+    {
+      "name": "Security",
+      "checkCount": 8
+    },
+    {
+      "name": "Testing",
+      "checkCount": 5
+    },
+    {
+      "name": "Documentation",
+      "checkCount": 6
+    },
+    {
+      "name": "Architecture",
+      "checkCount": 5
+    },
+    {
+      "name": "DevOps",
+      "checkCount": 5
+    },
+    {
+      "name": "Maintenance",
+      "checkCount": 6
+    }
+  ],
+  "forks_count": 1,
+  "topics": [],
+  "has_discussions": false,
+  "has_projects": true,
+  "pushed_at": "2026-03-18T15:00:30Z",
+  "created_at": "2024-01-23T18:38:20Z",
+  "size": 3780
+}

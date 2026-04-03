@@ -41,6 +41,12 @@ interface OrgAuditArgs {
   skipDocs: boolean;
 }
 
+interface OrgLanguageDetail {
+  primaryCount: number;
+  totalFileCount: number;
+  reposContaining: number;
+}
+
 interface OrgSummary {
   org: string;
   analyzedAt: string;
@@ -49,7 +55,9 @@ interface OrgSummary {
   averageScore: number;
   gradeDistribution: Record<string, number>;
   dimensionAverages: Record<string, number>;
+  /** @deprecated Use multiLanguageBreakdown for richer data */
   languageBreakdown: Record<string, number>;
+  multiLanguageBreakdown: Record<string, OrgLanguageDetail>;
   typeBreakdown: Record<string, number>;
 }
 
@@ -289,6 +297,7 @@ function buildSummary(org: string, reports: BatchReport[], analyzedAt: string): 
   const gradeDistribution: Record<string, number> = { A: 0, B: 0, C: 0, D: 0, F: 0 };
   const dimensionTotals: Record<string, { sum: number; count: number }> = {};
   const languageCounts: Record<string, number> = {};
+  const multiLang: Record<string, OrgLanguageDetail> = {};
   const typeCounts: Record<string, number> = {};
 
   for (const report of reports) {
@@ -306,9 +315,36 @@ function buildSummary(org: string, reports: BatchReport[], analyzedAt: string): 
       dimensionTotals[dim.name].count++;
     }
 
-    // Language breakdown
+    // Primary language breakdown (backward compatible)
     const lang = report.language ?? "unknown";
     languageCounts[lang] = (languageCounts[lang] ?? 0) + 1;
+
+    // Multi-language breakdown: aggregate from languages field when available
+    if (report.languages) {
+      // Count primary
+      const primary = report.languages.primary;
+      if (!multiLang[primary]) {
+        multiLang[primary] = { primaryCount: 0, totalFileCount: 0, reposContaining: 0 };
+      }
+      multiLang[primary].primaryCount++;
+
+      // Count all languages with file counts
+      for (const entry of report.languages.all) {
+        const name = entry.language;
+        if (!multiLang[name]) {
+          multiLang[name] = { primaryCount: 0, totalFileCount: 0, reposContaining: 0 };
+        }
+        multiLang[name].totalFileCount += entry.fileCount;
+        multiLang[name].reposContaining++;
+      }
+    } else {
+      // Fallback: count primary language only
+      if (!multiLang[lang]) {
+        multiLang[lang] = { primaryCount: 0, totalFileCount: 0, reposContaining: 0 };
+      }
+      multiLang[lang].primaryCount++;
+      multiLang[lang].reposContaining++;
+    }
 
     // Type breakdown
     typeCounts[report.projectType] = (typeCounts[report.projectType] ?? 0) + 1;
@@ -331,6 +367,7 @@ function buildSummary(org: string, reports: BatchReport[], analyzedAt: string): 
     gradeDistribution,
     dimensionAverages,
     languageBreakdown: languageCounts,
+    multiLanguageBreakdown: multiLang,
     typeBreakdown: typeCounts,
   };
 }
