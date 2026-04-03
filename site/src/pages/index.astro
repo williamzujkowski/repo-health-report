@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import DonutChart from '../components/charts/DonutChart.astro';
 import LollipopChart from '../components/charts/LollipopChart.astro';
 import SegmentedBar from '../components/charts/SegmentedBar.astro';
 import SparkBar from '../components/charts/SparkBar.astro';
@@ -25,7 +24,8 @@ interface LangEntry {
 const knownLangs = (languagesData.languages as LangEntry[])
   .filter((l) => l.name !== 'unknown' && l.averageScore !== null);
 const langCount = knownLangs.length;
-const topLang = [...knownLangs].sort((a, b) => (b.averageScore ?? 0) - (a.averageScore ?? 0))[0];
+const significantLangs = knownLangs.filter((l) => l.count >= 10);
+const topLang = [...significantLangs].sort((a, b) => (b.averageScore ?? 0) - (a.averageScore ?? 0))[0];
 
 const fPct = Math.round((summary.gradeDistribution.F / codeRepos) * 100);
 const abPct = Math.round(((summary.gradeDistribution.A + summary.gradeDistribution.B) / codeRepos) * 100);
@@ -118,15 +118,6 @@ function formatStars(n: number): string {
       How {codeRepos} graded repositories score across five letter grades
     </p>
     <SegmentedBar segments={segmentedData} height={6} />
-    <div style="margin-top: 24px; display: flex; justify-content: center;">
-      <DonutChart
-        segments={segmentedData}
-        size={180}
-        thickness={22}
-        centerValue={String(codeRepos)}
-        centerLabel="repos"
-      />
-    </div>
   </section>
 
   <!-- Dimension Averages — Lollipop Chart -->
@@ -192,7 +183,7 @@ function formatStars(n: number): string {
         </thead>
         <tbody>
           {top10.map((repo, i) => (
-            <tr style={`border-bottom: 1px solid #f0f0f0;`}>
+            <tr style={`border-bottom: 1px solid var(--color-border);`}>
               <td style="padding: 10px 0; color: var(--color-text-muted); font-variant-numeric: tabular-nums;">{i + 1}</td>
               <td style="padding: 10px 0;">
                 <a

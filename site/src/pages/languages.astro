@@ -13,15 +13,18 @@ interface LangEntry {
   gradeDistribution: Record<string, number>;
 }
 
+const MIN_REPO_THRESHOLD = 10;
 const allLanguages = languagesData.languages as LangEntry[];
 
 const languages = allLanguages
   .filter((l) => l.averageScore !== null && l.name !== 'unknown')
   .sort((a, b) => (b.averageScore ?? 0) - (a.averageScore ?? 0));
 
-const maxCount = Math.max(...languages.map((l) => l.count));
-const highest = languages[0];
-const lowest = languages[languages.length - 1];
+const significantLangs = languages.filter((l) => l.count >= MIN_REPO_THRESHOLD);
+
+const maxCount = Math.max(...significantLangs.map((l) => l.count));
+const highest = significantLangs[0];
+const lowest = significantLangs[significantLangs.length - 1];
 const totalRepos = languages.reduce((sum, l) => sum + l.count, 0);
 const avgScore = Math.round(languages.reduce((sum, l) => sum + (l.averageScore ?? 0) * l.count, 0) / totalRepos);
 
@@ -32,15 +35,15 @@ function scoreColor(s: number): string {
   return 'var(--color-grade-f)';
 }
 
-// LollipopChart data for scores
-const scoreLollipop = languages.map(lang => ({
+// LollipopChart data for scores (filtered to significant languages)
+const scoreLollipop = significantLangs.map(lang => ({
   label: lang.name,
   value: lang.averageScore ?? 0,
   color: scoreColor(lang.averageScore ?? 0),
 }));
 
-// LollipopChart data for repo counts
-const countLollipop = [...languages]
+// LollipopChart data for repo counts (filtered to significant languages)
+const countLollipop = [...significantLangs]
   .sort((a, b) => b.count - a.count)
   .map(lang => ({
     label: lang.name,
@@ -63,7 +66,7 @@ const gradeColors: Record<string, string> = {
       Language Breakdown
     </h1>
     <p style="font-size: 14px; color: var(--color-text-muted); margin: 0;">
-      Average health scores by primary language. {languages.length} languages across {totalRepos} repositories.
+      Average health scores by primary language. {significantLangs.length} languages (with {MIN_REPO_THRESHOLD}+ repos) across {totalRepos} repositories.
     </p>
   </div>
 
@@ -84,16 +87,16 @@ const gradeColors: Record<string, string> = {
     <div class="callout">
       <div class="callout-number" style="color: var(--color-accent);">{avgScore}</div>
       <div class="callout-text">
-        Weighted average across <strong>{languages.length} languages</strong>
+        Weighted average across <strong>all {languages.length} languages</strong>
       </div>
     </div>
   </div>
 
   <!-- Score ranking — Lollipop -->
   <section class="card" style="margin-bottom: 32px;">
-    <h2 class="section-heading">Average Score by Language</h2>
+    <h2 class="section-heading">Average Score by Language (with {MIN_REPO_THRESHOLD}+ repos)</h2>
     <p class="section-subheading">
-      Dot position shows average health score (0-100)
+      Dot position shows average health score (0-100). Languages with fewer than {MIN_REPO_THRESHOLD} repos excluded.
     </p>
     <LollipopChart data={scoreLollipop} maxValue={100} />
     <p class="chart-annotation" style="margin-top: 16px;">
@@ -104,7 +107,7 @@ const gradeColors: Record<string, string> = {
 
   <!-- Repo count — Lollipop -->
   <section class="card" style="margin-bottom: 32px;">
-    <h2 class="section-heading">Repository Count by Language</h2>
+    <h2 class="section-heading">Repository Count by Language (with {MIN_REPO_THRESHOLD}+ repos)</h2>
     <p class="section-subheading">
       Number of repositories per language in the dataset
     </p>

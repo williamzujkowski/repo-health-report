@@ -4,8 +4,8 @@
 @theme {
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
   --color-text: #1a1a2e;
-  --color-text-secondary: #555;
-  --color-text-muted: #888;
+  --color-text-secondary: #4a4a4a;
+  --color-text-muted: #666;
   --color-border: #e5e5e5;
   --color-surface: #ffffff;
   --color-surface-alt: #fafafa;
@@ -32,7 +32,7 @@
   --radius-xl: 1rem;
 
   /* Shadows */
-  --shadow-card: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.06);
   --shadow-card-hover: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
 }
 
@@ -50,7 +50,7 @@ body {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  padding: 24px;
+  padding: 28px;
   box-shadow: var(--shadow-card);
   transition: box-shadow 0.15s ease;
 }
@@ -60,7 +60,7 @@ body {
 
 /* Chart annotation style (inline callouts) */
 .chart-annotation {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-text-secondary);
   line-height: 1.4;
 }
@@ -75,21 +75,21 @@ body {
   align-items: center;
   gap: 12px;
   padding: 8px 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--color-border);
 }
 .lollipop-row:last-child {
   border-bottom: none;
 }
 .lollipop-label {
   width: 120px;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-text-secondary);
   text-align: right;
   flex-shrink: 0;
 }
 .lollipop-track {
   flex: 1;
-  height: 1px;
+  height: 2px;
   background: #e0e0e0;
   position: relative;
 }
@@ -97,16 +97,16 @@ body {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   border: 2px solid white;
   box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
 }
 .lollipop-value {
   width: 40px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
@@ -162,7 +162,7 @@ body {
   color: var(--color-text);
 }
 .stat-label {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   color: var(--color-text-muted);
 }
 .stat-icon {
@@ -196,7 +196,7 @@ body {
 /* Spark Bar */
 .spark-bar {
   height: 4px;
-  background-color: #eee;
+  background-color: var(--color-surface-alt);
   border-radius: 9999px;
   overflow: hidden;
   display: inline-block;
@@ -231,7 +231,7 @@ body {
 .chart-bar-track {
   flex: 1;
   height: 100%;
-  background-color: #f0f0f0;
+  background-color: var(--color-surface-alt);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -295,7 +295,7 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
+  font-size: 13px; /* legend items kept at 13px */
 }
 .chart-donut-legend-swatch {
   width: 10px;
@@ -390,7 +390,7 @@ body {
   line-height: 1;
 }
 .callout-text {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-text-secondary);
   line-height: 1.5;
 }
@@ -412,16 +412,43 @@ body {
   margin-bottom: 20px;
 }
 
-/* Dark mode overrides */
+/* Dark mode overrides — activated by prefers-color-scheme */
 @media (prefers-color-scheme: dark) {
-  :root.auto-dark {
-    --color-text: #e5e5e5;
+  :root {
+    --color-text: #e8e8e8;
     --color-text-secondary: #aaa;
-    --color-text-muted: #777;
+    --color-text-muted: #888;
     --color-border: #333;
-    --color-surface: #1a1a1a;
-    --color-surface-alt: #222;
-    --color-bg: #111;
-    --color-accent-light: rgba(29,129,162,0.15);
+    --color-surface: #1a1a1e;
+    --color-surface-alt: #222226;
+    --color-bg: #111114;
+    --color-accent-light: rgba(29,129,162,0.2);
+    --shadow-card: 0 2px 8px rgba(0,0,0,0.2);
+    --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  .lollipop-track {
+    background: #444;
+  }
+  .lollipop-dot {
+    border-color: var(--color-surface);
+  }
+  .lollipop-row {
+    border-bottom-color: #2a2a2e;
+  }
+
+  .grade-A { background-color: rgba(45,157,120,0.18); }
+  .grade-B { background-color: rgba(29,129,162,0.18); }
+  .grade-C { background-color: rgba(196,160,53,0.18); }
+  .grade-D { background-color: rgba(212,118,44,0.18); }
+  .grade-F { background-color: rgba(201,70,62,0.18); }
+  .grade-NA { background-color: rgba(153,153,153,0.18); }
+
+  .spark-bar {
+    background-color: #333;
+  }
+
+  .chart-bar-track {
+    background-color: #2a2a2e;
   }
 }
