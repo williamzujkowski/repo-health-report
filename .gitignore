@@ -8,3 +8,6 @@ data/index.json
 data/aggregate.json
 data/cache/
 data/dashboard/
+site/node_modules/
+site/dist/
+site/.astro/

@@ -1,0 +1,40 @@
+---
+interface Props {
+  distribution: Record<string, number>;
+  total?: number;
+}
+
+const { distribution, total: totalOverride } = Astro.props;
+
+const grades = ['A', 'B', 'C', 'D', 'F'] as const;
+const colors: Record<string, string> = {
+  A: 'bg-green-500',
+  B: 'bg-teal-500',
+  C: 'bg-yellow-500',
+  D: 'bg-orange-500',
+  F: 'bg-red-500',
+};
+
+const total = totalOverride ?? Object.values(distribution).reduce((a, b) => a + b, 0);
+---
+
+<div class="flex flex-col gap-2">
+  {grades.map((grade) => {
+    const count = distribution[grade] ?? 0;
+    const pct = total > 0 ? (count / total) * 100 : 0;
+    return (
+      <div class="flex items-center gap-3">
+        <span class="w-5 text-sm font-semibold text-stone-600 dark:text-stone-400">{grade}</span>
+        <div class="flex-1 h-6 bg-stone-100 dark:bg-stone-800 rounded-sm overflow-hidden">
+          <div
+            class:list={[colors[grade], 'h-full rounded-sm transition-all']}
+            style={`width: ${pct}%`}
+          />
+        </div>
+        <span class="w-16 text-right text-sm tabular-nums text-stone-600 dark:text-stone-400">
+          {count} ({pct.toFixed(0)}%)
+        </span>
+      </div>
+    );
+  })}
+</div>

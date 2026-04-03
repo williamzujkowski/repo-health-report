@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LeaderboardTable from '../components/LeaderboardTable.svelte';
+
+import leaderboard from '../../../data/dashboard/leaderboard.json';
+---
+
+<BaseLayout title="Leaderboard" description="Full leaderboard of 1,000 open-source repositories ranked by health score">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold tracking-tight mb-2">Leaderboard</h1>
+    <p class="text-stone-500 dark:text-stone-400">
+      All {leaderboard.repos.length.toLocaleString()} repositories ranked by health score.
+      Click column headers to sort. Use filters to narrow results.
+    </p>
+  </div>
+
+  <LeaderboardTable client:load repos={leaderboard.repos} />
+</BaseLayout>

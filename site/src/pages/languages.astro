@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GradeBar from '../components/GradeBar.astro';
+
+import languagesData from '../../../data/dashboard/languages.json';
+
+interface LangEntry {
+  name: string;
+  count: number;
+  averageScore: number | null;
+  gradeDistribution: Record<string, number>;
+}
+
+const languages = (languagesData.languages as LangEntry[])
+  .filter((l) => l.averageScore !== null && l.name !== 'unknown')
+  .sort((a, b) => (b.averageScore ?? 0) - (a.averageScore ?? 0));
+
+function barColor(s: number): string {
+  if (s >= 80) return 'bg-green-500';
+  if (s >= 60) return 'bg-teal-500';
+  if (s >= 40) return 'bg-yellow-500';
+  if (s >= 20) return 'bg-orange-500';
+  return 'bg-red-500';
+}
+
+const maxCount = Math.max(...languages.map((l) => l.count));
+---
+
+<BaseLayout title="Languages" description="Repository health scores broken down by programming language">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold tracking-tight mb-2">Language Breakdown</h1>
+    <p class="text-stone-500 dark:text-stone-400">
+      Average health scores by primary language, sorted by score. Documentation and unknown-language repos excluded.
+    </p>
+  </div>
+
+  <!-- Score ranking -->
+  <section class="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Average Score by Language</h2>
+    <div class="space-y-2">
+      {languages.map((lang) => (
+        <div class="flex items-center gap-3">
+          <span class="w-28 text-sm text-stone-600 dark:text-stone-400 shrink-0 truncate" title={lang.name}>
+            {lang.name}
+          </span>
+          <div class="flex-1 h-6 bg-stone-100 dark:bg-stone-800 rounded-sm overflow-hidden relative">
+            <div
+              class:list={[barColor(lang.averageScore ?? 0), 'h-full rounded-sm']}
+              style={`width: ${lang.averageScore}%`}
+            />
+          </div>
+          <span class="w-8 text-right text-sm font-medium tabular-nums">{lang.averageScore}</span>
+          <span class="w-16 text-right text-xs text-stone-400 tabular-nums">{lang.count} repos</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Repo count -->
+  <section class="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Repository Count by Language</h2>
+    <div class="space-y-2">
+      {languages
+        .sort((a, b) => b.count - a.count)
+        .map((lang) => (
+          <div class="flex items-center gap-3">
+            <span class="w-28 text-sm text-stone-600 dark:text-stone-400 shrink-0 truncate" title={lang.name}>
+              {lang.name}
+            </span>
+            <div class="flex-1 h-5 bg-stone-100 dark:bg-stone-800 rounded-sm overflow-hidden">
+              <div
+                class="h-full rounded-sm bg-teal-500"
+                style={`width: ${(lang.count / maxCount) * 100}%`}
+              />
+            </div>
+            <span class="w-10 text-right text-sm tabular-nums text-stone-600 dark:text-stone-400">{lang.count}</span>
+          </div>
+        ))}
+    </div>
+  </section>
+
+  <!-- Top languages grade distribution -->
+  <section class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Grade Distribution (Top 10 Languages)</h2>
+    <div class="grid md:grid-cols-2 gap-4">
+      {languages
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 10)
+        .map((lang) => (
+          <div class="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-4">
+            <div class="flex items-baseline justify-between mb-3">
+              <h3 class="font-medium">{lang.name}</h3>
+              <span class="text-sm text-stone-400">{lang.count} repos, avg {lang.averageScore}</span>
+            </div>
+            <GradeBar distribution={lang.gradeDistribution} total={lang.count} />
+          </div>
+        ))}
+    </div>
+  </section>
+</BaseLayout>

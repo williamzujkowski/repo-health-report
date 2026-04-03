@@ -1,0 +1,29 @@
+---
+interface Props {
+  label: string;
+  score: number;
+  maxScore?: number;
+}
+
+const { label, score, maxScore = 100 } = Astro.props;
+const pct = Math.min((score / maxScore) * 100, 100);
+
+function barColor(s: number): string {
+  if (s >= 80) return 'bg-green-500';
+  if (s >= 60) return 'bg-teal-500';
+  if (s >= 40) return 'bg-yellow-500';
+  if (s >= 20) return 'bg-orange-500';
+  return 'bg-red-500';
+}
+---
+
+<div class="flex items-center gap-3">
+  <span class="w-32 text-sm text-stone-600 dark:text-stone-400 shrink-0">{label}</span>
+  <div class="flex-1 h-5 bg-stone-100 dark:bg-stone-800 rounded-sm overflow-hidden">
+    <div
+      class:list={[barColor(score), 'h-full rounded-sm transition-all']}
+      style={`width: ${pct}%`}
+    />
+  </div>
+  <span class="w-10 text-right text-sm font-medium tabular-nums">{score}</span>
+</div>
