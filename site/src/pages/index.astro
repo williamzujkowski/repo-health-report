@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DonutChart from '../components/charts/DonutChart.astro';
-import BarChart from '../components/charts/BarChart.astro';
-import StatCard from '../components/charts/StatCard.astro';
+import LollipopChart from '../components/charts/LollipopChart.astro';
+import SegmentedBar from '../components/charts/SegmentedBar.astro';
 import SparkBar from '../components/charts/SparkBar.astro';
 
 import summary from '../../../data/dashboard/summary.json';
@@ -11,13 +11,11 @@ import languagesData from '../../../data/dashboard/languages.json';
 
 const base = import.meta.env.BASE_URL;
 
-// Dynamic computations from real data
 const gradedRepos = leaderboard.repos.filter((r) => r.graded);
 const totalRepos = summary.totalRepos;
 const codeRepos = summary.codeRepos;
 const top10 = gradedRepos.slice(0, 10);
 
-// Language count
 interface LangEntry {
   name: string;
   count: number;
@@ -27,52 +25,47 @@ interface LangEntry {
 const knownLangs = (languagesData.languages as LangEntry[])
   .filter((l) => l.name !== 'unknown' && l.averageScore !== null);
 const langCount = knownLangs.length;
-
-// Top language by avg score
 const topLang = [...knownLangs].sort((a, b) => (b.averageScore ?? 0) - (a.averageScore ?? 0))[0];
 
-// Compute findings-based stats by scanning leaderboard data
 const fPct = Math.round((summary.gradeDistribution.F / codeRepos) * 100);
 const abPct = Math.round(((summary.gradeDistribution.A + summary.gradeDistribution.B) / codeRepos) * 100);
 
-// Dimension stats
 const dimensions = Object.entries(summary.dimensionAverages).sort(([, a], [, b]) => b - a);
 const lowestDim = dimensions[dimensions.length - 1];
+const highestDim = dimensions[0];
 
-// Grade distribution for donut chart
+// Grade colors — editorial palette
 const gradeColors: Record<string, string> = {
-  A: '#22c55e',
-  B: '#14b8a6',
-  C: '#eab308',
-  D: '#f97316',
-  F: '#ef4444',
+  A: 'var(--color-grade-a)',
+  B: 'var(--color-grade-b)',
+  C: 'var(--color-grade-c)',
+  D: 'var(--color-grade-d)',
+  F: 'var(--color-grade-f)',
 };
 const gradeOrder = ['A', 'B', 'C', 'D', 'F'] as const;
-const donutSegments = gradeOrder.map(grade => ({
+
+// Segmented bar data
+const segmentedData = gradeOrder.map(grade => ({
   label: grade,
   value: summary.gradeDistribution[grade] ?? 0,
   color: gradeColors[grade],
 }));
 
-// Dimension bar data with score-based coloring
+// Lollipop data for dimensions
 function dimColor(s: number): string {
-  if (s >= 80) return 'var(--color-grade-a)';
-  if (s >= 60) return 'var(--color-grade-b)';
+  if (s >= 70) return 'var(--color-grade-a)';
+  if (s >= 55) return 'var(--color-grade-b)';
   if (s >= 40) return 'var(--color-grade-c)';
-  if (s >= 20) return 'var(--color-grade-d)';
   return 'var(--color-grade-f)';
 }
-const dimensionBars = dimensions.map(([dim, score]) => ({
+const lollipopData = dimensions.map(([dim, score]) => ({
   label: dim,
   value: score,
   color: dimColor(score),
 }));
 
 function gradeClass(grade: string): string {
-  const map: Record<string, string> = {
-    A: 'grade-A', B: 'grade-B', C: 'grade-C', D: 'grade-D', F: 'grade-F',
-  };
-  return map[grade] ?? 'grade-NA';
+  return ({ A: 'grade-A', B: 'grade-B', C: 'grade-C', D: 'grade-D', F: 'grade-F' } as Record<string, string>)[grade] ?? 'grade-NA';
 }
 
 function formatStars(n: number): string {
@@ -82,135 +75,144 @@ function formatStars(n: number): string {
 ---
 
 <BaseLayout title="Overview">
-  <!-- Hero with gradient -->
-  <div class="hero-gradient -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 pt-8 pb-12 mb-12 rounded-b-3xl">
-    <div class="text-center">
-      <div class="inline-flex items-baseline gap-3 mb-4">
-        <span class="text-7xl sm:text-8xl font-extrabold tabular-nums bg-gradient-to-br from-teal-400 to-green-500 bg-clip-text text-transparent">
-          {summary.averageScore}
-        </span>
-        <span class="text-2xl text-stone-400 font-medium">/100</span>
-      </div>
-      <h1 class="text-xl sm:text-2xl font-semibold text-stone-300 mb-2">
-        Average health score
-      </h1>
-      <p class="text-stone-500 mb-8">
-        Health scores for {totalRepos.toLocaleString()} open-source repositories across {Object.keys(summary.dimensionAverages).length} dimensions
-      </p>
+  <!-- Hero — large number with editorial annotation -->
+  <div style="text-align: center; padding: 32px 0 48px;">
+    <div style="display: flex; align-items: baseline; justify-content: center; gap: 12px; margin-bottom: 8px;">
+      <span style="font-size: 72px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--color-text); line-height: 1;">
+        {summary.averageScore}
+      </span>
+      <span style="font-size: 20px; color: var(--color-text-muted); font-weight: 500;">/100</span>
+    </div>
+    <h1 style="font-size: 20px; font-weight: 600; color: var(--color-text); margin: 0 0 8px;">
+      Average health score
+    </h1>
+    <p class="chart-annotation" style="max-width: 520px; margin: 0 auto;">
+      Based on automated analysis of <strong>{totalRepos.toLocaleString()} open-source repositories</strong> across
+      {Object.keys(summary.dimensionAverages).length} health dimensions.
+      {summary.documentationRepos} documentation-only repos are excluded from grading.
+    </p>
+  </div>
 
-      <!-- Three pill stats -->
-      <div class="inline-flex flex-wrap justify-center gap-3">
-        <span class="px-4 py-2 bg-stone-900 border border-stone-800 rounded-full text-sm tabular-nums">
-          <span class="text-stone-400">Total repos</span>
-          <span class="font-bold ml-1.5">{totalRepos.toLocaleString()}</span>
-        </span>
-        <span class="px-4 py-2 bg-stone-900 border border-stone-800 rounded-full text-sm tabular-nums">
-          <span class="text-stone-400">Code repos</span>
-          <span class="font-bold ml-1.5">{codeRepos.toLocaleString()}</span>
-        </span>
-        <span class="px-4 py-2 bg-stone-900 border border-stone-800 rounded-full text-sm tabular-nums">
-          <span class="text-stone-400">Languages</span>
-          <span class="font-bold ml-1.5">{langCount}</span>
-        </span>
+  <!-- Three inline stats -->
+  <div style="display: flex; justify-content: center; gap: 24px; margin-bottom: 48px; flex-wrap: wrap;">
+    <div style="text-align: center;">
+      <div style="font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{totalRepos.toLocaleString()}</div>
+      <div style="font-size: 12px; color: var(--color-text-muted);">Total repos</div>
+    </div>
+    <div style="width: 1px; background: var(--color-border); align-self: stretch;"></div>
+    <div style="text-align: center;">
+      <div style="font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{codeRepos.toLocaleString()}</div>
+      <div style="font-size: 12px; color: var(--color-text-muted);">Graded repos</div>
+    </div>
+    <div style="width: 1px; background: var(--color-border); align-self: stretch;"></div>
+    <div style="text-align: center;">
+      <div style="font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{langCount}</div>
+      <div style="font-size: 12px; color: var(--color-text-muted);">Languages</div>
+    </div>
+  </div>
+
+  <!-- Grade Distribution -->
+  <section class="card" style="margin-bottom: 32px;">
+    <h2 class="section-heading">Grade Distribution</h2>
+    <p class="section-subheading">
+      How {codeRepos} graded repositories score across five letter grades
+    </p>
+    <SegmentedBar segments={segmentedData} height={6} />
+    <div style="margin-top: 24px; display: flex; justify-content: center;">
+      <DonutChart
+        segments={segmentedData}
+        size={180}
+        thickness={22}
+        centerValue={String(codeRepos)}
+        centerLabel="repos"
+      />
+    </div>
+  </section>
+
+  <!-- Dimension Averages — Lollipop Chart -->
+  <section class="card" style="margin-bottom: 32px;">
+    <h2 class="section-heading">Dimension Averages</h2>
+    <p class="section-subheading">
+      Average scores across all graded repositories
+    </p>
+    <LollipopChart data={lollipopData} maxValue={100} />
+    <p class="chart-annotation" style="margin-top: 16px;">
+      <strong>{highestDim[0]}</strong> leads at {highestDim[1]}/100, while <strong>{lowestDim[0]}</strong> lags at {lowestDim[1]}/100 — a {highestDim[1] - lowestDim[1]}-point gap.
+    </p>
+  </section>
+
+  <!-- Key Insights — Callout Boxes -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px;">
+    <div class="callout">
+      <div class="callout-number" style="color: var(--color-grade-f);">{fPct}%</div>
+      <div class="callout-text">
+        of repos received an <strong>F grade</strong> — {summary.gradeDistribution.F} of {codeRepos} graded repositories
+      </div>
+    </div>
+    <div class="callout">
+      <div class="callout-number" style="color: var(--color-grade-a);">{abPct}%</div>
+      <div class="callout-text">
+        earned <strong>A or B</strong> — {summary.gradeDistribution.A + summary.gradeDistribution.B} repos with strong health practices
+      </div>
+    </div>
+    <div class="callout">
+      <div class="callout-number" style="color: var(--color-grade-d);">{lowestDim[1]}</div>
+      <div class="callout-text">
+        average <strong>{lowestDim[0]}</strong> score — the weakest dimension across all repos
+      </div>
+    </div>
+    <div class="callout">
+      <div class="callout-number" style="color: var(--color-accent);">{topLang?.averageScore}</div>
+      <div class="callout-text">
+        <strong>{topLang?.name}</strong> avg — highest-scoring language ({topLang?.count} repos)
       </div>
     </div>
   </div>
 
-  <div class="grid lg:grid-cols-2 gap-6 mb-10">
-    <!-- Grade Distribution with donut chart -->
-    <section class="card p-6">
-      <h2 class="text-lg font-semibold mb-2">Grade Distribution</h2>
-      <p class="text-sm text-stone-500 dark:text-stone-400 mb-5">
-        Of {codeRepos} graded repositories ({summary.documentationRepos} documentation repos excluded)
-      </p>
-
-      <!-- Segmented bar (GitHub language bar style) -->
-      <div class="segmented-bar mb-6">
-        {gradeOrder.map((grade) => {
-          const count = summary.gradeDistribution[grade] ?? 0;
-          const pct = (count / codeRepos) * 100;
-          return pct > 0 ? (
-            <div
-              style={`width: ${pct}%; background-color: ${gradeColors[grade]}`}
-              title={`${grade}: ${count} repos (${pct.toFixed(1)}%)`}
-            />
-          ) : null;
-        })}
-      </div>
-
-      <div class="flex justify-center">
-        <DonutChart
-          segments={donutSegments}
-          size={180}
-          thickness={22}
-          centerValue={String(codeRepos)}
-          centerLabel="repos"
-        />
-      </div>
-    </section>
-
-    <!-- Dimension Averages -->
-    <section class="card p-6">
-      <h2 class="text-lg font-semibold mb-2">Dimension Averages</h2>
-      <p class="text-sm text-stone-500 dark:text-stone-400 mb-5">
-        Average scores across all graded repositories
-      </p>
-      <BarChart data={dimensionBars} maxValue={100} height={24} />
-    </section>
-  </div>
-
-  <!-- Key Insights — 4 stat cards -->
-  <section class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-    <StatCard value={`${fPct}%`} label={`${summary.gradeDistribution.F} of ${codeRepos} repos`} sublabel="F-Grade Rate" color="#ef4444" icon="🔴" />
-    <StatCard value={`${abPct}%`} label={`${summary.gradeDistribution.A + summary.gradeDistribution.B} repos with strong health`} sublabel="A+B Rate" color="#22c55e" icon="🟢" />
-    <StatCard value={String(lowestDim[1])} label={`${lowestDim[0]} average score`} sublabel="Weakest Dimension" color="#f97316" icon="⚠️" />
-    <StatCard value={String(topLang?.averageScore)} label={`${topLang?.name} avg across ${topLang?.count} repos`} sublabel="Top Language" color="#14b8a6" icon="🏆" />
-  </section>
-
   <!-- Top 10 -->
-  <section class="card p-6 mb-8">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="text-lg font-semibold">Top 10 Repositories</h2>
-      <a href={`${base}/leaderboard/`} class="text-sm text-teal-600 dark:text-teal-400 hover:underline">
+  <section class="card" style="margin-bottom: 32px;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+      <h2 class="section-heading" style="margin-bottom: 0;">Top 10 Repositories</h2>
+      <a href={`${base}/leaderboard/`} style="font-size: 13px; color: var(--color-accent); text-decoration: none;">
         View full leaderboard &rarr;
       </a>
     </div>
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm">
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
         <thead>
-          <tr class="text-left text-stone-500 dark:text-stone-400 border-b border-stone-100 dark:border-stone-800">
-            <th class="pb-2 font-medium w-8">#</th>
-            <th class="pb-2 font-medium">Repository</th>
-            <th class="pb-2 font-medium text-center">Grade</th>
-            <th class="pb-2 font-medium text-right">Score</th>
-            <th class="pb-2 font-medium text-center w-24">Health</th>
-            <th class="pb-2 font-medium pl-4">Language</th>
-            <th class="pb-2 font-medium text-right">Stars</th>
+          <tr style="text-align: left; color: var(--color-text-muted); border-bottom: 2px solid var(--color-border);">
+            <th style="padding: 8px 0; font-weight: 500; width: 32px;">#</th>
+            <th style="padding: 8px 0; font-weight: 500;">Repository</th>
+            <th style="padding: 8px 0; font-weight: 500; text-align: center;">Grade</th>
+            <th style="padding: 8px 0; font-weight: 500; text-align: right;">Score</th>
+            <th style="padding: 8px 0; font-weight: 500; text-align: center; width: 96px;">Health</th>
+            <th style="padding: 8px 12px; font-weight: 500;">Language</th>
+            <th style="padding: 8px 0; font-weight: 500; text-align: right;">Stars</th>
           </tr>
         </thead>
         <tbody>
           {top10.map((repo, i) => (
-            <tr class="border-t border-stone-100 dark:border-stone-800/50 hover:bg-stone-50 dark:hover:bg-stone-900/50">
-              <td class="py-2.5 text-stone-400 tabular-nums">{i + 1}</td>
-              <td class="py-2.5">
+            <tr style={`border-bottom: 1px solid #f0f0f0;`}>
+              <td style="padding: 10px 0; color: var(--color-text-muted); font-variant-numeric: tabular-nums;">{i + 1}</td>
+              <td style="padding: 10px 0;">
                 <a
                   href={`${base}/repo/${repo.slug.replace('/', '--')}/`}
-                  class="text-teal-600 dark:text-teal-400 hover:underline"
+                  style="color: var(--color-accent); text-decoration: none;"
                 >
                   {repo.slug}
                 </a>
               </td>
-              <td class="py-2.5 text-center">
+              <td style="padding: 10px 0; text-align: center;">
                 <span class:list={['grade-pill', gradeClass(repo.grade)]}>
                   {repo.grade}
                 </span>
               </td>
-              <td class="py-2.5 text-right tabular-nums font-medium">{repo.score}</td>
-              <td class="py-2.5 text-center">
+              <td style="padding: 10px 0; text-align: right; font-variant-numeric: tabular-nums; font-weight: 600;">{repo.score}</td>
+              <td style="padding: 10px 0; text-align: center;">
                 <SparkBar value={repo.score} max={100} width="100%" />
               </td>
-              <td class="py-2.5 pl-4 text-stone-600 dark:text-stone-400">{repo.language ?? 'unknown'}</td>
-              <td class="py-2.5 text-right tabular-nums text-stone-600 dark:text-stone-400">
+              <td style="padding: 10px 12px; color: var(--color-text-secondary);">{repo.language ?? 'unknown'}</td>
+              <td style="padding: 10px 0; text-align: right; font-variant-numeric: tabular-nums; color: var(--color-text-secondary);">
                 {formatStars(repo.stars)}
               </td>
             </tr>

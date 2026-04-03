@@ -104,7 +104,6 @@
     filtered.slice((currentPage - 1) * perPage, currentPage * perPage)
   );
 
-  // Show a window of page numbers around current
   const pageNumbers = $derived.by(() => {
     const pages: number[] = [];
     const start = Math.max(1, currentPage - 2);
@@ -117,33 +116,24 @@
 
   function gradeClasses(grade: string): string {
     const map: Record<string, string> = {
-      A: 'grade-A',
-      B: 'grade-B',
-      C: 'grade-C',
-      D: 'grade-D',
-      F: 'grade-F',
-      'N/A': 'grade-NA',
+      A: 'grade-A', B: 'grade-B', C: 'grade-C', D: 'grade-D', F: 'grade-F', 'N/A': 'grade-NA',
     };
     return 'grade-pill ' + (map[grade] ?? map['N/A']);
   }
 
   function typeClasses(type: string): string {
     const map: Record<string, string> = {
-      application: 'type-application',
-      library: 'type-library',
-      framework: 'type-framework',
-      documentation: 'type-documentation',
-      tool: 'type-tool',
+      application: 'type-application', library: 'type-library', framework: 'type-framework',
+      documentation: 'type-documentation', tool: 'type-tool',
     };
     return 'type-badge ' + (map[type] ?? 'type-default');
   }
 
   function scoreBarColor(score: number): string {
-    if (score >= 80) return 'bg-green-500';
-    if (score >= 60) return 'bg-teal-500';
-    if (score >= 40) return 'bg-yellow-500';
-    if (score >= 20) return 'bg-orange-500';
-    return 'bg-red-500';
+    if (score >= 70) return 'var(--color-grade-a)';
+    if (score >= 55) return 'var(--color-grade-b)';
+    if (score >= 40) return 'var(--color-grade-c)';
+    return 'var(--color-grade-f)';
   }
 
   function formatStars(n: number): string {
@@ -159,30 +149,30 @@
   const allGrades = ['A', 'B', 'C', 'D', 'F', 'N/A'];
 
   const gradeFilterColors: Record<string, string> = {
-    A: 'border-green-500/40 bg-green-500/10 text-green-400',
-    B: 'border-teal-500/40 bg-teal-500/10 text-teal-400',
-    C: 'border-yellow-500/40 bg-yellow-500/10 text-yellow-400',
-    D: 'border-orange-500/40 bg-orange-500/10 text-orange-400',
-    F: 'border-red-500/40 bg-red-500/10 text-red-400',
-    'N/A': 'border-stone-500/40 bg-stone-500/10 text-stone-400',
+    A: 'border-color: rgba(45,157,120,0.4); background: rgba(45,157,120,0.08); color: #2d9d78;',
+    B: 'border-color: rgba(29,129,162,0.4); background: rgba(29,129,162,0.08); color: #1d81a2;',
+    C: 'border-color: rgba(196,160,53,0.4); background: rgba(196,160,53,0.08); color: #a68a2a;',
+    D: 'border-color: rgba(212,118,44,0.4); background: rgba(212,118,44,0.08); color: #d4762c;',
+    F: 'border-color: rgba(201,70,62,0.4); background: rgba(201,70,62,0.08); color: #c9463e;',
+    'N/A': 'border-color: rgba(153,153,153,0.4); background: rgba(153,153,153,0.08); color: #999;',
   };
 </script>
 
-<div class="space-y-4">
+<div style="display: flex; flex-direction: column; gap: 16px;">
   <!-- Filters -->
-  <div class="flex flex-wrap items-center gap-3">
+  <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
     <input
       type="text"
       placeholder="Search repos..."
       value={search}
       oninput={handleSearchInput}
-      class="px-3 py-1.5 text-sm bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500/50 w-64"
+      style="padding: 6px 12px; font-size: 13px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; outline: none; width: 240px; color: var(--color-text);"
     />
 
     <select
       value={selectedLanguage}
       onchange={handleLanguageChange}
-      class="px-3 py-1.5 text-sm bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500/50"
+      style="padding: 6px 12px; font-size: 13px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; outline: none; color: var(--color-text);"
     >
       <option value="all">All Languages</option>
       {#each languages as lang}
@@ -193,7 +183,7 @@
     <select
       value={selectedType}
       onchange={handleTypeChange}
-      class="px-3 py-1.5 text-sm bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500/50"
+      style="padding: 6px 12px; font-size: 13px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; outline: none; color: var(--color-text);"
     >
       <option value="all">All Types</option>
       {#each types as t}
@@ -202,81 +192,81 @@
     </select>
 
     <!-- Grade filter chips -->
-    <div class="flex items-center gap-1.5">
+    <div style="display: flex; align-items: center; gap: 6px;">
       {#each allGrades as grade}
         <button
           onclick={() => toggleGrade(grade)}
-          class="filter-chip {selectedGrades.has(grade) ? gradeFilterColors[grade] : 'text-stone-500'}"
+          class="filter-chip"
+          style={selectedGrades.has(grade) ? gradeFilterColors[grade] : ''}
         >
           {grade}
         </button>
       {/each}
     </div>
 
-    <span class="text-xs text-stone-500 ml-auto tabular-nums">{filtered.length} repos</span>
+    <span style="font-size: 12px; color: var(--color-text-muted); margin-left: auto; font-variant-numeric: tabular-nums;">{filtered.length} repos</span>
   </div>
 
   <!-- Table -->
-  <div class="overflow-x-auto rounded-xl border border-stone-200 dark:border-stone-800">
-    <table class="w-full text-sm">
+  <div style="overflow-x: auto; border-radius: 8px; border: 1px solid var(--color-border);">
+    <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
       <thead>
-        <tr class="bg-stone-50 dark:bg-stone-900 text-left">
-          <th class="px-4 py-2.5 font-medium cursor-pointer hover:text-teal-500 select-none" onclick={() => setSort('slug')}>
+        <tr style="text-align: left; background: var(--color-surface-alt);">
+          <th style="padding: 10px 16px; font-weight: 500; cursor: pointer; color: var(--color-text-secondary);" onclick={() => setSort('slug')}>
             Repository{sortIndicator('slug')}
           </th>
-          <th class="px-4 py-2.5 font-medium cursor-pointer hover:text-teal-500 text-center select-none w-16" onclick={() => setSort('grade')}>
+          <th style="padding: 10px 16px; font-weight: 500; cursor: pointer; text-align: center; width: 64px; color: var(--color-text-secondary);" onclick={() => setSort('grade')}>
             Grade{sortIndicator('grade')}
           </th>
-          <th class="px-4 py-2.5 font-medium cursor-pointer hover:text-teal-500 select-none w-36" onclick={() => setSort('score')}>
+          <th style="padding: 10px 16px; font-weight: 500; cursor: pointer; width: 140px; color: var(--color-text-secondary);" onclick={() => setSort('score')}>
             Score{sortIndicator('score')}
           </th>
-          <th class="px-4 py-2.5 font-medium cursor-pointer hover:text-teal-500 select-none" onclick={() => setSort('language')}>
+          <th style="padding: 10px 16px; font-weight: 500; cursor: pointer; color: var(--color-text-secondary);" onclick={() => setSort('language')}>
             Language{sortIndicator('language')}
           </th>
-          <th class="px-4 py-2.5 font-medium cursor-pointer hover:text-teal-500 select-none" onclick={() => setSort('type')}>
+          <th style="padding: 10px 16px; font-weight: 500; cursor: pointer; color: var(--color-text-secondary);" onclick={() => setSort('type')}>
             Type{sortIndicator('type')}
           </th>
-          <th class="px-4 py-2.5 font-medium cursor-pointer hover:text-teal-500 text-right select-none" onclick={() => setSort('stars')}>
+          <th style="padding: 10px 16px; font-weight: 500; cursor: pointer; text-align: right; color: var(--color-text-secondary);" onclick={() => setSort('stars')}>
             Stars{sortIndicator('stars')}
           </th>
         </tr>
       </thead>
       <tbody>
         {#each paginatedRepos as repo, i}
-          <tr class="border-t border-stone-100 dark:border-stone-800/50 hover:bg-stone-50 dark:hover:bg-stone-900/50 {i % 2 === 0 ? '' : 'bg-stone-50/30 dark:bg-stone-900/20'}">
-            <td class="px-4 py-2.5">
+          <tr style="border-top: 1px solid #f0f0f0; {i % 2 === 0 ? '' : 'background: var(--color-surface-alt);'}">
+            <td style="padding: 10px 16px;">
               <a
                 href="{baseUrl}/repo/{repo.slug.replace('/', '--')}/"
-                class="text-teal-600 dark:text-teal-400 hover:underline"
+                style="color: var(--color-accent); text-decoration: none;"
               >
                 {repo.slug}
               </a>
             </td>
-            <td class="px-4 py-2.5 text-center">
+            <td style="padding: 10px 16px; text-align: center;">
               <span class={gradeClasses(repo.grade)}>
                 {repo.grade}
               </span>
             </td>
-            <td class="px-4 py-2.5">
+            <td style="padding: 10px 16px;">
               {#if repo.graded}
-                <div class="flex items-center gap-2">
-                  <div class="flex-1 h-1.5 bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div style="flex: 1; height: 3px; background: #eee; border-radius: 9999px; overflow: hidden;">
                     <div
-                      class="h-full rounded-full score-bar-inline {scoreBarColor(repo.score)}"
-                      style="width: {repo.score}%"
+                      style="height: 100%; border-radius: 9999px; width: {repo.score}%; background: {scoreBarColor(repo.score)};"
                     ></div>
                   </div>
-                  <span class="tabular-nums font-medium w-7 text-right text-xs">{repo.score}</span>
+                  <span style="font-variant-numeric: tabular-nums; font-weight: 600; width: 28px; text-align: right; font-size: 12px; color: var(--color-text);">{repo.score}</span>
                 </div>
               {:else}
-                <span class="text-stone-400 text-xs">--</span>
+                <span style="color: var(--color-text-muted); font-size: 12px;">--</span>
               {/if}
             </td>
-            <td class="px-4 py-2.5 text-stone-500 dark:text-stone-400 text-xs">{repo.language ?? 'unknown'}</td>
-            <td class="px-4 py-2.5">
+            <td style="padding: 10px 16px; color: var(--color-text-secondary); font-size: 12px;">{repo.language ?? 'unknown'}</td>
+            <td style="padding: 10px 16px;">
               <span class={typeClasses(repo.type)}>{repo.type}</span>
             </td>
-            <td class="px-4 py-2.5 text-right tabular-nums text-stone-500 dark:text-stone-400 text-xs">{formatStars(repo.stars)}</td>
+            <td style="padding: 10px 16px; text-align: right; font-variant-numeric: tabular-nums; color: var(--color-text-secondary); font-size: 12px;">{formatStars(repo.stars)}</td>
           </tr>
         {/each}
       </tbody>
@@ -285,11 +275,11 @@
 
   <!-- Pagination -->
   {#if totalPages > 1}
-    <div class="flex items-center justify-between pt-2">
-      <span class="text-xs text-stone-500 tabular-nums">
+    <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 8px;">
+      <span style="font-size: 12px; color: var(--color-text-muted); font-variant-numeric: tabular-nums;">
         Showing {(currentPage - 1) * perPage + 1}–{Math.min(currentPage * perPage, filtered.length)} of {filtered.length}
       </span>
-      <div class="flex items-center gap-1">
+      <div style="display: flex; align-items: center; gap: 4px;">
         <button
           class="pagination-btn"
           disabled={currentPage === 1}

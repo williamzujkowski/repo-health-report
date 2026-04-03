@@ -9,12 +9,14 @@ const gradedCount = leaderboard.repos.filter((r) => r.graded).length;
 ---
 
 <BaseLayout title="Leaderboard" description={`Full leaderboard of ${leaderboard.repos.length.toLocaleString()} open-source repositories ranked by health score`}>
-  <div class="mb-8">
-    <h1 class="text-3xl font-bold tracking-tight mb-2">Leaderboard</h1>
-    <p class="text-stone-500 dark:text-stone-400">
+  <div style="margin-bottom: 32px;">
+    <h1 style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 8px; color: var(--color-text);">
+      Leaderboard
+    </h1>
+    <p style="font-size: 14px; color: var(--color-text-muted); margin: 0;">
       All {leaderboard.repos.length.toLocaleString()} repositories ranked by health score.
       {gradedCount} graded, {leaderboard.repos.length - gradedCount} ungraded (documentation/mirror).
-      Click column headers to sort. Use filters to narrow results.
+      Click column headers to sort.
     </p>
   </div>
 

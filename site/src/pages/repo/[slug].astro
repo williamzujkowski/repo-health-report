@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import ScoreBar from '../../components/ScoreBar.astro';
+import LollipopChart from '../../components/charts/LollipopChart.astro';
 import leaderboard from '../../../../data/dashboard/leaderboard.json';
 import { loadRepoDetail } from '../../lib/repo-data';
 
@@ -19,65 +19,86 @@ const gc = ({ A: 'grade-A', B: 'grade-B', C: 'grade-C', D: 'grade-D', F: 'grade-
 const typeMap: Record<string, string> = { application: 'type-application', library: 'type-library', framework: 'type-framework', documentation: 'type-documentation', tool: 'type-tool' };
 const tc = 'type-badge ' + (typeMap[repo.type] ?? 'type-default');
 const showFindings = dims.some((d) => d.findings && d.findings.length > 0);
+
+function dimColor(s: number): string {
+  if (s >= 70) return 'var(--color-grade-a)';
+  if (s >= 55) return 'var(--color-grade-b)';
+  if (s >= 40) return 'var(--color-grade-c)';
+  return 'var(--color-grade-f)';
+}
+
+const dimLollipop = dims.map(d => ({
+  label: d.name,
+  value: d.score,
+  color: dimColor(d.score),
+}));
 ---
 
 <BaseLayout title={repo.slug}>
-  <nav class="text-sm text-stone-500 mb-6">
-    <a href={`${base}/leaderboard/`} class="hover:text-teal-400">Leaderboard</a>
-    <span class="mx-1.5">/</span>
-    <span class="text-stone-300">{repo.slug}</span>
+  <nav style="font-size: 13px; color: var(--color-text-muted); margin-bottom: 24px;">
+    <a href={`${base}/leaderboard/`} style="color: var(--color-accent); text-decoration: none;">Leaderboard</a>
+    <span style="margin: 0 6px;">/</span>
+    <span style="color: var(--color-text);">{repo.slug}</span>
   </nav>
 
-  <div class="card p-6 mb-6">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+  <!-- Header card -->
+  <div class="card" style="margin-bottom: 24px;">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
       <div>
-        <h1 class="text-2xl font-bold tracking-tight mb-1">{repo.slug}</h1>
-        <div class="flex flex-wrap items-center gap-3 text-sm">
+        <h1 style="font-size: 22px; font-weight: 700; margin: 0 0 8px; color: var(--color-text);">{repo.slug}</h1>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 13px;">
           <span class={tc}>{repo.type}</span>
-          {repo.language && <span class="text-stone-400">{repo.language}</span>}
-          <span class="text-stone-400 tabular-nums">{repo.stars >= 1000 ? (repo.stars / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : repo.stars} stars</span>
+          {repo.language && <span style="color: var(--color-text-secondary);">{repo.language}</span>}
+          <span style="color: var(--color-text-muted); font-variant-numeric: tabular-nums;">
+            {repo.stars >= 1000 ? (repo.stars / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : repo.stars} stars
+          </span>
         </div>
       </div>
-      <div class="flex items-center gap-4">
-        {repo.graded && <div class:list={['text-4xl font-bold grade-pill px-4 py-2', gc]}>{repo.grade}</div>}
-        <div class="text-center">
-          <div class="text-4xl font-bold tabular-nums">{repo.graded ? repo.score : '--'}</div>
-          <div class="text-xs text-stone-400">/ 100</div>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        {repo.graded && <div class:list={['grade-pill', gc]} style="font-size: 28px; padding: 8px 16px;">{repo.grade}</div>}
+        <div style="text-align: center;">
+          <div style="font-size: 36px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--color-text);">{repo.graded ? repo.score : '--'}</div>
+          <div style="font-size: 12px; color: var(--color-text-muted);">/ 100</div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Dimension scores as lollipop chart -->
   {dims.length > 0 && (
-    <section class="card p-6 mb-6">
-      <h2 class="text-lg font-semibold mb-4">Dimension Scores</h2>
-      <div class="flex flex-col gap-3">
-        {dims.map((dim) => <ScoreBar label={dim.name} score={dim.score} />)}
+    <section class="card" style="margin-bottom: 24px;">
+      <h2 class="section-heading">Dimension Scores</h2>
+      <p class="section-subheading">Individual health dimension scores for this repository</p>
+      <LollipopChart data={dimLollipop} maxValue={100} />
+    </section>
+  )}
+
+  <!-- Findings -->
+  {showFindings && (
+    <section class="card" style="margin-bottom: 24px;">
+      <h2 class="section-heading">Findings</h2>
+      <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 16px;">
+        {dims.map((dim) => (
+          <div>
+            <h3 style="font-size: 12px; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px;">{dim.name}</h3>
+            {(dim.findings ?? []).map((f) => (
+              <div style="display: flex; align-items: start; gap: 8px; font-size: 13px; padding: 4px 0;">
+                <span style={`font-size: 11px; color: ${f.passed ? 'var(--color-grade-a)' : 'var(--color-grade-f)'};`}>
+                  {f.passed ? '\u2713' : '\u2717'}
+                </span>
+                <span style="font-weight: 500; color: var(--color-text);">{f.name}</span>
+                <span style="color: var(--color-text-muted); font-size: 12px;">{f.detail}</span>
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
     </section>
   )}
 
-  {showFindings && (
-    <section class="card p-6 mb-6">
-      <h2 class="text-lg font-semibold mb-4">Findings</h2>
-      {dims.map((dim) => (
-        <div class="mb-4">
-          <h3 class="text-sm font-medium text-stone-400 uppercase tracking-wider mb-2">{dim.name}</h3>
-          {(dim.findings ?? []).map((f) => (
-            <div class="flex items-start gap-2 text-sm py-1">
-              <span class={f.passed ? 'text-green-500 text-xs' : 'text-red-500 text-xs'}>{f.passed ? '\u2713' : '\u2717'}</span>
-              <span class="font-medium">{f.name}</span>
-              <span class="text-stone-500 text-xs">{f.detail}</span>
-            </div>
-          ))}
-        </div>
-      ))}
-    </section>
-  )}
-
-  <div class="flex flex-wrap gap-3">
-    <a href={`https://github.com/${repo.slug}`} target="_blank" rel="noopener noreferrer" class="card px-4 py-2.5 text-sm flex items-center gap-2">View on GitHub</a>
-    <a href={`https://scorecard.dev/viewer/?uri=github.com/${repo.slug}`} target="_blank" rel="noopener noreferrer" class="card px-4 py-2.5 text-sm flex items-center gap-2">OpenSSF Scorecard</a>
-    <a href={`${base}/leaderboard/`} class="card px-4 py-2.5 text-sm flex items-center gap-2">Back to Leaderboard</a>
+  <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+    <a href={`https://github.com/${repo.slug}`} target="_blank" rel="noopener noreferrer" class="card" style="padding: 10px 16px; font-size: 13px; display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--color-text);">View on GitHub</a>
+    <a href={`https://scorecard.dev/viewer/?uri=github.com/${repo.slug}`} target="_blank" rel="noopener noreferrer" class="card" style="padding: 10px 16px; font-size: 13px; display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--color-text);">OpenSSF Scorecard</a>
+    <a href={`${base}/leaderboard/`} class="card" style="padding: 10px 16px; font-size: 13px; display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--color-text);">Back to Leaderboard</a>
   </div>
 </BaseLayout>

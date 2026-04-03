@@ -1,0 +1,31 @@
+---
+interface Props {
+  data: Array<{ label: string; value: number; color?: string; annotation?: string }>;
+  maxValue?: number;
+  unit?: string;
+}
+
+const { data, maxValue, unit = '' } = Astro.props;
+const max = maxValue ?? Math.max(...data.map(d => d.value), 1);
+---
+
+<div class="flex flex-col">
+  {data.map((item) => {
+    const pct = Math.min((item.value / max) * 100, 100);
+    const dotColor = item.color ?? 'var(--color-accent)';
+    return (
+      <div class="lollipop-row">
+        <span class="lollipop-label">{item.label}</span>
+        <div class="lollipop-track">
+          <div
+            class="lollipop-dot"
+            style={`left: ${pct}%; background: ${dotColor}`}
+          />
+        </div>
+        <span class="lollipop-value" style={`color: ${dotColor}`}>
+          {item.value}{unit}
+        </span>
+      </div>
+    );
+  })}
+</div>
