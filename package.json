@@ -1,6 +1,6 @@
 {
   "name": "repo-health-report",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Analyze any GitHub repo and generate a health report using static analysis via the GitHub API",
   "type": "module",
   "bin": {
