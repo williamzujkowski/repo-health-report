@@ -3,16 +3,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import LeaderboardTable from '../components/LeaderboardTable.svelte';
 
 import leaderboard from '../../../data/dashboard/leaderboard.json';
+
+const base = import.meta.env.BASE_URL;
+const gradedCount = leaderboard.repos.filter((r) => r.graded).length;
 ---
 
-<BaseLayout title="Leaderboard" description="Full leaderboard of 1,000 open-source repositories ranked by health score">
+<BaseLayout title="Leaderboard" description={`Full leaderboard of ${leaderboard.repos.length.toLocaleString()} open-source repositories ranked by health score`}>
   <div class="mb-8">
     <h1 class="text-3xl font-bold tracking-tight mb-2">Leaderboard</h1>
     <p class="text-stone-500 dark:text-stone-400">
       All {leaderboard.repos.length.toLocaleString()} repositories ranked by health score.
+      {gradedCount} graded, {leaderboard.repos.length - gradedCount} ungraded (documentation/mirror).
       Click column headers to sort. Use filters to narrow results.
     </p>
   </div>
 
-  <LeaderboardTable client:load repos={leaderboard.repos} />
+  <LeaderboardTable client:load repos={leaderboard.repos} baseUrl={base} />
 </BaseLayout>

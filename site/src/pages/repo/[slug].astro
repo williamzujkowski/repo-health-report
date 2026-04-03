@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ScoreBar from '../../components/ScoreBar.astro';
+import leaderboard from '../../../../data/dashboard/leaderboard.json';
+import { loadRepoDetail } from '../../lib/repo-data';
+
+export function getStaticPaths() {
+  return leaderboard.repos.map((repo) => ({
+    params: { slug: repo.slug.replace('/', '--') },
+    props: { repo },
+  }));
+}
+
+const { repo } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const detail = loadRepoDetail(repo.slug);
+const dims = detail?.dimensions ?? [];
+const gc = ({ A: 'grade-A', B: 'grade-B', C: 'grade-C', D: 'grade-D', F: 'grade-F' } as Record<string, string>)[repo.grade] ?? 'grade-NA';
+const typeMap: Record<string, string> = { application: 'type-application', library: 'type-library', framework: 'type-framework', documentation: 'type-documentation', tool: 'type-tool' };
+const tc = 'type-badge ' + (typeMap[repo.type] ?? 'type-default');
+const showFindings = dims.some((d) => d.findings && d.findings.length > 0);
+---
+
+<BaseLayout title={repo.slug}>
+  <nav class="text-sm text-stone-500 mb-6">
+    <a href={`${base}/leaderboard/`} class="hover:text-teal-400">Leaderboard</a>
+    <span class="mx-1.5">/</span>
+    <span class="text-stone-300">{repo.slug}</span>
+  </nav>
+
+  <div class="card p-6 mb-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold tracking-tight mb-1">{repo.slug}</h1>
+        <div class="flex flex-wrap items-center gap-3 text-sm">
+          <span class={tc}>{repo.type}</span>
+          {repo.language && <span class="text-stone-400">{repo.language}</span>}
+          <span class="text-stone-400 tabular-nums">{repo.stars >= 1000 ? (repo.stars / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : repo.stars} stars</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        {repo.graded && <div class:list={['text-4xl font-bold grade-pill px-4 py-2', gc]}>{repo.grade}</div>}
+        <div class="text-center">
+          <div class="text-4xl font-bold tabular-nums">{repo.graded ? repo.score : '--'}</div>
+          <div class="text-xs text-stone-400">/ 100</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {dims.length > 0 && (
+    <section class="card p-6 mb-6">
+      <h2 class="text-lg font-semibold mb-4">Dimension Scores</h2>
+      <div class="flex flex-col gap-3">
+        {dims.map((dim) => <ScoreBar label={dim.name} score={dim.score} />)}
+      </div>
+    </section>
+  )}
+
+  {showFindings && (
+    <section class="card p-6 mb-6">
+      <h2 class="text-lg font-semibold mb-4">Findings</h2>
+      {dims.map((dim) => (
+        <div class="mb-4">
+          <h3 class="text-sm font-medium text-stone-400 uppercase tracking-wider mb-2">{dim.name}</h3>
+          {(dim.findings ?? []).map((f) => (
+            <div class="flex items-start gap-2 text-sm py-1">
+              <span class={f.passed ? 'text-green-500 text-xs' : 'text-red-500 text-xs'}>{f.passed ? '\u2713' : '\u2717'}</span>
+              <span class="font-medium">{f.name}</span>
+              <span class="text-stone-500 text-xs">{f.detail}</span>
+            </div>
+          ))}
+        </div>
+      ))}
+    </section>
+  )}
+
+  <div class="flex flex-wrap gap-3">
+    <a href={`https://github.com/${repo.slug}`} target="_blank" rel="noopener noreferrer" class="card px-4 py-2.5 text-sm flex items-center gap-2">View on GitHub</a>
+    <a href={`https://scorecard.dev/viewer/?uri=github.com/${repo.slug}`} target="_blank" rel="noopener noreferrer" class="card px-4 py-2.5 text-sm flex items-center gap-2">OpenSSF Scorecard</a>
+    <a href={`${base}/leaderboard/`} class="card px-4 py-2.5 text-sm flex items-center gap-2">Back to Leaderboard</a>
+  </div>
+</BaseLayout>

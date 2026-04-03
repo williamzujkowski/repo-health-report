@@ -3,10 +3,195 @@
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Grade colors */
   --color-grade-a: #22c55e;
   --color-grade-b: #14b8a6;
   --color-grade-c: #eab308;
   --color-grade-d: #f97316;
   --color-grade-f: #ef4444;
   --color-grade-na: #6b7280;
+
+  /* Spacing scale */
+  --spacing-card: 1.5rem;
+  --spacing-section: 3rem;
+
+  /* Border radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+  --shadow-card-hover: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+}
+
+/* Smooth transitions globally */
+*, *::before, *::after {
+  transition-property: color, background-color, border-color, opacity, box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Hero gradient */
+.hero-gradient {
+  background: linear-gradient(
+    135deg,
+    rgb(20 184 166 / 0.08) 0%,
+    rgb(34 197 94 / 0.04) 50%,
+    transparent 100%
+  );
+}
+
+/* Score bar animation */
+@keyframes grow-bar {
+  from { width: 0%; }
+}
+.animate-bar {
+  animation: grow-bar 0.6s ease-out;
+}
+
+/* Card */
+.card {
+  background-color: white;
+  border-radius: 0.75rem;
+  border: 1px solid #e7e5e4; /* stone-200 */
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.15s ease;
+}
+.card:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+:is(.dark .card) {
+  background-color: #1c1917; /* stone-900 */
+  border-color: #292524; /* stone-800 */
+}
+
+/* Grade pill */
+.grade-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.125rem 0.625rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+}
+.grade-A { background-color: rgb(34 197 94 / 0.15); color: #22c55e; }
+.grade-B { background-color: rgb(20 184 166 / 0.15); color: #14b8a6; }
+.grade-C { background-color: rgb(234 179 8 / 0.15); color: #eab308; }
+.grade-D { background-color: rgb(249 115 22 / 0.15); color: #f97316; }
+.grade-F { background-color: rgb(239 68 68 / 0.15); color: #ef4444; }
+.grade-NA { background-color: rgb(107 114 128 / 0.15); color: #9ca3af; }
+
+/* Type badge */
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+}
+.type-application { background-color: rgb(59 130 246 / 0.1); color: #60a5fa; }
+.type-library { background-color: rgb(168 85 247 / 0.1); color: #c084fc; }
+.type-framework { background-color: rgb(99 102 241 / 0.1); color: #a5b4fc; }
+.type-documentation { background-color: rgb(107 114 128 / 0.1); color: #9ca3af; }
+.type-tool { background-color: rgb(245 158 11 / 0.1); color: #fbbf24; }
+.type-default { background-color: rgb(107 114 128 / 0.1); color: #9ca3af; }
+
+/* Stat card */
+.stat-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  border: 1px solid #e7e5e4;
+  box-shadow: var(--shadow-card);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+:is(.dark .stat-card) {
+  background-color: #1c1917;
+  border-color: #292524;
+}
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.stat-label {
+  font-size: 0.875rem;
+  color: #a8a29e; /* stone-400 */
+}
+
+/* Segmented bar (grade distribution) */
+.segmented-bar {
+  display: flex;
+  height: 0.75rem;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+.segmented-bar > div {
+  transition: width 0.6s ease-out;
+}
+
+/* Mobile menu */
+.mobile-menu-open .mobile-menu {
+  max-height: 300px;
+  opacity: 1;
+}
+.mobile-menu {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.2s ease;
+}
+
+/* Pagination */
+.pagination-btn {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+  border: 1px solid #44403c; /* stone-700 */
+  background-color: #1c1917; /* stone-800 */
+  color: #d6d3d1;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.pagination-btn:hover:not(:disabled) {
+  background-color: #292524;
+}
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.pagination-btn-active {
+  background-color: rgb(20 184 166 / 0.1);
+  border-color: rgb(20 184 166 / 0.3);
+  color: #14b8a6;
+  font-weight: 500;
+}
+
+/* Filter chip */
+.filter-chip {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid #44403c;
+  background: transparent;
+  color: inherit;
+}
+.filter-chip:hover {
+  border-color: #57534e;
+}
+
+/* Score bar inline */
+.score-bar-inline {
+  min-width: 2rem;
 }

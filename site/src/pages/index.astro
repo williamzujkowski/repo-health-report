@@ -5,103 +5,181 @@ import ScoreBar from '../components/ScoreBar.astro';
 
 import summary from '../../../data/dashboard/summary.json';
 import leaderboard from '../../../data/dashboard/leaderboard.json';
+import languagesData from '../../../data/dashboard/languages.json';
 
-const top10 = leaderboard.repos.filter((r) => r.graded).slice(0, 10);
 const base = import.meta.env.BASE_URL;
 
+// Dynamic computations from real data
 const gradedRepos = leaderboard.repos.filter((r) => r.graded);
-const withStaleIssues = gradedRepos.filter((r) => r.score < 80).length;
-const staleIssuePct = Math.round((withStaleIssues / gradedRepos.length) * 100);
+const totalRepos = summary.totalRepos;
+const codeRepos = summary.codeRepos;
+const top10 = gradedRepos.slice(0, 10);
 
-function gradeColor(grade: string): string {
+// Language count
+interface LangEntry {
+  name: string;
+  count: number;
+  averageScore: number | null;
+  gradeDistribution: Record<string, number>;
+}
+const knownLangs = (languagesData.languages as LangEntry[])
+  .filter((l) => l.name !== 'unknown' && l.averageScore !== null);
+const langCount = knownLangs.length;
+
+// Top language by avg score
+const topLang = [...knownLangs].sort((a, b) => (b.averageScore ?? 0) - (a.averageScore ?? 0))[0];
+
+// Compute findings-based stats by scanning leaderboard data
+// We compute what we can from leaderboard (grades, scores, types, languages)
+const fPct = Math.round((summary.gradeDistribution.F / codeRepos) * 100);
+const aPct = Math.round((summary.gradeDistribution.A / codeRepos) * 100);
+const abPct = Math.round(((summary.gradeDistribution.A + summary.gradeDistribution.B) / codeRepos) * 100);
+
+// Dimension stats
+const dimensions = Object.entries(summary.dimensionAverages).sort(([, a], [, b]) => b - a);
+const lowestDim = dimensions[dimensions.length - 1];
+const highestDim = dimensions[0];
+
+// Grade distribution for segmented bar
+const gradeColors: Record<string, string> = {
+  A: '#22c55e',
+  B: '#14b8a6',
+  C: '#eab308',
+  D: '#f97316',
+  F: '#ef4444',
+};
+const gradeOrder = ['A', 'B', 'C', 'D', 'F'] as const;
+
+function gradeClass(grade: string): string {
   const map: Record<string, string> = {
-    A: 'text-green-500',
-    B: 'text-teal-500',
-    C: 'text-yellow-500',
-    D: 'text-orange-500',
-    F: 'text-red-500',
+    A: 'grade-A', B: 'grade-B', C: 'grade-C', D: 'grade-D', F: 'grade-F',
   };
-  return map[grade] ?? 'text-stone-400';
+  return map[grade] ?? 'grade-NA';
 }
 
-function gradeBg(grade: string): string {
-  const map: Record<string, string> = {
-    A: 'bg-green-500/10 text-green-500',
-    B: 'bg-teal-500/10 text-teal-500',
-    C: 'bg-yellow-500/10 text-yellow-500',
-    D: 'bg-orange-500/10 text-orange-500',
-    F: 'bg-red-500/10 text-red-500',
-  };
-  return map[grade] ?? 'bg-stone-500/10 text-stone-400';
+function formatStars(n: number): string {
+  if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+  return String(n);
 }
 ---
 
 <BaseLayout title="Overview">
-  <!-- Hero -->
-  <div class="text-center mb-16">
-    <h1 class="text-5xl font-bold tracking-tight mb-3">
-      {summary.totalRepos.toLocaleString()} repos analyzed
-    </h1>
-    <p class="text-lg text-stone-500 dark:text-stone-400 mb-6">
-      Health scores for popular open-source projects across {Object.keys(summary.dimensionAverages).length} dimensions
-    </p>
-    <div class="inline-flex items-baseline gap-2 px-6 py-3 bg-stone-100 dark:bg-stone-900 rounded-xl">
-      <span class="text-sm text-stone-500 dark:text-stone-400">Average score</span>
-      <span class="text-4xl font-bold tabular-nums">{summary.averageScore}</span>
-      <span class="text-sm text-stone-500 dark:text-stone-400">/ 100</span>
+  <!-- Hero with gradient -->
+  <div class="hero-gradient -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 pt-8 pb-12 mb-12 rounded-b-3xl">
+    <div class="text-center">
+      <div class="inline-flex items-baseline gap-3 mb-4">
+        <span class="text-7xl sm:text-8xl font-extrabold tabular-nums bg-gradient-to-br from-teal-400 to-green-500 bg-clip-text text-transparent">
+          {summary.averageScore}
+        </span>
+        <span class="text-2xl text-stone-400 font-medium">/100</span>
+      </div>
+      <h1 class="text-xl sm:text-2xl font-semibold text-stone-300 mb-2">
+        Average health score
+      </h1>
+      <p class="text-stone-500 mb-8">
+        Health scores for {totalRepos.toLocaleString()} open-source repositories across {Object.keys(summary.dimensionAverages).length} dimensions
+      </p>
+
+      <!-- Three pill stats -->
+      <div class="inline-flex flex-wrap justify-center gap-3">
+        <span class="px-4 py-2 bg-stone-900 border border-stone-800 rounded-full text-sm tabular-nums">
+          <span class="text-stone-400">Total repos</span>
+          <span class="font-bold ml-1.5">{totalRepos.toLocaleString()}</span>
+        </span>
+        <span class="px-4 py-2 bg-stone-900 border border-stone-800 rounded-full text-sm tabular-nums">
+          <span class="text-stone-400">Code repos</span>
+          <span class="font-bold ml-1.5">{codeRepos.toLocaleString()}</span>
+        </span>
+        <span class="px-4 py-2 bg-stone-900 border border-stone-800 rounded-full text-sm tabular-nums">
+          <span class="text-stone-400">Languages</span>
+          <span class="font-bold ml-1.5">{langCount}</span>
+        </span>
+      </div>
     </div>
   </div>
 
-  <div class="grid lg:grid-cols-2 gap-8 mb-12">
-    <!-- Grade Distribution -->
-    <section class="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6">
-      <h2 class="text-lg font-semibold mb-4">Grade Distribution</h2>
-      <p class="text-sm text-stone-500 dark:text-stone-400 mb-4">
-        Of {summary.codeRepos} graded repositories ({summary.documentationRepos} documentation repos excluded)
+  <div class="grid lg:grid-cols-2 gap-6 mb-10">
+    <!-- Grade Distribution with segmented bar -->
+    <section class="card p-6">
+      <h2 class="text-lg font-semibold mb-2">Grade Distribution</h2>
+      <p class="text-sm text-stone-500 dark:text-stone-400 mb-5">
+        Of {codeRepos} graded repositories ({summary.documentationRepos} documentation repos excluded)
       </p>
-      <GradeBar distribution={summary.gradeDistribution} total={summary.codeRepos} />
+
+      <!-- Segmented bar (GitHub language bar style) -->
+      <div class="segmented-bar mb-4">
+        {gradeOrder.map((grade) => {
+          const count = summary.gradeDistribution[grade] ?? 0;
+          const pct = (count / codeRepos) * 100;
+          return pct > 0 ? (
+            <div
+              style={`width: ${pct}%; background-color: ${gradeColors[grade]}`}
+              title={`${grade}: ${count} repos (${pct.toFixed(1)}%)`}
+            />
+          ) : null;
+        })}
+      </div>
+
+      <!-- Legend -->
+      <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm mb-5">
+        {gradeOrder.map((grade) => {
+          const count = summary.gradeDistribution[grade] ?? 0;
+          const pct = Math.round((count / codeRepos) * 100);
+          return (
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-sm" style={`background-color: ${gradeColors[grade]}`} />
+              <span class="text-stone-400">{grade}</span>
+              <span class="tabular-nums font-medium">{pct}%</span>
+              <span class="text-stone-500 text-xs">({count})</span>
+            </div>
+          );
+        })}
+      </div>
+
+      <!-- Detailed bars -->
+      <GradeBar distribution={summary.gradeDistribution} total={codeRepos} />
     </section>
 
     <!-- Dimension Averages -->
-    <section class="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6">
-      <h2 class="text-lg font-semibold mb-4">Dimension Averages</h2>
-      <p class="text-sm text-stone-500 dark:text-stone-400 mb-4">
+    <section class="card p-6">
+      <h2 class="text-lg font-semibold mb-2">Dimension Averages</h2>
+      <p class="text-sm text-stone-500 dark:text-stone-400 mb-5">
         Average scores across all graded repositories
       </p>
       <div class="flex flex-col gap-3">
-        {Object.entries(summary.dimensionAverages)
-          .sort(([, a], [, b]) => b - a)
-          .map(([dim, score]) => (
-            <ScoreBar label={dim} score={score} />
-          ))}
+        {dimensions.map(([dim, score]) => (
+          <ScoreBar label={dim} score={score} />
+        ))}
       </div>
     </section>
   </div>
 
-  <!-- Key Stats -->
-  <section class="grid sm:grid-cols-3 gap-4 mb-12">
-    <div class="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6 text-center">
-      <div class="text-3xl font-bold text-red-500 mb-1">
-        {Math.round((summary.gradeDistribution.F / summary.codeRepos) * 100)}%
-      </div>
-      <div class="text-sm text-stone-500 dark:text-stone-400">of repos receive an F grade</div>
+  <!-- Key Insights — 4 stat cards -->
+  <section class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+    <div class="stat-card">
+      <span class="text-xs text-stone-400 uppercase tracking-wider">F-Grade Rate</span>
+      <span class="stat-value text-red-500">{fPct}%</span>
+      <span class="stat-label">{summary.gradeDistribution.F} of {codeRepos} repos</span>
     </div>
-    <div class="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6 text-center">
-      <div class="text-3xl font-bold text-orange-500 mb-1">
-        {summary.dimensionAverages.Security}
-      </div>
-      <div class="text-sm text-stone-500 dark:text-stone-400">average Security score (lowest dimension)</div>
+    <div class="stat-card">
+      <span class="text-xs text-stone-400 uppercase tracking-wider">A+B Rate</span>
+      <span class="stat-value text-green-500">{abPct}%</span>
+      <span class="stat-label">{summary.gradeDistribution.A + summary.gradeDistribution.B} repos with strong health</span>
     </div>
-    <div class="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6 text-center">
-      <div class="text-3xl font-bold text-green-500 mb-1">
-        {Math.round((summary.gradeDistribution.A / summary.codeRepos) * 100)}%
-      </div>
-      <div class="text-sm text-stone-500 dark:text-stone-400">of repos earn an A grade</div>
+    <div class="stat-card">
+      <span class="text-xs text-stone-400 uppercase tracking-wider">Weakest Dimension</span>
+      <span class="stat-value text-orange-500">{lowestDim[1]}</span>
+      <span class="stat-label">{lowestDim[0]} average score</span>
+    </div>
+    <div class="stat-card">
+      <span class="text-xs text-stone-400 uppercase tracking-wider">Top Language</span>
+      <span class="stat-value text-teal-500">{topLang?.averageScore}</span>
+      <span class="stat-label">{topLang?.name} avg across {topLang?.count} repos</span>
     </div>
   </section>
 
   <!-- Top 10 -->
-  <section class="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6 mb-8">
+  <section class="card p-6 mb-8">
     <div class="flex items-center justify-between mb-4">
       <h2 class="text-lg font-semibold">Top 10 Repositories</h2>
       <a href={`${base}/leaderboard/`} class="text-sm text-teal-600 dark:text-teal-400 hover:underline">
@@ -112,37 +190,45 @@ function gradeBg(grade: string): string {
       <table class="w-full text-sm">
         <thead>
           <tr class="text-left text-stone-500 dark:text-stone-400 border-b border-stone-100 dark:border-stone-800">
-            <th class="pb-2 font-medium">#</th>
+            <th class="pb-2 font-medium w-8">#</th>
             <th class="pb-2 font-medium">Repository</th>
             <th class="pb-2 font-medium text-center">Grade</th>
             <th class="pb-2 font-medium text-right">Score</th>
-            <th class="pb-2 font-medium">Language</th>
+            <th class="pb-2 font-medium pl-4">Language</th>
             <th class="pb-2 font-medium text-right">Stars</th>
           </tr>
         </thead>
         <tbody>
           {top10.map((repo, i) => (
-            <tr class="border-t border-stone-100 dark:border-stone-800/50">
-              <td class="py-2 text-stone-400 tabular-nums">{i + 1}</td>
-              <td class="py-2">
+            <tr class="border-t border-stone-100 dark:border-stone-800/50 hover:bg-stone-50 dark:hover:bg-stone-900/50">
+              <td class="py-2.5 text-stone-400 tabular-nums">{i + 1}</td>
+              <td class="py-2.5">
                 <a
-                  href={`https://github.com/${repo.slug}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`${base}/repo/${repo.slug.replace('/', '--')}/`}
                   class="text-teal-600 dark:text-teal-400 hover:underline"
                 >
                   {repo.slug}
                 </a>
               </td>
-              <td class="py-2 text-center">
-                <span class:list={['inline-block px-2 py-0.5 rounded text-xs font-semibold', gradeBg(repo.grade)]}>
+              <td class="py-2.5 text-center">
+                <span class:list={['grade-pill', gradeClass(repo.grade)]}>
                   {repo.grade}
                 </span>
               </td>
-              <td class="py-2 text-right tabular-nums font-medium">{repo.score}</td>
-              <td class="py-2 text-stone-600 dark:text-stone-400">{repo.language ?? 'unknown'}</td>
-              <td class="py-2 text-right tabular-nums text-stone-600 dark:text-stone-400">
-                {repo.stars >= 1000 ? (repo.stars / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : repo.stars}
+              <td class="py-2.5 text-right">
+                <div class="flex items-center justify-end gap-2">
+                  <div class="w-16 h-1.5 bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden">
+                    <div
+                      class="h-full rounded-full bg-teal-500 animate-bar"
+                      style={`width: ${repo.score}%`}
+                    />
+                  </div>
+                  <span class="tabular-nums font-medium w-7 text-right">{repo.score}</span>
+                </div>
+              </td>
+              <td class="py-2.5 pl-4 text-stone-600 dark:text-stone-400">{repo.language ?? 'unknown'}</td>
+              <td class="py-2.5 text-right tabular-nums text-stone-600 dark:text-stone-400">
+                {formatStars(repo.stars)}
               </td>
             </tr>
           ))}

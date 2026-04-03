@@ -6,13 +6,17 @@ import leaderboard from '../../../data/dashboard/leaderboard.json';
 import languagesData from '../../../data/dashboard/languages.json';
 import typesData from '../../../data/dashboard/types.json';
 
+// All computations are dynamic from JSON data
 const gradedRepos = leaderboard.repos.filter((r) => r.graded);
 const totalGraded = gradedRepos.length;
+const totalRepos = summary.totalRepos;
 
+// Grade percentages (computed)
 const fPct = Math.round((summary.gradeDistribution.F / totalGraded) * 100);
 const abPct = Math.round(((summary.gradeDistribution.A + summary.gradeDistribution.B) / totalGraded) * 100);
 const aPct = Math.round((summary.gradeDistribution.A / totalGraded) * 100);
 
+// Language analysis (computed from languages.json)
 interface LangEntry {
   name: string;
   count: number;
@@ -25,11 +29,16 @@ const langs = (languagesData.languages as LangEntry[])
 const topLangs = [...langs].sort((a, b) => (b.averageScore ?? 0) - (a.averageScore ?? 0)).slice(0, 5);
 const bottomLangs = [...langs].sort((a, b) => (a.averageScore ?? 0) - (b.averageScore ?? 0)).slice(0, 5);
 
-const dimensions = Object.entries(summary.dimensionAverages).sort(([, a], [, b]) => a - b);
+// Dimension analysis (computed from summary.json)
+const dimensionEntries = Object.entries(summary.dimensionAverages) as [string, number][];
+const dimensions = dimensionEntries.sort(([, a], [, b]) => a - b);
 const worstDim = dimensions[0];
 const bestDim = dimensions[dimensions.length - 1];
-const securityGap = (summary.dimensionAverages as Record<string, number>)['Documentation'] - (summary.dimensionAverages as Record<string, number>)['Security'];
+const securityScore = (summary.dimensionAverages as Record<string, number>)['Security'] ?? 0;
+const docScore = (summary.dimensionAverages as Record<string, number>)['Documentation'] ?? 0;
+const securityGap = docScore - securityScore;
 
+// Type analysis (computed from types.json)
 interface TypeEntry {
   name: string;
   count: number;
@@ -41,50 +50,86 @@ const gradedTypes = (typesData.types as TypeEntry[])
   .filter((t) => t.graded && t.averageScore !== null)
   .sort((a, b) => (b.averageScore ?? 0) - (a.averageScore ?? 0));
 
+// Stars vs health (computed from leaderboard)
 const topStarRepos = [...leaderboard.repos].sort((a, b) => b.stars - a.stars).slice(0, 20);
 const topStarAvg = Math.round(topStarRepos.reduce((sum, r) => sum + (r.score ?? 0), 0) / topStarRepos.length);
+
+// Type distribution stats
+const typeTotal = gradedTypes.reduce((sum, t) => sum + t.count, 0);
+const topType = gradedTypes[0];
+
+// Grade distribution for quick reference
+const gradeEntries = Object.entries(summary.gradeDistribution) as [string, number][];
+const mostCommonGrade = gradeEntries.sort(([, a], [, b]) => b - a)[0];
+
+function barColor(s: number): string {
+  if (s >= 60) return 'bg-teal-500';
+  if (s >= 40) return 'bg-yellow-500';
+  return 'bg-red-500';
+}
 ---
 
 <BaseLayout title="Insights" description="Key findings and analysis from the repository health report">
   <div class="mb-10">
     <h1 class="text-3xl font-bold tracking-tight mb-2">Insights</h1>
     <p class="text-stone-500 dark:text-stone-400">
-      Key findings from analyzing {summary.totalRepos.toLocaleString()} popular open-source repositories.
+      Key findings from analyzing {totalRepos.toLocaleString()} popular open-source repositories.
+      All numbers computed dynamically from scan data.
     </p>
   </div>
 
-  <div class="prose prose-stone dark:prose-invert max-w-none">
-    <!-- Finding 1 -->
-    <section class="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6 mb-6">
-      <h2 class="text-xl font-semibold mt-0 mb-3">Most repos are in poor health</h2>
-      <p class="text-stone-600 dark:text-stone-400 leading-relaxed">
-        <strong class="text-red-500">{fPct}%</strong> of graded repositories received an <strong>F grade</strong>,
-        making it the most common grade by a wide margin. Only <strong class="text-green-500">{aPct}%</strong> earned an A.
-        The combined A+B rate is just <strong>{abPct}%</strong>, meaning fewer than 1 in 5 repos demonstrate strong health practices.
+  <!-- Quick stats bar -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
+    <div class="stat-card items-center text-center">
+      <span class="stat-value text-red-500">{fPct}%</span>
+      <span class="stat-label">F-grade rate</span>
+    </div>
+    <div class="stat-card items-center text-center">
+      <span class="stat-value">{summary.averageScore}</span>
+      <span class="stat-label">average score</span>
+    </div>
+    <div class="stat-card items-center text-center">
+      <span class="stat-value text-orange-500">{securityScore}</span>
+      <span class="stat-label">security avg</span>
+    </div>
+    <div class="stat-card items-center text-center">
+      <span class="stat-value text-green-500">{topLangs[0]?.averageScore}</span>
+      <span class="stat-label">{topLangs[0]?.name} avg</span>
+    </div>
+  </div>
+
+  <div class="space-y-6">
+    <!-- Finding 1: Grade distribution -->
+    <section class="card p-6">
+      <h2 class="text-xl font-semibold mb-3">Most repos are in poor health</h2>
+      <p class="text-stone-400 leading-relaxed mb-1">
+        <strong class="text-red-500">{fPct}%</strong> of graded repositories ({summary.gradeDistribution.F} of {totalGraded}) received an <strong>F grade</strong>,
+        making it the most common grade. Only <strong class="text-green-500">{aPct}%</strong> ({summary.gradeDistribution.A}) earned an A.
+        The combined A+B rate is <strong>{abPct}%</strong> ({summary.gradeDistribution.A + summary.gradeDistribution.B} repos).
       </p>
-      <p class="text-stone-600 dark:text-stone-400 leading-relaxed">
-        The average score across all graded repos is <strong>{summary.averageScore}/100</strong> &mdash; a D+ grade.
-        This suggests that even popular, widely-used projects often lack basic health hygiene like security policies,
+      <p class="text-stone-400 leading-relaxed">
+        The average score is <strong>{summary.averageScore}/100</strong>.
+        Even popular, widely-used projects often lack basic health hygiene like security policies,
         CI configuration, and issue triage.
       </p>
     </section>
 
-    <!-- Finding 2 -->
-    <section class="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6 mb-6">
-      <h2 class="text-xl font-semibold mt-0 mb-3">Security is the weakest dimension</h2>
-      <p class="text-stone-600 dark:text-stone-400 leading-relaxed">
-        The <strong>{worstDim?.[0]}</strong> dimension has the lowest average at <strong class="text-red-500">{worstDim?.[1]}/100</strong>,
-        while <strong>{bestDim?.[0]}</strong> leads at <strong class="text-green-500">{bestDim?.[1]}/100</strong>.
-        The <strong>{securityGap}-point gap</strong> between Documentation and Security scores reveals a systematic blind spot:
-        projects document their code but neglect security policies, dependency scanning, and vulnerability disclosure processes.
+    <!-- Finding 2: Security -->
+    <section class="card p-6">
+      <h2 class="text-xl font-semibold mb-3">Security is the weakest dimension</h2>
+      <p class="text-stone-400 leading-relaxed mb-4">
+        <strong>{worstDim[0]}</strong> has the lowest average at <strong class="text-red-500">{worstDim[1]}/100</strong>,
+        while <strong>{bestDim[0]}</strong> leads at <strong class="text-green-500">{bestDim[1]}/100</strong>.
+        The <strong>{securityGap}-point gap</strong> between Documentation and Security reveals a systematic blind spot:
+        projects document their code but neglect security policies and dependency scanning.
       </p>
-      <div class="not-prose mt-4 space-y-1.5">
+      <div class="space-y-1.5">
         {dimensions.map(([dim, score]) => (
           <div class="flex items-center gap-3 text-sm">
-            <span class="w-28 text-stone-500 dark:text-stone-400">{dim}</span>
-            <div class="flex-1 h-4 bg-stone-100 dark:bg-stone-800 rounded-sm overflow-hidden">
+            <span class="w-28 text-stone-500">{dim}</span>
+            <div class="flex-1 h-4 bg-stone-100 dark:bg-stone-800 rounded overflow-hidden">
               <div
-                class={`h-full rounded-sm ${score >= 60 ? 'bg-teal-500' : score >= 40 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                class:list={[barColor(score), 'h-full rounded animate-bar']}
                 style={`width: ${score}%`}
               />
             </div>
@@ -94,31 +139,39 @@ const topStarAvg = Math.round(topStarRepos.reduce((sum, r) => sum + (r.score ?? 
       </div>
     </section>
 
-    <!-- Finding 3 -->
-    <section class="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6 mb-6">
-      <h2 class="text-xl font-semibold mt-0 mb-3">Language choice correlates with health</h2>
-      <p class="text-stone-600 dark:text-stone-400 leading-relaxed">
-        Repositories written in systems languages and modern typed languages tend to score higher.
-        This likely reflects the engineering cultures around these ecosystems rather than language features themselves.
+    <!-- Finding 3: Languages -->
+    <section class="card p-6">
+      <h2 class="text-xl font-semibold mb-3">Language choice correlates with health</h2>
+      <p class="text-stone-400 leading-relaxed mb-4">
+        Repositories in systems languages and modern typed languages tend to score higher.
+        This likely reflects engineering culture rather than language features.
       </p>
-      <div class="not-prose grid sm:grid-cols-2 gap-4 mt-4">
+      <div class="grid sm:grid-cols-2 gap-6">
         <div>
-          <h3 class="text-sm font-medium text-stone-500 dark:text-stone-400 mb-2">Highest-scoring languages</h3>
-          <div class="space-y-1">
-            {topLangs.map((l) => (
+          <h3 class="text-sm font-medium text-stone-500 mb-3">Highest-scoring languages</h3>
+          <div class="space-y-2">
+            {topLangs.map((l, i) => (
               <div class="flex items-center justify-between text-sm">
-                <span>{l.name}</span>
+                <span class="flex items-center gap-2">
+                  <span class="text-xs text-stone-500 w-4 tabular-nums">{i + 1}.</span>
+                  <span>{l.name}</span>
+                  <span class="text-xs text-stone-500">({l.count})</span>
+                </span>
                 <span class="tabular-nums font-medium text-green-500">{l.averageScore}</span>
               </div>
             ))}
           </div>
         </div>
         <div>
-          <h3 class="text-sm font-medium text-stone-500 dark:text-stone-400 mb-2">Lowest-scoring languages</h3>
-          <div class="space-y-1">
-            {bottomLangs.map((l) => (
+          <h3 class="text-sm font-medium text-stone-500 mb-3">Lowest-scoring languages</h3>
+          <div class="space-y-2">
+            {bottomLangs.map((l, i) => (
               <div class="flex items-center justify-between text-sm">
-                <span>{l.name}</span>
+                <span class="flex items-center gap-2">
+                  <span class="text-xs text-stone-500 w-4 tabular-nums">{i + 1}.</span>
+                  <span>{l.name}</span>
+                  <span class="text-xs text-stone-500">({l.count})</span>
+                </span>
                 <span class="tabular-nums font-medium text-red-500">{l.averageScore}</span>
               </div>
             ))}
@@ -127,55 +180,52 @@ const topStarAvg = Math.round(topStarRepos.reduce((sum, r) => sum + (r.score ?? 
       </div>
     </section>
 
-    <!-- Finding 4 -->
-    <section class="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6 mb-6">
-      <h2 class="text-xl font-semibold mt-0 mb-3">Project type matters</h2>
-      <p class="text-stone-600 dark:text-stone-400 leading-relaxed">
-        Not all project types are created equal when it comes to health practices.
+    <!-- Finding 4: Types -->
+    <section class="card p-6">
+      <h2 class="text-xl font-semibold mb-3">Project type matters</h2>
+      <p class="text-stone-400 leading-relaxed mb-4">
+        {gradedTypes.length} project types across {typeTotal} graded repos.
+        {topType?.name ? `${topType.name.charAt(0).toUpperCase() + topType.name.slice(1)}` : 'Top type'} scores highest at {topType?.averageScore}/100.
       </p>
-      <div class="not-prose mt-4 space-y-1.5">
+      <div class="space-y-1.5">
         {gradedTypes.map((t) => (
           <div class="flex items-center gap-3 text-sm">
-            <span class="w-24 text-stone-500 dark:text-stone-400 capitalize">{t.name}</span>
-            <div class="flex-1 h-4 bg-stone-100 dark:bg-stone-800 rounded-sm overflow-hidden">
+            <span class="w-24 text-stone-500 capitalize">{t.name}</span>
+            <div class="flex-1 h-4 bg-stone-100 dark:bg-stone-800 rounded overflow-hidden">
               <div
-                class={`h-full rounded-sm ${(t.averageScore ?? 0) >= 60 ? 'bg-teal-500' : (t.averageScore ?? 0) >= 40 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                class:list={[barColor(t.averageScore ?? 0), 'h-full rounded animate-bar']}
                 style={`width: ${t.averageScore}%`}
               />
             </div>
             <span class="w-8 text-right tabular-nums font-medium">{t.averageScore}</span>
-            <span class="w-16 text-right text-xs text-stone-400">{t.count} repos</span>
+            <span class="w-16 text-right text-xs text-stone-500 tabular-nums">{t.count} repos</span>
           </div>
         ))}
       </div>
     </section>
 
-    <!-- Finding 5 -->
-    <section class="bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 p-6 mb-6">
-      <h2 class="text-xl font-semibold mt-0 mb-3">Stars don't guarantee health</h2>
-      <p class="text-stone-600 dark:text-stone-400 leading-relaxed">
-        The top 20 most-starred repositories average a score of <strong>{topStarAvg}/100</strong>.
-        While this is above the overall average of {summary.averageScore}, it's still far from excellent.
-        Popularity and visibility don't automatically translate to good engineering practices.
-        Several repos with 50k+ stars scored below 60.
+    <!-- Finding 5: Stars -->
+    <section class="card p-6">
+      <h2 class="text-xl font-semibold mb-3">Stars don't guarantee health</h2>
+      <p class="text-stone-400 leading-relaxed mb-4">
+        The top 20 most-starred repositories average <strong>{topStarAvg}/100</strong> (overall avg: {summary.averageScore}).
+        Popularity doesn't automatically translate to good engineering practices.
       </p>
-      <div class="not-prose mt-4">
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          {topStarRepos.slice(0, 8).map((r) => (
-            <div class="bg-stone-50 dark:bg-stone-800 rounded-lg p-3 text-center">
-              <div class="text-xs text-stone-400 truncate mb-1" title={r.slug}>{r.slug.split('/')[1]}</div>
-              <div class="text-lg font-bold tabular-nums">{r.score ?? '--'}</div>
-              <div class="text-xs text-stone-400">{(r.stars / 1000).toFixed(0)}k stars</div>
-            </div>
-          ))}
-        </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        {topStarRepos.slice(0, 8).map((r) => (
+          <div class="bg-stone-50 dark:bg-stone-800 rounded-lg p-3 text-center">
+            <div class="text-xs text-stone-400 truncate mb-1" title={r.slug}>{r.slug.split('/')[1]}</div>
+            <div class="text-lg font-bold tabular-nums">{r.score ?? '--'}</div>
+            <div class="text-xs text-stone-500 tabular-nums">{(r.stars / 1000).toFixed(0)}k stars</div>
+          </div>
+        ))}
       </div>
     </section>
 
-    <!-- Methodology note -->
+    <!-- Methodology -->
     <section class="bg-stone-100 dark:bg-stone-900/50 rounded-xl border border-stone-200 dark:border-stone-800 p-6">
-      <h2 class="text-lg font-semibold mt-0 mb-2">About this analysis</h2>
-      <p class="text-sm text-stone-500 dark:text-stone-400 leading-relaxed mb-0">
+      <h2 class="text-lg font-semibold mb-2">About this analysis</h2>
+      <p class="text-sm text-stone-500 leading-relaxed">
         Scores are computed from publicly available repository metadata including CI configuration,
         security policies, documentation, test coverage indicators, dependency management, and issue triage.
         They reflect <em>repository health practices</em>, not code quality or project usefulness.

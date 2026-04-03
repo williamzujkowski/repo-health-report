@@ -8,6 +8,20 @@ interface Props {
 
 const { title, description = 'Health scores for 1,000 popular open-source repositories' } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+  { href: `${base}/`, label: 'Overview' },
+  { href: `${base}/leaderboard/`, label: 'Leaderboard' },
+  { href: `${base}/languages/`, label: 'Languages' },
+  { href: `${base}/insights/`, label: 'Insights' },
+];
+
+function isActive(href: string): boolean {
+  const normalized = currentPath.replace(/\/$/, '') || '/';
+  const hrefNormalized = href.replace(/\/$/, '') || '/';
+  return normalized === hrefNormalized;
+}
 ---
 
 <!doctype html>
@@ -17,10 +31,22 @@ const base = import.meta.env.BASE_URL;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title} | Repo Health Report</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={`${title} | Repo Health Report`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Repo Health Report" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={`${title} | Repo Health Report`} />
+    <meta name="twitter:description" content={description} />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -28,27 +54,87 @@ const base = import.meta.env.BASE_URL;
     <nav class="border-b border-stone-200 dark:border-stone-800 bg-white/80 dark:bg-stone-950/80 backdrop-blur-sm sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-14">
-          <a href={`${base}/`} class="text-sm font-semibold tracking-tight hover:opacity-80 transition-opacity">
-            Repo Health Report
+          <a href={`${base}/`} class="flex items-center gap-2 text-sm font-semibold tracking-tight hover:opacity-80">
+            <span class="text-teal-500 text-lg" aria-hidden="true">&#9745;</span>
+            <span>Repo Health Report</span>
           </a>
-          <div class="flex items-center gap-6">
-            <a href={`${base}/`} class="text-sm text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors">Overview</a>
-            <a href={`${base}/leaderboard/`} class="text-sm text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors">Leaderboard</a>
-            <a href={`${base}/languages/`} class="text-sm text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors">Languages</a>
-            <a href={`${base}/insights/`} class="text-sm text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors">Insights</a>
+
+          <!-- Desktop nav -->
+          <div class="hidden sm:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <a
+                href={link.href}
+                class:list={[
+                  'px-3 py-1.5 text-sm rounded-md',
+                  isActive(link.href)
+                    ? 'bg-teal-500/10 text-teal-500 font-medium'
+                    : 'text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800',
+                ]}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          <!-- Mobile hamburger -->
+          <button
+            class="sm:hidden p-2 text-stone-500 hover:text-stone-900 dark:hover:text-stone-100"
+            onclick="document.querySelector('.mobile-nav-wrapper')?.classList.toggle('mobile-menu-open')"
+            aria-label="Toggle navigation"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile menu -->
+      <div class="mobile-nav-wrapper sm:hidden">
+        <div class="mobile-menu border-t border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-950">
+          <div class="px-4 py-3 space-y-1">
+            {navLinks.map((link) => (
+              <a
+                href={link.href}
+                class:list={[
+                  'block px-3 py-2 text-sm rounded-md',
+                  isActive(link.href)
+                    ? 'bg-teal-500/10 text-teal-500 font-medium'
+                    : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800',
+                ]}
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
         </div>
       </div>
     </nav>
+
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <slot />
     </main>
+
     <footer class="border-t border-stone-200 dark:border-stone-800 py-8 mt-16">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p class="text-xs text-stone-500 dark:text-stone-500">
-          Generated from automated analysis of 1,000 popular open-source repositories.
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <p class="text-xs text-stone-500 dark:text-stone-500 max-w-xl">
+          Generated from automated analysis of popular open-source repositories.
           Scores reflect repository health practices, not code quality.
         </p>
+        <div class="flex items-center gap-4 text-xs text-stone-500 dark:text-stone-500">
+          <a
+            href="https://github.com/williamzujkowski/repo-health-report"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-stone-300 flex items-center gap-1"
+          >
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+            </svg>
+            Source
+          </a>
+          <span>Built with Astro 6</span>
+        </div>
       </div>
     </footer>
   </body>
