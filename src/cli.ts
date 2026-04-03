@@ -30,6 +30,8 @@ import { renderTerminal } from "./render.js";
 import { generateMarkdown } from "./report.js";
 import { getUnavailableResult, buildVoteProposal } from "./ai-analysis.js";
 import type { AiAnalysisResult } from "./ai-analysis.js";
+import { detectAiContributors } from "./ai-contributors.js";
+import type { AiContributorResult } from "./ai-contributors.js";
 import { explainScore } from "./explain.js";
 import {
   fetchScorecard,
@@ -58,6 +60,7 @@ ${chalk.bold("Options:")}
   --ai                  Include AI vote proposal for nexus-agents MCP tools
   --scorecard           Fetch OpenSSF Scorecard + deps.dev dependent count (external APIs)
   --explain             Show detailed scoring breakdown (weights, contributions, grade scale)
+  --ai-contributors     Detect AI agent and automation bot contributors (extra API calls)
   --help, -h            Show this help
 
 ${chalk.bold("Examples:")}
@@ -78,6 +81,7 @@ ${chalk.bold("Examples:")}
   let aiEnabled = false;
   let scorecardEnabled = false;
   let explainEnabled = false;
+  let aiContributorsEnabled = false;
   let repoArg: string | undefined;
 
   for (let i = 0; i < args.length; i++) {
@@ -94,6 +98,8 @@ ${chalk.bold("Examples:")}
       scorecardEnabled = true;
     } else if (arg === "--explain") {
       explainEnabled = true;
+    } else if (arg === "--ai-contributors") {
+      aiContributorsEnabled = true;
     } else if (!arg.startsWith("-")) {
       repoArg = arg;
     }
@@ -225,6 +231,13 @@ ${chalk.bold("Examples:")}
     }
   }
 
+  // AI contributors: when --ai-contributors is used, detect bot and AI agents
+  let aiContributors: AiContributorResult | null = null;
+  if (aiContributorsEnabled && platformConfig.platform === "github") {
+    console.log(chalk.gray("  Detecting AI contributors..."));
+    aiContributors = await detectAiContributors(slug);
+  }
+
   // AI analysis: when --ai is used, output a vote proposal for nexus-agents MCP
   let ai: AiAnalysisResult | undefined;
   if (aiEnabled) {
@@ -260,6 +273,7 @@ ${chalk.bold("Examples:")}
       ...(ai ? { ai } : {}),
       ...(scorecard ? { scorecard } : {}),
       ...(depsDev ? { depsDev } : {}),
+      ...(aiContributors ? { aiContributors } : {}),
     };
     console.log(JSON.stringify(output, null, 2));
   } else {
@@ -295,6 +309,40 @@ ${chalk.bold("Examples:")}
       );
     }
     if (scorecard || depsDev) console.log("");
+    // AI contributors display
+    if (aiContributors) {
+      console.log(chalk.bold("\n  AI Contributors:"));
+      if (
+        aiContributors.botContributors.length === 0 &&
+        aiContributors.aiTrailers.length === 0
+      ) {
+        console.log(chalk.gray("    (none detected)"));
+      } else {
+        for (const bot of aiContributors.botContributors) {
+          const icon = bot.type === "ai" ? chalk.cyan("🧠") : chalk.gray("🤖");
+          console.log(
+            `    ${icon} ${chalk.white(bot.login)} ${chalk.gray(`(${bot.type}, ${bot.contributions} commits)`)}`
+          );
+        }
+        for (const trailer of aiContributors.aiTrailers) {
+          console.log(
+            `    ${chalk.cyan("🧠")} Co-Authored-By: ${chalk.white(trailer.agent)} ${chalk.gray(`— found in ${trailer.count}/20 recent commits`)}`
+          );
+        }
+      }
+      const levelColor =
+        aiContributors.automationLevel === "none"
+          ? chalk.gray
+          : aiContributors.automationLevel === "low"
+            ? chalk.blue
+            : aiContributors.automationLevel === "medium"
+              ? chalk.yellow
+              : chalk.cyan;
+      console.log(
+        `\n  ${chalk.bold("Automation level:")} ${levelColor(aiContributors.automationLevel)}`
+      );
+      console.log("");
+    }
   }
 
   // Explain scoring breakdown

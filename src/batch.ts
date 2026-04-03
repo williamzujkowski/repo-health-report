@@ -36,6 +36,8 @@ import { analyzeMaintenanceDimension } from "./dimensions/maintenance.js";
 import { computeGrade, type GradeResult } from "./grader.js";
 import { RepoCache } from "./cache.js";
 import type { ProjectType, RepoSizeTier } from "./analyze.js";
+import { detectAiContributors } from "./ai-contributors.js";
+import type { AiContributorResult } from "./ai-contributors.js";
 
 const TOOL_VERSION = "1.0.0";
 const DATA_DIR = join(process.cwd(), "data");
@@ -64,6 +66,7 @@ interface BatchArgs {
   parallel: number;
   incremental: boolean;
   skipDocs: boolean;
+  detectAi: boolean;
 }
 
 interface IndexEntry {
@@ -103,6 +106,8 @@ interface BatchReport {
   pushed_at?: string;
   created_at?: string;
   size?: number;
+  // AI contributor detection (present when --detect-ai is used)
+  aiContributors?: AiContributorResult;
 }
 
 interface BatchStats {
@@ -120,6 +125,7 @@ function parseArgs(argv: string[]): BatchArgs {
   let parallel = 1;
   let incremental = false;
   let skipDocs = false;
+  let detectAi = false;
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
@@ -148,6 +154,8 @@ function parseArgs(argv: string[]): BatchArgs {
       incremental = true;
     } else if (arg === "--skip-docs") {
       skipDocs = true;
+    } else if (arg === "--detect-ai") {
+      detectAi = true;
     } else if (arg === "--help" || arg === "-h") {
       console.log(`
 ${chalk.bold("repo-health-report batch")} - Analyze many repos at once
@@ -165,13 +173,14 @@ ${chalk.bold("Options:")}
   --incremental     Skip repos that haven't changed since last analysis
   -i                Alias for --incremental
   --skip-docs       Skip repos cached as documentation/mirror type
+  --detect-ai       Detect AI agent and automation bot contributors (extra API calls)
   --help, -h        Show this help
 `);
       process.exit(0);
     }
   }
 
-  return { count, delay, file, parallel, incremental, skipDocs };
+  return { count, delay, file, parallel, incremental, skipDocs, detectAi };
 }
 
 /**
@@ -263,7 +272,8 @@ async function fetchPushedAt(slug: string): Promise<string | undefined> {
  * Analyze a single repo and return the structured report.
  */
 async function analyzeRepo(
-  slug: string
+  slug: string,
+  detectAi = false
 ): Promise<{ report: BatchReport; meta: RepoMeta; type: ProjectType }> {
   const validSlug = parseRepoSlug(slug);
   // Try GraphQL first (enriched metadata in one request), fall back to REST
@@ -296,6 +306,16 @@ async function analyzeRepo(
     checkCount: d.findings.length,
   }));
 
+  // Optional: detect AI contributors (opt-in, extra API calls)
+  let aiContributors: AiContributorResult | undefined;
+  if (detectAi) {
+    try {
+      aiContributors = await detectAiContributors(validSlug);
+    } catch {
+      // non-fatal — continue without AI contributor data
+    }
+  }
+
   const report: BatchReport = {
     repo: validSlug,
     letter: grade.letter,
@@ -318,6 +338,8 @@ async function analyzeRepo(
     ...(meta.pushed_at !== undefined ? { pushed_at: meta.pushed_at } : {}),
     ...(meta.created_at !== undefined ? { created_at: meta.created_at } : {}),
     ...(meta.size !== undefined ? { size: meta.size } : {}),
+    // AI contributor detection (present when --detect-ai is used)
+    ...(aiContributors !== undefined ? { aiContributors } : {}),
   };
 
   return { report, meta, type: projectType };
@@ -381,7 +403,7 @@ async function processBatch(
         // 4. Full analysis
         console.log(chalk.cyan(`${prefix} Analyzing ${slug}...`));
 
-        const { report, type } = await analyzeRepo(slug);
+        const { report, type } = await analyzeRepo(slug, args.detectAi);
 
         // Write the report
         const filePath = reportPath(slug, report.analyzedAt);
@@ -476,6 +498,7 @@ async function main(): Promise<void> {
   if (args.parallel > 1) modeInfo.push(`parallel=${args.parallel}`);
   if (args.incremental) modeInfo.push("incremental");
   if (args.skipDocs) modeInfo.push("skip-docs");
+  if (args.detectAi) modeInfo.push("detect-ai");
   const modeStr = modeInfo.length > 0 ? ` (${modeInfo.join(", ")})` : "";
 
   console.log(
