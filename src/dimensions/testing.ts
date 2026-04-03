@@ -214,6 +214,84 @@ async function analyzeApplicationTesting(
   return findings;
 }
 
+async function analyzeDocumentationTesting(
+  tree: RepoTree,
+  slug: string
+): Promise<Finding[]> {
+  const findings: Finding[] = [];
+
+  // CI workflow for automated checks (link checking, markdown linting)
+  const ciWorkflowCount = treeCountPattern(
+    tree,
+    /^\.github\/workflows\/.*\.ya?ml$/
+  );
+  findings.push({
+    name: "CI workflow (for automated checks)",
+    passed: ciWorkflowCount > 0,
+    detail:
+      ciWorkflowCount > 0
+        ? `${ciWorkflowCount} GitHub Actions workflow(s) found`
+        : "No CI workflows — consider adding link checking and markdown linting",
+    weight: 30,
+  });
+
+  // Markdown linting config
+  const hasMarkdownlint =
+    treeHasFile(tree, ".markdownlint.json") ||
+    treeHasFile(tree, ".markdownlint.yml") ||
+    treeHasFile(tree, ".markdownlint.yaml") ||
+    treeHasFile(tree, "markdownlint.json") ||
+    treeHasFile(tree, ".markdownlintrc") ||
+    treeHasPattern(tree, /pymarkdown/);
+  findings.push({
+    name: "Markdown linting (markdownlint / pymarkdown)",
+    passed: hasMarkdownlint,
+    detail: hasMarkdownlint
+      ? "Markdown linting config found"
+      : "No markdownlint config — consider adding for consistent formatting",
+    weight: 25,
+  });
+
+  // Link checking (lychee, markdown-link-check)
+  const hasLinkCheck =
+    treeHasFile(tree, ".lycheeignore") ||
+    treeHasFile(tree, "lychee.toml") ||
+    treeHasFile(tree, ".lychee.toml") ||
+    treeHasPattern(tree, /markdown-link-check/) ||
+    treeHasPattern(tree, /lychee/) ||
+    treeHasPattern(tree, /link.?check/i);
+  findings.push({
+    name: "Link checking (lychee / markdown-link-check)",
+    passed: hasLinkCheck,
+    detail: hasLinkCheck
+      ? "Link checker config found"
+      : "No link checking — broken links erode list quality",
+    weight: 30,
+  });
+
+  // Spell check config
+  const hasSpellcheck =
+    treeHasFile(tree, ".cspell.json") ||
+    treeHasFile(tree, "cspell.json") ||
+    treeHasFile(tree, ".cspell.yaml") ||
+    treeHasPattern(tree, /cspell/) ||
+    treeHasPattern(tree, /aspell/) ||
+    treeHasPattern(tree, /codespell/);
+  findings.push({
+    name: "Spell check (cspell / aspell / codespell)",
+    passed: hasSpellcheck,
+    detail: hasSpellcheck
+      ? "Spell check config found"
+      : "No spell checker configured",
+    weight: 15,
+  });
+
+  // Suppress unused slug warning
+  void slug;
+
+  return findings;
+}
+
 export async function analyzeTestingDimension(
   tree: RepoTree,
   meta: RepoMeta,
@@ -223,7 +301,9 @@ export async function analyzeTestingDimension(
   const start = performance.now();
 
   let findings: Finding[];
-  if (projectType === "iac") {
+  if (projectType === "documentation") {
+    findings = await analyzeDocumentationTesting(tree, slug);
+  } else if (projectType === "iac") {
     findings = await analyzeIacTesting(tree, slug);
   } else if (projectType === "hybrid") {
     findings = await analyzeApplicationTesting(tree, meta, slug);

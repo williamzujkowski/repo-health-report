@@ -163,7 +163,7 @@ export function treeCountPattern(tree: RepoTree, pattern: RegExp): number {
   return tree.tree.filter((entry) => pattern.test(entry.path)).length;
 }
 
-export type ProjectType = "application" | "iac" | "library" | "hybrid";
+export type ProjectType = "application" | "iac" | "library" | "hybrid" | "documentation";
 
 export type RepoLanguage =
   | "typescript"
@@ -200,16 +200,50 @@ export function normalizeLanguage(ghLanguage: string | null): RepoLanguage {
 }
 
 /**
- * Detect the project type based on the file tree.
- * Checks application entry points FIRST to avoid misclassifying
+ * Detect the project type based on the file tree and repo slug.
+ * Checks documentation repos FIRST, then application entry points to avoid misclassifying
  * Go/Node/Python apps that also contain Terraform configs.
  *
+ * - 'documentation': awesome lists, educational repos, book repos (>80% markdown, no source)
  * - 'hybrid': has both application code AND IaC configs (e.g., Go + Terraform)
  * - 'application': Go, Node, Python, Rust, Java, etc.
  * - 'iac': purely Terraform, Ansible, Pulumi, or CloudFormation
  * - 'library': no src/ but has lib/ or root index file
  */
-export function detectProjectType(tree: RepoTree): ProjectType {
+export function detectProjectType(tree: RepoTree, slug?: string): ProjectType {
+  // Documentation detection — check BEFORE application/IaC
+  const repoName = slug?.split("/")[1] ?? "";
+  // Match "awesome", "awesome-*", "*-awesome", or "*-awesome-*" patterns
+  const isAwesomeRepo = /^awesome$/i.test(repoName) || /^awesome-|^.*-awesome$|^.*-awesome-/i.test(repoName);
+
+  const totalFiles = tree.tree.filter((e) => e.type === "blob").length;
+  const mdFiles = tree.tree.filter(
+    (e) => e.type === "blob" && /\.md$/i.test(e.path)
+  ).length;
+  const markdownRatio = totalFiles > 0 ? mdFiles / totalFiles : 0;
+
+  const sourceFileCount = tree.tree.filter(
+    (e) =>
+      e.type === "blob" &&
+      /\.(ts|js|py|go|rs|java|rb|c|cpp|cc|cxx|cs|swift|kt|scala|ex|exs|php|lua|r|dart)$/i.test(
+        e.path
+      )
+  ).length;
+
+  const hasSubstantialReadme = treeHasFile(tree, "README.md");
+
+  // A repo is a documentation project when:
+  // - Named with the awesome-* pattern, OR
+  // - Has no source code files, has a README, and >50% of files are markdown (educational/book repos)
+  const isDocumentationRepo =
+    isAwesomeRepo ||
+    (markdownRatio > 0.5 && sourceFileCount === 0 && hasSubstantialReadme) ||
+    (sourceFileCount === 0 && mdFiles > 0 && hasSubstantialReadme && totalFiles <= 5);
+
+  if (isDocumentationRepo) {
+    return "documentation";
+  }
+
   // Application entry points — check these FIRST
   const appIndicators =
     treeHasFile(tree, "go.mod") ||

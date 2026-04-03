@@ -217,6 +217,71 @@ function analyzeApplicationDevOps(tree: RepoTree): Finding[] {
   return findings;
 }
 
+function analyzeDocumentationDevOps(tree: RepoTree): Finding[] {
+  const findings: Finding[] = [];
+
+  // CI/CD pipeline for automated checks
+  const workflowCount = treeCountPattern(
+    tree,
+    /^\.github\/workflows\/.*\.ya?ml$/
+  );
+  const hasAnyCi = workflowCount > 0;
+  findings.push({
+    name: "CI/CD pipeline (automated checks)",
+    passed: hasAnyCi,
+    detail: hasAnyCi
+      ? `${workflowCount} GitHub Actions workflow(s) found`
+      : "No CI pipeline — consider automating link checks and linting",
+    weight: 30,
+  });
+
+  // Issue templates (for new entry contributions)
+  const hasIssueTemplates = treeHasPattern(
+    tree,
+    /^\.github\/ISSUE_TEMPLATE/
+  );
+  findings.push({
+    name: "Issue templates (for contribution requests)",
+    passed: hasIssueTemplates,
+    detail: hasIssueTemplates
+      ? "Issue templates found"
+      : "No issue templates — contributors lack guidance for submitting new entries",
+    weight: 25,
+  });
+
+  // PR templates (for new additions)
+  const hasPrTemplate =
+    treeHasFile(tree, ".github/PULL_REQUEST_TEMPLATE.md") ||
+    treeHasFile(tree, ".github/pull_request_template.md") ||
+    treeHasPattern(tree, /^\.github\/PULL_REQUEST_TEMPLATE\//);
+  findings.push({
+    name: "PR template (for new additions)",
+    passed: hasPrTemplate,
+    detail: hasPrTemplate
+      ? "PR template found"
+      : "No PR template — contributors lack a checklist for new entries",
+    weight: 25,
+  });
+
+  // Automated categorization/sorting tools or scripts
+  const hasAutomation =
+    treeHasPattern(tree, /^scripts\//) ||
+    treeHasFile(tree, "Makefile") ||
+    treeHasPattern(tree, /awesome-lint/) ||
+    treeHasPattern(tree, /^\.github\/workflows\/.*lint.*\.ya?ml$/i) ||
+    treeHasPattern(tree, /^\.github\/workflows\/.*awesome.*\.ya?ml$/i);
+  findings.push({
+    name: "Automation tools (awesome-lint / scripts / Makefile)",
+    passed: hasAutomation,
+    detail: hasAutomation
+      ? "Automation tooling found"
+      : "No automation scripts or awesome-lint — consider adding for quality control",
+    weight: 20,
+  });
+
+  return findings;
+}
+
 export async function analyzeDevOpsDimension(
   tree: RepoTree,
   _meta: RepoMeta,
@@ -226,7 +291,9 @@ export async function analyzeDevOpsDimension(
   const start = performance.now();
 
   let findings: Finding[];
-  if (projectType === "iac") {
+  if (projectType === "documentation") {
+    findings = analyzeDocumentationDevOps(tree);
+  } else if (projectType === "iac") {
     findings = analyzeIacDevOps(tree);
   } else if (projectType === "hybrid") {
     findings = analyzeApplicationDevOps(tree);

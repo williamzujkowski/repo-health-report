@@ -747,6 +747,86 @@ function analyzeApplicationArchitecture(
   return checkFn(tree, meta);
 }
 
+function analyzeDocumentationArchitecture(tree: RepoTree): Finding[] {
+  const findings: Finding[] = [];
+
+  // README structure: has headings and table of contents indicators
+  const hasToC =
+    treeHasPattern(tree, /^README\.md$/i) &&
+    treeHasPattern(tree, /## Contents|## Table of Contents|## TOC/i);
+  findings.push({
+    name: "README structure (headings + table of contents)",
+    passed: hasToC || treeHasFile(tree, "README.md"),
+    detail: hasToC
+      ? "README.md with table of contents found"
+      : treeHasFile(tree, "README.md")
+        ? "README.md found (consider adding a table of contents)"
+        : "No README.md found",
+    weight: 25,
+  });
+
+  // Organized file structure: subdirectories for categories
+  const hasSubdirectories =
+    tree.tree.filter(
+      (e) => e.type === "tree" && !e.path.startsWith(".") && !e.path.startsWith("_")
+    ).length > 0;
+  findings.push({
+    name: "Organized file structure (category directories)",
+    passed: hasSubdirectories,
+    detail: hasSubdirectories
+      ? "Subdirectories found for category organization"
+      : "No subdirectories — consider organizing content into category folders",
+    weight: 20,
+  });
+
+  // Contributing guidelines
+  const hasContributing =
+    treeHasFile(tree, "CONTRIBUTING.md") ||
+    treeHasFile(tree, "contributing.md") ||
+    treeHasFile(tree, ".github/CONTRIBUTING.md");
+  findings.push({
+    name: "Contributing guidelines (CONTRIBUTING.md)",
+    passed: hasContributing,
+    detail: hasContributing
+      ? "CONTRIBUTING.md found"
+      : "No CONTRIBUTING.md — contributors won't know how to add entries",
+    weight: 20,
+  });
+
+  // LICENSE present
+  const hasLicense =
+    treeHasFile(tree, "LICENSE") ||
+    treeHasFile(tree, "LICENSE.md") ||
+    treeHasFile(tree, "LICENSE.txt") ||
+    treeHasFile(tree, "license") ||
+    treeHasFile(tree, "license.md");
+  findings.push({
+    name: "License (LICENSE file)",
+    passed: hasLicense,
+    detail: hasLicense ? "LICENSE file found" : "No LICENSE file",
+    weight: 20,
+  });
+
+  // Consistent formatting: .editorconfig or markdownlint config
+  const hasFormatConfig =
+    treeHasFile(tree, ".editorconfig") ||
+    treeHasFile(tree, ".markdownlint.json") ||
+    treeHasFile(tree, ".markdownlint.yml") ||
+    treeHasFile(tree, ".markdownlint.yaml") ||
+    treeHasFile(tree, "markdownlint.json") ||
+    treeHasFile(tree, ".markdownlintrc");
+  findings.push({
+    name: "Consistent formatting (.editorconfig / markdownlint)",
+    passed: hasFormatConfig,
+    detail: hasFormatConfig
+      ? "Formatting config found"
+      : "No .editorconfig or markdownlint config — consider adding for consistency",
+    weight: 15,
+  });
+
+  return findings;
+}
+
 export async function analyzeArchitectureDimension(
   tree: RepoTree,
   meta: RepoMeta,
@@ -757,7 +837,9 @@ export async function analyzeArchitectureDimension(
   const start = performance.now();
 
   let findings: Finding[];
-  if (projectType === "iac") {
+  if (projectType === "documentation") {
+    findings = analyzeDocumentationArchitecture(tree);
+  } else if (projectType === "iac") {
     findings = analyzeIacArchitecture(tree);
   } else if (projectType === "hybrid") {
     findings = analyzeApplicationArchitecture(tree, meta, language);
