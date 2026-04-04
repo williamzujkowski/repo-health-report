@@ -303,8 +303,16 @@ async function fetchOrgRepos(org: string): Promise<string[]> {
   let page = 1;
 
   while (slugs.length < MAX_ORG_REPOS) {
-    const endpoint = `/orgs/${org}/repos?type=public&per_page=100&page=${page}`;
-    const repos = await ghApi<GitHubRepo[]>(endpoint, { paginate: false });
+    // Try org endpoint first, fall back to user endpoint
+    let endpoint = `/orgs/${org}/repos?type=public&per_page=100&page=${page}`;
+    let repos: GitHubRepo[];
+    try {
+      repos = await ghApi<GitHubRepo[]>(endpoint, { paginate: false });
+    } catch {
+      // Not an org — try as a user account
+      endpoint = `/users/${org}/repos?type=owner&per_page=100&page=${page}`;
+      repos = await ghApi<GitHubRepo[]>(endpoint, { paginate: false });
+    }
 
     if (repos.length === 0) break;
 
