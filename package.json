@@ -15,7 +15,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/cli.js",
-    "test": "node --test tests/*.test.js",
+    "test": "node --experimental-test-module-mocks --test tests/*.test.js",
     "batch": "node dist/batch.js",
     "aggregate": "node dist/aggregate.js",
     "debrief": "node dist/debrief.js",

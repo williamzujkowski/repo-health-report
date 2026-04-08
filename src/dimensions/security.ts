@@ -6,6 +6,7 @@ import {
   fetchFileContent,
 } from "../analyze.js";
 import { detectCI, detectDependencyUpdates, detectCodeOwnership, detectSBOM, detectCodeScanning, detectSecretScanning } from "../detectors.js";
+import { buildDimensionResult } from "../scoring.js";
 
 export interface Finding {
   name: string;
@@ -414,16 +415,5 @@ export async function analyzeSecurityDimension(
     // null means no status check rollup — skip (weight 0 via omission)
   }
 
-  const totalWeight = findings.reduce((sum, f) => sum + f.weight, 0);
-  const earnedWeight = findings
-    .filter((f) => f.passed)
-    .reduce((sum, f) => sum + f.weight, 0);
-  const score = Math.round((earnedWeight / totalWeight) * 100);
-
-  return {
-    name: "Security",
-    score,
-    findings,
-    durationMs: performance.now() - start,
-  };
+  return buildDimensionResult("Security", findings, start);
 }
