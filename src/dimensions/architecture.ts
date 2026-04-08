@@ -7,6 +7,7 @@ import {
   treeHasPattern,
 } from "../analyze.js";
 import type { DimensionResult, Finding } from "./security.js";
+import { buildDimensionResult } from "../scoring.js";
 
 function analyzeIacArchitecture(tree: RepoTree): Finding[] {
   const findings: Finding[] = [];
@@ -875,17 +876,5 @@ export async function analyzeArchitectureDimension(
     findings = analyzeApplicationArchitecture(tree, meta, language);
   }
 
-  const totalWeight = findings.reduce((sum, f) => sum + f.weight, 0);
-  const earnedWeight = findings
-    .filter((f) => f.passed)
-    .reduce((sum, f) => sum + f.weight, 0);
-  const score =
-    totalWeight > 0 ? Math.round((earnedWeight / totalWeight) * 100) : 0;
-
-  return {
-    name: "Architecture",
-    score,
-    findings,
-    durationMs: performance.now() - start,
-  };
+  return buildDimensionResult("Architecture", findings, start);
 }

@@ -9,6 +9,7 @@ import {
 } from "../analyze.js";
 import { detectCI } from "../detectors.js";
 import type { DimensionResult, Finding } from "./security.js";
+import { buildDimensionResult } from "../scoring.js";
 
 async function analyzeIacTesting(
   tree: RepoTree,
@@ -306,16 +307,5 @@ export async function analyzeTestingDimension(
     findings = await analyzeApplicationTesting(tree, meta, slug);
   }
 
-  const totalWeight = findings.reduce((sum, f) => sum + f.weight, 0);
-  const earnedWeight = findings
-    .filter((f) => f.passed)
-    .reduce((sum, f) => sum + f.weight, 0);
-  const score = Math.round((earnedWeight / totalWeight) * 100);
-
-  return {
-    name: "Testing",
-    score,
-    findings,
-    durationMs: performance.now() - start,
-  };
+  return buildDimensionResult("Testing", findings, start);
 }

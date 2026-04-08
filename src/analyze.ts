@@ -476,42 +476,6 @@ const LANGUAGE_MAP: Record<string, RepoLanguage> = {
   haskell: "other",
 };
 
-/**
- * Detect language from file extensions in the repo tree.
- * Used as a fallback when GitHub returns null for the language field.
- */
-export function detectLanguageFromTree(tree: RepoTree): RepoLanguage {
-  const extCounts: Record<string, number> = {};
-  for (const entry of tree.tree) {
-    if (entry.type !== "blob") continue;
-    const ext = entry.path.split(".").pop()?.toLowerCase();
-    if (ext) extCounts[ext] = (extCounts[ext] ?? 0) + 1;
-  }
-
-  const extMap: Record<string, RepoLanguage> = {
-    ts: "typescript", tsx: "typescript",
-    js: "javascript", jsx: "javascript", mjs: "javascript",
-    py: "python", pyx: "python",
-    go: "go",
-    rs: "rust",
-    java: "java", kt: "java", scala: "java",
-    sh: "shell", bash: "shell",
-    c: "c", cpp: "c", h: "c", hpp: "c",
-    rb: "ruby",
-  };
-
-  let bestLang: RepoLanguage = "other";
-  let bestCount = 0;
-  for (const [ext, count] of Object.entries(extCounts)) {
-    const lang = extMap[ext];
-    if (lang && count > bestCount) {
-      bestLang = lang;
-      bestCount = count;
-    }
-  }
-  return bestLang;
-}
-
 // ── Multi-language detection ────────────────────────────────────────────────
 
 export interface LanguageBreakdownEntry {
@@ -526,8 +490,8 @@ export interface LanguageBreakdown {
 }
 
 /**
- * Extension-to-language map for multi-language detection.
- * Shared with detectLanguageFromTree but includes additional extensions.
+ * Extension-to-language map — single source of truth for file extension → language mapping.
+ * Used by both detectLanguageFromTree and detectAllLanguages.
  */
 const EXT_TO_LANGUAGE: Record<string, RepoLanguage> = {
   ts: "typescript", tsx: "typescript",
@@ -540,6 +504,30 @@ const EXT_TO_LANGUAGE: Record<string, RepoLanguage> = {
   c: "c", cpp: "c", h: "c", hpp: "c",
   rb: "ruby",
 };
+
+/**
+ * Detect language from file extensions in the repo tree.
+ * Used as a fallback when GitHub returns null for the language field.
+ */
+export function detectLanguageFromTree(tree: RepoTree): RepoLanguage {
+  const extCounts: Record<string, number> = {};
+  for (const entry of tree.tree) {
+    if (entry.type !== "blob") continue;
+    const ext = entry.path.split(".").pop()?.toLowerCase();
+    if (ext) extCounts[ext] = (extCounts[ext] ?? 0) + 1;
+  }
+
+  let bestLang: RepoLanguage = "other";
+  let bestCount = 0;
+  for (const [ext, count] of Object.entries(extCounts)) {
+    const lang = EXT_TO_LANGUAGE[ext];
+    if (lang && count > bestCount) {
+      bestLang = lang;
+      bestCount = count;
+    }
+  }
+  return bestLang;
+}
 
 /**
  * Detect ALL languages present in the repo tree with file counts and percentages.

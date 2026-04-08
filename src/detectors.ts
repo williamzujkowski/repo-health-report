@@ -6,35 +6,12 @@ export interface DetectorResult {
 }
 
 // --- CI Detectors ---
-export function detectCI(tree: RepoTree): DetectorResult {
-  const checks: Array<[() => boolean, string]> = [
-    [() => treeHasPattern(tree, /^\.github\/workflows\/.*\.ya?ml$/), "GitHub Actions"],
-    [() => treeHasFile(tree, "Jenkinsfile"), "Jenkins"],
-    [() => treeHasPattern(tree, /^\.circleci\//), "CircleCI"],
-    [() => treeHasFile(tree, ".travis.yml"), "Travis CI"],
-    [() => treeHasFile(tree, "azure-pipelines.yml") || treeHasPattern(tree, /^\.azure-pipelines\//), "Azure Pipelines"],
-    [() => treeHasPattern(tree, /^\.buildkite\//), "Buildkite"],
-    [() => treeHasPattern(tree, /^ci\/pipeline\.ya?ml$/), "Concourse"],
-    [() => treeHasFile(tree, ".zuul.yaml") || treeHasFile(tree, "zuul.yaml"), "Zuul"],
-    [() => treeHasFile(tree, ".gitlab-ci.yml"), "GitLab CI"],
-    [() => treeHasFile(tree, "Makefile") && treeHasFile(tree, "OWNERS"), "Prow (inferred)"],
-    [() => treeHasFile(tree, "appveyor.yml"), "AppVeyor"],
-    [() => treeHasFile(tree, "Taskfile.yml") || treeHasFile(tree, "Taskfile.yaml"), "Task"],
-    [() => treeHasPattern(tree, /^ci\//), "CI directory"],
-  ];
-  for (const [check, name] of checks) {
-    if (check()) return { detected: true, detail: name };
-  }
-  return { detected: false, detail: "No CI system detected" };
-}
 
 /**
- * Detect all CI systems present (returns combined detail string).
- * Used by devops dimension which wants to list all found systems.
+ * Shared CI system registry. Single source of truth for all CI detection.
  */
-export function detectAllCI(tree: RepoTree): DetectorResult {
-  const found: string[] = [];
-  const checks: Array<[() => boolean, string]> = [
+function getCIChecks(tree: RepoTree): Array<[() => boolean, string]> {
+  return [
     [() => treeHasPattern(tree, /^\.github\/workflows\/.*\.ya?ml$/), "GitHub Actions"],
     [() => treeHasFile(tree, "Jenkinsfile"), "Jenkins"],
     [() => treeHasPattern(tree, /^\.circleci\//), "CircleCI"],
@@ -49,7 +26,25 @@ export function detectAllCI(tree: RepoTree): DetectorResult {
     [() => treeHasFile(tree, "Taskfile.yml") || treeHasFile(tree, "Taskfile.yaml"), "Task"],
     [() => treeHasPattern(tree, /^ci\//), "CI directory"],
   ];
-  for (const [check, name] of checks) {
+}
+
+/**
+ * Detect the first CI system found (returns on first match).
+ */
+export function detectCI(tree: RepoTree): DetectorResult {
+  for (const [check, name] of getCIChecks(tree)) {
+    if (check()) return { detected: true, detail: name };
+  }
+  return { detected: false, detail: "No CI system detected" };
+}
+
+/**
+ * Detect all CI systems present (returns combined detail string).
+ * Used by devops dimension which wants to list all found systems.
+ */
+export function detectAllCI(tree: RepoTree): DetectorResult {
+  const found: string[] = [];
+  for (const [check, name] of getCIChecks(tree)) {
     if (check()) found.push(name);
   }
   if (found.length > 0) {

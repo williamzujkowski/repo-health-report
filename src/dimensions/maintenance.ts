@@ -1,5 +1,6 @@
 import { type RepoTree, type RepoMeta, ghApi, treeHasFile } from "../analyze.js";
 import type { DimensionResult, Finding } from "./security.js";
+import { buildDimensionResult } from "../scoring.js";
 
 interface CommitInfo {
   commit: {
@@ -417,16 +418,5 @@ export async function analyzeMaintenanceDimension(
     funding,
   ];
 
-  const totalWeight = findings.reduce((sum, f) => sum + f.weight, 0);
-  const earnedWeight = findings
-    .filter((f) => f.passed)
-    .reduce((sum, f) => sum + f.weight, 0);
-  const score = totalWeight > 0 ? Math.round((earnedWeight / totalWeight) * 100) : 0;
-
-  return {
-    name: "Maintenance",
-    score,
-    findings,
-    durationMs: performance.now() - start,
-  };
+  return buildDimensionResult("Maintenance", findings, start);
 }

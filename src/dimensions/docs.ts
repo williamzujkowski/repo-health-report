@@ -6,6 +6,7 @@ import {
   fetchFileContent,
 } from "../analyze.js";
 import type { DimensionResult, Finding } from "./security.js";
+import { buildDimensionResult } from "../scoring.js";
 
 export async function analyzeDocsDimension(
   tree: RepoTree,
@@ -136,16 +137,5 @@ export async function analyzeDocsDimension(
     weight: 10,
   });
 
-  const totalWeight = findings.reduce((sum, f) => sum + f.weight, 0);
-  const earnedWeight = findings
-    .filter((f) => f.passed)
-    .reduce((sum, f) => sum + f.weight, 0);
-  const score = Math.round((earnedWeight / totalWeight) * 100);
-
-  return {
-    name: "Documentation",
-    score,
-    findings,
-    durationMs: performance.now() - start,
-  };
+  return buildDimensionResult("Documentation", findings, start);
 }
