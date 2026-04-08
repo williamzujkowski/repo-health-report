@@ -370,6 +370,31 @@ export async function analyzeSecurityDimension(
     weight: 8,
   });
 
+  // GitHub Security Policy enabled (org-level, from GraphQL — #40)
+  if (meta.is_security_policy_enabled !== undefined) {
+    findings.push({
+      name: "GitHub security policy (org-level)",
+      passed: meta.is_security_policy_enabled,
+      detail: meta.is_security_policy_enabled
+        ? "Organization-level security policy enabled via GitHub settings"
+        : "No org-level security policy enabled — configure in repository Security tab",
+      weight: 5,
+    });
+  }
+
+  // Dependabot vulnerability alerts enabled (from GraphQL — #40)
+  if (meta.dependabotAlerts !== undefined) {
+    const alertsEnabled = meta.dependabotAlerts !== null;
+    findings.push({
+      name: "Dependabot vulnerability alerts",
+      passed: alertsEnabled,
+      detail: alertsEnabled
+        ? `Dependabot alerts enabled (${meta.dependabotAlerts?.totalCount ?? 0} open)`
+        : "Dependabot alerts not available — enable in repository Security tab",
+      weight: 5,
+    });
+  }
+
   // Branch protection (heuristic: repo has CI — any provider)
   const ci = detectCI(tree);
   findings.push({
