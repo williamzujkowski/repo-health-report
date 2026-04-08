@@ -317,7 +317,7 @@ export async function analyzeRepo(
   ]);
 
   const grade = computeGrade(dimensionResults, projectType, sizeTier);
-  const insights = generateInsights(grade, treeAnalytics, languages, meta);
+  const insights = generateInsights(treeAnalytics, languages, meta);
   const supplyChain = analyzeSupplyChain(treeAnalytics, meta);
   const analyzedAt = new Date().toISOString();
   const detectorVersion = await computeDetectorVersion();

@@ -72,7 +72,6 @@ describe("generateInsights", () => {
   describe("test culture", () => {
     it("returns positive insight for excellent test ratio (>=0.8)", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics({ testToSourceRatio: 1.13 }),
         makeLanguages(),
         makeMeta()
@@ -85,7 +84,6 @@ describe("generateInsights", () => {
 
     it("returns critical insight when no test files detected (ratio 0)", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics({ testToSourceRatio: 0 }),
         makeLanguages(),
         makeMeta()
@@ -97,7 +95,6 @@ describe("generateInsights", () => {
 
     it("returns warning insight for low test ratio (<0.2 but >0)", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics({ testToSourceRatio: 0.1 }),
         makeLanguages(),
         makeMeta()
@@ -109,7 +106,6 @@ describe("generateInsights", () => {
 
     it("returns no test insight for ratio between 0.2 and 0.8", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics({ testToSourceRatio: 0.5 }),
         makeLanguages(),
         makeMeta()
@@ -122,7 +118,6 @@ describe("generateInsights", () => {
   describe("config maturity", () => {
     it("returns positive insight for high config score (>=8)", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics({ configScore: 10 }),
         makeLanguages(),
         makeMeta()
@@ -135,7 +130,6 @@ describe("generateInsights", () => {
 
     it("returns warning insight for low config score (<=3)", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics({ configScore: 2 }),
         makeLanguages(),
         makeMeta()
@@ -147,7 +141,6 @@ describe("generateInsights", () => {
 
     it("returns no config insight for score 4-7", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics({ configScore: 5 }),
         makeLanguages(),
         makeMeta()
@@ -160,7 +153,6 @@ describe("generateInsights", () => {
   describe("anti-patterns", () => {
     it("returns warning for vendor committed", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics({ hasVendorCommitted: true }),
         makeLanguages(),
         makeMeta()
@@ -172,7 +164,6 @@ describe("generateInsights", () => {
 
     it("returns critical for .env committed", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics({ hasDotEnvCommitted: true }),
         makeLanguages(),
         makeMeta()
@@ -184,7 +175,6 @@ describe("generateInsights", () => {
 
     it("returns warning for dist committed", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics({ hasDistCommitted: true }),
         makeLanguages(),
         makeMeta()
@@ -198,7 +188,6 @@ describe("generateInsights", () => {
   describe("monorepo", () => {
     it("returns positive insight when isMonorepo is true", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics({ isMonorepo: true, dependencyFileCount: 7 }),
         makeLanguages(),
         makeMeta()
@@ -211,7 +200,6 @@ describe("generateInsights", () => {
 
     it("returns no monorepo insight when isMonorepo is false", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics({ isMonorepo: false }),
         makeLanguages(),
         makeMeta()
@@ -224,7 +212,6 @@ describe("generateInsights", () => {
   describe("multi-language", () => {
     it("returns polyglot insight when 3+ languages", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics(),
         makeLanguages({
           all: [
@@ -243,7 +230,6 @@ describe("generateInsights", () => {
 
     it("returns no polyglot insight when fewer than 3 languages", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics(),
         makeLanguages({ all: [{ language: "TypeScript", fileCount: 100, percentage: 100 }] }),
         makeMeta()
@@ -256,7 +242,6 @@ describe("generateInsights", () => {
   describe("size", () => {
     it("returns warning for massive codebase", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics({ sizeCategory: "massive", fileCount: 6000 }),
         makeLanguages(),
         makeMeta()
@@ -270,7 +255,6 @@ describe("generateInsights", () => {
     it("returns no size insight for non-massive repos", () => {
       for (const cat of ["tiny", "small", "medium", "large"]) {
         const insights = generateInsights(
-          makeGrade(),
           makeAnalytics({ sizeCategory: cat }),
           makeLanguages(),
           makeMeta()
@@ -286,7 +270,6 @@ describe("generateInsights", () => {
       const oldDate = new Date();
       oldDate.setFullYear(oldDate.getFullYear() - 6);
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics(),
         makeLanguages(),
         makeMeta({ created_at: oldDate.toISOString() })
@@ -300,7 +283,6 @@ describe("generateInsights", () => {
       const newDate = new Date();
       newDate.setFullYear(newDate.getFullYear() - 2);
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics(),
         makeLanguages(),
         makeMeta({ created_at: newDate.toISOString() })
@@ -311,7 +293,6 @@ describe("generateInsights", () => {
 
     it("returns no maturity insight when created_at is missing", () => {
       const insights = generateInsights(
-        makeGrade(),
         makeAnalytics(),
         makeLanguages(),
         makeMeta({ created_at: undefined })
@@ -325,7 +306,6 @@ describe("generateInsights", () => {
     // testToSourceRatio between 0.2-0.8, configScore 4-7, no anti-patterns,
     // no monorepo, <3 languages, small/medium/large size, <5yr old
     const insights = generateInsights(
-      makeGrade(),
       makeAnalytics({
         testToSourceRatio: 0.5,
         configScore: 5,

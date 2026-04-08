@@ -22,6 +22,7 @@ export interface RepoMeta {
   topics?: string[];
   has_discussions?: boolean;
   has_projects?: boolean;
+  is_security_policy_enabled?: boolean;
   pushed_at?: string;
   created_at?: string;
   size?: number;
@@ -128,6 +129,7 @@ interface GraphQLRepoResponse {
       hasWikiEnabled: boolean;
       hasDiscussionsEnabled: boolean;
       hasProjectsEnabled: boolean;
+      isSecurityPolicyEnabled: boolean;
       pushedAt: string | null;
       createdAt: string;
       diskUsage: number | null;
@@ -221,6 +223,7 @@ export async function fetchRepoMetaGraphQL(slug: string): Promise<RepoMeta> {
         hasWikiEnabled
         hasDiscussionsEnabled
         hasProjectsEnabled
+        isSecurityPolicyEnabled
         pushedAt
         createdAt
         diskUsage
@@ -315,6 +318,7 @@ export async function fetchRepoMetaGraphQL(slug: string): Promise<RepoMeta> {
     topics: repo.repositoryTopics.nodes.map((n) => n.topic.name),
     has_discussions: repo.hasDiscussionsEnabled,
     has_projects: repo.hasProjectsEnabled,
+    is_security_policy_enabled: repo.isSecurityPolicyEnabled,
     pushed_at: repo.pushedAt ?? undefined,
     created_at: repo.createdAt,
     size: repo.diskUsage ?? undefined,

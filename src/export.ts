@@ -21,62 +21,25 @@
 
 import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
+import type { Finding, DimensionResult } from "./dimensions/security.js";
+import type { LanguageBreakdownEntry } from "./analyze.js";
+import type { TreeAnalytics } from "./tree-analytics.js";
 
 const DATA_DIR = join(process.cwd(), "data");
 const REPORTS_DIR = join(DATA_DIR, "reports");
 const DASHBOARD_DIR = join(DATA_DIR, "dashboard");
 const REPOS_DIR = join(DASHBOARD_DIR, "repos");
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-interface Finding {
-  name: string;
-  passed: boolean;
-  detail: string;
-  weight: number;
-}
-
-interface DimensionResult {
-  name: string;
-  score: number;
-  findings: Finding[];
-  durationMs?: number;
-}
-
-interface LanguageBreakdownEntry {
-  language: string;
-  fileCount: number;
-  percentage: number;
-}
-
-interface LanguageBreakdownStored {
-  primary: string;
-  all: LanguageBreakdownEntry[];
-}
-
-interface TreeAnalyticsStored {
-  testToSourceRatio?: number;
-  configScore?: number;
-  antiPatternCount?: number;
-  sizeCategory?: string;
-  fileCount?: number;
-  directoryCount?: number;
-  maxDepth?: number;
-  testFileCount?: number;
-  sourceFileCount?: number;
-  isMonorepo?: boolean;
-}
-
 interface StoredReport {
   repo: string;
   letter: string;
   overall: number;
   graded?: boolean;
-  dimensions: DimensionResult[];
+  dimensions: Array<DimensionResult & { durationMs?: number }>;
   totalDurationMs: number;
   projectType: string;
   language: string | null;
-  languages?: LanguageBreakdownStored;
+  languages?: { primary: string; all: LanguageBreakdownEntry[] };
   analyzedAt: string;
   toolVersion: string;
   // Enriched metadata
@@ -88,7 +51,7 @@ interface StoredReport {
   size?: number;
   has_discussions?: boolean;
   // Tree analytics
-  treeAnalytics?: TreeAnalyticsStored;
+  treeAnalytics?: Partial<TreeAnalytics>;
 }
 
 interface GradeDistribution {

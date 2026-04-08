@@ -3,7 +3,6 @@
  * Issue #24: Natural-language health insights from repo analysis.
  */
 
-import type { GradeResult } from "./grader.js";
 import type { TreeAnalytics } from "./tree-analytics.js";
 import type { LanguageBreakdown, RepoMeta } from "./analyze.js";
 
@@ -18,7 +17,6 @@ export interface Insight {
  * then critical issues.
  */
 export function generateInsights(
-  grade: GradeResult,
   analytics: TreeAnalytics,
   languages: LanguageBreakdown,
   meta: RepoMeta
@@ -111,9 +109,6 @@ export function generateInsights(
       });
     }
   }
-
-  // Suppress unused-variable lint warning — grade is accepted for future use
-  void grade;
 
   return insights;
 }

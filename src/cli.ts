@@ -287,12 +287,22 @@ ${chalk.bold("Examples:")}
     }
   }
 
+  // Compute supply chain and insights unconditionally (used by both JSON and terminal)
+  const supplyChain = analyzeSupplyChain(analytics, meta);
+  const insights: Insight[] = generateInsights(analytics, languages, meta);
+
   // Output
   if (jsonOutput) {
     const output = {
       repo: slug,
       platform: platformConfig.platform,
+      projectType,
+      language: meta.language,
+      languages,
       ...grade,
+      treeAnalytics: analytics,
+      insights,
+      supplyChain,
       ...(ai ? { ai } : {}),
       ...(scorecard ? { scorecard } : {}),
       ...(depsDev ? { depsDev } : {}),
@@ -380,9 +390,8 @@ ${chalk.bold("Examples:")}
     }
   }
 
-  // Supply Chain Risk Analysis (#39)
+  // Supply Chain Risk Analysis (#39) — terminal rendering
   if (!jsonOutput) {
-    const supplyChain = analyzeSupplyChain(analytics, meta);
     const riskColor =
       supplyChain.risk === "critical"
         ? chalk.red
@@ -434,7 +443,6 @@ ${chalk.bold("Examples:")}
 
   // Insights: derived natural-language observations from tree analytics
   if (!jsonOutput) {
-    const insights: Insight[] = generateInsights(grade, analytics, languages, meta);
     if (insights.length > 0) {
       console.log(chalk.bold("  Insights:"));
       for (const insight of insights) {
