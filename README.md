@@ -6,7 +6,7 @@
 
 Analyze any GitHub repository's health across 6 dimensions and generate a color-coded terminal report with a markdown file.
 
-**Pure static analysis via the GitHub API. No AI APIs, no cloning, no secrets required.**
+**Static analysis via the GitHub API. No cloning, no secrets required.** Optional `--ai` flag for AI-assisted analysis via [nexus-agents](https://github.com/williamzujkowski/nexus-agents).
 
 ## Installation
 
@@ -46,6 +46,7 @@ Running against [nexus-agents](https://github.com/williamzujkowski/nexus-agents)
   Documentation    ████████████████████ 100/100
   Architecture     ████████████████████ 100/100
   DevOps           ██████████████░░░░░░  70/100
+  Maintenance      ████████████████████ 100/100
 
   Findings:
   ──────────────────────────────────────────────────
@@ -93,7 +94,7 @@ A markdown report (`health-report.md`) is also written with a full findings tabl
 
 ## How It Works
 
-`repo-health-report` uses the GitHub API exclusively — no repo cloning, no AI, no external services beyond `gh` authentication.
+`repo-health-report` uses the GitHub API exclusively — no repo cloning, no external services beyond `gh` authentication. An optional `--ai` flag integrates with nexus-agents for AI-assisted analysis.
 
 1. **Fetch metadata** — pulls repo info (description, default branch, license) via `gh api`.
 2. **Fetch file tree** — gets a flat list of all paths in the repo in a single API call.
@@ -143,6 +144,14 @@ All analysis is deterministic: the same repo always produces the same score unle
 - Issue/PR templates
 - Deployment/Infrastructure config (Terraform, k8s, Vercel, Fly, etc.)
 
+### Maintenance (0-100)
+- Recent commit activity
+- Bus factor (contributor distribution)
+- Community engagement (stars, watchers)
+- Funding/sponsorship configuration
+- Issue response patterns
+- Release cadence
+
 ## Grading Scale
 
 | Score | Grade |
@@ -162,6 +171,7 @@ Options:
   --output, -o <file>   Write markdown report to file (default: health-report.md)
   --no-file             Skip writing markdown file
   --json                Output JSON instead of terminal rendering
+  --explain             Show detailed scoring breakdown per dimension
   --help, -h            Show help
 ```
 
@@ -196,13 +206,13 @@ Outputs to `data/audits/{org}/{timestamp}/`:
 ## Requirements
 
 - **[GitHub CLI (`gh`)](https://cli.github.com/)** installed and authenticated (`gh auth login`)
-- Node.js 18+
+- Node.js 22+
 
 The tool uses `gh api` subprocess calls. It never clones repos or requires any API keys beyond your GitHub authentication.
 
 ## Related
 
-Built to work alongside [nexus-agents](https://github.com/williamzujkowski/nexus-agents), a multi-agent orchestration system with 24 MCP tools for coordinating Claude, Gemini, Codex, and OpenCode. The `--ai` flag in Phase 2 will use nexus-agents directly to produce AI-grounded repository health scores.
+Built to work alongside [nexus-agents](https://github.com/williamzujkowski/nexus-agents), a multi-agent orchestration system. The `--ai` flag generates structured vote proposals that nexus-agents can use for AI-assisted repository health analysis.
 
 ## License
 

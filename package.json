@@ -44,6 +44,12 @@
   "engines": {
     "node": ">=22"
   },
+  "exports": {
+    ".": "./dist/analyze.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "William Zujkowski",
   "license": "MIT",
   "dependencies": {
