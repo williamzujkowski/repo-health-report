@@ -23,7 +23,7 @@
 
   onMount(() => {
     darkMode = isDark();
-    const cleanupDarkMode = onDarkModeChange((dark) => { darkMode = dark; chart?.dispose(); chart = null; });
+    // Dark mode changes handled by page reload — charts init with isDark() at mount
     const labels = Object.keys(dimensions);
     const values = Object.values(dimensions);
     const avgScore = values.length > 0 ? Math.round(values.reduce((a, b) => a + b, 0) / values.length) : 0;

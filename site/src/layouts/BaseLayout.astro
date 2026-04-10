@@ -187,6 +187,8 @@ function isActive(href: string): boolean {
           const isDark = document.documentElement.classList.toggle('dark');
           localStorage.setItem('theme', isDark ? 'dark' : 'light');
           icon.textContent = isDark ? '🌙' : '☀️';
+          // Reload to reinitialize ECharts with correct dark/light theme
+          window.location.reload();
         });
       }
 

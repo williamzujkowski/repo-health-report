@@ -26,7 +26,7 @@
 
   onMount(() => {
     darkMode = isDark();
-    const cleanupDarkMode = onDarkModeChange((dark) => { darkMode = dark; chart?.dispose(); chart = null; });
+    // Dark mode changes handled by page reload — charts init with isDark() at mount
     chart = echarts.init(chartEl, darkMode ? 'dark' : undefined);
 
     const gradeGroups = {};

@@ -23,7 +23,7 @@
 
   onMount(() => {
     darkMode = isDark();
-    const cleanupDarkMode = onDarkModeChange((dark) => { darkMode = dark; chart?.dispose(); chart = null; });
+    // Dark mode changes handled by page reload — charts init with isDark() at mount
     const grades = ['A', 'B', 'C', 'D', 'F'];
     const values = grades.map((g) => distribution[g] || 0);
     const total = values.reduce((a, b) => a + b, 0);
