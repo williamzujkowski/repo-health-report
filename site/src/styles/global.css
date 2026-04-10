@@ -3,23 +3,24 @@
 
 @theme {
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --color-text: #1a1a2e;
-  --color-text-secondary: #4a4a4a;
-  --color-text-muted: #595959;
-  --color-border: #e5e5e5;
-  --color-surface: #ffffff;
-  --color-surface-alt: #fafafa;
-  --color-bg: #f5f5f0;
-  /* Datawrapper-style accent palette */
-  --color-accent: #1d81a2;
-  --color-accent-light: #e8f4f8;
-  /* Grade colors — softer, more editorial */
-  --color-grade-a: #2d9d78;
-  --color-grade-b: #1d81a2;
-  --color-grade-c: #c4a035;
-  --color-grade-d: #d4762c;
-  --color-grade-f: #c9463e;
-  --color-grade-na: #767676;
+  /* OKLCH color system — perceptually uniform, WCAG AA compliant */
+  --color-text: oklch(0.175 0.008 95);
+  --color-text-secondary: oklch(0.44 0.012 95);
+  --color-text-muted: oklch(0.40 0.010 95);
+  --color-border: oklch(0.88 0.004 95);
+  --color-surface: oklch(1 0 0);
+  --color-surface-alt: oklch(0.975 0.003 95);
+  --color-bg: oklch(0.965 0.005 95);
+  /* Accent — teal/blue for links and interactive elements */
+  --color-accent: oklch(0.54 0.115 220);
+  --color-accent-light: oklch(0.955 0.04 220);
+  /* Grade colors — distinct hues, 4.5:1+ contrast on white */
+  --color-grade-a: oklch(0.44 0.13 145);
+  --color-grade-b: oklch(0.46 0.22 265);
+  --color-grade-c: oklch(0.44 0.14 60);
+  --color-grade-d: oklch(0.44 0.16 40);
+  --color-grade-f: oklch(0.43 0.17 25);
+  --color-grade-na: oklch(0.40 0.01 95);
 
   /* Spacing */
   --spacing-card: 1.5rem;
@@ -121,13 +122,13 @@ body {
   font-weight: 700;
   letter-spacing: 0.025em;
 }
-/* Grade colors — WCAG AA 4.5:1 contrast verified against light/dark backgrounds */
-.grade-A { background-color: rgba(45,157,120,0.12); color: #237a5e; }
-.grade-B { background-color: rgba(29,129,162,0.12); color: #1a6e8a; }
-.grade-C { background-color: rgba(196,160,53,0.12); color: #7a6518; }
-.grade-D { background-color: rgba(212,118,44,0.12); color: #b35f1e; }
-.grade-F { background-color: rgba(201,70,62,0.12); color: #a83830; }
-.grade-NA { background-color: rgba(153,153,153,0.12); color: #767676; }
+/* Grade pills — use CSS custom properties for light/dark mode support */
+.grade-A { background-color: oklch(from var(--color-grade-a) l c h / 0.12); color: var(--color-grade-a); }
+.grade-B { background-color: oklch(from var(--color-grade-b) l c h / 0.12); color: var(--color-grade-b); }
+.grade-C { background-color: oklch(from var(--color-grade-c) l c h / 0.12); color: var(--color-grade-c); }
+.grade-D { background-color: oklch(from var(--color-grade-d) l c h / 0.12); color: var(--color-grade-d); }
+.grade-F { background-color: oklch(from var(--color-grade-f) l c h / 0.12); color: var(--color-grade-f); }
+.grade-NA { background-color: oklch(from var(--color-grade-na) l c h / 0.12); color: var(--color-grade-na); }
 
 /* Type badge */
 .type-badge {
@@ -442,36 +443,44 @@ details summary:hover {
  * The toggle button adds/removes .dark — no @media query needed.
  * This ensures the toggle actually works (removing .dark = light mode). */
 
-/* Manual dark mode — .dark class on <html> overrides OS preference */
+/* Dark mode — .dark class on <html>, toggled by JS on page load + button click */
 :root.dark {
-  --color-text: #e8e8e8;
-  --color-text-secondary: #aaa;
-  --color-text-muted: #888;
-  --color-border: #333;
-  --color-surface: #1a1a1e;
-  --color-surface-alt: #222226;
-  --color-bg: #111114;
-  --color-accent-light: rgba(29,129,162,0.2);
-  --shadow-card: 0 2px 8px rgba(0,0,0,0.2);
-  --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.3);
+  --color-text: oklch(0.955 0.006 95);
+  --color-text-secondary: oklch(0.68 0.008 95);
+  --color-text-muted: oklch(0.58 0.008 95);
+  --color-border: oklch(0.28 0.005 95);
+  --color-surface: oklch(0.19 0.005 95);
+  --color-surface-alt: oklch(0.22 0.005 95);
+  --color-bg: oklch(0.135 0.005 95);
+  --color-accent: oklch(0.75 0.13 220);
+  --color-accent-light: oklch(0.22 0.06 220);
+  --color-grade-a: oklch(0.87 0.13 145);
+  --color-grade-b: oklch(0.80 0.14 265);
+  --color-grade-c: oklch(0.86 0.17 85);
+  --color-grade-d: oklch(0.82 0.16 55);
+  --color-grade-f: oklch(0.78 0.14 22);
+  --color-grade-na: oklch(0.60 0.01 95);
+  --shadow-card: 0 2px 8px oklch(0 0 0 / 0.3);
+  --shadow-card-hover: 0 4px 12px oklch(0 0 0 / 0.4);
 }
 
 .dark .lollipop-track {
-  background: #444;
+  background: oklch(0.35 0.005 95);
 }
 .dark .lollipop-dot {
   border-color: var(--color-surface);
 }
 .dark .lollipop-row {
-  border-bottom-color: #2a2a2e;
+  border-bottom-color: oklch(0.24 0.005 95);
 }
 
-.dark .grade-A { background-color: rgba(45,157,120,0.18); }
-.dark .grade-B { background-color: rgba(29,129,162,0.18); }
-.dark .grade-C { background-color: rgba(196,160,53,0.18); }
-.dark .grade-D { background-color: rgba(212,118,44,0.18); }
-.dark .grade-F { background-color: rgba(201,70,62,0.18); }
-.dark .grade-NA { background-color: rgba(153,153,153,0.18); }
+/* Dark grade pills — oklch relative color syntax adjusts opacity automatically */
+.dark .grade-A { background-color: oklch(from var(--color-grade-a) l c h / 0.18); }
+.dark .grade-B { background-color: oklch(from var(--color-grade-b) l c h / 0.18); }
+.dark .grade-C { background-color: oklch(from var(--color-grade-c) l c h / 0.18); }
+.dark .grade-D { background-color: oklch(from var(--color-grade-d) l c h / 0.18); }
+.dark .grade-F { background-color: oklch(from var(--color-grade-f) l c h / 0.18); }
+.dark .grade-NA { background-color: oklch(from var(--color-grade-na) l c h / 0.18); }
 
 .dark .spark-bar {
   background-color: #333;
