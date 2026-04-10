@@ -315,7 +315,7 @@
             <td style="padding: 10px 16px;">
               {#if repo.graded}
                 <div style="display: flex; align-items: center; gap: 8px;">
-                  <div style="flex: 1; height: 3px; background: #eee; border-radius: 9999px; overflow: hidden;">
+                  <div style="flex: 1; height: 3px; background: var(--color-border); border-radius: 9999px; overflow: hidden;">
                     <div
                       style="height: 100%; border-radius: 9999px; width: {repo.score}%; background: {scoreBarColor(repo.score)};"
                     ></div>
