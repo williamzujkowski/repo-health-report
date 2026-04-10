@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { isDark } from '../../lib/darkmode.js';
+  import { isDark, onThemeChange } from '../../lib/darkmode.js';
   import { getGradeColors, getChartThemeOptions } from '../../lib/chart-theme.js';
   import * as echarts from 'echarts/core';
   import { ScatterChart as ScatterChartType } from 'echarts/charts';
@@ -14,7 +14,10 @@
   let chartEl;
   let chart;
 
-  onMount(() => {
+  function initChart() {
+    if (chart) { chart.dispose(); chart = null; }
+    if (!chartEl) return;
+
     const dark = isDark();
     const gc = getGradeColors(dark);
     const theme = getChartThemeOptions(dark);
@@ -42,53 +45,23 @@
 
     chart.setOption({
       ...theme,
-      tooltip: {
-        trigger: 'item',
-        formatter: (p) => `<strong>${p.data[2]}</strong><br>Score: ${p.data[1]}/100<br>Stars: ${p.data[0].toLocaleString()}`,
-      },
+      tooltip: { trigger: 'item', formatter: (p) => `<strong>${p.data[2]}</strong><br>Score: ${p.data[1]}/100<br>Stars: ${p.data[0].toLocaleString()}` },
       grid: { left: 60, right: 20, top: 40, bottom: 60 },
-      xAxis: {
-        ...theme.xAxis,
-        type: 'log',
-        name: 'Stars',
-        nameLocation: 'center',
-        nameGap: 30,
-        min: 'dataMin',
-        axisLabel: {
-          ...theme.xAxis.axisLabel,
-          formatter: (v) => (v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v),
-        },
-      },
-      yAxis: {
-        ...theme.yAxis,
-        type: 'value',
-        name: 'Health Score',
-        nameLocation: 'center',
-        nameGap: 40,
-        min: 0,
-        max: 100,
-      },
-      dataZoom: [
-        { type: 'inside', xAxisIndex: 0 },
-        { type: 'inside', yAxisIndex: 0 },
-      ],
-      legend: {
-        data: series.map((s) => s.name),
-        top: 0,
-        textStyle: { color: dark ? '#ccc' : '#333' },
-      },
+      xAxis: { ...theme.xAxis, type: 'log', name: 'Stars', nameLocation: 'center', nameGap: 30, min: 'dataMin', axisLabel: { ...theme.xAxis.axisLabel, formatter: (v) => (v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v) } },
+      yAxis: { ...theme.yAxis, type: 'value', name: 'Health Score', nameLocation: 'center', nameGap: 40, min: 0, max: 100 },
+      dataZoom: [{ type: 'inside', xAxisIndex: 0 }, { type: 'inside', yAxisIndex: 0 }],
+      legend: { data: series.map((s) => s.name), top: 0, textStyle: { color: dark ? '#ccc' : '#333' } },
       series,
     });
+  }
 
+  onMount(() => {
+    initChart();
+    const cleanupTheme = onThemeChange(initChart);
     const ro = new ResizeObserver(() => chart?.resize());
     ro.observe(chartEl);
-    return () => { ro.disconnect(); chart?.dispose(); };
+    return () => { cleanupTheme(); ro.disconnect(); chart?.dispose(); };
   });
 </script>
 
-<div
-  bind:this={chartEl}
-  role="img"
-  aria-label="Scatter plot showing {repos.length} repositories: stars (x-axis) vs health score (y-axis)"
-  style="width: 100%; height: 400px;"
-></div>
+<div bind:this={chartEl} role="img" aria-label="Scatter plot showing {repos.length} repositories: stars (x-axis) vs health score (y-axis)" style="width: 100%; height: 400px;"></div>

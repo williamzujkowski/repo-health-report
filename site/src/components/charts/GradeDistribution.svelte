@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { isDark } from '../../lib/darkmode.js';
+  import { isDark, onThemeChange } from '../../lib/darkmode.js';
   import { getGradeColors, getChartThemeOptions } from '../../lib/chart-theme.js';
   import * as echarts from 'echarts/core';
   import { BarChart as BarChartType } from 'echarts/charts';
@@ -14,7 +14,10 @@
   let chartEl;
   let chart;
 
-  onMount(() => {
+  function initChart() {
+    if (chart) { chart.dispose(); chart = null; }
+    if (!chartEl) return;
+
     const dark = isDark();
     const gc = getGradeColors(dark);
     const theme = getChartThemeOptions(dark);
@@ -23,7 +26,6 @@
     const total = values.reduce((a, b) => a + b, 0);
 
     chart = echarts.init(chartEl, dark ? 'dark' : undefined);
-
     chart.setOption({
       ...theme,
       tooltip: {
@@ -40,36 +42,30 @@
         ...theme.xAxis,
         type: 'category',
         data: grades,
-        axisLabel: {
-          fontSize: 14,
-          fontWeight: 700,
-          color: (value) => gc[value] || (dark ? '#aaa' : '#555'),
-        },
+        axisLabel: { fontSize: 14, fontWeight: 700, color: (value) => gc[value] || (dark ? '#aaa' : '#555') },
         axisLine: { show: false },
         axisTick: { show: false },
       },
       yAxis: {
         ...theme.yAxis,
         type: 'value',
-        axisLabel: {
-          ...theme.yAxis.axisLabel,
-          formatter: (v) => (v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v),
-        },
+        axisLabel: { ...theme.yAxis.axisLabel, formatter: (v) => (v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v) },
       },
       series: [{
         type: 'bar',
-        data: values.map((v, i) => ({
-          value: v,
-          itemStyle: { color: gc[grades[i]] },
-        })),
+        data: values.map((v, i) => ({ value: v, itemStyle: { color: gc[grades[i]] } })),
         barWidth: '60%',
         emphasis: { itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.2)' } },
       }],
     });
+  }
 
+  onMount(() => {
+    initChart();
+    const cleanupTheme = onThemeChange(initChart);
     const ro = new ResizeObserver(() => chart?.resize());
     ro.observe(chartEl);
-    return () => { ro.disconnect(); chart?.dispose(); };
+    return () => { cleanupTheme(); ro.disconnect(); chart?.dispose(); };
   });
 </script>
 

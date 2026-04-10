@@ -1,11 +1,10 @@
 /**
- * Reactive dark mode detection for Svelte chart components.
- * Watches the <html> element for the 'dark' class toggle.
+ * Dark mode detection for Svelte chart components.
  *
- * Usage in Svelte 5:
- *   import { isDark, onDarkModeChange } from '../lib/darkmode.js';
- *   let dark = $state(isDark());
- *   onDarkModeChange((v) => { dark = v; reinitChart(); });
+ * Usage:
+ *   import { isDark, onThemeChange } from '../lib/darkmode.js';
+ *   const dark = isDark();
+ *   const cleanup = onThemeChange(() => { // reinit chart });
  */
 
 /** Check if dark mode is currently active */
@@ -15,21 +14,14 @@ export function isDark() {
 }
 
 /**
- * Watch for dark mode changes. Returns a cleanup function.
- * @param {(isDark: boolean) => void} callback
+ * Listen for theme changes (fired by the toggle button).
+ * Returns a cleanup function.
+ * @param {() => void} callback — called when theme changes
  * @returns {() => void} cleanup
  */
-export function onDarkModeChange(callback) {
-  if (typeof MutationObserver === 'undefined') return () => {};
-
-  const observer = new MutationObserver(() => {
-    callback(isDark());
-  });
-
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['class'],
-  });
-
-  return () => observer.disconnect();
+export function onThemeChange(callback) {
+  if (typeof window === 'undefined') return () => {};
+  const handler = () => callback();
+  window.addEventListener('theme-changed', handler);
+  return () => window.removeEventListener('theme-changed', handler);
 }

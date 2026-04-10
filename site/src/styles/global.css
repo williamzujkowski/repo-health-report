@@ -495,3 +495,13 @@ details summary:hover {
 .dark .chart-bar-track {
   background-color: #2a2a2e;
 }
+
+/* Theme toggle icon switching — controlled by CSS, no JS needed for icon swap */
+.theme-icon-sun, .theme-icon-moon {
+  position: absolute;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+.theme-icon-sun { opacity: 1; transform: scale(1); }
+.theme-icon-moon { opacity: 0; transform: scale(0.8); }
+.dark .theme-icon-sun { opacity: 0; transform: scale(0.8); }
+.dark .theme-icon-moon { opacity: 1; transform: scale(1); }
