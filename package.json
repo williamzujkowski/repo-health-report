@@ -23,6 +23,7 @@
     "org-audit": "node dist/org-audit.js",
     "trend": "node dist/trend.js",
     "trends": "node dist/trend-view.js",
+    "badges": "node dist/badges.js",
     "prepublishOnly": "npx tsc"
   },
   "keywords": [
