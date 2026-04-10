@@ -8,4 +8,5 @@ export default defineConfig({
   vite: { plugins: [tailwindcss()] },
   site: 'https://williamzujkowski.github.io',
   base: '/repo-health-report',
+  prefetch: true,
 });
