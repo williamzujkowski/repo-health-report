@@ -242,8 +242,10 @@ function isActive(href: string): boolean {
         // Re-apply after Astro View Transitions (if using)
         document.addEventListener('astro:after-swap', init);
       })();
+    </script>
 
-      // Pagefind search
+    <script is:inline>
+      // Pagefind search — separate script to avoid theme toggle failures
       const searchTrigger = document.getElementById('search-trigger');
       const searchModal = document.getElementById('search-modal');
       const searchContainer = document.getElementById('search-container');
