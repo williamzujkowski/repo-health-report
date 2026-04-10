@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LollipopChart from '../components/charts/LollipopChart.astro';
 import DimensionBar from '../components/charts/DimensionBar.svelte';
+import HeatmapChart from '../components/charts/HeatmapChart.svelte';
+import DimensionBoxPlot from '../components/charts/DimensionBoxPlot.svelte';
 
 import summary from '../../../data/dashboard/summary.json';
 import leaderboard from '../../../data/dashboard/leaderboard.json';
@@ -214,6 +216,30 @@ const typeLollipop = gradedTypes.map(t => ({
           </a>
         ))}
       </div>
+    </section>
+
+    <!-- Dimension Score Distributions (Box Plot) -->
+    <section class="card">
+      <h2 style="font-size: 18px; font-weight: 600; margin: 0 0 12px; color: var(--color-text);">
+        Score distributions by dimension
+      </h2>
+      <p class="chart-annotation" style="margin-bottom: 16px;">
+        How scores spread across all graded repositories — boxes show the 25th to 75th percentile range,
+        with whiskers extending to min and max.
+      </p>
+      <DimensionBoxPlot client:visible repos={gradedRepos.filter(r => r.dimensions?.length > 0)} />
+    </section>
+
+    <!-- Top 50 Heatmap -->
+    <section class="card">
+      <h2 style="font-size: 18px; font-weight: 600; margin: 0 0 12px; color: var(--color-text);">
+        Top 50 repositories — dimension heatmap
+      </h2>
+      <p class="chart-annotation" style="margin-bottom: 16px;">
+        Each cell shows one dimension's score for a top-graded repository. Darker green = higher score.
+        Reveals which dimensions even the best repos struggle with.
+      </p>
+      <HeatmapChart client:visible repos={gradedRepos.filter(r => r.dimensions?.length > 0).slice(0, 50)} />
     </section>
 
     <!-- Methodology -->

@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import { isDark, onDarkModeChange } from '../../lib/darkmode.js';
   import * as echarts from 'echarts/core';
   import { BarChart as BarChartType } from 'echarts/charts';
   import { TooltipComponent, GridComponent } from 'echarts/components';
@@ -7,7 +8,7 @@
 
   echarts.use([BarChartType, TooltipComponent, GridComponent, CanvasRenderer]);
 
-  let { dimensions = {}, darkMode = false } = $props();
+  let { dimensions = {}, darkMode = false, _autoDetectDark = true } = $props();
 
   let chartEl;
   let chart;

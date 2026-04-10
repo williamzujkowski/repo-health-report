@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import { isDark, onDarkModeChange } from '../../lib/darkmode.js';
   import * as echarts from 'echarts/core';
   import { RadarChart as RadarChartType } from 'echarts/charts';
   import { TooltipComponent, LegendComponent } from 'echarts/components';
@@ -7,7 +8,7 @@
 
   echarts.use([RadarChartType, TooltipComponent, LegendComponent, CanvasRenderer]);
 
-  let { dimensions = {}, title = 'Health Dimensions', darkMode = false } = $props();
+  let { dimensions = {}, title = 'Health Dimensions', darkMode = false, _autoDetectDark = true } = $props();
 
   let chartEl;
   let chart;

@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LollipopChart from '../components/charts/LollipopChart.astro';
 import SegmentedBar from '../components/charts/SegmentedBar.astro';
+import LanguageTreemap from '../components/charts/LanguageTreemap.svelte';
 
 import languagesData from '../../../data/dashboard/languages.json';
 
@@ -90,6 +91,15 @@ const gradeColors: Record<string, string> = {
       </div>
     </div>
   </div>
+
+  <!-- Language Treemap -->
+  <section class="card" style="margin-bottom: 32px;">
+    <h2 class="section-heading">Language Landscape</h2>
+    <p class="section-subheading">
+      Rectangle size = number of repos. Color = average health score (green = healthy, red = needs improvement). Hover for details.
+    </p>
+    <LanguageTreemap client:visible languages={significantLangs.map(l => ({ name: l.name, count: l.count, averageScore: l.averageScore ?? 0 }))} />
+  </section>
 
   <!-- Score ranking — Lollipop -->
   <section class="card" style="margin-bottom: 32px;">

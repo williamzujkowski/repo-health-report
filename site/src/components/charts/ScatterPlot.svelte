@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import { isDark, onDarkModeChange } from '../../lib/darkmode.js';
   import * as echarts from 'echarts/core';
   import { ScatterChart as ScatterChartType } from 'echarts/charts';
   import { TooltipComponent, GridComponent, DataZoomComponent } from 'echarts/components';
@@ -10,7 +11,7 @@
   /**
    * @type {{ slug: string, score: number, stars: number, grade: string }[]}
    */
-  let { repos = [], darkMode = false } = $props();
+  let { repos = [], darkMode = false, _autoDetectDark = true } = $props();
 
   let chartEl;
   let chart;
