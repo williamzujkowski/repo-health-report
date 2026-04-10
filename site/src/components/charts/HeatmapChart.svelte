@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
-  import { isDark, onDarkModeChange } from '../../lib/darkmode.js';
+  import { isDark, onThemeChange } from '../../lib/darkmode.js';
+  import { getChartThemeOptions, getVizRamp } from '../../lib/chart-theme.js';
   import * as echarts from 'echarts/core';
   import { HeatmapChart as HeatmapChartType } from 'echarts/charts';
   import { TooltipComponent, GridComponent, VisualMapComponent } from 'echarts/components';
@@ -8,14 +9,17 @@
 
   echarts.use([HeatmapChartType, TooltipComponent, GridComponent, VisualMapComponent, CanvasRenderer]);
 
-  let { repos = [], darkMode = false, _autoDetectDark = true } = $props();
+  let { repos = [] } = $props();
 
   let chartEl;
   let chart;
 
-  onMount(() => {
-    darkMode = isDark();
-    // Dark mode changes handled by page reload — charts init with isDark() at mount
+  function initChart() {
+    if (chart) { chart.dispose(); chart = null; }
+    if (!chartEl) return;
+
+    const dark = isDark();
+    const theme = getChartThemeOptions(dark);
     const trimmed = repos.slice(0, 50);
     const repoNames = trimmed.map((r) => r.slug);
     const dimNames = trimmed.length > 0 ? trimmed[0].dimensions.map((d) => d.name) : [];
@@ -27,10 +31,9 @@
       });
     });
 
-    chart = echarts.init(chartEl, darkMode ? 'dark' : undefined);
-
+    chart = echarts.init(chartEl, dark ? 'dark' : undefined);
     chart.setOption({
-      backgroundColor: 'transparent',
+      ...theme,
       tooltip: {
         position: 'top',
         formatter: (params) => {
@@ -38,32 +41,20 @@
           return `${repoNames[yIdx]}<br>${dimNames[xIdx]}: <strong>${value}</strong>`;
         },
       },
-      grid: {
-        left: 160,
-        right: 60,
-        top: 10,
-        bottom: 40,
-      },
+      grid: { left: 160, right: 60, top: 10, bottom: 40 },
       xAxis: {
+        ...theme.xAxis,
         type: 'category',
         data: dimNames,
         splitArea: { show: true },
-        axisLabel: {
-          color: darkMode ? '#aaa' : '#666',
-          fontSize: 11,
-          rotate: 30,
-        },
+        axisLabel: { ...theme.xAxis.axisLabel, fontSize: 11, rotate: 30 },
       },
       yAxis: {
+        ...theme.yAxis,
         type: 'category',
         data: repoNames,
         splitArea: { show: true },
-        axisLabel: {
-          color: darkMode ? '#aaa' : '#666',
-          fontSize: 10,
-          overflow: 'truncate',
-          width: 140,
-        },
+        axisLabel: { ...theme.yAxis.axisLabel, fontSize: 10, overflow: 'truncate', width: 140 },
       },
       visualMap: {
         min: 0,
@@ -72,32 +63,26 @@
         orient: 'horizontal',
         left: 'center',
         bottom: 0,
-        inRange: {
-          color: ['#a83830', '#b35f1e', '#7a6518', '#1a6e8a', '#237a5e'],
-        },
-        textStyle: {
-          color: darkMode ? '#aaa' : '#666',
-        },
+        inRange: { color: getVizRamp(dark) },
+        textStyle: { color: dark ? '#aaa' : '#666' },
       },
-      series: [
-        {
-          type: 'heatmap',
-          data: data,
-          label: { show: false },
-          emphasis: {
-            itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.2)' },
-          },
+      series: [{
+        type: 'heatmap',
+        data: data,
+        label: { show: false },
+        emphasis: {
+          itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.2)' },
         },
-      ],
+      }],
     });
+  }
 
-    const resizeObserver = new ResizeObserver(() => chart?.resize());
-    resizeObserver.observe(chartEl);
-
-    return () => {
-      resizeObserver.disconnect();
-      chart?.dispose();
-    };
+  onMount(() => {
+    initChart();
+    const cleanupTheme = onThemeChange(initChart);
+    const ro = new ResizeObserver(() => chart?.resize());
+    ro.observe(chartEl);
+    return () => { cleanupTheme(); ro.disconnect(); chart?.dispose(); };
   });
 </script>
 

@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { isDark, onThemeChange } from '../../lib/darkmode.js';
-  import { getGradeColors } from '../../lib/chart-theme.js';
+  import { getGradeColors, getChartThemeOptions } from '../../lib/chart-theme.js';
   import * as echarts from 'echarts/core';
   import { RadarChart as RadarChartType } from 'echarts/charts';
   import { TooltipComponent } from 'echarts/components';
@@ -20,6 +20,7 @@
 
     const dark = isDark();
     const gc = getGradeColors(dark);
+    const theme = getChartThemeOptions(dark);
     const labels = Object.keys(dimensions);
     const values = Object.values(dimensions);
     const avg = values.length > 0 ? Math.round(values.reduce((a, b) => a + b, 0) / values.length) : 0;
@@ -27,15 +28,15 @@
 
     chart = echarts.init(chartEl, dark ? 'dark' : undefined);
     chart.setOption({
-      backgroundColor: 'transparent',
+      ...theme,
       tooltip: { trigger: 'item', formatter: (p) => labels.map((l, i) => `${l}: <strong>${p.data.value[i]}/100</strong>`).join('<br>') },
       radar: {
         indicator: labels.map((name) => ({ name, max: 100 })),
         shape: 'polygon',
         splitNumber: 5,
-        axisName: { color: dark ? '#ccc' : '#444', fontSize: 12 },
+        axisName: { color: theme.textStyle.color, fontSize: 12 },
         splitArea: { areaStyle: { color: dark ? ['rgba(255,255,255,0.02)', 'rgba(255,255,255,0.05)'] : ['rgba(0,0,0,0.02)', 'rgba(0,0,0,0.05)'] } },
-        splitLine: { lineStyle: { color: dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' } },
+        splitLine: { lineStyle: { color: theme.xAxis.splitLine.lineStyle.color } },
       },
       series: [{ type: 'radar', data: [{ value: values, name: title, areaStyle: { color: fill + '33' }, lineStyle: { color: fill, width: 2 }, itemStyle: { color: fill } }] }],
     });

@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
-  import { isDark, onDarkModeChange } from '../../lib/darkmode.js';
+  import { isDark, onThemeChange } from '../../lib/darkmode.js';
+  import { getChartThemeOptions, getAccentColor } from '../../lib/chart-theme.js';
   import * as echarts from 'echarts/core';
   import { BoxplotChart as BoxplotChartType } from 'echarts/charts';
   import { TooltipComponent, GridComponent } from 'echarts/components';
@@ -8,7 +9,7 @@
 
   echarts.use([BoxplotChartType, TooltipComponent, GridComponent, CanvasRenderer]);
 
-  let { repos = [], darkMode = false, _autoDetectDark = true } = $props();
+  let { repos = [] } = $props();
 
   let chartEl;
   let chart;
@@ -26,9 +27,13 @@
     return [sorted[0], q(0.25), q(0.5), q(0.75), sorted[sorted.length - 1]];
   }
 
-  onMount(() => {
-    darkMode = isDark();
-    // Dark mode changes handled by page reload — charts init with isDark() at mount
+  function initChart() {
+    if (chart) { chart.dispose(); chart = null; }
+    if (!chartEl) return;
+
+    const dark = isDark();
+    const theme = getChartThemeOptions(dark);
+    const accent = getAccentColor(dark);
     const dimNames = repos.length > 0 ? repos[0].dimensions.map((d) => d.name) : [];
 
     const boxData = dimNames.map((name, idx) => {
@@ -36,10 +41,9 @@
       return quartiles(scores);
     });
 
-    chart = echarts.init(chartEl, darkMode ? 'dark' : undefined);
-
+    chart = echarts.init(chartEl, dark ? 'dark' : undefined);
     chart.setOption({
-      backgroundColor: 'transparent',
+      ...theme,
       tooltip: {
         trigger: 'item',
         formatter: (params) => {
@@ -48,54 +52,40 @@
             `Min: ${d[1]}<br>Q1: ${d[2]}<br>Median: ${d[3]}<br>Q3: ${d[4]}<br>Max: ${d[5]}`;
         },
       },
-      grid: {
-        left: 140,
-        right: 40,
-        top: 10,
-        bottom: 30,
-      },
+      grid: { left: 140, right: 40, top: 10, bottom: 30 },
       xAxis: {
+        ...theme.xAxis,
         type: 'value',
         min: 0,
         max: 100,
-        axisLabel: {
-          color: darkMode ? '#aaa' : '#666',
-        },
-        splitLine: {
-          lineStyle: { color: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)' },
-        },
       },
       yAxis: {
+        ...theme.yAxis,
         type: 'category',
         data: dimNames,
-        axisLabel: {
-          color: darkMode ? '#aaa' : '#666',
-          fontSize: 12,
-        },
+        axisLabel: { ...theme.yAxis.axisLabel, fontSize: 12 },
       },
-      series: [
-        {
-          type: 'boxplot',
-          data: boxData,
-          itemStyle: {
-            color: darkMode ? 'rgba(26,110,138,0.3)' : 'rgba(26,110,138,0.2)',
-            borderColor: '#1a6e8a',
-            borderWidth: 2,
-          },
-          emphasis: {
-            itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.2)' },
-          },
+      series: [{
+        type: 'boxplot',
+        data: boxData,
+        itemStyle: {
+          color: dark ? `${accent}4D` : `${accent}33`,
+          borderColor: accent,
+          borderWidth: 2,
         },
-      ],
+        emphasis: {
+          itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.2)' },
+        },
+      }],
     });
+  }
 
-    const resizeObserver = new ResizeObserver(() => chart?.resize());
-    resizeObserver.observe(chartEl);
-
-    return () => {
-      resizeObserver.disconnect();
-      chart?.dispose();
-    };
+  onMount(() => {
+    initChart();
+    const cleanupTheme = onThemeChange(initChart);
+    const ro = new ResizeObserver(() => chart?.resize());
+    ro.observe(chartEl);
+    return () => { cleanupTheme(); ro.disconnect(); chart?.dispose(); };
   });
 </script>
 

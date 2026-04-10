@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { isDark, onThemeChange } from '../../lib/darkmode.js';
-  import { getChartThemeOptions } from '../../lib/chart-theme.js';
+  import { getChartThemeOptions, getDimensionColor } from '../../lib/chart-theme.js';
   import * as echarts from 'echarts/core';
   import { BarChart as BarChartType } from 'echarts/charts';
   import { TooltipComponent, GridComponent } from 'echarts/components';
@@ -14,18 +14,6 @@
   let chartEl;
   let chart;
 
-  function dimColor(score, dark) {
-    if (dark) {
-      if (score >= 70) return '#86efac';
-      if (score >= 55) return '#93c5fd';
-      if (score >= 40) return '#fcd34d';
-      return '#fca5a5';
-    }
-    if (score >= 70) return '#166534';
-    if (score >= 55) return '#1d4ed8';
-    if (score >= 40) return '#92400e';
-    return '#991b1b';
-  }
 
   function initChart() {
     if (chart) { chart.dispose(); chart = null; }
@@ -46,7 +34,7 @@
       yAxis: { ...theme.yAxis, type: 'category', data: labels.slice().reverse(), axisLabel: { ...theme.yAxis.axisLabel, fontSize: 13, fontWeight: 500 }, axisLine: { show: false }, axisTick: { show: false } },
       series: [{
         type: 'bar',
-        data: values.slice().reverse().map((v) => ({ value: v, itemStyle: { color: dimColor(v, dark), borderRadius: [0, 4, 4, 0] } })),
+        data: values.slice().reverse().map((v) => ({ value: v, itemStyle: { color: getDimensionColor(v, dark), borderRadius: [0, 4, 4, 0] } })),
         barWidth: '55%',
         label: { show: true, position: 'right', formatter: '{c}/100', fontSize: 12, color: dark ? '#ccc' : '#333' },
       }],

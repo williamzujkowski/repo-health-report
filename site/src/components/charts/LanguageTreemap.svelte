@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
-  import { isDark, onDarkModeChange } from '../../lib/darkmode.js';
+  import { isDark, onThemeChange } from '../../lib/darkmode.js';
+  import { getChartThemeOptions, getVizRamp } from '../../lib/chart-theme.js';
   import * as echarts from 'echarts/core';
   import { TreemapChart as TreemapChartType } from 'echarts/charts';
   import { TooltipComponent, VisualMapComponent } from 'echarts/components';
@@ -8,14 +9,17 @@
 
   echarts.use([TreemapChartType, TooltipComponent, VisualMapComponent, CanvasRenderer]);
 
-  let { languages = [], darkMode = false, _autoDetectDark = true } = $props();
+  let { languages = [] } = $props();
 
   let chartEl;
   let chart;
 
-  onMount(() => {
-    darkMode = isDark();
-    // Dark mode changes handled by page reload — charts init with isDark() at mount
+  function initChart() {
+    if (chart) { chart.dispose(); chart = null; }
+    if (!chartEl) return;
+
+    const dark = isDark();
+    const theme = getChartThemeOptions(dark);
     const filtered = languages.filter((l) => l.count >= 5);
 
     const treeData = filtered.map((lang) => ({
@@ -24,57 +28,46 @@
       averageScore: lang.averageScore,
     }));
 
-    chart = echarts.init(chartEl, darkMode ? 'dark' : undefined);
-
+    chart = echarts.init(chartEl, dark ? 'dark' : undefined);
     chart.setOption({
-      backgroundColor: 'transparent',
+      ...theme,
       tooltip: {
         formatter: (params) => {
           const d = params.data;
           return `<strong>${d.name}</strong><br>Repos: ${d.value}<br>Avg Score: ${d.averageScore.toFixed(1)}`;
         },
       },
-      series: [
-        {
-          type: 'treemap',
-          data: treeData,
-          roam: false,
-          nodeClick: false,
-          breadcrumb: { show: false },
-          label: {
-            show: true,
-            formatter: '{b}',
-            fontSize: 13,
-            color: '#fff',
-          },
-          itemStyle: {
-            borderColor: darkMode ? '#1a1a2e' : '#fff',
-            borderWidth: 2,
-            gapWidth: 2,
-          },
-          levels: [
-            {
-              colorMappingBy: 'value',
-              itemStyle: {
-                gapWidth: 2,
-              },
-            },
-          ],
-          visualDimension: 'averageScore',
-          visualMin: 0,
-          visualMax: 100,
+      series: [{
+        type: 'treemap',
+        data: treeData,
+        roam: false,
+        nodeClick: false,
+        breadcrumb: { show: false },
+        label: {
+          show: true,
+          formatter: '{b}',
+          fontSize: 13,
+          color: '#fff',
         },
-      ],
+        itemStyle: {
+          borderColor: dark ? '#1a1a2e' : '#fff',
+          borderWidth: 2,
+          gapWidth: 2,
+        },
+        levels: [{
+          colorMappingBy: 'value',
+          itemStyle: { gapWidth: 2 },
+        }],
+        visualDimension: 'averageScore',
+        visualMin: 0,
+        visualMax: 100,
+      }],
       visualMap: {
         type: 'continuous',
         min: 0,
         max: 100,
-        inRange: {
-          color: ['#a83830', '#7a6518', '#237a5e'],
-        },
-        textStyle: {
-          color: darkMode ? '#aaa' : '#666',
-        },
+        inRange: { color: getVizRamp(dark) },
+        textStyle: { color: dark ? '#aaa' : '#666' },
         orient: 'horizontal',
         left: 'center',
         bottom: 0,
@@ -82,14 +75,14 @@
         dimension: 'averageScore',
       },
     });
+  }
 
-    const resizeObserver = new ResizeObserver(() => chart?.resize());
-    resizeObserver.observe(chartEl);
-
-    return () => {
-      resizeObserver.disconnect();
-      chart?.dispose();
-    };
+  onMount(() => {
+    initChart();
+    const cleanupTheme = onThemeChange(initChart);
+    const ro = new ResizeObserver(() => chart?.resize());
+    ro.observe(chartEl);
+    return () => { cleanupTheme(); ro.disconnect(); chart?.dispose(); };
   });
 </script>
 

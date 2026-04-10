@@ -20,6 +20,32 @@ export function getGradeColors(isDark) {
   return isDark ? GRADE_COLORS.dark : GRADE_COLORS.light;
 }
 
+/** Get a score-based color for dimension bars (green=high, red=low) */
+export function getDimensionColor(score, isDark) {
+  if (isDark) {
+    if (score >= 70) return '#86efac';
+    if (score >= 55) return '#93c5fd';
+    if (score >= 40) return '#fcd34d';
+    return '#fca5a5';
+  }
+  if (score >= 70) return '#166534';
+  if (score >= 55) return '#1d4ed8';
+  if (score >= 40) return '#92400e';
+  return '#991b1b';
+}
+
+/** Sequential color ramp for visualMap (score 0→100) */
+export function getVizRamp(isDark) {
+  return isDark
+    ? ['#fca5a5', '#fdba74', '#fcd34d', '#86efac']
+    : ['#991b1b', '#9a3412', '#92400e', '#166534'];
+}
+
+/** Accent color for single-series charts */
+export function getAccentColor(isDark) {
+  return isDark ? '#93c5fd' : '#1d4ed8';
+}
+
 /**
  * Returns base ECharts option overrides for consistent styling.
  * Merge these into your chart's setOption call.
