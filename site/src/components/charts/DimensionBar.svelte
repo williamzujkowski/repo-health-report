@@ -21,6 +21,8 @@
   }
 
   onMount(() => {
+    darkMode = isDark();
+    const cleanupDarkMode = onDarkModeChange((dark) => { darkMode = dark; chart?.dispose(); chart = null; });
     const entries = Object.entries(dimensions).sort(([, a], [, b]) => b - a);
     const labels = entries.map(([name]) => name);
     const values = entries.map(([, score]) => score);

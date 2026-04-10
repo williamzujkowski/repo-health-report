@@ -25,6 +25,8 @@
   };
 
   onMount(() => {
+    darkMode = isDark();
+    const cleanupDarkMode = onDarkModeChange((dark) => { darkMode = dark; chart?.dispose(); chart = null; });
     chart = echarts.init(chartEl, darkMode ? 'dark' : undefined);
 
     const gradeGroups = {};

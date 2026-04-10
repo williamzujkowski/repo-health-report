@@ -14,6 +14,8 @@
   let chart;
 
   onMount(() => {
+    darkMode = isDark();
+    const cleanupDarkMode = onDarkModeChange((dark) => { darkMode = dark; chart?.dispose(); chart = null; });
     const trimmed = repos.slice(0, 50);
     const repoNames = trimmed.map((r) => r.slug);
     const dimNames = trimmed.length > 0 ? trimmed[0].dimensions.map((d) => d.name) : [];

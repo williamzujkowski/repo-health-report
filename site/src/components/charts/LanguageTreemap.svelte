@@ -14,6 +14,8 @@
   let chart;
 
   onMount(() => {
+    darkMode = isDark();
+    const cleanupDarkMode = onDarkModeChange((dark) => { darkMode = dark; chart?.dispose(); chart = null; });
     const filtered = languages.filter((l) => l.count >= 5);
 
     const treeData = filtered.map((lang) => ({

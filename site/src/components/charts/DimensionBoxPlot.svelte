@@ -27,6 +27,8 @@
   }
 
   onMount(() => {
+    darkMode = isDark();
+    const cleanupDarkMode = onDarkModeChange((dark) => { darkMode = dark; chart?.dispose(); chart = null; });
     const dimNames = repos.length > 0 ? repos[0].dimensions.map((d) => d.name) : [];
 
     const boxData = dimNames.map((name, idx) => {

@@ -437,46 +437,10 @@ details summary:hover {
   margin-bottom: 20px;
 }
 
-/* Dark mode overrides — activated by prefers-color-scheme OR .dark class (manual toggle) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-text: #e8e8e8;
-    --color-text-secondary: #aaa;
-    --color-text-muted: #888;
-    --color-border: #333;
-    --color-surface: #1a1a1e;
-    --color-surface-alt: #222226;
-    --color-bg: #111114;
-    --color-accent-light: rgba(29,129,162,0.2);
-    --shadow-card: 0 2px 8px rgba(0,0,0,0.2);
-    --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.3);
-  }
-
-  .lollipop-track {
-    background: #444;
-  }
-  .lollipop-dot {
-    border-color: var(--color-surface);
-  }
-  .lollipop-row {
-    border-bottom-color: #2a2a2e;
-  }
-
-  .grade-A { background-color: rgba(45,157,120,0.18); }
-  .grade-B { background-color: rgba(29,129,162,0.18); }
-  .grade-C { background-color: rgba(196,160,53,0.18); }
-  .grade-D { background-color: rgba(212,118,44,0.18); }
-  .grade-F { background-color: rgba(201,70,62,0.18); }
-  .grade-NA { background-color: rgba(153,153,153,0.18); }
-
-  .spark-bar {
-    background-color: #333;
-  }
-
-  .chart-bar-track {
-    background-color: #2a2a2e;
-  }
-}
+/* Dark mode — controlled exclusively by .dark class on <html>.
+ * JS detects prefers-color-scheme on load and adds .dark automatically.
+ * The toggle button adds/removes .dark — no @media query needed.
+ * This ensures the toggle actually works (removing .dark = light mode). */
 
 /* Manual dark mode — .dark class on <html> overrides OS preference */
 :root.dark {
