@@ -5,6 +5,7 @@ import SegmentedBar from '../components/charts/SegmentedBar.astro';
 import SparkBar from '../components/charts/SparkBar.astro';
 import GradeDistribution from '../components/charts/GradeDistribution.svelte';
 import ScatterPlot from '../components/charts/ScatterPlot.svelte';
+import DimensionBar from '../components/charts/DimensionBar.svelte';
 
 import summary from '../../../data/dashboard/summary.json';
 import leaderboard from '../../../data/dashboard/leaderboard.json';
@@ -140,7 +141,8 @@ function formatStars(n: number): string {
     <p class="section-subheading">
       Average scores across all graded repositories — lower scores reveal systematic gaps
     </p>
-    <LollipopChart data={lollipopData} maxValue={100} />
+    <DimensionBar client:load dimensions={summary.dimensionAverages} />
+    <noscript><LollipopChart data={lollipopData} maxValue={100} /></noscript>
     <p class="chart-annotation" style="margin-top: 16px;">
       <strong>{highestDim[0]}</strong> leads at {highestDim[1]}/100, while <strong>{lowestDim[0]}</strong> lags at {lowestDim[1]}/100.
       The {highestDim[1] - lowestDim[1]}-point gap suggests most projects overlook {lowestDim[0].toLowerCase()} fundamentals.

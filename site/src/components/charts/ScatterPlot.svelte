@@ -60,7 +60,7 @@
         name: 'Stars',
         nameLocation: 'center',
         nameGap: 30,
-        min: 1,
+        min: 'dataMin',
         axisLabel: {
           formatter: (v) => (v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v),
           color: darkMode ? '#aaa' : '#666',
