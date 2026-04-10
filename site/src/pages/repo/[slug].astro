@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import LollipopChart from '../../components/charts/LollipopChart.astro';
+import RadarChart from '../../components/charts/RadarChart.svelte';
 import leaderboard from '../../../../data/dashboard/leaderboard.json';
 
 export function getStaticPaths() {
@@ -250,12 +251,21 @@ const langColors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4
     </div>
   )}
 
-  <!-- Dimension scores as lollipop chart -->
+  <!-- Dimension scores — radar + lollipop -->
   {dims.length > 0 && (
     <section class="card" style="margin-bottom: 24px;">
       <h2 class="section-heading">Dimension Scores</h2>
       <p class="section-subheading">Individual health dimension scores for this repository</p>
-      <LollipopChart data={dimLollipop} maxValue={100} />
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center;">
+        <RadarChart
+          client:visible
+          dimensions={Object.fromEntries(dims.map(d => [d.name, d.score]))}
+          title={repo.slug}
+        />
+        <div>
+          <LollipopChart data={dimLollipop} maxValue={100} />
+        </div>
+      </div>
     </section>
   )}
 

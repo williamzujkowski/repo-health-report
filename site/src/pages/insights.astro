@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LollipopChart from '../components/charts/LollipopChart.astro';
+import DimensionBar from '../components/charts/DimensionBar.svelte';
 
 import summary from '../../../data/dashboard/summary.json';
 import leaderboard from '../../../data/dashboard/leaderboard.json';
@@ -136,7 +137,8 @@ const typeLollipop = gradedTypes.map(t => ({
         while <strong>{bestDim[0]}</strong> leads at <strong style="color: var(--color-grade-a);">{bestDim[1]}/100</strong>.
         The <strong>{securityGap}-point gap</strong> between Documentation and Security reveals a systematic blind spot.
       </p>
-      <LollipopChart data={dimLollipop} maxValue={100} />
+      <DimensionBar client:visible dimensions={summary.dimensionAverages} />
+      <noscript><LollipopChart data={dimLollipop} maxValue={100} /></noscript>
     </section>
 
     <!-- Finding 3: Languages -->

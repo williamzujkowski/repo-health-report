@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import LollipopChart from '../components/charts/LollipopChart.astro';
 import SegmentedBar from '../components/charts/SegmentedBar.astro';
 import SparkBar from '../components/charts/SparkBar.astro';
+import GradeDistribution from '../components/charts/GradeDistribution.svelte';
+import ScatterPlot from '../components/charts/ScatterPlot.svelte';
 
 import summary from '../../../data/dashboard/summary.json';
 import leaderboard from '../../../data/dashboard/leaderboard.json';
@@ -117,7 +119,8 @@ function formatStars(n: number): string {
     <p class="section-subheading">
       How {codeRepos} graded repositories score across five letter grades
     </p>
-    <SegmentedBar segments={segmentedData} height={6} />
+    <GradeDistribution client:visible distribution={summary.gradeDistribution} />
+    <noscript><SegmentedBar segments={segmentedData} height={6} /></noscript>
   </section>
 
   <!-- Dimension Averages — Lollipop Chart -->
@@ -159,6 +162,15 @@ function formatStars(n: number): string {
       </div>
     </div>
   </div>
+
+  <!-- Stars vs Health Score Scatter Plot -->
+  <section class="card" style="margin-bottom: 32px;">
+    <h2 class="section-heading">Stars vs Health Score</h2>
+    <p class="section-subheading">
+      Does popularity correlate with code health? Each dot is a repository — hover for details, scroll to zoom.
+    </p>
+    <ScatterPlot client:visible repos={gradedRepos.map(r => ({ slug: r.slug, score: r.score, stars: r.stars || 0, grade: r.grade, graded: r.graded }))} />
+  </section>
 
   <!-- Top 10 -->
   <section class="card" style="margin-bottom: 32px;">
