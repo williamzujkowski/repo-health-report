@@ -95,58 +95,18 @@ function formatStars(n: number): string {
     </p>
   </div>
 
-  <!-- Three inline stats -->
-  <div style="display: flex; justify-content: center; gap: 24px; margin-bottom: 48px; flex-wrap: wrap;">
-    <div style="text-align: center;">
-      <div style="font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{totalRepos.toLocaleString()}</div>
-      <div style="font-size: 12px; color: var(--color-text-muted);">Total repos</div>
-    </div>
-    <div style="width: 1px; background: var(--color-border); align-self: stretch;"></div>
-    <div style="text-align: center;">
-      <div style="font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{codeRepos.toLocaleString()}</div>
-      <div style="font-size: 12px; color: var(--color-text-muted);">Graded repos</div>
-    </div>
-    <div style="width: 1px; background: var(--color-border); align-self: stretch;"></div>
-    <div style="text-align: center;">
-      <div style="font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text);">{langCount}</div>
-      <div style="font-size: 12px; color: var(--color-text-muted);">Languages</div>
-    </div>
-  </div>
-
-  <!-- Grade Distribution -->
-  <section class="card" style="margin-bottom: 32px;">
-    <h2 class="section-heading">Grade Distribution</h2>
-    <p class="section-subheading">
-      How {codeRepos} graded repositories score across five letter grades
-    </p>
-    <GradeDistribution client:load distribution={summary.gradeDistribution} />
-    <noscript><SegmentedBar segments={segmentedData} height={6} /></noscript>
-  </section>
-
-  <!-- Dimension Averages — Lollipop Chart -->
-  <section class="card" style="margin-bottom: 32px;">
-    <h2 class="section-heading">Dimension Averages</h2>
-    <p class="section-subheading">
-      Average scores across all graded repositories
-    </p>
-    <LollipopChart data={lollipopData} maxValue={100} />
-    <p class="chart-annotation" style="margin-top: 16px;">
-      <strong>{highestDim[0]}</strong> leads at {highestDim[1]}/100, while <strong>{lowestDim[0]}</strong> lags at {lowestDim[1]}/100 — a {highestDim[1] - lowestDim[1]}-point gap.
-    </p>
-  </section>
-
-  <!-- Key Insights — Callout Boxes -->
+  <!-- The headline story — most repos are failing -->
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px;">
     <div class="callout">
       <div class="callout-number" style="color: var(--color-grade-f);">{fPct}%</div>
       <div class="callout-text">
-        of repos received an <strong>F grade</strong> — {summary.gradeDistribution.F} of {codeRepos} graded repositories
+        of repos received an <strong>F grade</strong> — {summary.gradeDistribution.F.toLocaleString()} of {codeRepos.toLocaleString()} graded repositories
       </div>
     </div>
     <div class="callout">
       <div class="callout-number" style="color: var(--color-grade-a);">{abPct}%</div>
       <div class="callout-text">
-        earned <strong>A or B</strong> — {summary.gradeDistribution.A + summary.gradeDistribution.B} repos with strong health practices
+        earned <strong>A or B</strong> — only {(summary.gradeDistribution.A + summary.gradeDistribution.B).toLocaleString()} repos with strong health practices
       </div>
     </div>
     <div class="callout">
@@ -163,16 +123,31 @@ function formatStars(n: number): string {
     </div>
   </div>
 
-  <!-- Stars vs Health Score Scatter Plot -->
+  <!-- Grade Distribution — visual proof of the problem -->
   <section class="card" style="margin-bottom: 32px;">
-    <h2 class="section-heading">Stars vs Health Score</h2>
+    <h2 class="section-heading">Grade Distribution</h2>
     <p class="section-subheading">
-      Does popularity correlate with code health? Each dot is a repository — hover for details, scroll to zoom.
+      How {codeRepos.toLocaleString()} graded repositories score across five letter grades.
+      The F bar represents {summary.gradeDistribution.F.toLocaleString()} repos — that's {fPct}% of all graded projects.
     </p>
-    <ScatterPlot client:load repos={gradedRepos.map(r => ({ slug: r.slug, score: r.score, stars: r.stars || 0, grade: r.grade, graded: r.graded }))} />
+    <GradeDistribution client:load distribution={summary.gradeDistribution} />
+    <noscript><SegmentedBar segments={segmentedData} height={6} /></noscript>
   </section>
 
-  <!-- Top 10 -->
+  <!-- Where are repos failing? -->
+  <section class="card" style="margin-bottom: 32px;">
+    <h2 class="section-heading">Where Are Repos Failing?</h2>
+    <p class="section-subheading">
+      Average scores across all graded repositories — lower scores reveal systematic gaps
+    </p>
+    <LollipopChart data={lollipopData} maxValue={100} />
+    <p class="chart-annotation" style="margin-top: 16px;">
+      <strong>{highestDim[0]}</strong> leads at {highestDim[1]}/100, while <strong>{lowestDim[0]}</strong> lags at {lowestDim[1]}/100.
+      The {highestDim[1] - lowestDim[1]}-point gap suggests most projects overlook {lowestDim[0].toLowerCase()} fundamentals.
+    </p>
+  </section>
+
+  <!-- Top 10 — proof that excellence is achievable -->
   <section class="card" style="margin-bottom: 32px;">
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
       <h2 class="section-heading" style="margin-bottom: 0;">Top 10 Repositories</h2>
@@ -224,4 +199,40 @@ function formatStars(n: number): string {
       </table>
     </div>
   </section>
+
+  <!-- Popularity ≠ Health -->
+  <section class="card" style="margin-bottom: 32px;">
+    <h2 class="section-heading">Does Popularity Equal Health?</h2>
+    <p class="section-subheading">
+      Stars measure popularity, not project quality. Many widely-used repos lack basic health practices.
+      Hover for details, scroll to zoom.
+    </p>
+    <ScatterPlot client:load repos={gradedRepos.map(r => ({ slug: r.slug, score: r.score, stars: r.stars || 0, grade: r.grade, graded: r.graded }))} />
+    <p class="chart-annotation" style="margin-top: 16px;">
+      High-star repos cluster across all grades — having 100k stars doesn't guarantee a security policy or test suite.
+    </p>
+  </section>
+
+  <!-- Call to Action -->
+  <section style="text-align: center; padding: 48px 24px; margin-bottom: 32px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px;">
+    <h2 style="font-size: 24px; font-weight: 700; color: var(--color-text); margin: 0 0 12px;">
+      Check your repository's health
+    </h2>
+    <p style="font-size: 14px; color: var(--color-text-secondary); margin: 0 0 24px; max-width: 480px; margin-left: auto; margin-right: auto;">
+      Run a free health check on any public GitHub repository. Get actionable recommendations across security, testing, documentation, architecture, DevOps, and maintenance.
+    </p>
+    <div style="background: var(--color-bg); border: 1px solid var(--color-border); border-radius: 8px; padding: 16px 24px; display: inline-block; font-family: monospace; font-size: 15px; color: var(--color-text); letter-spacing: 0.02em;">
+      npx repo-health-report <span style="color: var(--color-accent);">owner/repo</span>
+    </div>
+    <p style="font-size: 12px; color: var(--color-text-muted); margin: 12px 0 0;">
+      Requires <a href="https://cli.github.com/" style="color: var(--color-accent); text-decoration: none;">GitHub CLI</a> installed and authenticated.
+      <a href="https://github.com/williamzujkowski/repo-health-report" style="color: var(--color-accent); text-decoration: none;">View on GitHub &rarr;</a>
+    </p>
+  </section>
+
+  <!-- Stats footer -->
+  <div style="text-align: center; padding: 16px 0; font-size: 12px; color: var(--color-text-muted);">
+    Data collected {new Date(summary.generatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}.
+    {totalRepos.toLocaleString()} repos &middot; {codeRepos.toLocaleString()} graded &middot; {langCount} languages.
+  </div>
 </BaseLayout>
