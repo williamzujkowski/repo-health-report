@@ -1,34 +1,29 @@
 <script>
   import { onMount } from 'svelte';
-  import { isDark, onDarkModeChange } from '../../lib/darkmode.js';
+  import { isDark } from '../../lib/darkmode.js';
+  import { getGradeColors } from '../../lib/chart-theme.js';
   import * as echarts from 'echarts/core';
   import { RadarChart as RadarChartType } from 'echarts/charts';
-  import { TooltipComponent, LegendComponent } from 'echarts/components';
+  import { TooltipComponent } from 'echarts/components';
   import { CanvasRenderer } from 'echarts/renderers';
 
-  echarts.use([RadarChartType, TooltipComponent, LegendComponent, CanvasRenderer]);
+  echarts.use([RadarChartType, TooltipComponent, CanvasRenderer]);
 
-  let { dimensions = {}, title = 'Health Dimensions', darkMode = false, _autoDetectDark = true } = $props();
+  let { dimensions = {}, title = 'Health Dimensions' } = $props();
 
   let chartEl;
   let chart;
 
-  const gradeColor = (score) => {
-    if (score >= 90) return '#237a5e';
-    if (score >= 80) return '#1a6e8a';
-    if (score >= 70) return '#7a6518';
-    if (score >= 60) return '#b35f1e';
-    return '#a83830';
-  };
-
   onMount(() => {
-    darkMode = isDark();
-    // Dark mode changes handled by page reload — charts init with isDark() at mount
+    const dark = isDark();
+    const gc = getGradeColors(dark);
     const labels = Object.keys(dimensions);
     const values = Object.values(dimensions);
     const avgScore = values.length > 0 ? Math.round(values.reduce((a, b) => a + b, 0) / values.length) : 0;
 
-    chart = echarts.init(chartEl, darkMode ? 'dark' : undefined);
+    const fillColor = avgScore >= 90 ? gc.A : avgScore >= 80 ? gc.B : avgScore >= 70 ? gc.C : avgScore >= 60 ? gc.D : gc.F;
+
+    chart = echarts.init(chartEl, dark ? 'dark' : undefined);
 
     chart.setOption({
       backgroundColor: 'transparent',
@@ -43,51 +38,31 @@
         indicator: labels.map((name) => ({ name, max: 100 })),
         shape: 'polygon',
         splitNumber: 5,
-        axisName: {
-          color: darkMode ? '#ccc' : '#4a4a4a',
-          fontSize: 12,
-        },
+        axisName: { color: dark ? '#ccc' : '#444', fontSize: 12 },
         splitArea: {
           areaStyle: {
-            color: darkMode
+            color: dark
               ? ['rgba(255,255,255,0.02)', 'rgba(255,255,255,0.05)']
               : ['rgba(0,0,0,0.02)', 'rgba(0,0,0,0.05)'],
           },
         },
-        splitLine: {
-          lineStyle: { color: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' },
-        },
+        splitLine: { lineStyle: { color: dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' } },
       },
-      series: [
-        {
-          type: 'radar',
-          data: [
-            {
-              value: values,
-              name: title,
-              areaStyle: {
-                color: `${gradeColor(avgScore)}22`,
-              },
-              lineStyle: {
-                color: gradeColor(avgScore),
-                width: 2,
-              },
-              itemStyle: {
-                color: gradeColor(avgScore),
-              },
-            },
-          ],
-        },
-      ],
+      series: [{
+        type: 'radar',
+        data: [{
+          value: values,
+          name: title,
+          areaStyle: { color: fillColor + '33' },
+          lineStyle: { color: fillColor, width: 2 },
+          itemStyle: { color: fillColor },
+        }],
+      }],
     });
 
-    const resizeObserver = new ResizeObserver(() => chart?.resize());
-    resizeObserver.observe(chartEl);
-
-    return () => {
-      resizeObserver.disconnect();
-      chart?.dispose();
-    };
+    const ro = new ResizeObserver(() => chart?.resize());
+    ro.observe(chartEl);
+    return () => { ro.disconnect(); chart?.dispose(); };
   });
 </script>
 

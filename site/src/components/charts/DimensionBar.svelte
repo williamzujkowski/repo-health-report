@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
-  import { isDark, onDarkModeChange } from '../../lib/darkmode.js';
+  import { isDark } from '../../lib/darkmode.js';
+  import { getChartThemeOptions } from '../../lib/chart-theme.js';
   import * as echarts from 'echarts/core';
   import { BarChart as BarChartType } from 'echarts/charts';
   import { TooltipComponent, GridComponent } from 'echarts/components';
@@ -8,83 +9,74 @@
 
   echarts.use([BarChartType, TooltipComponent, GridComponent, CanvasRenderer]);
 
-  let { dimensions = {}, darkMode = false, _autoDetectDark = true } = $props();
+  let { dimensions = {} } = $props();
 
   let chartEl;
   let chart;
 
-  function dimColor(score) {
-    if (score >= 70) return '#237a5e';
-    if (score >= 55) return '#1a6e8a';
-    if (score >= 40) return '#7a6518';
-    return '#a83830';
+  function dimColor(score, dark) {
+    if (dark) {
+      if (score >= 70) return '#86efac';
+      if (score >= 55) return '#93c5fd';
+      if (score >= 40) return '#fcd34d';
+      return '#fca5a5';
+    }
+    if (score >= 70) return '#166534';
+    if (score >= 55) return '#1d4ed8';
+    if (score >= 40) return '#92400e';
+    return '#991b1b';
   }
 
   onMount(() => {
-    darkMode = isDark();
-    // Dark mode changes handled by page reload — charts init with isDark() at mount
+    const dark = isDark();
+    const theme = getChartThemeOptions(dark);
     const entries = Object.entries(dimensions).sort(([, a], [, b]) => b - a);
     const labels = entries.map(([name]) => name);
     const values = entries.map(([, score]) => score);
 
-    chart = echarts.init(chartEl, darkMode ? 'dark' : undefined);
+    chart = echarts.init(chartEl, dark ? 'dark' : undefined);
 
     chart.setOption({
-      backgroundColor: 'transparent',
+      ...theme,
       tooltip: {
         trigger: 'axis',
         axisPointer: { type: 'shadow' },
         formatter: (params) => `${params[0].name}: <strong>${params[0].value}/100</strong>`,
       },
-      grid: {
-        left: 110,
-        right: 40,
-        top: 10,
-        bottom: 10,
-      },
+      grid: { left: 110, right: 50, top: 10, bottom: 10 },
       xAxis: {
+        ...theme.xAxis,
         type: 'value',
         max: 100,
-        axisLabel: { color: darkMode ? '#aaa' : '#666' },
-        splitLine: { lineStyle: { color: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)' } },
       },
       yAxis: {
+        ...theme.yAxis,
         type: 'category',
-        data: labels.reverse(),
-        axisLabel: {
-          fontSize: 13,
-          fontWeight: 500,
-          color: darkMode ? '#ccc' : '#333',
-        },
+        data: labels.slice().reverse(),
+        axisLabel: { ...theme.yAxis.axisLabel, fontSize: 13, fontWeight: 500 },
         axisLine: { show: false },
         axisTick: { show: false },
       },
-      series: [
-        {
-          type: 'bar',
-          data: values.reverse().map((v) => ({
-            value: v,
-            itemStyle: { color: dimColor(v), borderRadius: [0, 4, 4, 0] },
-          })),
-          barWidth: '55%',
-          label: {
-            show: true,
-            position: 'right',
-            formatter: '{c}/100',
-            fontSize: 12,
-            color: darkMode ? '#ccc' : '#333',
-          },
+      series: [{
+        type: 'bar',
+        data: values.slice().reverse().map((v) => ({
+          value: v,
+          itemStyle: { color: dimColor(v, dark), borderRadius: [0, 4, 4, 0] },
+        })),
+        barWidth: '55%',
+        label: {
+          show: true,
+          position: 'right',
+          formatter: '{c}/100',
+          fontSize: 12,
+          color: dark ? '#ccc' : '#333',
         },
-      ],
+      }],
     });
 
-    const resizeObserver = new ResizeObserver(() => chart?.resize());
-    resizeObserver.observe(chartEl);
-
-    return () => {
-      resizeObserver.disconnect();
-      chart?.dispose();
-    };
+    const ro = new ResizeObserver(() => chart?.resize());
+    ro.observe(chartEl);
+    return () => { ro.disconnect(); chart?.dispose(); };
   });
 </script>
 
