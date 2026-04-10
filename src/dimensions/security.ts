@@ -348,26 +348,56 @@ export async function analyzeSecurityDimension(
     weight: 5,
   });
 
-  // Code scanning / SAST
+  // Code scanning / SAST — tree detection + GitHub security features API (#40)
   const codeScanning = detectCodeScanning(tree);
+  const codeScanningAPI = meta.security_and_analysis?.advanced_security?.status === "enabled";
+  const codeScanningDetected = codeScanning.detected || codeScanningAPI;
   findings.push({
     name: "Code scanning / SAST",
-    passed: codeScanning.detected,
-    detail: codeScanning.detected
-      ? `CodeQL or code scanning detected (${codeScanning.detail})`
+    passed: codeScanningDetected,
+    detail: codeScanningDetected
+      ? codeScanningAPI && !codeScanning.detected
+        ? "GitHub Advanced Security enabled (API)"
+        : `CodeQL or code scanning detected (${codeScanning.detail})`
       : "No SAST/code scanning — consider adding CodeQL or Semgrep",
     weight: 8,
   });
 
-  // Secret scanning
+  // Secret scanning — tree detection + GitHub security features API (#40)
   const secretScanning = detectSecretScanning(tree);
+  const secretScanningAPI = meta.security_and_analysis?.secret_scanning?.status === "enabled";
+  const secretScanningDetected = secretScanning.detected || secretScanningAPI;
   findings.push({
     name: "Secret scanning",
-    passed: secretScanning.detected,
-    detail: secretScanning.detected
-      ? `Secret scanning config found (${secretScanning.detail})`
+    passed: secretScanningDetected,
+    detail: secretScanningDetected
+      ? secretScanningAPI && !secretScanning.detected
+        ? "GitHub secret scanning enabled (API)"
+        : `Secret scanning config found (${secretScanning.detail})`
       : "No secret scanning configuration",
     weight: 8,
+  });
+
+  // Push protection — blocks commits containing secrets (#40)
+  const pushProtection = meta.security_and_analysis?.secret_scanning_push_protection?.status === "enabled";
+  findings.push({
+    name: "Push protection",
+    passed: pushProtection,
+    detail: pushProtection
+      ? "Secret scanning push protection enabled — blocks commits with secrets"
+      : "Push protection not enabled — secrets can be committed without warning",
+    weight: 5,
+  });
+
+  // Dependabot security updates — auto-PRs for vulnerable deps (#40)
+  const depSecUpdates = meta.security_and_analysis?.dependabot_security_updates?.status === "enabled";
+  findings.push({
+    name: "Dependabot security updates",
+    passed: depSecUpdates,
+    detail: depSecUpdates
+      ? "Dependabot security updates enabled — auto-PRs for vulnerable dependencies"
+      : "Dependabot security updates not enabled",
+    weight: 5,
   });
 
   // GitHub Security Policy enabled (org-level, from GraphQL — #40)

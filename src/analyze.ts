@@ -42,6 +42,13 @@ export interface RepoMeta {
     low: number;
     packages: string[];
   } | null; // null = not available (permissions or feature not enabled)
+  // GitHub security features from REST /repos/{slug} (#40)
+  security_and_analysis?: {
+    advanced_security?: { status: string };
+    secret_scanning?: { status: string };
+    secret_scanning_push_protection?: { status: string };
+    dependabot_security_updates?: { status: string };
+  };
 }
 
 export interface WorkflowFile {

@@ -164,6 +164,16 @@ ${chalk.bold("Examples:")}
         meta = await fetchRepoMeta(ghSlug);
       }
       tree = await fetchRepoTree(ghSlug, meta.default_branch);
+
+      // Supplement with REST security_and_analysis data (zero extra cost — it's in /repos/{slug})
+      try {
+        const restMeta = await fetchRepoMeta(ghSlug);
+        if (restMeta.security_and_analysis) {
+          meta.security_and_analysis = restMeta.security_and_analysis;
+        }
+      } catch {
+        // Non-fatal — security_and_analysis is optional enrichment
+      }
     }
   } catch (err) {
     console.error(

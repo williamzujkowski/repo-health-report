@@ -18,6 +18,11 @@ Checks for supply-chain and vulnerability disclosure practices.
 | Pinned dependencies (Actions SHA) | 15 | GitHub Actions pinned to full commit SHAs |
 | Token permissions | 10 | Explicit restrictive `permissions:` in workflows |
 | Dependency update automation | 15 | Dependabot or Renovate configured |
+| Code scanning / SAST | 8 | CodeQL workflow, code scanning config, or GitHub Advanced Security enabled |
+| Secret scanning | 8 | Secret scanning config (.gitleaks, detect-secrets, trufflehog) or GitHub feature enabled |
+| Push protection | 5 | GitHub secret scanning push protection blocks commits with secrets |
+| Dependabot security updates | 5 | Automated PRs for vulnerable dependencies via GitHub |
+| SBOM (Software Bill of Materials) | 5 | SBOM artifact (SPDX, CycloneDX) or generator in CI |
 | Code ownership | 5 | CODEOWNERS, OWNERS, or MAINTAINERS file |
 | No committed .env files | 10 | Absence of .env files in the tree |
 | .gitignore present | 10 | .gitignore exists |
