@@ -139,7 +139,7 @@ const typeLollipop = gradedTypes.map(t => ({
         while <strong>{bestDim[0]}</strong> leads at <strong style="color: var(--color-grade-a);">{bestDim[1]}/100</strong>.
         The <strong>{securityGap}-point gap</strong> between Documentation and Security reveals a systematic blind spot.
       </p>
-      <DimensionBar client:visible dimensions={summary.dimensionAverages} />
+      <DimensionBar client:load dimensions={summary.dimensionAverages} />
       <noscript><LollipopChart data={dimLollipop} maxValue={100} /></noscript>
     </section>
 
@@ -227,7 +227,7 @@ const typeLollipop = gradedTypes.map(t => ({
         How scores spread across all graded repositories — boxes show the 25th to 75th percentile range,
         with whiskers extending to min and max.
       </p>
-      <DimensionBoxPlot client:visible repos={gradedRepos.filter(r => r.dimensions?.length > 0)} />
+      <DimensionBoxPlot client:load repos={gradedRepos.filter(r => r.dimensions?.length > 0)} />
     </section>
 
     <!-- Top 50 Heatmap -->
@@ -239,7 +239,7 @@ const typeLollipop = gradedTypes.map(t => ({
         Each cell shows one dimension's score for a top-graded repository. Darker green = higher score.
         Reveals which dimensions even the best repos struggle with.
       </p>
-      <HeatmapChart client:visible repos={gradedRepos.filter(r => r.dimensions?.length > 0).slice(0, 50)} />
+      <HeatmapChart client:load repos={gradedRepos.filter(r => r.dimensions?.length > 0).slice(0, 50)} />
     </section>
 
     <!-- Methodology -->

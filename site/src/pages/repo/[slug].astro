@@ -258,7 +258,7 @@ const langColors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4
       <p class="section-subheading">Individual health dimension scores for this repository</p>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center;">
         <RadarChart
-          client:visible
+          client:load
           dimensions={Object.fromEntries(dims.map(d => [d.name, d.score]))}
           title={repo.slug}
         />

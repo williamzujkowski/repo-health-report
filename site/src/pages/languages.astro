@@ -98,7 +98,7 @@ const gradeColors: Record<string, string> = {
     <p class="section-subheading">
       Rectangle size = number of repos. Color = average health score (green = healthy, red = needs improvement). Hover for details.
     </p>
-    <LanguageTreemap client:visible languages={significantLangs.map(l => ({ name: l.name, count: l.count, averageScore: l.averageScore ?? 0 }))} />
+    <LanguageTreemap client:load languages={significantLangs.map(l => ({ name: l.name, count: l.count, averageScore: l.averageScore ?? 0 }))} />
   </section>
 
   <!-- Score ranking — Lollipop -->

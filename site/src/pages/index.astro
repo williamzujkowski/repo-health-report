@@ -119,7 +119,7 @@ function formatStars(n: number): string {
     <p class="section-subheading">
       How {codeRepos} graded repositories score across five letter grades
     </p>
-    <GradeDistribution client:visible distribution={summary.gradeDistribution} />
+    <GradeDistribution client:load distribution={summary.gradeDistribution} />
     <noscript><SegmentedBar segments={segmentedData} height={6} /></noscript>
   </section>
 
@@ -169,7 +169,7 @@ function formatStars(n: number): string {
     <p class="section-subheading">
       Does popularity correlate with code health? Each dot is a repository — hover for details, scroll to zoom.
     </p>
-    <ScatterPlot client:visible repos={gradedRepos.map(r => ({ slug: r.slug, score: r.score, stars: r.stars || 0, grade: r.grade, graded: r.graded }))} />
+    <ScatterPlot client:load repos={gradedRepos.map(r => ({ slug: r.slug, score: r.score, stars: r.stars || 0, grade: r.grade, graded: r.graded }))} />
   </section>
 
   <!-- Top 10 -->
