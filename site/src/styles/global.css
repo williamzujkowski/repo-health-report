@@ -91,7 +91,7 @@ body {
 .lollipop-track {
   flex: 1;
   height: 2px;
-  background: #e0e0e0;
+  background: var(--color-border);
   position: relative;
 }
 .lollipop-dot {

@@ -256,7 +256,7 @@ const langColors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4
     <section class="card" style="margin-bottom: 24px;">
       <h2 class="section-heading">Dimension Scores</h2>
       <p class="section-subheading">Individual health dimension scores for this repository</p>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; align-items: center;">
         <RadarChart
           client:load
           dimensions={Object.fromEntries(dims.map(d => [d.name, d.score]))}

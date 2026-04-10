@@ -127,7 +127,7 @@ const gradeColors: Record<string, string> = {
   <section style="margin-bottom: 32px;">
     <h2 class="section-heading">Grade Distribution by Language</h2>
     <p class="section-subheading">Top 10 languages by repository count</p>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 16px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 16px;">
       {[...languages]
         .sort((a, b) => b.count - a.count)
         .slice(0, 10)
